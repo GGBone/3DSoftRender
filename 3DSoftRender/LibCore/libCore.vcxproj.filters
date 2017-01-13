@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="_PrecomiledHeaders">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Assert">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="DataTypes">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{18089c4f-26b7-4dbd-8935-11357c723db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ObjectSystem">
+      <UniqueIdentifier>{57b34067-3204-4934-8ea7-451b44386949}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\FileSystem">
+      <UniqueIdentifier>{abb6430a-483c-4732-93e8-96a5607329ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Time">
+      <UniqueIdentifier>{2b0841c3-86c5-4b91-bc1a-ccec52734aba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Input">
+      <UniqueIdentifier>{073e02ce-13dd-4140-bd6b-02658f6c224f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\SFX">
+      <UniqueIdentifier>{f5f100ff-a7c6-4af8-8419-a9f4a55be806}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CoreLib.h" />
+    <ClInclude Include="Core.h" />
+    <ClInclude Include="CorePCH.h">
+      <Filter>_PrecomiledHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3DSoftRender\Global.h">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3DSoftRender\Names.h">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3DSoftRender\Object.h">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3DSoftRender\Rtti.h">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3DSoftRender\ReadFile.h">
+      <Filter>Core\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3DSoftRender\Bitmap.h">
+      <Filter>Core\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3DSoftRender\input.h">
+      <Filter>Core\Input</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CorePCH.cpp">
+      <Filter>_PrecomiledHeaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3DSoftRender\Object.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3DSoftRender\Rtti.cpp">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3DSoftRender\BitMap.cpp">
+      <Filter>Core\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3DSoftRender\ReadFile.cpp">
+      <Filter>Core\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3DSoftRender\input.cpp">
+      <Filter>Core\Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\3DSoftRender\Object.inl">
+      <Filter>Core\ObjectSystem</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="_PrecompiledHeaders">
+      <UniqueIdentifier>{0124b4d1-23c4-40fd-aa4b-7d1a02855587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformDependent">
+      <UniqueIdentifier>{bce0b428-43ca-4198-ae01-9267e4220002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformIndependent">
+      <UniqueIdentifier>{79deef4a-78fa-42bd-8735-90af4f6362b9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinApplication.cpp">
+      <Filter>PlatformDependent</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleApplication.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowApplication.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowApplication2.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowApplication3.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="LibApplicationPCH.cpp">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Command.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleApplication.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowApplication.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowApplication2.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowApplication3.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="LibApplicationPCH.h">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WindowApplication.inl">
+      <Filter>PlatformIndependent</Filter>
+    </None>
+  </ItemGroup>
+</Project>
