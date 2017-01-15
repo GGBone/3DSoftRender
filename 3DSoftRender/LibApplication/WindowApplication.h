@@ -18,7 +18,7 @@ namespace Hikari
 		inline int GetWidth()const;
 		inline int GetHeight()const;
 		inline float GetAspectRatio()const;
-		inline void SetWindowID(int windowID)const;
+		inline void SetWindowID(int windowID);
 		inline int GetWindowID()const;
 		
 		inline const Renderer* GetRenderer();
@@ -57,9 +57,18 @@ namespace Hikari
 		//Font
 
 		int KEY_TERMINATE;
-
-
-
+		static const int KEY_ESCAPE;
+		static const int KEY_RIGHT_AROW;
+		static const int KEY_LEFT_AROW;
+		static const int KEY_UP_AROW;
+		static const int KEY_DOWN_AROW;
+		static const int KEY_HOME;
+		static const int KEY_END;
+		static const int KEY_PAGE_UP;
+		static const int KEY_PAGE_DOWN;
+		static const int KEY_INSERT;
+		static const int KEY_DELETE;
+		static const int KEY_F1;
 	protected:
 		static int Run(int numArgument, char** arguments);
 
@@ -69,16 +78,32 @@ namespace Hikari
 		bool mAllowResize;
 
 		int mWindowID;
+		Renderer* mRenderer;
 
 		void ResetTime();
 		void MeasureTime();
 		void UpdateFrameCount();
 		void DrawFrameRate(int, int, const float& color);
+	
+		double mLastTime, mAccumlatedTime, mFrameRate;
+		int mFrameCount, mAccumuulatedFrameCount, mTimer, mMaxTimer;
 	};
 #include "WindowApplication.inl"
 
 #define WINDOW_APPLICATION(classname) \
-
+IMPLEMENT_INITIALIZE(classname);	\
+IMPLEMENT_TERMINATE(classname);		\
+\
+void classname::Initialize()\
+{\
+	Application::Run = &WindowApplication::Run;\
+TheApplication = new classname();\
+	}\
+\
+void classname::Terminate()\
+	{\
+		delete(TheApplication);	\
+	}
 
 }
 

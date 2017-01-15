@@ -154,3 +154,12 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+#extra
+*.sdf
+**/_Output/*
+**/Debug/*
+*.db
+**/ipch/*
+*.tlog
+*.idb

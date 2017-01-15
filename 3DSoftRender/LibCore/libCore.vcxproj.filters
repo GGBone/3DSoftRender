@@ -59,6 +59,9 @@
     <ClInclude Include="..\3DSoftRender\input.h">
       <Filter>Core\Input</Filter>
     </ClInclude>
+    <ClInclude Include="InitTerm.h">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePCH.cpp">

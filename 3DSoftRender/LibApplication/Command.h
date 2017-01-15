@@ -1,4 +1,5 @@
-#pragma once
+#ifndef COMMAND_H
+#define COMMAND_H
 namespace Hikari
 {
 	class Command
@@ -49,9 +50,10 @@ namespace Hikari
 
 
 		const char* mLastError;
-		static char* msOptionNotFound[];
-		static char* msArgumentRequired[];
-		static char* msArgumentOutofRange[];
-		static char* msFilenameNotFound[];
+		static char msOptionNotFound[];
+		static char msArgumentRequired[];
+		static char msArgumentOutofRange[];
+		static char msFilenameNotFound[];
 	};
 }
+#endif

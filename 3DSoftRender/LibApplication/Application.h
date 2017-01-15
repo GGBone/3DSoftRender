@@ -11,7 +11,7 @@ namespace Hikari
 		Application();
 	public:
 		virtual ~Application();
-		static Application* TheApp;
+		static Application* TheApplication;
 		
 		static Command* TheCommand;
 		static std::string Installpath;

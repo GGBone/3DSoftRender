@@ -11,7 +11,7 @@ bool BitMap::Init(char* filename)
 {
 	if (filename == NULL)
 		return false;
-	pFile = fopen(filename, "r");
+	fopen_s(&pFile,filename, "r");
 	fseek(pFile, 0x0000, SEEK_SET);
 	fread(&bitmapfile.bitmapheader.bfType, sizeof(WORD), 1, pFile);
 

@@ -26,30 +26,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="LibApplicationPCH.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Command.cpp" />
-    <ClCompile Include="ConsoleApplication.cpp" />
-    <ClCompile Include="WinApplication.cpp" />
-    <ClCompile Include="WindowApplication.cpp" />
-    <ClCompile Include="WindowApplication2.cpp" />
-    <ClCompile Include="WindowApplication3.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="LibApplicationPCH.h" />
-    <ClInclude Include="Command.h" />
-    <ClInclude Include="ConsoleApplication.h" />
-    <ClInclude Include="WindowApplication.h" />
-    <ClInclude Include="WindowApplication2.h" />
-    <ClInclude Include="WindowApplication3.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="WindowApplication.inl" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9664fa6c-32fe-4812-addd-f6fc26ef65f1}</ProjectGuid>
     <Keyword>StaticLibrary</Keyword>
@@ -58,13 +34,14 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.10586.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.14393.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>
+    </ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
@@ -146,6 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>LibApplicationPCH.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>.\;..\SDK\Include;$(DXSDK_DIR)\Include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
