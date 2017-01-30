@@ -69,7 +69,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../SDK/Library/</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -77,6 +79,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;..\SDK\Include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,15 +130,58 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="ColorRGBA.h" />
+    <ClInclude Include="Dx11PixelShader.h" />
+    <ClInclude Include="Dx11RenderLIB.h" />
+    <ClInclude Include="Dx11RenderData.h" />
+    <ClInclude Include="Dx11VertexBuffer.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="GraphicsPCH.h" />
+    <ClInclude Include="IndexBuffer.h" />
+    <ClInclude Include="Dx11VertexShader.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="ShaderParameters.h" />
+    <ClInclude Include="SoftFrameBuffer.h" />
+    <ClInclude Include="SoftPixelShader.h" />
+    <ClInclude Include="SoftRenderData.h" />
+    <ClInclude Include="SoftRenderer.h" />
+    <ClInclude Include="SoftVertexBuffer.h" />
+    <ClInclude Include="SoftVertexShader.h" />
+    <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="Visual.h" />
+    <ClInclude Include="VisualPass.h" />
+    <ClInclude Include="WinSoftRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="Dx11PixelShader.cpp" />
+    <ClCompile Include="Dx11RenderData.cpp" />
+    <ClCompile Include="Dx11Renderer.cpp" />
+    <ClCompile Include="Dx11VertexBuffer.cpp" />
     <ClCompile Include="GraphicsLib.h" />
+    <ClCompile Include="GraphicsPCH.cpp" />
+    <ClCompile Include="Dx11VertexShader.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="SoftPixelShader.cpp" />
+    <ClCompile Include="SoftRenderData.cpp" />
+    <ClCompile Include="SoftRenderer.cpp" />
+    <ClCompile Include="SoftRendererLIB.h" />
+    <ClCompile Include="SoftVertexBuffer.cpp" />
+    <ClCompile Include="SoftVertexShader.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
+    <ClCompile Include="Visual.cpp" />
+    <ClCompile Include="VisualPass.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Buffer.inl" />
+    <None Include="SoftFrameBuffer.inl" />
+    <None Include="VertexBuffer.inl" />
+    <None Include="VisualPass.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,4 @@
 ﻿#pragma once
-#ifndef MATHEMATICS_H
-#define MATHEMATICS_H
-#include "Math.h"
 
-#endif
+#include "HMath.h"
+#include "Float4.h"

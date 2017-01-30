@@ -1,9 +1,9 @@
-#ifndef OBJECT_H_
-#define OBJECT_H_
+#pragma once
+#include "CoreLib.h"
 #include "Rtti.h"
-#include "Global.h"
+#include "Names.h"
 
-namespace CORE
+namespace Hikari
 {
 	class Object
 	{
@@ -28,16 +28,14 @@ namespace CORE
 
 		//Streaming
 	public:
-	//	typedef Object* (*FactoryFunction)(InStream& stream);
+		//	typedef Object* (*FactoryFunction)(InStream& stream);
 
 
 
 		//Abstract base class,Construction and deconstruction
 	protected:
-		Object(){};
-		virtual ~Object(){};
+		Object() {};
+		virtual ~Object() {};
 	};
 #include "Object.inl"
 }
-
-#endif

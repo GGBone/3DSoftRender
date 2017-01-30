@@ -18,6 +18,34 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Algebra\APoint.h" />
+    <ClInclude Include="Algebra\HMath.h" />
+    <ClInclude Include="Algebra\HMatrix.h" />
+    <ClInclude Include="Algebra\HPoint.h" />
+    <ClInclude Include="Algebra\Matrix3.h" />
+    <ClInclude Include="Algebra\Matrix4.h" />
+    <ClInclude Include="Algebra\Quaternion.h" />
+    <ClInclude Include="Algebra\Vector2.h" />
+    <ClInclude Include="Algebra\Vector3.h" />
+    <ClInclude Include="Algebra\Vector4.h" />
+    <ClInclude Include="Base\Float1.h" />
+    <ClInclude Include="Base\Float2.h" />
+    <ClInclude Include="Base\Float3.h" />
+    <ClInclude Include="Base\Float4.h" />
+    <ClInclude Include="Mathematics.h" />
+    <ClInclude Include="MathematicsLIB.h" />
+    <ClInclude Include="MathematicsPCH.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Algebra\HMath.cpp" />
+    <ClCompile Include="Algebra\HPoint.cpp" />
+    <ClCompile Include="MathematicsPCH.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Algebra\HPoint.inl" />
+    <None Include="Base\Float4.inl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F0A3C6FD-2499-4FCF-9F7E-CB8BF4FEE4DC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -69,7 +97,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../SDK/Library/</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -77,6 +107,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\;Algebra;Approximation;Base;ComputationalGeometry;Containment;CurvesSurfacesVolumes;Distance;Interpolation;Intersection;Meshes;Miscellaneous;NumericalAnalysis;Objects2D;Objects3D;Query;Rational;..\SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,9 +157,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

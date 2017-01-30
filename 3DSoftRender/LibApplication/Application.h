@@ -1,8 +1,8 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#pragma once
+
 #include "Core.h"
 #include "Command.h"
-
+#include "Mathematics.h"
 namespace Hikari
 {
 	class Application
@@ -21,5 +21,3 @@ namespace Hikari
 		static EntryPoint Run;
 	};
 }
-
-#endif // !APPLICATION_H

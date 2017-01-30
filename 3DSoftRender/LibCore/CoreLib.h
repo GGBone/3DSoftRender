@@ -19,6 +19,20 @@
 #include <iostream>
 #include <fstream>
 
+
+// Common STL headers.
+#include <algorithm>
+#include <deque>
+#include <functional>
+#include <limits>
+#include <list>
+#include <map>
+#include <queue>
+#include <set>
+#include <stack>
+#include <string>
+#include <utility>
+#include <vector>
 #define UNUSED(variable) (void)variable
 
 

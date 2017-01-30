@@ -1,2 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="_PrecompiledHeaders">
+      <UniqueIdentifier>{02f6727f-aee9-4065-80ea-39da52d0d643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformDependent">
+      <UniqueIdentifier>{bd1f6b45-d08b-4207-addb-d303c2e4b22e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlatformIndependent">
+      <UniqueIdentifier>{fb96023c-d78c-4de8-afad-0e6ab37840f6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\LibApplication\LibApplicationPCH.cpp">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibApplication\WinApplication.cpp">
+      <Filter>PlatformDependent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibApplication\Application.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibApplication\Command.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibApplication\ConsoleApplication.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibApplication\WindowApplication.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibApplication\WindowApplication2.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibApplication\WindowApplication3.cpp">
+      <Filter>PlatformIndependent</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\LibApplication\LibApplicationPCH.h">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibApplication\Application.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibApplication\Command.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibApplication\ConsoleApplication.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibApplication\WindowApplication.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibApplication\WindowApplication2.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibApplication\WindowApplication3.h">
+      <Filter>PlatformIndependent</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LibApplication\WindowApplication.inl">
+      <Filter>PlatformIndependent</Filter>
+    </None>
+  </ItemGroup>
+</Project>

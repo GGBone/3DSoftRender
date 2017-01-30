@@ -1,9 +1,3 @@
-#ifndef CORE_H
-#define CORE_H
-
-
-
-// ObjectSystems
+#pragma once
+#include "Tuple.h"
 #include "InitTerm.h"
-
-#endif

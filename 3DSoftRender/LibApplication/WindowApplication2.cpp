@@ -3,7 +3,7 @@
 using namespace Hikari;
 
 Hikari::WindowApplication2::
-WindowApplication2(const char * windowTitle, int xPos, int yPos, int width, int height, const float & clearColor)
+WindowApplication2(const char * windowTitle, int xPos, int yPos, int width, int height, const Float4 & clearColor)
 	:WindowApplication(windowTitle, xPos, yPos, width - (width % 4), height, clearColor),
 	mScreenWidth(0),
 	mScreenHeight(0),
@@ -52,10 +52,10 @@ void Hikari::WindowApplication2::ScreenOverlay()
 
 void Hikari::WindowApplication2::ClearScreen()
 {
-	unsigned char r = (unsigned char)(255.0f * mClearColor);
-	unsigned char g = (unsigned char)(255.0f * mClearColor);
-	unsigned char b = (unsigned char)(255.0f * mClearColor);
-	unsigned char a = (unsigned char)(255.0f * mClearColor);
+	unsigned char r = (unsigned char)(255.0f * mClearColor[0]);
+	unsigned char g = (unsigned char)(255.0f * mClearColor[1]);
+	unsigned char b = (unsigned char)(255.0f * mClearColor[2]);
+	unsigned char a = (unsigned char)(255.0f * mClearColor[3]);
 	ColorRGB color(r, g, b, a);
 	ColorRGB* current = mScreen;
 	const int iMax = mWidth * mHeight;

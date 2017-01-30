@@ -38,28 +38,19 @@
     <ClInclude Include="CorePCH.h">
       <Filter>_PrecomiledHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\3DSoftRender\Global.h">
-      <Filter>Core\ObjectSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3DSoftRender\Names.h">
-      <Filter>Core\ObjectSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3DSoftRender\Object.h">
-      <Filter>Core\ObjectSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3DSoftRender\Rtti.h">
-      <Filter>Core\ObjectSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3DSoftRender\ReadFile.h">
-      <Filter>Core\FileSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3DSoftRender\Bitmap.h">
-      <Filter>Core\FileSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3DSoftRender\input.h">
-      <Filter>Core\Input</Filter>
-    </ClInclude>
     <ClInclude Include="InitTerm.h">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Tuple.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Names.h">
+      <Filter>Core\ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Rtti.h">
       <Filter>Core\ObjectSystem</Filter>
     </ClInclude>
   </ItemGroup>
@@ -67,25 +58,19 @@
     <ClCompile Include="CorePCH.cpp">
       <Filter>_PrecomiledHeaders</Filter>
     </ClCompile>
-    <ClCompile Include="..\3DSoftRender\Object.cpp">
+    <ClCompile Include="InitTerm.cpp">
       <Filter>Core\ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\3DSoftRender\Rtti.cpp">
+    <ClCompile Include="Object.cpp">
       <Filter>Core\ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\3DSoftRender\BitMap.cpp">
-      <Filter>Core\FileSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3DSoftRender\ReadFile.cpp">
-      <Filter>Core\FileSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3DSoftRender\input.cpp">
-      <Filter>Core\Input</Filter>
+    <ClCompile Include="Rtti.cpp">
+      <Filter>Core\ObjectSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\3DSoftRender\Object.inl">
-      <Filter>Core\ObjectSystem</Filter>
+    <None Include="Tuple.inl">
+      <Filter>DataTypes</Filter>
     </None>
   </ItemGroup>
 </Project>

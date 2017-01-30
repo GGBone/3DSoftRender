@@ -1,5 +1,5 @@
-#ifndef INITTERM_H
-#define INITTERM_H
+#pragma once
+
 #include "CoreLib.h"
 namespace Hikari
 {
@@ -7,7 +7,7 @@ namespace Hikari
 	{
 	public:
 		typedef void(*Initializer)(void);
-		static void AddInitializer(Initializer function);
+		static void AddInitialize(Initializer function);
 		static void ExecuteInitializers();
 		typedef void(*Terminator)(void);
 		static void AddTerminator(Terminator function);
@@ -33,41 +33,40 @@ private:	\
 	static bool msInitializeRegistered
 
 #define IMPLEMENT_INITIALIZE(classname)	\
-bool classname::msInitializeRegistered = false; \
-bool classname::RegisterInitialize()  \
+bool classname::msInitializeRegistered = false;	\
+bool classname::RegisterInitialize()	\
 { \
-if (!msInitializeRegistered) \
-{ \
-InitTerm::AddInitializer(classname::Initialize); \
-msInitializeRegistered = true; \
-} \
-return msInitializeRegistered; \
+	if (!msInitializeRegistered)	\
+	{ \
+		InitTerm::AddInitialize(classname::Initialize); \
+		msInitializeRegistered = true;	\
+	}\
+	return msInitializeRegistered;\
 }
 
 #define REGISTER_INITIALIZE(classname)	\
-static bool gsInitializeRegistered_##classname = \
-classname::RegisterInitialize()
+	static bool gsInitializeRegistered_##classname = \
+	classname::RegisterInitialize()
 
 #define DECLEAR_TERMINATE	\
 public:	\
-static bool RegisterTerminate();	\
-static void Terminate();			\
+	static bool RegisterTerminate();	\
+	static void Terminate();			\
 private: \
-static bool msTerminateRegistered
+	static bool msTerminateRegistered
 
 #define IMPLEMENT_TERMINATE(classname)	\
 bool classname::msTerminateRegistered = false;	\
 bool classname::RegisterTerminate() \
-{ \
-if (!msTerminateRegistered) \
-{   \
+{\
+	if (!msTerminateRegistered)\
+	{\
 		InitTerm::AddTerminator(classname::Terminate);	\
 		msTerminateRegistered = true;	\
-} \
-return msTerminateRegistered;	\
+	}\
+	return msTerminateRegistered;	\
 }
 
 #define REGISTER_TERMINATE(classname)	\
-static bool gsTerminateRegistered_##classname = \
-classname::RegisterTerminate()
-#endif // !INITTERM_H
+	static bool gsTerminateRegistered_##classname = \
+classname::RegisterTerminate();

@@ -1,11 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Renderer">
       <UniqueIdentifier>{839f597f-aa29-443d-8f01-68cd512d66df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\OGLRender">
+      <UniqueIdentifier>{4bfd7f58-c7c3-454a-adb3-c497b1ed1791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\DXRender">
+      <UniqueIdentifier>{6e26dcf7-79f9-4832-b046-21894b717dd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\SoftRender">
+      <UniqueIdentifier>{b6edf8bc-39b1-4b79-b3c9-f4b0f9b6b714}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\VlkRender">
+      <UniqueIdentifier>{1a56c5c9-43c0-4cfb-8fa7-a588533634cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{3d757937-fa32-4ea2-96d6-e06095a1375e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_PrecompiledHeaders">
+      <UniqueIdentifier>{e0f44055-7dbb-48ba-af68-3dc2a202738e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneGraph">
+      <UniqueIdentifier>{4733f0b6-f416-4f2e-a6c5-f2bc397ba4d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{146bfd9a-92cc-469f-a6f9-620c399a7008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{3a182711-3a73-4bb3-a293-9bc40f558d3d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -13,11 +37,145 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Dx11RenderLIB.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsPCH.h">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11VertexBuffer.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11RenderData.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Visual.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualPass.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderParameters.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11VertexShader.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11PixelShader.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftVertexShader.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftPixelShader.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftRenderData.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftVertexBuffer.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftRenderer.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSoftRenderer.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftFrameBuffer.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorRGBA.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsLib.h" />
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsPCH.cpp">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11VertexBuffer.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11RenderData.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11Renderer.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Visual.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualPass.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11VertexShader.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11PixelShader.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftVertexBuffer.cpp">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftRenderData.cpp">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftRenderer.cpp">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftPixelShader.cpp">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftVertexShader.cpp">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftRendererLIB.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Buffer.inl">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="VertexBuffer.inl">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="VisualPass.inl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="SoftFrameBuffer.inl">
+      <Filter>Renderer\SoftRender</Filter>
+    </None>
   </ItemGroup>
 </Project>

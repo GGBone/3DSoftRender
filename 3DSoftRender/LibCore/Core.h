@@ -1,5 +1,3 @@
-#ifndef CORE_H
-#define CORE_H
-#include "CoreLib.h"
-
-#endif
+#pragma once
+#include "Tuple.h"
+#include "InitTerm.h"

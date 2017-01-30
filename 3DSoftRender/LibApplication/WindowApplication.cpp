@@ -2,7 +2,7 @@
 #include "WindowApplication.h"
 using namespace Hikari;
 WindowApplication::WindowApplication(const char * windowTile, int xPos,
-	int yPos, int width, int height, const float & clearColor)
+	int yPos, int width, int height, const Float4 & clearColor)
 	:
 	mWindowTitle(windowTile),
 	mXPosition(xPos),
@@ -36,6 +36,11 @@ inline void Hikari::WindowApplication::OnDisplay()
 
 inline void Hikari::WindowApplication::OnIdle()
 {
+}
+
+bool Hikari::WindowApplication::OnKeyDown(unsigned char key, int x, int y)
+{
+	return false;
 }
 
 inline bool Hikari::WindowApplication::OnKeyUp(unsigned char key, int x, int y)
@@ -78,6 +83,33 @@ inline bool Hikari::WindowApplication::OnInitialize()
 }
 
 void Hikari::WindowApplication::OnTerminate()
+{
+}
+
+void Hikari::WindowApplication::OnMove(int x, int y)
+{
+}
+
+void Hikari::WindowApplication::OnResize(int windth, int height)
+{
+}
+
+int Hikari::WindowApplication::Run(int numArgument, char ** arguments)
+{
+	WindowApplication *theApp = static_cast<WindowApplication*>(TheApplication);
+
+	return theApp->Main(numArgument,arguments);
+}
+
+void Hikari::WindowApplication::ResetTime()
+{
+}
+
+void Hikari::WindowApplication::MeasureTime()
+{
+}
+
+void Hikari::WindowApplication::UpdateFrameCount()
 {
 }
 

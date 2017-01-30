@@ -1,20 +1,82 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Base">
+      <UniqueIdentifier>{60a6706d-e7b2-4c9d-a91d-29b1bc0dbcc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="_PrecompiledHeaders">
+      <UniqueIdentifier>{df231a16-1ff9-463b-ace9-42d8ca2000bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Algebra">
+      <UniqueIdentifier>{ca18a24a-bc54-46e9-83c9-03eb4c3b6b32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <ClInclude Include="Mathematics.h" />
+    <ClInclude Include="MathematicsLIB.h" />
+    <ClInclude Include="MathematicsPCH.h">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Float1.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Float2.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Float3.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Float4.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\APoint.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\HMath.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\HMatrix.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\HPoint.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\Matrix3.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\Matrix4.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\Quaternion.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\Vector2.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\Vector3.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\Vector4.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MathematicsPCH.cpp">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Algebra\HMath.cpp">
+      <Filter>Algebra</Filter>
+    </ClCompile>
+    <ClCompile Include="Algebra\HPoint.cpp">
+      <Filter>Algebra</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Base\Float4.inl">
+      <Filter>Base</Filter>
+    </None>
+    <None Include="Algebra\HPoint.inl">
+      <Filter>Algebra</Filter>
+    </None>
   </ItemGroup>
 </Project>

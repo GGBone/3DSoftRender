@@ -1,5 +1,5 @@
-#ifndef INITTERM_H
-#define INITTERM_H
+#pragma once
+
 #include "CoreLib.h"
 namespace Hikari
 {
@@ -31,43 +31,42 @@ public:	\
 	static void Initialize();			\
 private:	\
 	static bool msInitializeRegistered
-#define IMPLEMENT_INITIALIZE(classname)	\	
+
+#define IMPLEMENT_INITIALIZE(classname)	\
 bool classname::msInitializeRegistered = false;	\
 bool classname::RegisterInitialize()	\
 { \
-if (!msInitializeRegistered)	\
-{ \
-InitTerm::AddInitialize(classname::Initialize); \
-msInitializeRegistered = true;	\
-}\
-return msInitializeRegistered;
+	if (!msInitializeRegistered)	\
+	{ \
+		InitTerm::AddInitialize(classname::Initialize); \
+		msInitializeRegistered = true;	\
+	}\
+	return msInitializeRegistered;\
 }
 
 #define REGISTER_INITIALIZE(classname)	\
-static bool gsInitializeRegistered_##classname = \
-classname::RegisterInitialize()
+	static bool gsInitializeRegistered_##classname = \
+	classname::RegisterInitialize()
 
 #define DECLEAR_TERMINATE	\
 public:	\
-static bool RegisterTerminate();	\
-static void Terminate();			\
-private:
-static bool msTerminateRegistered
+	static bool RegisterTerminate();	\
+	static void Terminate();			\
+private: \
+	static bool msTerminateRegistered
 
 #define IMPLEMENT_TERMINATE(classname)	\
 bool classname::msTerminateRegistered = false;	\
-bool classname::RegisterTerminate() \ 
+bool classname::RegisterTerminate() \
 {\
-if (!msTerminateRegistered)
-{
-	\
+	if (!msTerminateRegistered)\
+	{\
 		InitTerm::AddTerminator(classname::Terminate);	\
 		msTerminateRegistered = true;	\
-}\
-return msTerminateRegistered;	\
+	}\
+	return msTerminateRegistered;	\
 }
 
-#define REGISTER_TERMINATE(classname)	\	
-static bool gsTerminateRegistered_##classname = \
-classname::RegisterTerminate()
-#endif // !INITTERM_H
+#define REGISTER_TERMINATE(classname)	\
+	static bool gsTerminateRegistered_##classname = \
+classname::RegisterTerminate();

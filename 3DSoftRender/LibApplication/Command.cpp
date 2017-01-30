@@ -1,22 +1,21 @@
 #include "LibApplicationPCH.h"
 #include "Command.h"
 
-#pragma disable 4996
 using namespace Hikari;
 
 char Command::msOptionNotFound[] = "option not found";
-char Command::msArgumentOutofRange[] = "argument out of range";
+char Command::msArgumentOutOfRange[] = "argument out of range";
 char Command::msFilenameNotFound[] = "filename not found";
 char Command::msArgumentRequired[] = "option requires an argument";
-Hikari::Command::Command(int numArgument, char ** arguments)
+Command::Command(int numArgument, char ** arguments)
 {
-	mNumArgument = numArgument;
+	mNumArguments = numArgument;
 	mCommandLine = 0;
 	mUsed = 0;
-	if (mNumArgument > 0)
+	if (mNumArguments > 0)
 	{
-		mArguments = new char*[mNumArgument];
-		for (int i = 0; i < mNumArgument; ++i)
+		mArguments = new char*[mNumArguments];
+		for (int i = 0; i < mNumArguments; ++i)
 		{
 			mArguments[i] = arguments[i];
 		}
@@ -30,7 +29,7 @@ Hikari::Command::Command(int numArgument, char ** arguments)
 
 Hikari::Command::Command(char * commandLine)
 {
-	mNumArgument = 0;
+	mNumArguments = 0;
 	mArguments = 0;
 	mCommandLine = 0;
 	mUsed = 0;
@@ -45,15 +44,15 @@ Hikari::Command::Command(char * commandLine)
 
 	while (tolower)
 	{
-		mNumArgument++;
+		mNumArguments++;
 		Argument* curr = new Argument(token, argList);
 		argList = curr;
 		token = strtok(0, " \t");
 	}
-	mNumArgument++;
-	mArguments = new char*[mNumArgument];
+	mNumArguments++;
+	mArguments = new char*[mNumArguments];
 	mArguments[0] = mCommandLine;
-	int i = mNumArgument - 1;
+	int i = mNumArguments - 1;
 	while (argList)
 	{
 		mArguments[i--] = argList->Item;
@@ -71,7 +70,7 @@ Hikari::Command::~Command()
 
 int Hikari::Command::ExcessArguments()
 {
-	for (int i = 0; i < mNumArgument; i++)
+	for (int i = 0; i < mNumArguments; i++)
 	{
 		if (!mUsed)
 		{
@@ -85,7 +84,7 @@ Command & Hikari::Command::Min(double value)
 {
 	// TODO: 在此处插入 return 语句
 	mSmall = value;
-	mMinset = true;
+	mMinSet = true;
 	return *this;
 }
 
@@ -128,11 +127,11 @@ const char * Hikari::Command::GetLastError()
 
 void Hikari::Command::Initialize()
 {
-	mUsed = new bool[mNumArgument];
-	memset(mUsed, false, mNumArgument * sizeof(bool));
+	mUsed = new bool[mNumArguments];
+	memset(mUsed, false, mNumArguments * sizeof(bool));
 	mSmall = 0.0f;
 	mLarge = 0.0f;
-	mMinset = false;
+	mMinSet = false;
 	mMaxSet = false;
 	mInfSet = false;
 	mSupSet = false;
@@ -150,7 +149,7 @@ int Hikari::Command::GetBoolean(const char * name, bool & value)
 {
 	int matchFount = 0;
 	value = false;
-	for (int i = 1; i < mNumArgument; ++i)
+	for (int i = 1; i < mNumArguments; ++i)
 	{
 		char* tmp = mArguments[i];
 		if (!mUsed[i] && tmp[0] == '-' && strcmp(name, ++tmp) == 0)
@@ -183,7 +182,7 @@ int Hikari::Command::GetDouble(const char * name, double & value)
 	return 0;
 }
 
-int Hikari::Command::GetString(const char * name, double & value)
+int Hikari::Command::GetString(const char* name, char*& value)
 {
 	return 0;
 }

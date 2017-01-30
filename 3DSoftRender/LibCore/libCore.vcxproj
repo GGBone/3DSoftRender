@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{46CC090B-9B4A-4167-8A26-68C79296B279}</ProjectGuid>
     <RootNamespace>libCore</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>LibCore</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,13 +40,17 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../SDK/Library/</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>.\;..\SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>CorePCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -67,28 +71,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\3DSoftRender\Bitmap.h" />
-    <ClInclude Include="..\3DSoftRender\Global.h" />
-    <ClInclude Include="..\3DSoftRender\input.h" />
-    <ClInclude Include="..\3DSoftRender\Names.h" />
-    <ClInclude Include="..\3DSoftRender\Object.h" />
-    <ClInclude Include="..\3DSoftRender\ReadFile.h" />
-    <ClInclude Include="..\3DSoftRender\Rtti.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="CoreLib.h" />
     <ClInclude Include="CorePCH.h" />
     <ClInclude Include="InitTerm.h" />
+    <ClInclude Include="Names.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Rtti.h" />
+    <ClInclude Include="Tuple.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\3DSoftRender\BitMap.cpp" />
-    <ClCompile Include="..\3DSoftRender\input.cpp" />
-    <ClCompile Include="..\3DSoftRender\Object.cpp" />
-    <ClCompile Include="..\3DSoftRender\ReadFile.cpp" />
-    <ClCompile Include="..\3DSoftRender\Rtti.cpp" />
-    <ClCompile Include="CorePCH.cpp" />
+    <ClCompile Include="CorePCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="InitTerm.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Rtti.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\3DSoftRender\Object.inl" />
+    <None Include="Tuple.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
