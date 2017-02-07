@@ -94,14 +94,20 @@
     <ClInclude Include="SoftRenderer.h">
       <Filter>Renderer\SoftRender</Filter>
     </ClInclude>
-    <ClInclude Include="WinSoftRenderer.h">
-      <Filter>Renderer\SoftRender</Filter>
-    </ClInclude>
     <ClInclude Include="SoftFrameBuffer.h">
       <Filter>Renderer\SoftRender</Filter>
     </ClInclude>
     <ClInclude Include="ColorRGBA.h">
       <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSoftRenderer.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11Renderer.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderData.h">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="SoftRendererLIB.h">
       <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderData.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

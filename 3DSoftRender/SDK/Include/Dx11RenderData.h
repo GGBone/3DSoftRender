@@ -3,11 +3,11 @@
 namespace Hikari
 
 {
-	class RendererData
+	class DirectRenderData : public RendererData
 	{
 	public:
-		RendererData(int width,int height,int numMultisamples,HWND handle);
-		~RendererData();
+		DirectRenderData(int width,int height,int numMultisamples,HWND handle);
+		~DirectRenderData();
 		
 		ID3D11Device* mDevice = NULL;
 		ID3D11DeviceContext* mImmediateContext = NULL;
@@ -32,11 +32,6 @@ namespace Hikari
 		ID3D11SamplerState*	g_pSamplerLinear = NULL;
 
 		D3D11_VIEWPORT vp;
-
-		UINT mWidth;
-		UINT mHeight;
-		HWND mWindowHandle;
-		
 
 	private:
 		bool InitDevice();

@@ -1,6 +1,6 @@
 #include "GraphicsPCH.h"
 #include "SoftRenderData.h"
-Hikari::RendererData::RendererData(int width, int height, int numMultisamples, HWND handle)
+Hikari::SoftRenderData::SoftRenderData(int width, int height, int numMultisamples, HWND handle)
 	:mHwnd(handle),
 	mWidth(width),
 	mHeight(height)
@@ -8,7 +8,11 @@ Hikari::RendererData::RendererData(int width, int height, int numMultisamples, H
 	InitDevice();
 }
 
-bool Hikari::RendererData::InitDevice()
+Hikari::SoftRenderData::~SoftRenderData()
+{
+}
+
+bool Hikari::SoftRenderData::InitDevice()
 {
 
 	mWindowDC = GetDC(mHwnd);
@@ -53,7 +57,7 @@ bool Hikari::RendererData::InitDevice()
 	return true;
 }
 
-Hikari::RendererData::~RendererData()
+Hikari::SoftRenderData::~SoftRendererData()
 {
 
 }

@@ -38,14 +38,14 @@ namespace Hikari
 		inline void SetNumElements(int numElements);
 
 		inline int GetNumBytes()const;
-		inline const char* GetData()const;
+		inline const void* GetData()const;
 		inline void SetData(void* data);
 	protected:
 		int mNumElements;
 		int mElementSize;
 		Usage mUsage;
 		int mNumBytes;
-		char* mData;
+		void* mData;
 	};
 	typedef Buffer* BufferPtr;
 #include "Buffer.inl"

@@ -1,4 +1,5 @@
 #include "Buffer.h"
+using namespace std;
 inline int Hikari::Buffer::GetNumElements()const
 {
 	return mNumElements;
@@ -9,10 +10,6 @@ inline int Hikari::Buffer::GetElementSize() const
 	return mElementSize;
 }
 
-inline Buffer::Usage Hikari::Buffer::GetUsage() const
-{
-	return mUsage;
-}
 
 inline void Hikari::Buffer::SetNumElements(int numElements)
 {

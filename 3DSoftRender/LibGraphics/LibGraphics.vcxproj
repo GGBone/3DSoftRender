@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="ColorRGBA.h" />
     <ClInclude Include="Dx11PixelShader.h" />
+    <ClInclude Include="Dx11Renderer.h" />
     <ClInclude Include="Dx11RenderLIB.h" />
     <ClInclude Include="Dx11RenderData.h" />
     <ClInclude Include="Dx11VertexBuffer.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Dx11VertexShader.h" />
     <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="RenderData.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ShaderParameters.h" />
     <ClInclude Include="SoftFrameBuffer.h" />
@@ -165,6 +167,7 @@
     <ClCompile Include="GraphicsPCH.cpp" />
     <ClCompile Include="Dx11VertexShader.cpp" />
     <ClCompile Include="PixelShader.cpp" />
+    <ClCompile Include="RenderData.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SoftPixelShader.cpp" />
     <ClCompile Include="SoftRenderData.cpp" />

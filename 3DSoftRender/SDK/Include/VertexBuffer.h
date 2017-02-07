@@ -12,7 +12,7 @@ namespace Hikari
 		VertexBuffer(int numVertics,int vertexSize,Usage usage = BU_STATIC);
 		virtual ~VertexBuffer();
 
-		inline char* GetData()const;
+		inline void* GetData()const;
 
 	};
 	typedef VertexBuffer* VertexBufferPtr;

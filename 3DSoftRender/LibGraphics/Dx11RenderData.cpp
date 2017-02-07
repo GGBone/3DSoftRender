@@ -1,27 +1,28 @@
-#if 0
+#include "RenderData.h"
 #include "Dx11RenderLIB.h"
 #include "Dx11RenderData.h"
+#include "Dx11Renderer.h"
 
-Hikari::RendererData::RendererData(int width, int height, int numMultisamples, HWND handle)
-	:mWindowHandle(handle),
-	mWidth(width),
-	mHeight(height)
+using namespace Hikari;
+Hikari::DirectRenderData::DirectRenderData(int width, int height, int numMultisamples, HWND handle)
+	:RendererData(width,height,handle)
 {
 	InitDevice();
 }
 
-Hikari::RendererData::~RendererData()
+
+Hikari::DirectRenderData::~DirectRenderData()
 {
 }
 
-bool Hikari::RendererData::InitDevice()
+bool Hikari::DirectRenderData::InitDevice()
 {
 	HRESULT hr = S_OK;
 	D3D_DRIVER_TYPE	g_driverType;
 	D3D_FEATURE_LEVEL  g_featureLevel;
 
 	RECT rc;
-	GetClientRect(mWindowHandle, &rc);
+	GetClientRect(mHwnd, &rc);
 	mWidth = rc.right - rc.left;
 	mHeight = rc.bottom - rc.top;
 
@@ -55,7 +56,7 @@ bool Hikari::RendererData::InitDevice()
 	sd.BufferDesc.RefreshRate.Numerator = 60;
 	sd.BufferDesc.RefreshRate.Denominator = 1;
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.OutputWindow = mWindowHandle;
+	sd.OutputWindow = mHwnd;
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
 	sd.Windowed = TRUE;
@@ -126,4 +127,3 @@ bool Hikari::RendererData::InitDevice()
 	return S_OK;
 }
 
-#endif

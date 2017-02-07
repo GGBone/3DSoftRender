@@ -1,6 +1,6 @@
 #include "GraphicsPCH.h"
-#include "Renderer.h"
-#if 0
+#include "RenderData.h"
+#include "Dx11Renderer.h"
 #include "Dx11RenderData.h"
 #include "Dx11VertexBuffer.h"
 #include "Dx11VertexShader.h"
@@ -9,37 +9,30 @@
 
 
 using namespace Hikari;
-Renderer::Renderer(RendererData& input, int width, int height, Texture::Format colorFormat, Texture::Format depthStencilFormat, int numMultisamples)
+DirectRenderer::DirectRenderer(DirectRenderData* input, int width, int height, Texture::Format colorFormat, Texture::Format depthStencilFormat, int numMultisamples)
 {
 	Initialize(width, height, Texture::Format(), Texture::Format(), numMultisamples);
-	mData = &input;
+	mData = input;
 	//Set all the State 
 	//To-Do
 }
-Renderer::~Renderer()
+DirectRenderer::~DirectRenderer()
 {
 	delete mData;
 	Terminate();
 }
 
-//void SetAlphaState(const AlphaState* alphaState);
-//void SetCullState(const CullState* cullState);
-//void SetDepthState(const DepthState* depthState);
-//void SetOffsetState(const OffsetState* offsetState);
-//void SetStencilState(const StencilState* stencilState);
-//void SetWireState(const WireState* wireState);
-//
-void Renderer::SetViewport(int xPosition, int yPosition, int width,
+void DirectRenderer::SetViewport(int xPosition, int yPosition, int width,
 	int height)
 {
 	
 }
-void Renderer::GetViewport(int& xPosition, int& yPosition, int& width,
+void DirectRenderer::GetViewport(int& xPosition, int& yPosition, int& width,
 	int& height) const
 {
 	D3D11_VIEWPORT* viewports = 0;
 	UINT* numofViewports = 0;
-	mData->mImmediateContext->RSGetViewports(numofViewports, viewports);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->RSGetViewports(numofViewports, viewports);
 	if (viewports == nullptr)
 		MessageBoxA(0, "ERROR", "GetViewportError", MB_OK);
 	xPosition = viewports[0].TopLeftX;
@@ -48,54 +41,54 @@ void Renderer::GetViewport(int& xPosition, int& yPosition, int& width,
 	height = viewports[0].Height;
 }
 
-void Renderer::SetDepthRange(float zMin, float zMax)
+void DirectRenderer::SetDepthRange(float zMin, float zMax)
 {
 	D3D11_VIEWPORT* viewports = 0;
 	UINT* numofViewports = 0;
-	mData->mImmediateContext->RSGetViewports(numofViewports, viewports);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->RSGetViewports(numofViewports, viewports);
 	if (viewports == nullptr)
 		MessageBoxA(0, "ERROR", "GetViewportError", MB_OK);
 	zMin = viewports[0].MinDepth;
 	zMax = viewports[0].MaxDepth;
 }
 
-void Renderer::GetDepthRange(float& zMin, float& zMax) const
+void DirectRenderer::GetDepthRange(float& zMin, float& zMax) const
 {
 	D3D11_VIEWPORT* viewports = 0;
 	UINT* numofViewports;
-	mData->mImmediateContext->RSGetViewports(numofViewports, viewports);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->RSGetViewports(numofViewports, viewports);
 	if (viewports == nullptr)
 		MessageBoxA(0, "ERROR", "GetViewportError", MB_OK);
 	zMin = viewports[0].MinDepth;
 	zMax = viewports[0].MaxDepth;
 }
-void Hikari::Renderer::Resize(int width, int height)
+void Hikari::DirectRenderer::Resize(int width, int height)
 {
 }
 //// Support for clearing the color, depth, and stencil buffers.
-void Renderer::ClearColorBuffer()
+void DirectRenderer::ClearColorBuffer()
 {
 	FLOAT color[] = { 0,0,0,1 };
-	mData->mImmediateContext->ClearRenderTargetView(mData->g_pRenderTargetView, color);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->ClearRenderTargetView((static_cast<DirectRenderData*>(mData))->g_pRenderTargetView, color);
 }
 
-void Renderer::ClearDepthBuffer()
+void DirectRenderer::ClearDepthBuffer()
 {
 	/*D3D11_CLEAR_FLAG clearFlag = D3D11_CLEAR_DEPTH;
 	mData->mImmediateContext->ClearDepthStencilView(mData->g_pDepthStencilView, clearFlag, 1, 0);*/
 }
-void Renderer::ClearStencilBuffer()
+void DirectRenderer::ClearStencilBuffer()
 {
 	/*D3D11_CLEAR_FLAG clearFlag = D3D11_CLEAR_STENCIL;
 	mData->mImmediateContext->ClearDepthStencilView(mData->g_pDepthStencilView, clearFlag, 0, 0);*/
 }
-void Renderer::ClearBuffers()
+void DirectRenderer::ClearBuffers()
 {
 	ClearColorBuffer();
 	ClearDepthBuffer();
 	ClearStencilBuffer();
 }
-void Renderer::ClearColorBuffer(int x, int y, int w, int h)
+void DirectRenderer::ClearColorBuffer(int x, int y, int w, int h)
 {
 	D3D11_RECT rect;
 	rect.left = (long)x;
@@ -105,39 +98,39 @@ void Renderer::ClearColorBuffer(int x, int y, int w, int h)
 	rect.bottom = (long)(y + h - 1);
 
 	FLOAT clearColor[] = { mClearColor[0],mClearColor[1],mClearColor[2],mClearColor[3] };
-	mData->mImmediateContext->ClearRenderTargetView(mData->g_pRenderTargetView, clearColor);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->ClearRenderTargetView((static_cast<DirectRenderData*>(mData))->g_pRenderTargetView, clearColor);
 
 }
-void Hikari::Renderer::ClearDepthBuffer(int x, int y, int w, int h)
+void Hikari::DirectRenderer::ClearDepthBuffer(int x, int y, int w, int h)
 {
 }
-void Hikari::Renderer::ClearStencilBuffer(int x, int y, int w, int h)
+void Hikari::DirectRenderer::ClearStencilBuffer(int x, int y, int w, int h)
 {
 }
-void Hikari::Renderer::ClearBuffers(int x, int y, int w, int h)
+void Hikari::DirectRenderer::ClearBuffers(int x, int y, int w, int h)
 {
 }
-void Hikari::Renderer::DisplayColorBuffer()
+void Hikari::DirectRenderer::DisplayColorBuffer()
 {
 }
-void Hikari::Renderer::SetColorMask(bool allowRed, bool allowGreen, bool allowBlue, bool allowAlpha)
+void Hikari::DirectRenderer::SetColorMask(bool allowRed, bool allowGreen, bool allowBlue, bool allowAlpha)
 {
 }
-bool Hikari::Renderer::PreDraw()
+bool Hikari::DirectRenderer::PreDraw()
 {
 	return false;
 }
-void Hikari::Renderer::PostDraw()
+void Hikari::DirectRenderer::PostDraw()
 {
 }
-void Hikari::Renderer::Draw(const unsigned char * screenBuffer, bool reflectY)
+void Hikari::DirectRenderer::Draw(const unsigned char * screenBuffer, bool reflectY)
 {
 }
-void Hikari::Renderer::Draw(int x, int y, const Float4 & color, const std::string & message)
+void Hikari::DirectRenderer::Draw(int x, int y, const Float4 & color, const std::string & message)
 {
 }
 
-void Renderer::DrawPrimitive(const Visual * visual)
+void DirectRenderer::DrawPrimitive(const Visual * visual)
 {
 	static bool InitTemp = false;
 	static PdrVertexShader* pdrVShader;
@@ -171,7 +164,7 @@ void Renderer::DrawPrimitive(const Visual * visual)
 				//{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 			};
 			UINT totalLayoutElements = ARRAYSIZE(solidColorLayout);
-			HRESULT hr = mData->mDevice->CreateInputLayout(solidColorLayout, totalLayoutElements, pdrVShader->vsBuffer->GetBufferPointer(),
+			HRESULT hr = (static_cast<DirectRenderData*>(mData))->mDevice->CreateInputLayout(solidColorLayout, totalLayoutElements, pdrVShader->vsBuffer->GetBufferPointer(),
 				pdrVShader->vsBuffer->GetBufferSize(), &inputLayout);
 		}
 		if (iterP != mPixelShaders.end())
@@ -193,17 +186,15 @@ void Renderer::DrawPrimitive(const Visual * visual)
 			pdrVertex = new PdrVertexBuffer(this, vertexBuffer);
 			mVertexBuffers[vertexBuffer] = pdrVertex;
 		}
-		mData->mImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		mData->mImmediateContext->IASetInputLayout(inputLayout);
+		(static_cast<DirectRenderData*>(mData))->mImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		(static_cast<DirectRenderData*>(mData))->mImmediateContext->IASetInputLayout(inputLayout);
 		InitTemp = true;
 	}
 
 	ClearBuffers();
 
-	mData->mImmediateContext->VSSetShader(pdrVShader->mVShader, NULL, 0);
-	mData->mImmediateContext->PSSetShader(pdrPShader->mPShader, NULL, 0);
-	mData->mImmediateContext->Draw(6, 0);
-	mData->g_pSwapChain->Present(0, 0);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->VSSetShader(pdrVShader->mVShader, NULL, 0);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->PSSetShader(pdrPShader->mPShader, NULL, 0);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->Draw(6, 0);
+	(static_cast<DirectRenderData*>(mData))->g_pSwapChain->Present(0, 0);
 }
-
-#endif

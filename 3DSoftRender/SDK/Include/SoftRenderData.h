@@ -1,18 +1,21 @@
 #pragma once
 #include "Dx11RenderLIB.h"
+#include "SoftFrameBuffer.h"
 namespace Hikari
 
 {
-	class RendererData
+	class SoftRenderData
 	{
 	public:
-		RendererData(int width, int height, int numMultisamples, HWND handle);
-		~RendererData();
-		unsigned int* m_auiColorBuffer;
-		int* FrameBuffer;
+		SoftRenderData(int width, int height, int numMultisamples, HWND handle);
+		~SoftRenderData();
+		
+		SoftFrameBuffer* mainFrameBuffer;
 		int mWidth;
 		int mHeight;
+		
 		int* mColorBuffer;
+
 		HWND mHwnd;
 		HDC mWindowDC, mMemoryDC;
 		HBITMAP mHBitMap;

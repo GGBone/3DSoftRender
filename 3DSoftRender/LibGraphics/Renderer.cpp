@@ -1,21 +1,6 @@
 #include "GraphicsPCH.h"
 #include "Renderer.h"
 
-
-#if 1
-#include "SoftRenderData.h"
-#include "SoftVertexBuffer.h"
-#include "SoftVertexShader.h"
-#include "SoftPixelShader.h"
-#endif
-#if 0
-#include "Camera.h"
-#include "Dx11VertexBuffer.h"
-#include "Dx11VertexShader.h"
-#include "Dx11RenderLIB.h"
-#include "Dx11RenderData.h"
-#include "Dx11PixelShader.h"
-#endif
 using namespace Hikari;
 
 
@@ -1240,13 +1225,6 @@ void Hikari::Renderer::Draw(const VisibleSet & visibleSet, GlobalEffect * global
 {
 }
 
-void Hikari::Renderer::Draw(const Visual * visual)
-{
-
-	//Call Follow Function Draw it
-	DrawPrimitive(visual);
-	
-}
 
 void Hikari::Renderer::Draw(const Visual * visual, const VisualEffectInstance * instance)
 {
@@ -1343,89 +1321,22 @@ inline const CullState * Hikari::Renderer::GetOverrideCullState() const
 }
 
 
-PdrVertexFormat * Hikari::Renderer::GetResource(const VertexFormat * vformat)
+void Hikari::Renderer::DrawScene(const VisibleSet * visual)
 {
-	return nullptr;
+	//DrawPrimitive(visual);
 }
 
-PdrVertexBuffer * Hikari::Renderer::GetResource(const VertexBuffer * vbuffer)
+Hikari::Renderer::Renderer(RendererData* data, int width, int height)
 {
-	return nullptr;
-}
-
-PdrIndexBuffer * Hikari::Renderer::GetResource(const IndexBuffer * ibuffer)
-{
-	return nullptr;
-}
-
-PdrTexture1D * Hikari::Renderer::GetResource(const Texture1D * texture)
-{
-	return nullptr;
-}
-
-PdrTexture2D * Hikari::Renderer::GetResource(const Texture2D * texture)
-{
-	return nullptr;
-}
-
-PdrTexture3D * Hikari::Renderer::GetResource(const Texture3D * texture)
-{
-	return nullptr;
-}
-
-PdrTextureCube * Hikari::Renderer::GetResource(const TextureCube * texture)
-{
-	return nullptr;
-}
-
-PdrRenderTarget * Hikari::Renderer::GetResource(const RenderTarget * renderTarget)
-{
-	return nullptr;
-}
-
-PdrVertexShader * Hikari::Renderer::GetResource(const VertexShader * vshader)
-{
-	return nullptr;
-}
-
-PdrPixelShader * Hikari::Renderer::GetResource(const PixelShader * pshader)
-{
-	return nullptr;
+	mData = data;
+	mWidth = width;
+	height = height;
 }
 
 inline bool Hikari::Renderer::InTexture2DMap(const Texture2D * texture)
 {
 	return false;
 }
-
-inline void Hikari::Renderer::InsertInTexture2DMap(const Texture2D * texture, PdrTexture2D * platformTexture)
-{
-}
-
-void Hikari::Renderer::SetAlphaState(const AlphaState * alphaState)
-{
-}
-
-void Hikari::Renderer::SetCullState(const CullState * cullState)
-{
-}
-
-void Hikari::Renderer::SetDepthState(const DepthState * depthState)
-{
-}
-
-void Hikari::Renderer::SetOffsetState(const OffsetState * offsetState)
-{
-}
-
-void Hikari::Renderer::SetStencilState(const StencilState * stencilState)
-{
-}
-
-void Hikari::Renderer::SetWireState(const WireState * wireState)
-{
-}
-
 void Hikari::Renderer::Bind(const VertexShader * vFormat)
 {
 }
