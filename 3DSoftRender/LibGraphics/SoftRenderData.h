@@ -13,13 +13,5 @@ namespace Hikari
 		SoftFrameBuffer* mainFrameBuffer;
 		int mWidth;
 		int mHeight;
-		
-		int* mColorBuffer;
-
-		HWND mHwnd;
-		HDC mWindowDC, mMemoryDC;
-		HBITMAP mHBitMap;
-	private:
-		bool InitDevice();
 	};
 }

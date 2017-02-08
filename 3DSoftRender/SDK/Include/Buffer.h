@@ -25,8 +25,6 @@ namespace Hikari
 			BL_READ_WRITE,
 			BL_NEVER
 		};
-	protected:
-		Buffer();
 		Buffer(int numElements, int elementSize, Usage usage);
 	public:
 		virtual ~Buffer();
@@ -46,9 +44,9 @@ namespace Hikari
 		Usage mUsage;
 		int mNumBytes;
 		void* mData;
+		friend class WinSoftRenderer;
 	};
 	typedef Buffer* BufferPtr;
 #include "Buffer.inl"
 
 }
-

@@ -4,7 +4,7 @@
 #include "Dx11RenderData.h"
 
 
-Hikari::PdrVertexBuffer::PdrVertexBuffer(Renderer* renderer, const VertexBuffer * vbuffer)
+Hikari::PdrVertexBuffer::PdrVertexBuffer(DirectRenderer* renderer, const VertexBuffer * vbuffer)
 {
 	ID3D11Device* device = renderer->mData->mDevice;
 	D3D11_BUFFER_DESC vertexDesc;

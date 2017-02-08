@@ -1321,16 +1321,17 @@ inline const CullState * Hikari::Renderer::GetOverrideCullState() const
 }
 
 
-void Hikari::Renderer::DrawScene(const VisibleSet * visual)
+
+
+void Hikari::Renderer::Draw(const Visual * visual)
 {
 	//DrawPrimitive(visual);
 }
-
-Hikari::Renderer::Renderer(RendererData* data, int width, int height)
+Hikari::Renderer::Renderer(RendererData* data)
 {
 	mData = data;
-	mWidth = width;
-	height = height;
+	mWidth = data->mWidth;
+	mHeight = data->mHeight;
 }
 
 inline bool Hikari::Renderer::InTexture2DMap(const Texture2D * texture)

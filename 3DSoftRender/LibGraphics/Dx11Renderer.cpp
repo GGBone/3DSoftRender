@@ -10,6 +10,8 @@
 
 using namespace Hikari;
 DirectRenderer::DirectRenderer(DirectRenderData* input, int width, int height, Texture::Format colorFormat, Texture::Format depthStencilFormat, int numMultisamples)
+:
+	Renderer((RendererData*)input)
 {
 	Initialize(width, height, Texture::Format(), Texture::Format(), numMultisamples);
 	mData = input;

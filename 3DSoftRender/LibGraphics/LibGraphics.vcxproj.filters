@@ -172,6 +172,12 @@
     <ClCompile Include="RenderData.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="WinSoftRenderer.cpp">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftFrameBuffer.cpp">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Buffer.inl">

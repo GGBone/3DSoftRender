@@ -104,7 +104,7 @@ int WindowApplication::Main(int, char**)
 
 	//Initialize By DX
 	SoftRenderData inputData(theApp->GetWidth(), theApp->GetHeight(), 0, hWnd);
-	mRenderer = new WinSoftRenderer(&inputData, theApp->GetWidth(), theApp->GetHeight());
+	mRenderer = new WinSoftRenderer(&inputData,hWnd);
 	if (theApp->OnInitialize())
 	{
 		MSG msg;

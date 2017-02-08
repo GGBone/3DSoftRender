@@ -169,6 +169,7 @@
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderData.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="SoftFrameBuffer.cpp" />
     <ClCompile Include="SoftPixelShader.cpp" />
     <ClCompile Include="SoftRenderData.cpp" />
     <ClCompile Include="SoftRenderer.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Visual.cpp" />
     <ClCompile Include="VisualPass.cpp" />
+    <ClCompile Include="WinSoftRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Buffer.inl" />

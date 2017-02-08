@@ -8,10 +8,8 @@ namespace Hikari
 	public:
 		RendererData(int width, int heigh, HWND handle);
 		virtual ~RendererData();
-
-	protected:
-		static int mWidth;
-		static int mHeight;
-		static HWND mHwnd;
+		 int mWidth;
+		 int mHeight;
+		 HWND mHwnd;
 	};
 }

@@ -2,13 +2,13 @@
 #include "Dx11RenderLIB.h"
 #include "VertexShader.h"
 #include "Object.h"
-#include "Renderer.h"
+#include "Dx11Renderer.h"
 namespace Hikari
 {
 	class PdrVertexShader : public Object
 	{
 	public:
-		PdrVertexShader(Renderer*,const VertexShader*);
+		PdrVertexShader(DirectRenderer*,const VertexShader*);
 
 		ID3DBlob* vsBuffer;
 

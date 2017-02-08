@@ -5,7 +5,7 @@
 #include "Dx11RenderData.h"
 
 
-Hikari::PdrVertexShader::PdrVertexShader(Renderer *renderer, const VertexShader *vshader)
+Hikari::PdrVertexShader::PdrVertexShader(DirectRenderer *renderer, const VertexShader *vshader)
 {
 	//Compiler Shader
 	

@@ -27,5 +27,5 @@ inline const void* Hikari::Buffer::GetData() const
 }
 inline void	Hikari::Buffer::SetData(void* Data)
 {
-	memcpy(mData, Data, 120);
+	memcpy(mData, Data, 72);
 }

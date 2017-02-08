@@ -2,7 +2,7 @@
 #include "Dx11PixelShader.h"
 #include "Renderer.h"
 #include "Dx11RenderData.h"
-Hikari::PdrPixelShader::PdrPixelShader(Renderer * renderer, const PixelShader * pshader)
+Hikari::PdrPixelShader::PdrPixelShader(DirectRenderer * renderer, const PixelShader * pshader)
 {
 	ID3DBlob* errorBlob = 0;
 	ID3D11Device* d3dDevice = renderer->mData->mDevice;

@@ -17,7 +17,7 @@ namespace Hikari
 	{
 		//============================================================================
 		// Platform-dependent portion of the interface.
-	private:
+	public:
 		DirectRenderData* mData;
 	public:
 	
