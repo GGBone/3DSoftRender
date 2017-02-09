@@ -3,7 +3,7 @@
 
 # User-specific files
 *.suo
-
+*.user
 *.sln.docstates
 
 # Build results
@@ -163,3 +163,4 @@ $RECYCLE.BIN/
 **/ipch/*
 *.tlog
 *.idb
+**/Library/*
