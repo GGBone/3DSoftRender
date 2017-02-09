@@ -67,5 +67,6 @@
     <None Include="..\LibApplication\WindowApplication.inl">
       <Filter>PlatformIndependent</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

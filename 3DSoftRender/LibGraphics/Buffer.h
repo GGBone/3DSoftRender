@@ -7,9 +7,8 @@ namespace Hikari
 	{
 		DECLARE_RTTI;
 		DECLARE_NAMES;
-		
 		//DECLEAR_STREAM(Buffer);
-	
+
 	public:
 		enum Usage
 		{
@@ -25,7 +24,7 @@ namespace Hikari
 			BL_READ_WRITE,
 			BL_NEVER
 		};
-		Buffer(int numElements, int elementSize, Usage usage);
+		Buffer(int numElements, int elementSize, Usage usage = BU_STATIC);
 	public:
 		virtual ~Buffer();
 
@@ -45,6 +44,7 @@ namespace Hikari
 		int mNumBytes;
 		void* mData;
 		friend class WinSoftRenderer;
+		friend class SoftRenderer;
 	};
 	typedef Buffer* BufferPtr;
 #include "Buffer.inl"

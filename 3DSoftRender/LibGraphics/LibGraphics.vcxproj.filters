@@ -109,6 +109,9 @@
     <ClInclude Include="RenderData.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="VertexFormat.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -178,6 +181,9 @@
     <ClCompile Include="SoftFrameBuffer.cpp">
       <Filter>Renderer\SoftRender</Filter>
     </ClCompile>
+    <ClCompile Include="VertexFormat.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Buffer.inl">
@@ -192,5 +198,9 @@
     <None Include="SoftFrameBuffer.inl">
       <Filter>Renderer\SoftRender</Filter>
     </None>
+    <None Include="Visual.inl">
+      <Filter>SceneGraph</Filter>
+    </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

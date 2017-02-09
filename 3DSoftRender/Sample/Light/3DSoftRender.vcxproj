@@ -28,6 +28,9 @@
   <ItemGroup>
     <ClCompile Include="Lights.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A99C0649-C5EB-4A75-ADF4-44DD8E088F20}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

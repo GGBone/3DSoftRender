@@ -189,7 +189,7 @@ namespace Hikari
 		bool ScreenShot();
 
 	};
-	
+
 #include "SoftFrameBuffer.inl"
 
 }

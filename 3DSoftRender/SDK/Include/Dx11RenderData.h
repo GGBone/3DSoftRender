@@ -3,7 +3,7 @@
 namespace Hikari
 
 {
-	class DirectRenderData : public RendererData
+	class DirectRenderData
 	{
 	public:
 		DirectRenderData(int width,int height,int numMultisamples,HWND handle);

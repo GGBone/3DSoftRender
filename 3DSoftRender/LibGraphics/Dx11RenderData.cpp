@@ -5,7 +5,6 @@
 
 using namespace Hikari;
 Hikari::DirectRenderData::DirectRenderData(int width, int height, int numMultisamples, HWND handle)
-	:RendererData(width,height,handle)
 {
 	InitDevice();
 }

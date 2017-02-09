@@ -22,9 +22,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibApplication", "LibApplication\LibApplication.vcxproj", "{9DBC03CA-7078-4572-BAEA-BD9E946101F4}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_DX|ARM = Debug_DX|ARM
 		Debug_DX|Win32 = Debug_DX|Win32

@@ -9,9 +9,8 @@ namespace Hikari
 		DECLARE_NAMES;
 		//DECLARE_STREAM(VertexBuffer);
 	public:
-		VertexBuffer(int numVertics,int vertexSize,Usage usage = BU_STATIC);
+		VertexBuffer(int numVertics, int vertexSize, Usage usage = BU_STATIC);
 		virtual ~VertexBuffer();
-
 		inline void* GetData()const;
 
 	};

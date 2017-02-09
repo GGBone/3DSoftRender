@@ -152,6 +152,7 @@
     <ClInclude Include="SoftVertexBuffer.h" />
     <ClInclude Include="SoftVertexShader.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexFormat.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Visual.h" />
     <ClInclude Include="VisualPass.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="SoftVertexBuffer.cpp" />
     <ClCompile Include="SoftVertexShader.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexFormat.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Visual.cpp" />
     <ClCompile Include="VisualPass.cpp" />
@@ -184,8 +186,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Buffer.inl" />
+    <None Include="ClassDiagram.cd" />
     <None Include="SoftFrameBuffer.inl" />
     <None Include="VertexBuffer.inl" />
+    <None Include="Visual.inl" />
     <None Include="VisualPass.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
