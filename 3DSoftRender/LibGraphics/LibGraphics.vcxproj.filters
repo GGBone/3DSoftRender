@@ -31,6 +31,9 @@
     <Filter Include="Data">
       <UniqueIdentifier>{3a182711-3a73-4bb3-a293-9bc40f558d3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataType">
+      <UniqueIdentifier>{d0e8c93e-fa01-4b83-ab90-034b9508f18a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
@@ -112,6 +115,15 @@
     <ClInclude Include="VertexFormat.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>DataType</Filter>
+    </ClInclude>
+    <ClInclude Include="Spatial.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultShader.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -184,6 +196,11 @@
     <ClCompile Include="VertexFormat.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
+    <ClCompile Include="DefaultShader.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Spatial.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Buffer.inl">
@@ -201,6 +218,5 @@
     <None Include="Visual.inl">
       <Filter>SceneGraph</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -9,9 +9,7 @@
 #include "ColorRGBA.h"
 
 namespace Hikari
-
 {
-
 	//virtualize the GPU FrameBuffer
 
 	class SoftFrameBuffer : public Object
@@ -24,9 +22,7 @@ namespace Hikari
 	public:
 
 		enum FormatType
-
 		{
-
 			FT_FORMAT_NONE,
 
 			FT_FORMAT_RGB,
@@ -46,26 +42,19 @@ namespace Hikari
 
 			DT_DEPTH_32
 		};
-
-
 		enum StencilType
 		{
 			ST_STENCIL_NONE,
 			ST_STENCIL_8
-
 		};
 
 		enum BufferingType
 		{
 			BT_BUFFERED_SINGLE,
-
 			BT_BUFFERED_DOUBLE
-
 		};
 		enum MultisamplingType
-
 		{
-
 			MT_SAMPLING_NONE,
 
 			MT_SAMPLING_2,
@@ -73,8 +62,6 @@ namespace Hikari
 			MT_SAMPLING_4
 
 		};
-
-
 
 		SoftFrameBuffer(int width, int height, FormatType format = FT_FORMAT_RGB, DepthType depthType = DT_DEPTH_24, StencilType stencilType = ST_STENCIL_8, BufferingType buffType = BT_BUFFERED_DOUBLE,
 
@@ -87,8 +74,6 @@ namespace Hikari
 		virtual void Disable();
 
 		virtual void CopyToTexture(bool fillImage);
-
-
 
 		inline int GetWidth()const;
 
@@ -111,9 +96,6 @@ namespace Hikari
 		inline unsigned int GetMaxStencilValue()const;
 
 		Buffer* GetStencilBuffer()const;
-
-
-
 	protected:
 
 		int mWidth;
@@ -121,26 +103,13 @@ namespace Hikari
 		int mHeight;
 
 		int mQuantity;
-
 		Buffer* mColorBuffer;
-
 		Buffer* mBackColorBuffer;
-
 		ColorRGBA* mBufferColor;
-
-
-
 		//The depth buffer(16bit,24bit,32bit) all stored in 32 integer to avoid data loss
-
-
-
 		unsigned int mMaxDepthValue;
 
 		Buffer* mDepthBuffer;
-
-
-
-
 
 		//8 bit stencil buffer.Stored as 32-bit integers to avoid
 
@@ -158,8 +127,6 @@ namespace Hikari
 
 		bool mColorBufferOwner;
 
-
-
 		static SoftFrameBuffer* Create(Renderer* pkRenderer);
 
 		static void Destroy(SoftFrameBuffer* pkBuffer);
@@ -170,13 +137,9 @@ namespace Hikari
 
 	private:
 
-
-
 		HDC mWindowDC, mMemoryDC;
 
 		HBITMAP mHBitMap;
-
-
 
 		HWND mHwnd;
 

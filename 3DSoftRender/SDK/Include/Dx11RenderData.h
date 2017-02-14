@@ -35,5 +35,8 @@ namespace Hikari
 
 	private:
 		bool InitDevice();
+		int mWidth;
+		int mHeight;
+		HWND mHwnd;
 	};
 }

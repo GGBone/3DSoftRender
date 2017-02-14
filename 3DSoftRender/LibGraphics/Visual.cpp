@@ -11,3 +11,7 @@ Hikari::Visual::Visual(VertexBuffer * vBuffer, VisualPass* pass)
 {
 
 }
+
+void Hikari::Visual::UpdateWorldBound()
+{
+}

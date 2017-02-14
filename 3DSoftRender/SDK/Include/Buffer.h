@@ -14,7 +14,8 @@ namespace Hikari
 		{
 			BU_STATIC,
 			BU_DYNAMIC,
-			BU_RENDERTARGET
+			BU_RENDERTARGET,
+			BU_QUANTITY
 		};
 
 		enum Locking

@@ -217,13 +217,13 @@ void Lights::CreateScene()
 	
 	static VertexPos vertices[] =
 	{
-		XMFLOAT3(-0.5f, -0.5f, 0.5f),
-		XMFLOAT3(0.5f, 0.5f, 0.5f), 
-		XMFLOAT3(0.5f, -0.5f, 0.5f), 
+		HPoint(-0.5f, -0.5f, 0.5f,1.0f),
+		HPoint(0.5f, 0.5f, 0.5f,1.0f),
+		HPoint(0.5f, -0.5f, 0.5f,1.0f),
 
-		XMFLOAT3(0.5f, 0.5f, 0.5f),
-		XMFLOAT3(-0.5f, -0.5f, 0.5f),
-		XMFLOAT3(-0.5f, 0.5f, 0.5f)
+		HPoint(0.5f, 0.5f, 0.5f,1.0f),
+		HPoint(-0.5f, -0.5f, 0.5f,1.0f),
+		HPoint(-0.5f, 0.5f, 0.5f,1.0f)
 	};
 	int size = sizeof(VertexPos);
 	VertexBuffer* vertexBuffer = new VertexBuffer(6,sizeof(VertexPos));

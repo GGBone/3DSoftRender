@@ -17,13 +17,15 @@ namespace Hikari
 			AT_FLOAT1,
 			AT_FLOAT2,
 			AT_FLOAT3,
-			AT_FLOAT4
+			AT_FLOAT4,
+			AT_QUANTITY
 		};
 		enum AttributeUsage
 		{
 			AU_NONE,
 			AU_POSITION,
-			AU_NORMAL
+			AU_NORMAL,
+			AU_QUANTITY
 		};
 		VertexFormat();
 		virtual ~VertexFormat();

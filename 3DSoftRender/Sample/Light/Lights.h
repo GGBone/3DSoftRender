@@ -1,6 +1,6 @@
 #pragma once
 #include "WindowApplication3.h"
-
+#include "Float4.h"
 using namespace Hikari;
 class Lights : public WindowApplication3
 {

@@ -18,3 +18,4 @@ inline const Visual::PrimitiveType Hikari::Visual::GetPrimitiveType() const
 {
 	return mType;
 }
+

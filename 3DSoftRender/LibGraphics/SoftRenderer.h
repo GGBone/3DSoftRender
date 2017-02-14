@@ -4,16 +4,21 @@
 #include "Visual.h"
 #include "SoftRenderData.h"
 #include "SoftVertexBuffer.h"
+#include "SoftVertexShader.h"
 #include <DirectXMath.h>
 using namespace DirectX;
 namespace Hikari
 {
+	class SoftVertexShader;
+
 	class SoftRenderer : public Renderer
 	{
 		//============================================================================
 		// Platform-dependent portion of the interface.
 	public:
-
+		SoftRenderData* GetRendererData();
+		void IASetVertexBuffers(UINT startSlot, UINT numBuffers, Buffer** buffer, UINT stride, UINT offset);
+		void VSSetConstantBuffers(UINT startSlot, UINT numBuffers, Buffer** cbuffer);
 		virtual ~SoftRenderer();
 		virtual void Bind(const VertexFormat* vFormat);
 		void SetAlphaState(const AlphaState* alphaState);
@@ -52,14 +57,18 @@ namespace Hikari
 		virtual void ClearDepthBuffer(int x, int y, int w, int h);
 		virtual void ClearStencilBuffer(int x, int y, int w, int h);
 		virtual void ClearBuffers(int x, int y, int w, int h);
-		void IASetVertexBuffers(UINT startSlot, UINT numBuffers, Buffer** buffer, UINT stride, UINT offset);
+
 		virtual void Bind(const VertexBuffer* vFormat);
-		virtual void Unbind(const VertexBuffer* vFormat);
+		virtual void Unbind(const VertexBuffer* vBuffer);
 		virtual void Unbind(const VertexFormat* vFormat);
-		virtual void Enable(const VertexBuffer* vFormat);
+
+		virtual void Enable(const VertexBuffer* vBuffer);
 		virtual void Enable(const VertexFormat* vFormat);
+		virtual void Enable(const VertexShader* vShader);
+
 		virtual void Disable(const VertexBuffer* vFormat);
 		virtual void Disable(const VertexFormat* vFormat);
+		virtual void Disable(const VertexShader* vShader);
 	protected:
 		SoftRenderer(SoftRenderData * input, int width, int height, int numMultisamples, HWND handle);
 		virtual void ClearSubBackBuffer(int iXMin, int iXMax, int iYMin, int iYMax) = 0;
@@ -75,18 +84,19 @@ namespace Hikari
 		void SetRenderTarget(SoftFrameBuffer* frameBuffer);
 		//VRAM
 		SoftFrameBuffer mainFrameBuffer;
-
 		//RAM
 		//Shader Layout to-be continue
 
 		//Store Vertex
+		//VRAM
 		VertexBuffer** mVertexBuffer;
 
 		//Input the External Setting like multisample,isFullScreen,Resolution and so on.
 
 		SoftRenderData* mData;
-	private:
 
+	private:
+		SoftVertexShader* mVertexShader;
 		virtual void DrawPrimitive(const Visual* visual);
 		void DrawPolypoint();
 
@@ -97,5 +107,7 @@ namespace Hikari
 		void RasterizePoint(XMFLOAT2 iV0, int Vcolor);
 		void RasterizeEdge(XMFLOAT2 iV0, XMFLOAT2 iV1);
 		void RasterizeTriangle(XMFLOAT2 iV0, XMFLOAT2 iV1, XMFLOAT2 iV2);
+
+
 	};
 }

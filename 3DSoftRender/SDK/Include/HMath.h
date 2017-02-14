@@ -1,4 +1,6 @@
-#pragma once
+#ifndef HMATH_H
+#define HMATH_H
+#include "MathematicsPCH.h"
 #include <cmath>
 #include <cstdlib>
 #include <cfloat>
@@ -88,3 +90,5 @@ extern void Point3D_To_SphericalPThph();
 
 extern void Build_Sin_Cos_Tables(void);
 
+
+#endif

@@ -22,7 +22,7 @@ inline void Hikari::SoftFrameBuffer::SetColorBuffer(Buffer * colorBuffer)
 	mColorBuffer = colorBuffer;
 }
 
-inline Buffer * Hikari::SoftFrameBuffer::GetColorBuffer() const
+inline Buffer* Hikari::SoftFrameBuffer::GetColorBuffer() const
 {
 	return mColorBuffer;
 }

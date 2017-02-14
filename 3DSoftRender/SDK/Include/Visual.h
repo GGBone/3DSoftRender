@@ -4,9 +4,10 @@
 #include "VertexBuffer.h"
 #include "VisualPass.h"
 #include "VertexFormat.h"
+#include "Spatial.h"
 namespace Hikari
 {
-	class Visual : public Object
+	class Visual : public Spatial
 	{
 		DECLARE_RTTI;
 		DECLARE_NAMES;
@@ -22,6 +23,9 @@ namespace Hikari
 		inline const VisualPass* GetVisualPass()const;
 		inline const VertexFormat* GetVertexFormat()const;
 		inline const PrimitiveType GetPrimitiveType()const;
+	protected:
+		virtual void UpdateWorldBound();
+
 	private:
 		PrimitiveType mType;
 		VertexBufferPtr mvBuffer;
