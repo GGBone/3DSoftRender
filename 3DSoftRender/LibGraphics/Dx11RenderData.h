@@ -6,9 +6,9 @@ namespace Hikari
 	class DirectRenderData
 	{
 	public:
-		DirectRenderData(int width,int height,int numMultisamples,HWND handle);
+		DirectRenderData(int width, int height, int numMultisamples, HWND handle);
 		~DirectRenderData();
-		
+
 		ID3D11Device* mDevice = NULL;
 		ID3D11DeviceContext* mImmediateContext = NULL;
 		IDXGISwapChain* g_pSwapChain = NULL;
@@ -20,14 +20,14 @@ namespace Hikari
 		ID3D11InputLayout*	g_pCurveLayout = NULL;
 
 		ID3D11Buffer*	g_pCBNeverChanges = NULL;
-		
+
 		ID3D11Buffer*	g_pCBChangeOnResize = NULL;
 		ID3D11Buffer*	g_pCBChangesEveryFrame = NULL;
 
-		ID3D11Buffer*	g_pVertexBuffer;
-		ID3D11Buffer*	g_pIndexBuffer;
+		ID3D11Buffer*	g_pVertexBuffer = NULL;
+		ID3D11Buffer*	g_pIndexBuffer = NULL;
 
-		ID3D11Buffer*	g_pCurveVertexBuffer;
+		ID3D11Buffer*	g_pCurveVertexBuffer = NULL;
 
 		ID3D11SamplerState*	g_pSamplerLinear = NULL;
 

@@ -1,6 +1,10 @@
 #pragma once
 #include "Renderer.h"
 #include "Dx11RenderData.h"
+#include "Dx11InputLayout.h"
+#include "Dx11PixelShader.h"
+#include "Dx11VertexShader.h"
+#include "Dx11IndexBuffer.h"
 namespace Hikari
 {
 	class PdrVertexFormat;
@@ -20,12 +24,23 @@ namespace Hikari
 	public:
 		DirectRenderData* mData;
 	public:
-	
-
-		DirectRenderer(DirectRenderData* input, int width, int height, Texture::Format colorFormat, Texture::Format depthStencilFormat, int numMultisamples);
 		DirectRenderer(int width, int height, int numMultisamples, HWND handle);
 		~DirectRenderer();
 
+		virtual void Bind(const VertexFormat* vFormat);
+		virtual void Unbind(const VertexFormat* vFormat);
+		virtual void Enable(const VertexFormat* vFormat);
+		virtual void Disable(const VertexFormat* vFormat);
+
+		virtual void Bind(const VertexBuffer* vBuffer);
+		virtual void Unbind(const VertexBuffer* vBuffer);
+		virtual void Enable(const VertexBuffer* vBuffer);
+		virtual void Disable(const VertexBuffer* vBuffer);
+
+		virtual void Enable(const IndexBuffer * iBuffer) override;
+
+		virtual void Enable(const VertexShader* vShader, const ShaderParameters* vParam) override;
+		virtual void Enable(const PixelShader* vShader, const ShaderParameters* vParam) override;
 		void SetAlphaState(const AlphaState* alphaState);
 		void SetCullState(const CullState* cullState);
 		void SetDepthState(const DepthState* depthState);
@@ -41,17 +56,18 @@ namespace Hikari
 		void GetDepthRange(float& zMin, float& zMax) const;
 		void Resize(int width, int height);
 
-		// Support for clearing the color, depth, and stencil buffers.
-		void ClearColorBuffer();
-		void ClearDepthBuffer();
-		void ClearStencilBuffer();
-		void ClearBuffers();
-		void ClearColorBuffer(int x, int y, int w, int h);
-		void ClearDepthBuffer(int x, int y, int w, int h);
-		void ClearStencilBuffer(int x, int y, int w, int h);
-		void ClearBuffers(int x, int y, int w, int h);
-		void DisplayColorBuffer();
+		// Support for clearing the color, depth, and stencil buffers
+		virtual void ClearBackBuffer();
+		virtual void ClearDepthBuffer();
+		virtual void ClearStencilBuffer();
+		virtual void ClearBuffers();
 
+		virtual void ClearDepthBuffer(int x, int y, int w, int h);
+		virtual void ClearStencilBuffer(int x, int y, int w, int h);
+		virtual void ClearBuffers(int x, int y, int w, int h);
+		virtual void ClearBackBuffer(int x, int y, int w, int h);
+
+		virtual void DisplayBackBuffer() override;
 		void SetColorMask(bool allowRed, bool allowGreen,
 			bool allowBlue, bool allowAlpha);
 
@@ -66,8 +82,6 @@ namespace Hikari
 		PdrRenderTarget* GetResource(const RenderTarget* renderTarget);
 		PdrVertexShader* GetResource(const VertexShader* vshader);
 		PdrPixelShader* GetResource(const PixelShader* pshader);
-
-		
 
 		bool PreDraw();
 		void PostDraw();

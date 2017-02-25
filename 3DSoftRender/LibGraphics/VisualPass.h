@@ -6,7 +6,7 @@
 #include "Dx11RenderLIB.h"
 namespace Hikari
 {
-	class VisualPass : public Object 
+	class VisualPass : public Object
 	{
 		DECLARE_RTTI;
 		DECLARE_NAMES;
@@ -17,14 +17,14 @@ namespace Hikari
 		inline void SetPixelShader(PixelShader* vsShader);
 		inline VertexShader* GetVertexShader() const;
 		inline PixelShader* GetPixelShader() const;
-		inline ID3D11InputLayout* GetInputLayout() const;
-		inline void SetInputLayout(ID3D11InputLayout*);
+		//inline ID3D11InputLayout* GetInputLayout() const;
+		//inline void SetInputLayout(ID3D11InputLayout*);
 	private:
 		VertexShaderPtr mvShader;
 		PixelShaderPtr mpShader;
 		//will be escapsel
-		ID3D11InputLayout* inputLayout;
-		
+		//ID3D11InputLayout* inputLayout;
+
 	};
 #include "VisualPass.inl"
 	typedef VisualPass* VisualPassPtr;

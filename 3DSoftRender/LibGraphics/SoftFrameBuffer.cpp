@@ -24,5 +24,5 @@ SoftFrameBuffer::SoftFrameBuffer(int width, int height, FormatType format, Depth
 	:mWidth(width),
 	mHeight(height)
 {
-	mColorBuffer = new Buffer(mWidth*mHeight, 4, Buffer::BU_STATIC);
+	//mColorBuffer = new Buffer(mWidth*mHeight, 4, Buffer::BU_STATIC);
 }

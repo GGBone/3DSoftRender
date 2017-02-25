@@ -4,7 +4,7 @@
 #include "Dx11RenderData.h"
 #include "WinSoftRenderer.h"
 #include "SoftRenderData.h"
-
+#include "Dx11Renderer.h"
 #include "Renderer.h"
 #include <Windows.h>
 #include <WinUser.h>
@@ -103,8 +103,10 @@ int WindowApplication::Main(int, char**)
 	theApp->SetWindowID(PtrToInt(hWnd));
 
 	//Initialize By DX
-	SoftRenderData inputData(theApp->GetWidth(), theApp->GetHeight(), 0, hWnd);
-	mRenderer = new WinSoftRenderer(&inputData,hWnd);
+	/*SoftRenderData inputData(theApp->GetWidth(), theApp->GetHeight(), 0, hWnd);
+	mRenderer = new WinSoftRenderer(&inputData,hWnd);*/
+	DirectRenderData inputData(theApp->GetWidth(), theApp->GetHeight(), 0, hWnd);
+	mRenderer = new DirectRenderer(theApp->GetWidth(), theApp->GetHeight(),0, hWnd);
 	if (theApp->OnInitialize())
 	{
 		MSG msg;

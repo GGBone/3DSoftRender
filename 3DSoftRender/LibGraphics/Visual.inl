@@ -1,17 +1,19 @@
 #include "Visual.h"
+
 inline const VertexBuffer * Hikari::Visual::GetVertexBuffer() const
 {
 	return mvBuffer;
 }
 
-inline const VisualPass * Hikari::Visual::GetVisualPass() const
+inline const IndexBuffer * Hikari::Visual::GetIndexBuffer() const
 {
-	return mPass;
+	return miBuffer;
 }
+
 
 inline const VertexFormat* Hikari::Visual::GetVertexFormat() const
 {
-	return vFormat;
+	return mvFormat;
 }
 
 inline const Visual::PrimitiveType Hikari::Visual::GetPrimitiveType() const

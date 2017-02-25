@@ -2,7 +2,7 @@
 #include "GraphicsLib.h"
 #include "Object.h"
 #include "VertexBuffer.h"
-#include "VisualPass.h"
+#include "IndexBuffer.h"
 #include "VertexFormat.h"
 #include "Spatial.h"
 namespace Hikari
@@ -18,9 +18,9 @@ namespace Hikari
 			PT_TRIANGLES,
 			PT_TRIMESH
 		};
-		Visual(VertexBuffer* vBuffer, VisualPass* pass);
+		Visual(VertexBuffer* vBuffer,IndexBuffer* iBuffer);
 		inline const VertexBuffer* GetVertexBuffer()const;
-		inline const VisualPass* GetVisualPass()const;
+		inline const IndexBuffer* GetIndexBuffer()const;
 		inline const VertexFormat* GetVertexFormat()const;
 		inline const PrimitiveType GetPrimitiveType()const;
 	protected:
@@ -29,8 +29,8 @@ namespace Hikari
 	private:
 		PrimitiveType mType;
 		VertexBufferPtr mvBuffer;
-		VisualPassPtr mPass;
-		VertexFormat* vFormat;
+		IndexBuffer* miBuffer;
+		VertexFormat* mvFormat;
 	};
 #include "Visual.inl"
 }

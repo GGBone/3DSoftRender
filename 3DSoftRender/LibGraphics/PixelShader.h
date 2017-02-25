@@ -1,14 +1,14 @@
 #pragma once
 #include "GraphicsLib.h"
-#include "Object.h"
+#include "Shader.h"
 namespace Hikari
 {
-	class PixelShader : public Object
+	class PixelShader :  public Shader
 	{
 		DECLARE_RTTI;
 		DECLARE_NAMES;
 	public:
-		PixelShader(const std::string& programName);
+		PixelShader(const std::string& programName,int numInput,int numOutput,int numConstant,int numSampler,bool profileOwner);
 		std::string GetProgramName()const;
 	private:
 		std::string mprogramName;

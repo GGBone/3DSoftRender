@@ -17,10 +17,24 @@
     <ClInclude Include="Lights.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlPoint.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lights.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SolidGreenColor.fx">
+      <Filter>资源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

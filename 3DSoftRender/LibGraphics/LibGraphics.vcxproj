@@ -131,20 +131,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ColorRGBA.h" />
+    <ClInclude Include="DefaultEffect.h" />
     <ClInclude Include="DefaultShader.h" />
+    <ClInclude Include="Dx11IndexBuffer.h" />
     <ClInclude Include="Dx11PixelShader.h" />
     <ClInclude Include="Dx11Renderer.h" />
     <ClInclude Include="Dx11RenderLIB.h" />
     <ClInclude Include="Dx11RenderData.h" />
     <ClInclude Include="Dx11VertexBuffer.h" />
+    <ClInclude Include="Dx11VertexFormat.h" />
+    <ClInclude Include="Dx11Inputlayout.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="GraphicsPCH.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Dx11VertexShader.h" />
+    <ClInclude Include="ShaderVMatrix.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderData.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderFloat.h" />
     <ClInclude Include="ShaderParameters.h" />
     <ClInclude Include="SoftFrameBuffer.h" />
     <ClInclude Include="SoftPixelShader.h" />
@@ -158,22 +165,33 @@
     <ClInclude Include="VertexFormat.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Visual.h" />
+    <ClInclude Include="VisualEffect.h" />
+    <ClInclude Include="VisualEffectInstance.h" />
     <ClInclude Include="VisualPass.h" />
+    <ClInclude Include="VisualTechnique.h" />
     <ClInclude Include="WinSoftRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="DefaultEffect.cpp" />
     <ClCompile Include="DefaultShader.cpp" />
+    <ClCompile Include="Dx11IndexBuffer.cpp" />
+    <ClCompile Include="Dx11Inputlayout.cpp" />
     <ClCompile Include="Dx11PixelShader.cpp" />
     <ClCompile Include="Dx11RenderData.cpp" />
     <ClCompile Include="Dx11Renderer.cpp" />
     <ClCompile Include="Dx11VertexBuffer.cpp" />
+    <ClCompile Include="Dx11VertexFormat.cpp" />
     <ClCompile Include="GraphicsLib.h" />
     <ClCompile Include="GraphicsPCH.cpp" />
     <ClCompile Include="Dx11VertexShader.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderData.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderFloat.cpp" />
+    <ClCompile Include="ShaderParamter.cpp" />
     <ClCompile Include="SoftFrameBuffer.cpp" />
     <ClCompile Include="SoftPixelShader.cpp" />
     <ClCompile Include="SoftRenderData.cpp" />
@@ -187,7 +205,11 @@
     <ClCompile Include="VertexFormat.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Visual.cpp" />
+    <ClCompile Include="VisualEffect.cpp" />
+    <ClCompile Include="VisualEffectInstance.cpp" />
     <ClCompile Include="VisualPass.cpp" />
+    <ClCompile Include="ShaderVMatrix.cpp" />
+    <ClCompile Include="VisualTechnique.cpp" />
     <ClCompile Include="WinSoftRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>

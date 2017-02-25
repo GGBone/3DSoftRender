@@ -11,14 +11,13 @@ Hikari::PdrVertexBuffer::PdrVertexBuffer(DirectRenderer* renderer, const VertexB
 	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexDesc.ByteWidth = sizeof(VertexPos) * 6;
+	vertexDesc.ByteWidth = sizeof(VertexPos) * vbuffer->GetNumElements();
 
 	D3D11_SUBRESOURCE_DATA resourceData;
 	ZeroMemory(&resourceData, sizeof(resourceData));
-	VertexPos* buffer = (VertexPos*)(vbuffer->GetData());
-	resourceData.pSysMem = buffer;
+	resourceData.pSysMem = vbuffer->GetData();
 	HRESULT hr = device->CreateBuffer(&vertexDesc, &resourceData, &mBuffer);
-	
+
 	UINT stride = sizeof(VertexPos);
 	UINT offset = 0;
 	renderer->mData->mImmediateContext->IASetVertexBuffers(0, 1, &mBuffer, &stride, &offset);
@@ -28,8 +27,9 @@ Hikari::PdrVertexBuffer::~PdrVertexBuffer()
 {
 }
 
-void Hikari::PdrVertexBuffer::Enable(Renderer * renderer, unsigned int vertexSize, unsigned int streamIndex, unsigned int offset)
+void Hikari::PdrVertexBuffer::Enable(DirectRenderer * renderer, unsigned int vertexSize, unsigned int streamIndex, unsigned int offset)
 {
+	//renderer->mData->mImmediateContext->IASetVertexBuffers(0, 1, &mBuffer, &vertexSize, &offset);
 }
 
 void Hikari::PdrVertexBuffer::Disable(Renderer * render, unsigned int streamIndex)

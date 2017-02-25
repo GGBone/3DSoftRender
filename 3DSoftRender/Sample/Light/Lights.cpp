@@ -187,7 +187,7 @@
 
 WINDOW_APPLICATION(Lights);
 Lights::Lights()
-	: WindowApplication3("Light",0, 0, 800, 600,
+	: WindowApplication3("Light",0, 0, 1366, 768,
 		Float4(0.0f, 0.25f, 0.75f, 1.0f))
 {
 }
@@ -204,7 +204,7 @@ void Lights::OnTerminate()
 
 void Lights::OnIdle()
 {
-	mRenderer->Draw(scene);
+	mRenderer->Draw(scene,mInstance);
 }
 
 bool Lights::OnKeyDown(unsigned char key, int x, int y)
@@ -217,23 +217,49 @@ void Lights::CreateScene()
 	
 	static VertexPos vertices[] =
 	{
-		HPoint(-0.5f, -0.5f, 0.5f,1.0f),
-		HPoint(0.5f, 0.5f, 0.5f,1.0f),
-		HPoint(0.5f, -0.5f, 0.5f,1.0f),
+		HPoint(-1.0f, 1.0f, -1.0f,1.0f),
+		HPoint(1.0f, 1.0f, -1.0f,1.0f),
+		HPoint(1.0f, 1.0f, 1.0f,1.0f),
+		HPoint(-1.0f, 1.0f, 1.0f,1.0f),
 
-		HPoint(0.5f, 0.5f, 0.5f,1.0f),
-		HPoint(-0.5f, -0.5f, 0.5f,1.0f),
-		HPoint(-0.5f, 0.5f, 0.5f,1.0f)
+		HPoint(-1.0f, -1.0f, -1.0f,1.0f),
+		HPoint(1.0f, -1.0f, -1.0f,1.0f),
+		HPoint(1.0f, -1.0f, 1.0f,1.0f),
+		HPoint(-1.0f, -1.0f, 1.0f,1.0f)
 	};
 	int size = sizeof(VertexPos);
-	VertexBuffer* vertexBuffer = new VertexBuffer(6,sizeof(VertexPos));
+	int numElement = ARRAYSIZE(vertices);
+	VertexBuffer* vertexBuffer = new VertexBuffer(numElement,sizeof(VertexPos));
 	vertexBuffer->SetData((void*)vertices);
-	VisualPass* pass = new VisualPass();
-	VertexShader* vshader = new VertexShader("SolidGreenColor.fx");
-	PixelShader* pshader = new PixelShader("SolidGreenColor.fx");
-	pass->SetVertexShader(vshader);
-	pass->SetPixelShader(pshader);
-	scene = new Visual(vertexBuffer, pass);
+	
+	WORD indices[] =
+	{
+		3,0,1,
+		3,1,2,
+
+		0,4,5,
+		0,5,1,
+
+		3,7,4,
+		3,4,0,
+
+		1,5,6,
+		1,6,2,
+
+		2,6,7,
+		2,7,3,
+
+		4,6,5,
+		4,7,6,
+	};
+	size = sizeof(WORD);
+	numElement = ARRAYSIZE(indices);
+	IndexBuffer* indexBuffer = new IndexBuffer(numElement, size);
+	indexBuffer->SetData(indices);
+
+	DefaultEffect* effect = new DefaultEffect();
+	mInstance = effect->CreateInstance();
+	scene = new Visual(vertexBuffer,indexBuffer);
 }
 
 void Lights::CreatePlane()

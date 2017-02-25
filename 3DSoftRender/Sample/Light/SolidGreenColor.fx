@@ -1,5 +1,18 @@
 
+cbuffer PerObject : register(b0)
+{
+	matrix model;
+};
 
+cbuffer PerView : register(b1)
+{
+	matrix view;
+};
+
+cbuffer PerProjection : register(b2)
+{
+	 matrix projection;
+};
 struct VS_Input
 {
     float4 pos  : POSITION;
@@ -30,7 +43,11 @@ float4 PS_Main(PS_Input frag ):SV_Target
 
 float4 VS( float4 Pos : POSITION ) : SV_POSITION
 {
-    return Pos;
+	float4 OPOS;
+	OPOS = mul(Pos, model);
+	OPOS = mul(OPOS, view);
+	OPOS = mul(OPOS, projection);
+    return OPOS;
 }
 
 

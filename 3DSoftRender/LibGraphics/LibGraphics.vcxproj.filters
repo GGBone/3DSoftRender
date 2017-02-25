@@ -34,6 +34,15 @@
     <Filter Include="DataType">
       <UniqueIdentifier>{d0e8c93e-fa01-4b83-ab90-034b9508f18a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ShaderStream">
+      <UniqueIdentifier>{35b5e524-a997-4a6d-bbf3-7b6fb9155604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\SoftShader">
+      <UniqueIdentifier>{68f8eed7-a6db-461d-bedc-51a99bdb9239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Dx11ShaderEffect">
+      <UniqueIdentifier>{0cbe26d2-4875-4c5f-b09b-cc7c00e50693}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
@@ -121,8 +130,38 @@
     <ClInclude Include="Spatial.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="Dx11VertexFormat.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11Inputlayout.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderFloat.h">
+      <Filter>ShaderStream</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderVMatrix.h">
+      <Filter>ShaderStream</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11IndexBuffer.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualTechnique.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffectInstance.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VisualEffect.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
     <ClInclude Include="DefaultShader.h">
-      <Filter>Data</Filter>
+      <Filter>Data\SoftShader</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultEffect.h">
+      <Filter>Data\Dx11ShaderEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -196,11 +235,51 @@
     <ClCompile Include="VertexFormat.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultShader.cpp">
-      <Filter>Data</Filter>
+    <ClCompile Include="Dx11Inputlayout.cpp">
+      <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Spatial.cpp" />
-    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="ShaderParamter.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderFloat.cpp">
+      <Filter>ShaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderVMatrix.cpp">
+      <Filter>ShaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11IndexBuffer.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11VertexFormat.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualTechnique.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffect.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualEffectInstance.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Spatial.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>DataType</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultShader.cpp">
+      <Filter>Data\SoftShader</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultEffect.cpp">
+      <Filter>Data\Dx11ShaderEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Buffer.inl">

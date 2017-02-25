@@ -1,8 +1,10 @@
 #include "PixelShader.h"
 using namespace Hikari;
-IMPLEMENT_RTTI(Hikari, Object, PixelShader);
-IMPLEMENT_DEFAULT_NAMES(Object, PixelShader);
-Hikari::PixelShader::PixelShader(const std::string & programName)
+
+IMPLEMENT_DEFAULT_NAMES(Shader, PixelShader);
+IMPLEMENT_RTTI(Hikari, Shader, PixelShader);
+Hikari::PixelShader::PixelShader(const std::string& programName, int numInput, int numOutput, int numConstant, int numSampler, bool profileOwner)
+	:Shader(programName,numInput,numOutput,numConstant,numSampler,profileOwner)
 {
 	mprogramName = programName;
 }
