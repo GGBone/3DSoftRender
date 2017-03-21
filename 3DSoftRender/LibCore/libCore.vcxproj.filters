@@ -53,6 +53,9 @@
     <ClInclude Include="Rtti.h">
       <Filter>Core\ObjectSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Table.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePCH.cpp">
@@ -70,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Tuple.inl">
+      <Filter>DataTypes</Filter>
+    </None>
+    <None Include="Table.inl">
       <Filter>DataTypes</Filter>
     </None>
   </ItemGroup>

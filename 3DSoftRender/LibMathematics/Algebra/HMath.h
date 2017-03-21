@@ -68,22 +68,22 @@ extern void Polar2D_To_RectXY();
 extern void Point2D_To_Polar2D();
 extern void Point2D_To_PolarRth();
 
-extern void Cylindrical3D_To_Point3D();
+extern void Cylindrical3D_To_APoint();
 extern void Cylindrical3D_To_RectXYZ();
-extern void Point3D_To_Cylindrical3D();
-extern void Point3D_To_CylindricalRthz();
+extern void APoint_To_Cylindrical3D();
+extern void APoint_To_CylindricalRthz();
 
-extern void Spherical3D_To_Point3D();
+extern void Spherical3D_To_APoint();
 extern void Spherical3D_To_RectXYZ();
-extern void Point3D_To_Spherical3D();
-extern void Point3D_To_SphericalPThph();
+extern void APoint_To_Spherical3D();
+extern void APoint_To_SphericalPThph();
 //
 //extern void Init_Param_Line2D(Point2D& p_init, Point2D& p_term, Line2D& p);
 //extern void Compute_Parm_Line2D(Line2D& p, float t, Point2D& pt);
 //extern int Intersect_Parm_Line2D(Line2D& p1, Line2D& p2, float* t1, float* t2);
 //
-//extern void Compute_Parm_Line3D(Line3D* p, float t, Point3D* pt);
-//extern void Init_Parm_Line3D(Point3D* p_init, Point3D* p_term, Line3D* p);
+//extern void Compute_Parm_Line3D(Line3D* p, float t, APoint* pt);
+//extern void Init_Parm_Line3D(APoint* p_init, APoint* p_term, Line3D* p);
 //extern char* Get_Line_PLG(char* buffer, int maxLength, FILE* fp);
 
 //extern float Compute_Object4DV1_Radius(Object* obj);

@@ -131,9 +131,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\LibApplication\Application.cpp" />
     <ClCompile Include="..\LibApplication\Command.cpp" />
     <ClCompile Include="..\LibApplication\ConsoleApplication.cpp" />

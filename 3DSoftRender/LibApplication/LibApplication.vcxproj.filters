@@ -12,9 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\LibApplication\LibApplicationPCH.cpp">
       <Filter>_PrecompiledHeaders</Filter>
     </ClCompile>

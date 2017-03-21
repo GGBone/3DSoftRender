@@ -19,8 +19,8 @@ public:
 	Vector4D& operator=(const Vector4D&);
 	float Normal();
 	static float Normal(Vector4D& v);
-	friend class Matrix4X4;
-	friend class Vector3D;
+	friend class HMatrix;
+	friend class AVector;
 	static Vector4D UP;
 	static Vector4D RIGHT;
 	static Vector4D FORWARD;

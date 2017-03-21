@@ -163,6 +163,15 @@
     <ClInclude Include="DefaultEffect.h">
       <Filter>Data\Dx11ShaderEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11Texture2D.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -279,6 +288,9 @@
     </ClCompile>
     <ClCompile Include="DefaultEffect.cpp">
       <Filter>Data\Dx11ShaderEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>SceneGraph</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

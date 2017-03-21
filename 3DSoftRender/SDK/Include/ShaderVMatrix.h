@@ -8,6 +8,7 @@ namespace Hikari
 	public:
 		VMatrixParam();
 		~VMatrixParam();
+		void SetMatrix(float* data);
 		virtual void Update(const Visual * visual, const Camera * camera) override;
 	};
 }

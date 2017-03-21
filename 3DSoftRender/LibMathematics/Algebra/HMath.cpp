@@ -41,15 +41,15 @@
 //	return *this;
 //}
 //
-//Point4D Point4D::operator = (const float f[4])
+//APoint APoint::operator = (const float f[4])
 //{
 //	for (int i = 0; i < 4; i++)
 //	{
 //		M[i] = f[i];
 //	}
-//	return Point4D(M);
+//	return APoint(M);
 //}
-//Point4D& Point4D::operator = (Point4D& v)
+//APoint& APoint::operator = (APoint& v)
 //{
 //	M[0] = v[0];
 //	M[1] = v[1];
@@ -58,7 +58,7 @@
 //	return *this;
 //}
 //
-//Point4D& Point4D::operator= (Vector4D& v)
+//APoint& APoint::operator= (Vector4D& v)
 //{
 //	M[0] = v[0];
 //	M[1] = v[1];
@@ -66,27 +66,27 @@
 //	M[3] = v[3];
 //	return *this;
 //}
-//Point4D Point4D::operator+(Point4D& p)
+//APoint APoint::operator+(APoint& p)
 //{
-//	return Point4D(M[0] + p[0], M[1] + p[1], M[2] + p[2], M[3] + p[3]);
+//	return APoint(M[0] + p[0], M[1] + p[1], M[2] + p[2], M[3] + p[3]);
 //}
-//Point4D Point4D::operator+(Point3D& p)
+//APoint APoint::operator+(APoint& p)
 //{
-//	return Point4D(M[0] + p[0], M[1] + p[1], M[2] + p[2], M[3] + 0);
+//	return APoint(M[0] + p[0], M[1] + p[1], M[2] + p[2], M[3] + 0);
 //}
-//Vector3D Point4D::operator-(const Point3D & point)
+//AVector APoint::operator-(const APoint & point)
 //{
 //	// TODO: 在此处插入 return 语句
-//	Point3D pos(point[0],point[1],point[2]);
-//	return Point3D(M[0],M[1],M[2]) - pos;
+//	APoint pos(point[0],point[1],point[2]);
+//	return APoint(M[0],M[1],M[2]) - pos;
 //}
-//Vector3D Point4D::operator-(const Point4D & point)
+//AVector APoint::operator-(const APoint & point)
 //{
-//	Vector3D dpos(point.M[0], point.M[1], point.M[2]);
-//	Vector3D opos(M[0], M[1], M[2]);
+//	AVector dpos(point.M[0], point.M[1], point.M[2]);
+//	AVector opos(M[0], M[1], M[2]);
 //	return dpos - opos;
 //}
-//Point4D::Point4D(float a, float b, float c, float d)
+//APoint::APoint(float a, float b, float c, float d)
 //{
 //	M[0] = a;
 //	M[1] = b;
@@ -94,13 +94,13 @@
 //	M[3] = d;
 //}
 //
-//Vector3D::Vector3D()
+//AVector::AVector()
 //{
 //	M[0] = 0;
 //	M[1] = 0;
 //	M[2] = 0;
 //}
-//Vector3D::Vector3D(float x, float y, float z)
+//AVector::AVector(float x, float y, float z)
 //{
 //	M[0] = x;
 //	M[1] = y;
@@ -108,24 +108,24 @@
 //}
 //
 //
-//float Vector3D::operator*(const Vector3D& v)
+//float AVector::operator*(const AVector& v)
 //{
 //	return v.M[0] * M[0] + v.M[1] * M[1] + v.M[2] * M[2];
 //}
-//Vector3D Vector3D::cross(const Vector3D& v)
+//AVector AVector::cross(const AVector& v)
 //{
-//	Vector3D temp = v;
-//	temp = Vector3D( M[1] * temp[2] - temp[1] * M[2], M[2] * temp[0] - temp[2] * M[0],-( M[0] * temp[1] - temp[0] * M[1]));
+//	AVector temp = v;
+//	temp = AVector( M[1] * temp[2] - temp[1] * M[2], M[2] * temp[0] - temp[2] * M[0],-( M[0] * temp[1] - temp[0] * M[1]));
 //	return temp.Normal();
 //}
 //
-//Vector3D::Vector3D(const Vector3D& v)
+//AVector::AVector(const AVector& v)
 //{
 //	M[0] = v.M[0];
 //	M[1] = v.M[1];
 //	M[2] = v.M[2];
 //}
-//Vector3D& Vector3D::operator = (Vector3D& v)
+//AVector& AVector::operator = (AVector& v)
 //{
 //	M[0] = v[0];
 //	M[1] = v[1];
@@ -139,7 +139,7 @@
 //	M[2] = v[2];
 //	M[3] = v[3];
 //}
-//Vector3D& Vector3D::operator = (const Vector4D& v)
+//AVector& AVector::operator = (const Vector4D& v)
 //{
 //	M[0] = v.M[0];
 //	M[1] = v.M[1];
@@ -147,9 +147,9 @@
 //	return *this;
 //}
 //
-//Vector3D Vector3D::operator-(Vector3D & v) const
+//AVector AVector::operator-(AVector & v) const
 //{
-//	return Vector3D(v[0] - M[0],v[1] - M[1],v[2] - M[2]);
+//	return AVector(v[0] - M[0],v[1] - M[1],v[2] - M[2]);
 //}
 //
 //Vector4D& Vector4D::operator = (const Vector4D& v)
@@ -221,10 +221,10 @@
 //	}
 //	return matTemp;
 //}
-//void Matrix3X3::operator*(Vector3D& m) const
+//void Matrix3X3::operator*(AVector& m) const
 //{
 //	int row;
-//	Vector3D matTemp;
+//	AVector matTemp;
 //	for (row = 0; row < 4; row++)
 //	{
 //
@@ -251,12 +251,12 @@
 //}
 //
 //
-//Matrix4X4::Matrix4X4()
+//HMatrix::HMatrix()
 //{
 //	memcpy_s(M, sizeof(M), Identity_4X4, 16 * sizeof(float));
 //}
 //
-//Matrix4X4::Matrix4X4(float* m)
+//HMatrix::HMatrix(float* m)
 //{
 //	if (m != NULL)
 //	{
@@ -264,7 +264,7 @@
 //	}
 //}
 //
-//Matrix4X4::Matrix4X4(const Matrix4X4& m)
+//HMatrix::HMatrix(const HMatrix& m)
 //{
 //	if (m.M != NULL)
 //	{
@@ -272,7 +272,7 @@
 //	}
 //}
 //
-//Matrix4X4& Matrix4X4::operator = (const Matrix3X3& m)
+//HMatrix& HMatrix::operator = (const Matrix3X3& m)
 //{
 //	if (m.M != NULL)
 //	{
@@ -288,7 +288,7 @@
 //	return *this;
 //}
 //
-//Matrix4X4& Matrix4X4::operator = (const Matrix4X4& m)
+//HMatrix& HMatrix::operator = (const HMatrix& m)
 //{
 //	if (m.M != NULL)
 //	{
@@ -297,10 +297,10 @@
 //	return *this;
 //}
 //
-//Matrix4X4 Matrix4X4::operator*(const Matrix4X4& m)const
+//HMatrix HMatrix::operator*(const HMatrix& m)const
 //{
 //	int row, col;
-//	Matrix4X4 matTemp;
+//	HMatrix matTemp;
 //	for (row = 0; row < 4; row++)
 //	{
 //		for (col = 0; col < 4; col++)
@@ -314,7 +314,7 @@
 //	return matTemp;
 //}
 //
-//void Matrix4X4::operator*(Vector3D& m)const
+//void HMatrix::operator*(AVector& m)const
 //{
 //	int row;
 //	Vector4D matTemp;
@@ -329,10 +329,10 @@
 //	m = matTemp;
 //	return;
 //}
-//Point4D Matrix4X4::operator*(Point4D& m) const
+//APoint HMatrix::operator*(APoint& m) const
 //{
 //	int row;
-//	Point4D matTemp;
+//	APoint matTemp;
 //	for (row = 0; row < 4; row++)
 //	{
 //
@@ -345,10 +345,10 @@
 //	return matTemp;
 //}
 //
-//Point4D Matrix4X4::operator*(Point3D& m)const
+//APoint HMatrix::operator*(APoint& m)const
 //{
 //	int row;
-//	Point4D matTemp;
+//	APoint matTemp;
 //	for (row = 0; row < 4; row++)
 //	{
 //
@@ -360,7 +360,7 @@
 //	m = matTemp;
 //	return matTemp;
 //}
-//void Matrix4X4::operator*(Vector4D& m) const
+//void HMatrix::operator*(Vector4D& m) const
 //{
 //	int row;
 //	Vector4D matTemp;
@@ -376,7 +376,7 @@
 //	return;
 //}
 //
-//Matrix4X4 Matrix4X4::Inverse(Matrix4X4& camera)const
+//HMatrix HMatrix::Inverse(HMatrix& camera)const
 //{
 //	float det = M[0][0] * MStar(*this, 0, 0) + (-M[0][1] * MStar(*this, 0, 1))
 //		+ M[0][2] * MStar(*this, 0, 2) + (-M[0][3] * MStar(*this, 0, 3));
@@ -386,7 +386,7 @@
 //	}
 //
 //	float det_inv = 1.0f / det;
-//	Matrix4X4 temp;
+//	HMatrix temp;
 //	for (int i = 0; i < 4; i++)
 //	{
 //		for (int j = 0; j < 4; j++)
@@ -402,9 +402,9 @@
 //	return temp;
 //}
 //
-//Matrix4X4& Matrix4X4::Tranvers()
+//HMatrix& HMatrix::Tranvers()
 //{
-//	Matrix4X4 temp;
+//	HMatrix temp;
 //	for (int i = 0; i < 4; i++)
 //	{
 //		for (int j = 0; j < 4; j++)
@@ -416,13 +416,13 @@
 //	return *this;
 //}
 //
-//Matrix4X4 OBJECT;
-//Matrix4X4 CAMERA;
-//Matrix4X4 PROJECTION;
+//HMatrix OBJECT;
+//HMatrix CAMERA;
+//HMatrix PROJECTION;
 //
 //
 //Matrix3X3 reflection;
-//void Matrix3X3::Reflection(Vector3D N)
+//void Matrix3X3::Reflection(AVector N)
 //{
 //	//U = (I - 2N * NT)V
 //	float reflect[] = { 1 - N.M[0] * N.M[0], -N.M[0] * N.M[1], -N.M[0] * N.M[2],

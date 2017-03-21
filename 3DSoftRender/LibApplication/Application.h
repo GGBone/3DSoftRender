@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Command.h"
 #include "Mathematics.h"
+#include "Graphics.h"
 namespace Hikari
 {
 	class Application

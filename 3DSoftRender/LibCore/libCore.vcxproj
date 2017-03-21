@@ -78,6 +78,7 @@
     <ClInclude Include="Names.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Rtti.h" />
+    <ClInclude Include="Table.h" />
     <ClInclude Include="Tuple.h" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,7 @@
     <ClCompile Include="Rtti.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Table.inl" />
     <None Include="Tuple.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -54,5 +54,5 @@ namespace Hikari
 		static const AVector RIGHT;
 		static const AVector FORWARD;
 	};
-#include "AVector.inl"
+	#include "AVector.inl"
 }

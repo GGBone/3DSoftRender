@@ -56,13 +56,13 @@
     <ClInclude Include="Algebra\Vector4.h">
       <Filter>Algebra</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Algebra</Filter>
-    </ClInclude>
     <ClInclude Include="Float3.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="AVector.h">
+    <ClInclude Include="Algebra\AVector.h">
+      <Filter>Algebra</Filter>
+    </ClInclude>
+    <ClInclude Include="Algebra\Vector3.h">
       <Filter>Algebra</Filter>
     </ClInclude>
   </ItemGroup>
@@ -79,7 +79,12 @@
     <ClCompile Include="Algebra\HMatrix.cpp">
       <Filter>Algebra</Filter>
     </ClCompile>
-    <ClCompile Include="Algebra\APoint.cpp" />
+    <ClCompile Include="Algebra\APoint.cpp">
+      <Filter>Algebra</Filter>
+    </ClCompile>
+    <ClCompile Include="Algebra\AVector.cpp">
+      <Filter>Algebra</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Base\Float4.inl">
@@ -88,16 +93,13 @@
     <None Include="Algebra\HPoint.inl">
       <Filter>Algebra</Filter>
     </None>
-    <None Include="HPoint.inl">
-      <Filter>Algebra</Filter>
-    </None>
-    <None Include="AVector.inl">
-      <Filter>Algebra</Filter>
-    </None>
     <None Include="Float3.inl">
       <Filter>Base</Filter>
     </None>
-    <None Include="Vector3.inl">
+    <None Include="Algebra\Vector3.inl">
+      <Filter>Algebra</Filter>
+    </None>
+    <None Include="Matrix3.inl">
       <Filter>Algebra</Filter>
     </None>
   </ItemGroup>

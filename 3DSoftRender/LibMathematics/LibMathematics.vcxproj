@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Algebra\APoint.h" />
+    <ClInclude Include="Algebra\AVector.h" />
     <ClInclude Include="Algebra\HMath.h" />
     <ClInclude Include="Algebra\HMatrix.h" />
     <ClInclude Include="Algebra\HPoint.h" />
@@ -27,8 +28,8 @@
     <ClInclude Include="Algebra\Matrix4.h" />
     <ClInclude Include="Algebra\Quaternion.h" />
     <ClInclude Include="Algebra\Vector2.h" />
+    <ClInclude Include="Algebra\Vector3.h" />
     <ClInclude Include="Algebra\Vector4.h" />
-    <ClInclude Include="AVector.h" />
     <ClInclude Include="Base\Float1.h" />
     <ClInclude Include="Base\Float2.h" />
     <ClInclude Include="Base\Float3.h" />
@@ -37,10 +38,10 @@
     <ClInclude Include="Mathematics.h" />
     <ClInclude Include="MathematicsLIB.h" />
     <ClInclude Include="MathematicsPCH.h" />
-    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algebra\APoint.cpp" />
+    <ClCompile Include="Algebra\AVector.cpp" />
     <ClCompile Include="Algebra\HMath.cpp" />
     <ClCompile Include="Algebra\HMatrix.cpp" />
     <ClCompile Include="Algebra\HPoint.cpp" />
@@ -48,11 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Algebra\HPoint.inl" />
-    <None Include="AVector.inl" />
+    <None Include="Algebra\Vector3.inl" />
     <None Include="Base\Float4.inl" />
     <None Include="Float3.inl" />
-    <None Include="HPoint.inl" />
-    <None Include="Vector3.inl" />
+    <None Include="Matrix3.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F0A3C6FD-2499-4FCF-9F7E-CB8BF4FEE4DC}</ProjectGuid>

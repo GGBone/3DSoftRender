@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorRGBA.h" />
     <ClInclude Include="DefaultEffect.h" />
     <ClInclude Include="DefaultShader.h" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Dx11Renderer.h" />
     <ClInclude Include="Dx11RenderLIB.h" />
     <ClInclude Include="Dx11RenderData.h" />
+    <ClInclude Include="Dx11Texture2D.h" />
     <ClInclude Include="Dx11VertexBuffer.h" />
     <ClInclude Include="Dx11VertexFormat.h" />
     <ClInclude Include="Dx11Inputlayout.h" />
@@ -160,6 +162,7 @@
     <ClInclude Include="SoftVertexBuffer.h" />
     <ClInclude Include="SoftVertexShader.h" />
     <ClInclude Include="Spatial.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexFormat.h" />
@@ -173,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DefaultEffect.cpp" />
     <ClCompile Include="DefaultShader.cpp" />
     <ClCompile Include="Dx11IndexBuffer.cpp" />

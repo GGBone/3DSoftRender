@@ -31,9 +31,9 @@
 //
 //
 //Object4DV1 obj_tower, obj_tank, obj_marker, obj_player;
-//Point4D towers[NUM_TOWERS], tanks[NUM_TANKS];
+//APoint towers[NUM_TOWERS], tanks[NUM_TANKS];
 //
-//Point3D poly_pos = { 0, 0, 100};
+//APoint poly_pos = { 0, 0, 100};
 //float bgcolor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 //void Game_Main();
 //void Game_ShutDown();
@@ -68,8 +68,8 @@
 //	Build_Sin_Cos_Tables();
 //	RGB16Bit = RGB16BIT565;
 //	
-//	Point3D camPos(0, 0, -1000.0f);
-//	Point3D camTarget(0, 0, 0);
+//	APoint camPos(0, 0, -1000.0f);
+//	APoint camTarget(0, 0, 0);
 //	mainCamera.SetViewParams(&camPos, &camTarget);
 //	mainCamera.SetProjParams(120.0f, WIDTH / HEIGHT, 600.0f, 12000.0f);
 //
@@ -134,7 +134,7 @@
 //
 //void Game_Main()
 //{
-//	static Matrix4X4 mrot;
+//	static HMatrix mrot;
 //	static float ang_y = 0;
 //	static float camera_distance = 6000;
 //	static Vector4D pos = { 0,0,0,0 };
@@ -159,7 +159,7 @@
 //	//rend_list.Insert_PolyF4DV1_RenderList(poly1);
 //	//绘制与代码顺序相反
 //	//RotateByAix(0, 1, 0, ang_y);
-//	//Translate(Vector3D(0, 0, 1), 1.0f);
+//	//Translate(AVector(0, 0, 1), 1.0f);
 //	//if (++ang_y >= 360.0) ang_y = 0.0f;
 //	Model_To_WorldObject(obj_tank);
 //

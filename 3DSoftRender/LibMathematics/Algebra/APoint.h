@@ -1,6 +1,8 @@
 #pragma once
 #include "MathematicsLIB.h"
+#include "Float3.h"
 #include "AVector.h"
+
 namespace Hikari
 {
 	//Affine Point
@@ -11,7 +13,6 @@ namespace Hikari
 		APoint(const APoint& pnt);
 		APoint(float x, float y, float z);
 		APoint(const Float3& tuple);
-		APoint(const Vector3f& pnt);
 		~APoint();
 
 

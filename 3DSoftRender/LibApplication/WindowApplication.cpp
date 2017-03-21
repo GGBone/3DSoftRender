@@ -2,14 +2,14 @@
 #include "WindowApplication.h"
 using namespace Hikari;
 WindowApplication::WindowApplication(const char * windowTile, int xPos,
-	int yPos, int width, int height, const Float4 & clearColor)
+	int yPos, int width, int height, const Float4& clearColor)
 	:
 	mWindowTitle(windowTile),
 	mXPosition(xPos),
 	mYPosition(yPos),
 	mWidth(width),
 	mHeight(height),
-	mClearColor(clearColor),
+	mClearColor(),
 	mAllowResize(true),
 	mWindowID(0)
 	

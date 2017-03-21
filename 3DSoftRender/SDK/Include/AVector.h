@@ -49,10 +49,10 @@ namespace Hikari
 		static void GenerateComplementBasis(AVector& vec0, AVector& vec1,
 			const AVector& vec2);
 
-		static const AVector ZERO;
+		/*static const AVector ZERO;
 		static const AVector UP;
 		static const AVector RIGHT;
-		static const AVector FORWARD;
+		static const AVector FORWARD;*/
 	};
-#include "AVector.inl"
+	#include "AVector.inl"
 }
