@@ -194,7 +194,18 @@ Lights::Lights()
 
 bool Lights::OnInitialize()
 {
+	if (!WindowApplication3::OnInitialize())
+		return false;
+
+	mCamera->SetProjParams(60.0f, GetAspectRatio(), 0.1f, 100.0f);
+	APoint camPosition(0, 0, 8);
+
+	mCamera->SetViewParams(camPosition, APoint::ORIGIN);
+
+	scene->Update();
+	
 	CreateScene();
+	
 	return true;
 }
 
@@ -260,6 +271,7 @@ void Lights::CreateScene()
 	DefaultEffect* effect = new DefaultEffect();
 	mInstance = effect->CreateInstance();
 	scene = new Visual(vertexBuffer,indexBuffer);
+
 }
 
 void Lights::CreatePlane()

@@ -82,7 +82,7 @@ namespace Hikari
 
 		//Function to change camera matrices
 		virtual void Reset();
-		virtual void SetViewParams(APoint* pvEyePt, APoint* pvLookatPt);
+		virtual void SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt);
 		virtual void SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane);
 
 		virtual void SetDragRect(RECT& rc)
@@ -245,7 +245,7 @@ namespace Hikari
 		void Viewport(float xvmin, float xvmax, float yvmax, float yvmin);
 		void FrameMove(float dt) override;
 
-		void SetViewParams(APoint * pvEyePt, APoint * pvLookatPt) override;
+		void SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt) override;
 
 
 	};

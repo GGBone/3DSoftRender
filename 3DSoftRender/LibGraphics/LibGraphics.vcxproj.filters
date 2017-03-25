@@ -172,6 +172,12 @@
     <ClInclude Include="Camera.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Culler.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -307,6 +313,9 @@
       <Filter>Renderer\SoftRender</Filter>
     </None>
     <None Include="Visual.inl">
+      <Filter>SceneGraph</Filter>
+    </None>
+    <None Include="Node.inl">
       <Filter>SceneGraph</Filter>
     </None>
   </ItemGroup>

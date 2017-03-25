@@ -10,7 +10,7 @@ class Lights : public WindowApplication3
 	DECLEAR_TERMINATE;
 public:
 	Lights();
-	virtual bool OnInitialize();
+	virtual bool OnInitialize() override;
 	virtual void OnTerminate();
 	virtual void OnIdle();
 	virtual bool OnKeyDown(unsigned char key, int x, int y);

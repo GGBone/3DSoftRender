@@ -4,7 +4,6 @@
 #include "Command.h"
 #include "Mathematics.h"
 #include "Graphics.h"
-#include "Renderer.h"
 namespace Hikari
 {
 	class Application

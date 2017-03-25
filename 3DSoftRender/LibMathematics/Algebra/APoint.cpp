@@ -2,6 +2,7 @@
 
 #include "APoint.h"
 using namespace Hikari;
+const APoint APoint::ORIGIN = APoint(0, 0, 0);
 APoint::APoint()
 {
 	M[0] = 0;

@@ -49,10 +49,10 @@ void Camera4DV1::FrameMove(float dt)
 {
 	//Translate(m_dir, dt * 10);
 }
-void Camera4DV1::SetViewParams(APoint* pvEyePt, APoint* pvLookatPt)
+void Camera4DV1::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
 {
-	m_pos = *pvEyePt;
-	m_target = *pvLookatPt;
+	m_pos = pvEyePt;
+	m_target = pvLookatPt;
 }
 
 
@@ -223,7 +223,7 @@ void BaseCamera::Reset()
 {
 }
 
-void BaseCamera::SetViewParams(APoint * pvEyePt, APoint * pvLookatPt)
+void BaseCamera::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
 {
 }
 

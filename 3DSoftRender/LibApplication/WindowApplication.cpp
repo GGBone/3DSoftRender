@@ -79,7 +79,8 @@ inline bool Hikari::WindowApplication::OnMouseWheel(int button, int x, int y, un
 }
 inline bool Hikari::WindowApplication::OnInitialize()
 {
-	return false;
+	mRenderer->SetClearColor(mClearColor);
+	return true;
 }
 
 void Hikari::WindowApplication::OnTerminate()

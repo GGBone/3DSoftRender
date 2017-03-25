@@ -66,7 +66,7 @@ namespace Hikari
 		virtual void ClearStencilBuffer(int x, int y, int w, int h);
 		virtual void ClearBuffers(int x, int y, int w, int h);
 		virtual void ClearBackBuffer(int x, int y, int w, int h);
-
+		virtual void SetClearColor(const Float4& color) override;
 		virtual void DisplayBackBuffer() override;
 		void SetColorMask(bool allowRed, bool allowGreen,
 			bool allowBlue, bool allowAlpha);

@@ -123,6 +123,10 @@ void DirectRenderer::ClearBackBuffer(int x, int y, int w, int h)
 	(static_cast<DirectRenderData*>(mData))->mImmediateContext->ClearRenderTargetView((static_cast<DirectRenderData*>(mData))->g_pRenderTargetView, clearColor);
 
 }
+void Hikari::DirectRenderer::SetClearColor(const Float4 & color)
+{
+	mClearColor = color;
+}
 void Hikari::DirectRenderer::ClearDepthBuffer(int x, int y, int w, int h)
 {
 }

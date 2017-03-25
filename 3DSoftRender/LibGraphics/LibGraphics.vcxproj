@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>../SDK/Library/</OutDir>
+    <OutDir>..\SDK\Library\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorRGBA.h" />
+    <ClInclude Include="Culler.h" />
     <ClInclude Include="DefaultEffect.h" />
     <ClInclude Include="DefaultShader.h" />
     <ClInclude Include="Dx11IndexBuffer.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="GraphicsPCH.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Dx11VertexShader.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="ShaderVMatrix.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderData.h" />
@@ -218,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Buffer.inl" />
+    <None Include="Node.inl" />
     <None Include="SoftFrameBuffer.inl" />
     <None Include="VertexBuffer.inl" />
     <None Include="Visual.inl" />
