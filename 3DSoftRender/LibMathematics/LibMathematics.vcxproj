@@ -52,7 +52,6 @@
     <None Include="Algebra\Vector3.inl" />
     <None Include="Base\Float4.inl" />
     <None Include="Float3.inl" />
-    <None Include="Matrix3.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F0A3C6FD-2499-4FCF-9F7E-CB8BF4FEE4DC}</ProjectGuid>

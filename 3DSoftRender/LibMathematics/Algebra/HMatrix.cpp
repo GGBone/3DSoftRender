@@ -3,8 +3,8 @@
 #include "HMatrix.h"
 using namespace Hikari;
 
-//const HMatrix HMatrix::ZERO(true);
-//const HMatrix HMatrix::IDENTITY(false);
+const HMatrix HMatrix::ZERO(true);
+const HMatrix HMatrix::IDENTITY(false);
 
 Hikari::HMatrix::HMatrix()
 {
@@ -232,6 +232,20 @@ AVector Hikari::HMatrix::operator*(const AVector & p) const
 		p[0] * *this[1][0] + p[1] * *this[1][1] + p[2] * *this[1][2] + 1 * *this[3][1],
 		p[0] * *this[2][0] + p[1] * *this[2][1] + p[2] * *this[2][2] + 1 * *this[3][2]);
 
+}
+
+HMatrix Hikari::HMatrix::TimesDiagonal(const APoint & diag) const
+{
+	return HMatrix(
+		M[0] * diag[0], M[1] * diag[1], M[2] * diag[2],
+		M[3],
+		M[4] * diag[0], M[5] * diag[1], M[6] * diag[2],
+		M[7],
+		M[8] * diag[0], M[9] * diag[1], M[10] * diag[2],
+		M[11],
+		M[12] * diag[0], M[13] * diag[1], M[14] * diag[2],
+		M[15]
+	);
 }
 
 HPoint Hikari::operator*(const HPoint &p, const HMatrix & mat)

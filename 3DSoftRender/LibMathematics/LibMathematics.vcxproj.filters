@@ -99,8 +99,5 @@
     <None Include="Algebra\Vector3.inl">
       <Filter>Algebra</Filter>
     </None>
-    <None Include="Matrix3.inl">
-      <Filter>Algebra</Filter>
-    </None>
   </ItemGroup>
 </Project>

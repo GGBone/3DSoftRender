@@ -69,3 +69,23 @@ APoint & Hikari::APoint::operator=(const APoint & pnt)
 	M[3] = pnt.M[3];
 	return *this;
 }
+
+APoint Hikari::APoint::operator+(const AVector & vec) const
+{
+	return APoint(M[0] + vec.X(), M[1] + vec.Y(), M[2] + vec.Z());
+}
+
+APoint Hikari::APoint::operator+(const APoint & vec) const
+{
+	return APoint(M[0] + vec.X(), M[1] + vec.Y(), M[2] + vec.Z());
+}
+
+APoint Hikari::APoint::operator*(float scale) const
+{
+	return APoint(M[0] * scale, M[1] * scale, M[2] * scale);
+}
+
+APoint Hikari::operator*(float scalar, const APoint & pnt)
+{
+	return pnt * scalar;
+}

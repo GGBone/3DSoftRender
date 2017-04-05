@@ -178,6 +178,15 @@
     <ClInclude Include="Culler.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11RenderTarget.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -297,6 +306,18 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11RenderTarget.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11Texture2D.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

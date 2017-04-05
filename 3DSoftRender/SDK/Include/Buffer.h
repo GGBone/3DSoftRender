@@ -15,6 +15,8 @@ namespace Hikari
 			BU_STATIC,
 			BU_DYNAMIC,
 			BU_RENDERTARGET,
+			BU_DEPTHSTENCIL,
+			BU_TEXTURE,
 			BU_QUANTITY
 		};
 

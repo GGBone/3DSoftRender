@@ -61,7 +61,7 @@ template<typename Real>
 inline Real & Vector3<Real>::Y()
 {
 	// TODO: 在此处插入 return 语句
-	return mTuple[0];
+	return mTuple[1];
 }
 template<typename Real>
 inline Real Vector3<Real>::Z() const

@@ -93,6 +93,9 @@ namespace Hikari
 		void Draw(int x, int y, const Float4& color,
 			const std::string& message);
 
+
+		inline void InsertInTexture2DMap(const Texture2D* texture,
+			PdrTexture2D* platformTexture);
 	private:
 		typedef std::map<const VertexFormat*, PdrVertexFormat*> VertexFormatMap;
 		typedef std::map<const VertexBuffer*, PdrVertexBuffer*> VertexBufferMap;
@@ -117,7 +120,6 @@ namespace Hikari
 		RenderTargetMap mRenderTargets;
 		VertexShaderMap mVertexShaders;
 		PixelShaderMap mPixelShaders;
-		inline void InsertInTexture2DMap(const Texture2D* texture,
-			PdrTexture2D* platformTexture);
+	
 	};
 }
