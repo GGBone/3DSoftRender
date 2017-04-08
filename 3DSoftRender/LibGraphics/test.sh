@@ -1,0 +1,1 @@
+cp *.h ../SDK/Include/

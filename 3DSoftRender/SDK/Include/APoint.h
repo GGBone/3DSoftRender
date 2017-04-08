@@ -37,4 +37,15 @@ namespace Hikari
 		float Dot(const AVector& vec)const;
 		static const APoint ORIGIN;//(0,0,0,1)
 	};
+
+	inline Hikari::APoint::operator const Float3&() const
+	{
+		return *(const Float3*)M;
+
+	}
+
+	inline Hikari::APoint::operator Float3&()
+	{
+		return *( Float3*)M;
+	}
 }

@@ -28,8 +28,8 @@ namespace Hikari
 
 		void SetOffset(int nx, int ny)
 		{
-			m_Offset[0] = nx;
-			m_Offset[1] = ny;
+			m_Offset[0] = (float)nx;
+			m_Offset[1] = (float)ny;
 		}
 	protected:
 		HMatrix m_mRotation;
@@ -95,8 +95,14 @@ namespace Hikari
 		void Perspective(int size, float znear, float zfar, float angle, float aspect);
 		
 		void Perspective(Object*);
-	private:
-
+		inline HMatrix GetViewMatrix()
+		{
+			return m_View;
+		}
+		inline HMatrix GetProjectMatrix()
+		{
+			return m_Proj;
+		}
 	protected:
 		virtual CameraKeys MapKey(UINT nKey);
 		bool IsKeyDown(BYTE key)const
@@ -151,11 +157,6 @@ namespace Hikari
 		float m_fov;
 		float m_near_clip_z;
 		float m_far_clip_z;
-
-		/*Plane3D rt_clip_plane;
-		Plane3D lt_clip_plane;
-		Plane3D tp_clip_plane;
-		Plane3D bt_clip_plane;*/
 
 		float m_vieport_width;
 		float m_viewport_height;

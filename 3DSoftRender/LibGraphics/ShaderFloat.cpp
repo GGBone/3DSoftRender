@@ -21,7 +21,7 @@ void Hikari::ShaderFloat::SetNumRegisters(int numRegisters)
 	mNumElements = numRegisters;
 }
 
-void Hikari::ShaderFloat::Update(const Visual*, const Camera *)
+void Hikari::ShaderFloat::Update(const Visual*, const Camera4DV1 *)
 {
 
 }

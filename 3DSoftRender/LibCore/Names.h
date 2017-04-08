@@ -1,12 +1,10 @@
-#ifndef NAMES_H
-#define NAMES_H
+#pragma once
 #include"Object.h"
 #include <string>
 #include <vector>
-namespace Hikari
-{
-#define DECLARE_NAMES	\
-public:\
+#include "CoreLib.h"
+#define DECLARE_NAMES \
+public: \
 	virtual Object* GetObjectByName(const std::string& Name); \
 	virtual void GetAllObjectsByName(const std::string& Name, \
 	std::vector<Object*>& objects)
@@ -37,6 +35,3 @@ public:\
 	{ \
 	source->GetAllObjectsByName(name, object); \
 }
-}
-
-#endif

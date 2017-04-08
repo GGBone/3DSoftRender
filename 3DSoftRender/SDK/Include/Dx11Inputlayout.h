@@ -16,6 +16,7 @@ namespace Hikari
 	{
 		static const D3D11_INPUT_ELEMENT_DESC Pos[1];
 		static const D3D11_INPUT_ELEMENT_DESC BasicFormat[3];
+		static const D3D11_INPUT_ELEMENT_DESC TestFormat[3];
 	};
 	class DirectRenderer;
 	class PdrVertexFormat;

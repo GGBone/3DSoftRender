@@ -51,3 +51,8 @@
 
 #include "ShaderFloat.h"
 #include "ShaderVMatrix.h"
+
+#include "DefaultEffect.h"
+
+#include "StandardMesh.h"
+#include "Node.h"

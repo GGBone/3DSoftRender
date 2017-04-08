@@ -38,7 +38,6 @@ namespace Hikari
 		virtual void Disable(const VertexBuffer* vBuffer);
 
 		virtual void Enable(const IndexBuffer * iBuffer) override;
-
 		virtual void Enable(const VertexShader* vShader, const ShaderParameters* vParam) override;
 		virtual void Enable(const PixelShader* vShader, const ShaderParameters* vParam) override;
 		void SetAlphaState(const AlphaState* alphaState);

@@ -10,12 +10,26 @@ namespace Hikari
 	public:
 		Texture2D(Format tformat, int dimension0, int dimension1, int numLevels, Buffer::Usage usage = Buffer::BU_STATIC);
 		virtual ~Texture2D();
-		inline int GetWidth()const;
-		inline int GetHeight()const;
+		inline int GetWidth()const
+		{
+			return GetDimension(1, 0);
+		}
+		inline int GetHeight()const
+		{
+			return GetDimension(2, 0);
+		}
+		void GenerateMipmaps()
+		{
 
-		void GenerateMipmaps();
-		bool HasMipmaps()const;
-		char* GetData(int level)const;
+		}
+		bool HasMipmaps()const
+		{
+			return false;
+		}
+		char* GetData(int level)const
+		{
+			return mData + mLevelOffsets[level];
+		}
 
 	protected:
 		void ComputeNumLevelBytes();

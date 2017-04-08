@@ -150,8 +150,12 @@
     <ClInclude Include="GraphicsPCH.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Dx11VertexShader.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="ShaderMMatrix.h" />
+    <ClInclude Include="ShaderPMatrix.h" />
     <ClInclude Include="ShaderVMatrix.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderData.h" />
@@ -166,10 +170,14 @@
     <ClInclude Include="SoftVertexBuffer.h" />
     <ClInclude Include="SoftVertexShader.h" />
     <ClInclude Include="Spatial.h" />
+    <ClInclude Include="StandardMesh.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Triangle.h" />
+    <ClInclude Include="TriMesh.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexBufferAccessor.h" />
     <ClInclude Include="VertexFormat.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Visual.h" />
@@ -182,6 +190,7 @@
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Culler.cpp" />
     <ClCompile Include="DefaultEffect.cpp" />
     <ClCompile Include="DefaultShader.cpp" />
     <ClCompile Include="Dx11IndexBuffer.cpp" />
@@ -197,12 +206,15 @@
     <ClCompile Include="GraphicsPCH.cpp" />
     <ClCompile Include="Dx11VertexShader.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderData.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderFloat.cpp" />
+    <ClCompile Include="ShaderMMatrix.cpp" />
     <ClCompile Include="ShaderParamter.cpp" />
+    <ClCompile Include="ShaderPMatrix.cpp" />
     <ClCompile Include="SoftFrameBuffer.cpp" />
     <ClCompile Include="SoftPixelShader.cpp" />
     <ClCompile Include="SoftRenderData.cpp" />
@@ -211,10 +223,14 @@
     <ClCompile Include="SoftVertexBuffer.cpp" />
     <ClCompile Include="SoftVertexShader.cpp" />
     <ClCompile Include="Spatial.cpp" />
+    <ClCompile Include="StandardMesh.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="TriMesh.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexBufferAccessor.cpp" />
     <ClCompile Include="VertexFormat.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Visual.cpp" />

@@ -37,6 +37,28 @@ namespace Hikari
 	protected:
 		virtual void UpdateWorldData(double applicationTime);
 		virtual void UpdateWorldBound() = 0;
+		void ProgateBoundToRoot();
 
+	public:
+		void OnGetVisibleSet(Culler& culler, bool noCull);
+
+		virtual void GetVisibleSet(Culler& culler, bool noCull) = 0;
+
+		inline void SetParent(Spatial* parent);
+	
+	protected:
+		Spatial* mParent;
 	};
+
+	typedef Spatial* SpatialPtr;
+
+
+	inline Spatial * Hikari::Spatial::GetParent()
+	{
+		return nullptr;
+	}
+	inline void Hikari::Spatial::SetParent(Spatial * parent)
+	{
+		mParent = parent;
+	}
 }

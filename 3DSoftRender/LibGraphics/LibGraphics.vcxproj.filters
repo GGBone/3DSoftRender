@@ -187,6 +187,30 @@
     <ClInclude Include="RenderTarget.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="TriMesh.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBufferAccessor.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardMesh.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderPMatrix.h">
+      <Filter>ShaderStream</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderMMatrix.h">
+      <Filter>ShaderStream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -318,6 +342,28 @@
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Culler.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Triangle.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="TriMesh.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardMesh.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBufferAccessor.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="ShaderMMatrix.cpp">
+      <Filter>ShaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderPMatrix.cpp">
+      <Filter>ShaderStream</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

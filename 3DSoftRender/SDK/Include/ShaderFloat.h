@@ -1,12 +1,11 @@
 #pragma once
 #include "GraphicsLib.h"
 #include "Visual.h"
+#include "Camera.h"
 namespace Hikari
 {
-	class Camera
-	{
-
-	};
+	class Visual;
+	class Camera4DV1;
 	class ShaderFloat
 	{
 	protected:
@@ -16,7 +15,7 @@ namespace Hikari
 		ShaderFloat::ShaderFloat(int numRegisters);
 		
 		void SetNumRegisters(int numRegisters);
-		virtual void Update(const Visual*, const Camera *);
+		virtual void Update(const Visual*, const Camera4DV1 *);
 		void SetRegister(int i, const float * data);
 		void SetRegisters(const float * data);
 		float* GetRegister(int i);

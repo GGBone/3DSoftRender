@@ -11,14 +11,14 @@ Hikari::PdrVertexBuffer::PdrVertexBuffer(DirectRenderer* renderer, const VertexB
 	ZeroMemory(&vertexDesc, sizeof(vertexDesc));
 	vertexDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexDesc.Usage = D3D11_USAGE_DEFAULT;
-	vertexDesc.ByteWidth = sizeof(VertexPos) * vbuffer->GetNumElements();
+	vertexDesc.ByteWidth = vbuffer->GetNumBytes();
 
 	D3D11_SUBRESOURCE_DATA resourceData;
 	ZeroMemory(&resourceData, sizeof(resourceData));
 	resourceData.pSysMem = vbuffer->GetData();
 	HRESULT hr = device->CreateBuffer(&vertexDesc, &resourceData, &mBuffer);
 
-	UINT stride = sizeof(VertexPos);
+	UINT stride = vbuffer->GetElementSize();
 	UINT offset = 0;
 	renderer->mData->mImmediateContext->IASetVertexBuffers(0, 1, &mBuffer, &stride, &offset);
 }

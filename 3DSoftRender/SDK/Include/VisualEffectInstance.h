@@ -4,6 +4,8 @@
 #include "ShaderParameters.h"
 namespace Hikari
 {
+	class ShaderParameters;
+	class ShaderFloat;
 	class VisualEffectInstance
 	{
 	public:
@@ -24,7 +26,8 @@ namespace Hikari
 		VisualEffect* mEffect;
 		int mTechniqueIndex;
 		int mNumPasses;
-		ShaderParametersPtr* mVertexParameters;
-		ShaderParametersPtr* mPixelParameters;
+		ShaderParameters** mVertexParameters;
+		ShaderParameters** mPixelParameters;
 	};
+	typedef VisualEffectInstance* VisualEffectInstancePtr;
 }

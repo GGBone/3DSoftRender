@@ -1,5 +1,7 @@
 #pragma once
 #include "Rtti.h"
+#include "CoreLib.h"
+#include "Names.h"
 
 namespace Hikari
 {

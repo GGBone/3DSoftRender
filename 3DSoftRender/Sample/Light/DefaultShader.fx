@@ -18,10 +18,17 @@ cbuffer Project : register(b2)
     matrix project;
 };
 
-float4 VS( float4 Pos : POSITION ) : SV_POSITION
+struct VS_Input
+{
+    float4 pos  : POSITION;
+    float4 normal :NORMAL0;
+    float3 color : COLOR0;
+};
+
+float4 VS( VS_Input IN) : SV_POSITION
 {
 	float4 OPOS;
-	OPOS = mul(Pos, model);
+	OPOS = mul(IN.pos, model);
     OPOS = mul(OPOS,view);
     OPOS = mul(OPOS,project);
     return OPOS;

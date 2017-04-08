@@ -51,32 +51,20 @@ void Camera4DV1::FrameMove(float dt)
 }
 void Camera4DV1::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
 {
-	m_pos = pvEyePt;
-	m_target = pvLookatPt;
+	BaseCamera::SetViewParams(pvEyePt, pvLookatPt);
 }
 
 
 void BaseCamera::Perspective(int size, float znear, float zfar, float angle, float aspect)
 {
-	float top = znear * tan(angle / 2);
-	float right = aspect * top;
-	float left = -right;
-	float bottom = -top;
-
-	float XClip[][4] =
-	{
-		2 * znear / (right - left), 0, -(right + left) / (right - left), 0,
-		0, 2 * znear / (top - bottom), -(top + bottom) / (top - bottom), 0,
-		0, 0, zfar / (zfar - znear), -znear*zfar / (zfar - znear),
-		0, 0, 1, 0
-	};
-	HMatrix m(&XClip[0][0]);
+	
 }
 
 void BaseCamera::Division(APoint& point)
 {
 	point = APoint(point[0] / point[3], point[1] / point[3], point[2] / point[3]);
-}/*
+}
+/*
 void BaseCamera::Perspective(RenderList& rend_list)
 {
 	float top = m_near_clip_z * tan(m_fov / 2);
@@ -161,18 +149,9 @@ void BaseCamera::Perspective(Object* obj)
 	};
 	m_View = HMatrix(&XClip[0][0]);
 	RemoveBackface(obj);
-	/*Object4DV1* temp = static_cast<Object4DV1*>(obj);
-	if (temp)
-	{
-		for (int vertex = 0; vertex < temp->num_vertices; vertex++)
-		{
-			temp->vlist_trans[vertex] = m_View * temp->vlist_trans[vertex];
-			Division(temp->vlist_trans[vertex]);
-		}
-
-	}*/
 
 }
+
 CameraKeys BaseCamera::MapKey(UINT nKey)
 {
 	return CameraKeys();
@@ -195,10 +174,7 @@ CameraKeys Camera4DV1::MapKey(UINT nKey)
 }
 void Camera4DV1::SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane)
 {
-	m_fov = fFOV;
-	m_aspect_ratio = fAspect;
-	m_near_clip_z = fNearPlane;
-	m_far_clip_z = fFarPlane;
+	BaseCamera::SetProjParams(fFOV, fAspect, fNearPlane, fFarPlane);
 }
 void Camera4DV1::Viewport(float xvmin, float xvmax, float yvmax, float yvmin)
 {
@@ -225,10 +201,33 @@ void BaseCamera::Reset()
 
 void BaseCamera::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
 {
+	m_pos = pvEyePt;
+	m_target = pvLookatPt;
+	m_dir = m_target - m_pos;
+	m_up = AVector::UP;
+	m_right = m_dir.Cross(m_up);
+	HMatrix temp(m_dir.X(), m_up.X(), m_right.X(), m_pos.X(),
+		m_dir.Y(), m_up.Y(), m_right.Y(), m_pos.Y(),
+		m_dir.Z(), m_up.Z(), m_right.Z(), m_pos.Z(),
+		0.0f, 0.0f, 0.0f, 1.0f
+	);
+	m_View = temp.Inverse();
 }
 
 void BaseCamera::SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane)
 {
+	float top = fNearPlane * tan(fFOV / 2);
+	float right = fAspect * top;
+	float left = -right;
+	float bottom = -top;
+
+	m_Proj = HMatrix
+	(
+		2 * fNearPlane / (right - left), 0, -(right + left) / (right - left), 0,
+		0, 2 * fNearPlane / (top - bottom), -(top + bottom) / (top - bottom), 0,
+		0, 0, fFarPlane / (fFarPlane - fNearPlane), -fNearPlane*fFarPlane / (fFarPlane - fNearPlane),
+		0, 0, 1, 0
+	);
 }
 
 //void BaseCamera::LookAt(float Ex, float Ey, float Ez, float rx, float ry, float rz, float ux, float uy, float uz, float fx, float fy, float fz)

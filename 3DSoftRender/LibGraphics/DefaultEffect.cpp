@@ -28,7 +28,7 @@ Hikari::DefaultEffect::~DefaultEffect()
 
 VisualEffectInstance * Hikari::DefaultEffect::CreateInstance() const
 {
-	float world[] =
+	/*float world[] =
 	{
 		1.0,0.0,0.0,0.0,
 		0.0,1.0,0.0,0.0,
@@ -48,9 +48,9 @@ VisualEffectInstance * Hikari::DefaultEffect::CreateInstance() const
 		0.0,2.41421342f,0.0,0.0,
 		0.0,0.0,1.000,-0.0100010000f,
 		0.0,0.0,1.0,0.0,
-	};
+	};*/
 	VisualEffectInstance* instance = new VisualEffectInstance(this, 0);
-	VMatrixParam* tempWorld = new VMatrixParam();
+	/*VMatrixParam* tempWorld = new VMatrixParam();
 	tempWorld->SetMatrix(world);
 	instance->SetVertexConstant(0, 0, tempWorld);
 
@@ -61,7 +61,9 @@ VisualEffectInstance * Hikari::DefaultEffect::CreateInstance() const
 
 	VMatrixParam* tempProj = new VMatrixParam();
 	tempProj->SetMatrix(world);
-	tempProj->SetMatrix(project);
-	instance->SetVertexConstant(0, 2, tempProj);
+	tempProj->SetMatrix(project);*/
+	instance->SetVertexConstant(0, 1, new VMatrixParam());
+	instance->SetVertexConstant(0, 0, new MMatrixParam());
+	instance->SetVertexConstant(0, 2, new PMatrixParam());
 	return instance;
 }

@@ -32,7 +32,7 @@ void Hikari::Transform::MakeIdentity()
 
 void Hikari::Transform::MakeUnitScale()
 {
-	assert(mIsRSMatrix, "Matrix is not a rotation\n");
+	assert(mIsRSMatrix);
 
 	mScale = APoint(1.0f, 1.0f, 1.0f);
 	mIsUniformScale = true;
@@ -75,9 +75,8 @@ void Hikari::Transform::SetTranslate(const APoint & translate)
 
 void Hikari::Transform::SetScale(const APoint & scale)
 {
-	assert(mIsRSMatrix, "Matrix is not a rotation\n");
-	assert(scale[0] != 0.0f && scale[1] != 0.0f && scale[2] != 0.0f,
-		"Scales must be nonzero\n");
+	assert(mIsRSMatrix);
+	assert(scale[0] != 0.0f && scale[1] != 0.0f && scale[2] != 0.0f);
 
 	mScale = scale;
 	mIsIdentity = false;
@@ -96,7 +95,7 @@ void Hikari::Transform::SetUniformScale(float scale)
 inline const HMatrix & Hikari::Transform::GetRotate() const
 {
 	// TODO: 在此处插入 return 语句
-	assert(mIsRSMatrix,"Transform.cpp");
+	assert(mIsRSMatrix);
 	return mMatrix;
 }
 
@@ -122,16 +121,6 @@ inline float Hikari::Transform::GetUniformScale() const
 float Hikari::Transform::GetNorm() const
 {
 	return 0.0f;
-}
-
-inline APoint Hikari::Transform::operator*(const APoint & point) const
-{
-	return mHMatrix * point;
-}
-
-inline AVector Hikari::Transform::operator*(const AVector & vector) const
-{
-	return mHMatrix*vector;
 }
 
 Transform Hikari::Transform::operator*(const Transform & transform) const
@@ -182,11 +171,6 @@ Transform Hikari::Transform::operator*(const Transform & transform) const
 	return product;
 }
 
-inline const HMatrix & Hikari::Transform::Matrix() const
-{
-	// TODO: 在此处插入 return 语句
-	return mHMatrix;
-}
 
 const HMatrix & Hikari::Transform::Inverse() const
 {

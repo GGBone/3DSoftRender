@@ -33,10 +33,10 @@ namespace Hikari
 		AVector& operator-=(const AVector& vec);
 
 		//Vector operations
-		float Length()const;
+		inline float Length()const;
 		float SquaredLength() const;
 		float Dot(const AVector& vec)const;
-		float Normalize(const float epsilon = 0.0000001f);
+		inline float Normalize(const float epsilon = 0.0000001f);
 		AVector Cross(const AVector& vec) const;
 		AVector UnitCross(const AVector& vec)const;
 
@@ -54,5 +54,29 @@ namespace Hikari
 		static const AVector RIGHT;
 		static const AVector FORWARD;
 	};
-	#include "AVector.inl"
+	inline float Hikari::AVector::Normalize(const float epsilon)
+	{
+		float length = Length();
+		if (length > epsilon)
+		{
+			float invLength = 1.0f / length;
+			M[0] *= invLength;
+			M[1] *= invLength;
+			M[2] *= invLength;
+		}
+		else
+		{
+			length = 0.0f;
+			M[0] = 0.0f;
+			M[1] = .0f;
+			M[2] = .0f;
+		}
+		return length;
+	}
+	inline float Hikari::AVector::Length() const
+	{
+		float sqrtLength = M[0] * M[0] + M[1] * M[1] + M[2] * M[2];
+	
+		return sqrtf(sqrtLength);
+	}
 }

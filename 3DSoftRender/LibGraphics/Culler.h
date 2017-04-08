@@ -12,8 +12,14 @@ namespace Hikari
 		Culler(const Camera4DV1* camera = 0);
 		virtual~Culler();
 
-		inline void SetCamera(const Camera* camera);
-		inline const Camera* GetCamera()const;
+		inline void SetCamera(const Camera4DV1* camera)
+		{
+			mCamera = camera;
+		}
+		inline const Camera4DV1* GetCamera()const
+		{
+			return mCamera;
+		}
 		void SetFrustum(const float* frustum);
 		inline const float* GetFrustrum()const;
 		

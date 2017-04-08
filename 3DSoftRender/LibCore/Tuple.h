@@ -23,5 +23,6 @@ namespace Hikari
 	protected:
 		Type mTuple[Dimension];
 	};
+	
 #include "Tuple.inl"
 }

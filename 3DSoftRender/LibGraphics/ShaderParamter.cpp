@@ -50,7 +50,7 @@ ShaderFloat * Hikari::ShaderParameters::GetConstant(int handle) const
 	return mConstants[handle];
 }
 
-void Hikari::ShaderParameters::UpdateConstants(const Visual * visual, const Camera * camera)
+void Hikari::ShaderParameters::UpdateConstants(const Visual * visual, const Camera4DV1 * camera)
 {
 	ShaderFloatPtr* constants = mConstants;
 	for (int i = 0; i < mNumConstants; ++i, ++constants)

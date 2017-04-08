@@ -34,7 +34,6 @@
     <ClInclude Include="Base\Float2.h" />
     <ClInclude Include="Base\Float3.h" />
     <ClInclude Include="Base\Float4.h" />
-    <ClInclude Include="Float3.h" />
     <ClInclude Include="Mathematics.h" />
     <ClInclude Include="MathematicsLIB.h" />
     <ClInclude Include="MathematicsPCH.h" />
@@ -51,7 +50,6 @@
     <None Include="Algebra\HPoint.inl" />
     <None Include="Algebra\Vector3.inl" />
     <None Include="Base\Float4.inl" />
-    <None Include="Float3.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F0A3C6FD-2499-4FCF-9F7E-CB8BF4FEE4DC}</ProjectGuid>

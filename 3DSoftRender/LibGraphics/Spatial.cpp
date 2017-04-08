@@ -13,6 +13,17 @@ void Hikari::Spatial::Update(double applicationTime, bool initiator)
 {
 }
 
+
+
 void Hikari::Spatial::UpdateWorldData(double applicationTime)
 {
 }
+
+void Hikari::Spatial::ProgateBoundToRoot()
+{
+}
+
+void Hikari::Spatial::OnGetVisibleSet(Culler & culler, bool noCull)
+{
+}
+

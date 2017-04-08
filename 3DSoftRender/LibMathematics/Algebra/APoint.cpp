@@ -43,14 +43,7 @@ APoint::~APoint()
 }
 
 
-inline Hikari::APoint::operator const Float3&() const
-{
-	
-}
 
-inline Hikari::APoint::operator Float3&()
-{
-}
 
 APoint::operator const Vector3f&() const
 {
@@ -88,4 +81,8 @@ APoint Hikari::APoint::operator*(float scale) const
 APoint Hikari::operator*(float scalar, const APoint & pnt)
 {
 	return pnt * scalar;
+}
+AVector Hikari::APoint::operator-(const APoint & pnt) const
+{
+	return AVector(M[0] - pnt.X(), M[1] - pnt.Y(), M[2] - pnt.Z());
 }

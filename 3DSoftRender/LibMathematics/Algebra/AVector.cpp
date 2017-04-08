@@ -56,6 +56,9 @@ AVector& Hikari::AVector::operator=(const AVector & vec)
 	return *this;
 }
 
+
+
+
 AVector Hikari::AVector::Cross(const AVector & vec) const
 {
 	return AVector
@@ -63,5 +66,16 @@ AVector Hikari::AVector::Cross(const AVector & vec) const
 		M[1] * vec.M[2] - M[2] * vec.M[1],
 		M[2] * vec.M[0] - M[0] * vec.M[2],
 		M[0] * vec.M[1] - M[1] * vec.M[0]
+	);
+}
+
+AVector & Hikari::AVector::operator+=(const AVector & vec)
+{
+
+	return AVector
+	(
+		M[0] += vec.M[0],
+		M[1] += vec.M[1],
+		M[2] += vec.M[2]
 	);
 }
