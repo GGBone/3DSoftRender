@@ -67,6 +67,8 @@ TriMesh * Hikari::StandardMesh::Box(float xExtent, float yExtent, float zExtent)
 	vba.Position<Float3>(5) = Float3(+xExtent, -yExtent, +zExtent);
 	vba.Position<Float3>(6) = Float3(+xExtent, +yExtent, +zExtent);
 	vba.Position<Float3>(7) = Float3(-xExtent, +yExtent, +zExtent);
+
+
 	for (int unit = 0; unit < MAX_UNITS; ++unit)
 	{
 		if (mHasTCoords[unit])
