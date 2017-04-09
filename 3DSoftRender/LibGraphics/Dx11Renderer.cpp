@@ -161,9 +161,10 @@ void Hikari::DirectRenderer::Draw(int x, int y, const Float4 & color, const std:
 void DirectRenderer::DrawPrimitive(const Visual * visual)
 {
 	//ClearBuffers();
-	mData->mImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	mData->mImmediateContext->DrawIndexed(36,0,0);
+	mData->mImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	mData->mImmediateContext->DrawIndexed(visual->GetIndexBuffer()->GetNumElements(),0,0);
 
 	mData->g_pSwapChain->Present(0, 0);
 }

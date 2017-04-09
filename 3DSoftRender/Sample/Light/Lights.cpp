@@ -19,8 +19,18 @@ bool Lights::OnInitialize()
 		return false;
 
 	mCamera->SetProjParams(60.0f, GetAspectRatio(), 0.1f, 1000.0f);
-	APoint camPosition(0, 64.0f, -500.0f);
+	APoint camPosition(0, 0, -256.0f);
+	//XMVECTOR UP = XMVectorSet(0.0f, 1.0f, 0.0, 0.0f);
+	//XMVECTOR Pos = XMVectorSet(0, 100.0f, -1000.0f,1.0f);
+	//XMVECTOR Target = XMVectorSet(0, .0f,.0f,1.0f);
 
+	//XMMATRIX temp = XMMatrixLookAtLH(Pos,Target,UP);
+	//XMFLOAT4X4 matrix;
+	//XMStoreFloat4x4(&matrix, XMMatrixTranspose(temp));
+	//
+	//XMVECTOR dirNor = XMVector4Normalize(Target - Pos);
+	//XMFLOAT4 dirNorTemp;
+	//XMStoreFloat4(&dirNorTemp, dirNor);
 	mCamera->SetViewParams(camPosition, APoint::ORIGIN);
 
 	CreateScene();

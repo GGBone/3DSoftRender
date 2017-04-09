@@ -205,10 +205,13 @@ void BaseCamera::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
 	m_target = pvLookatPt;
 	m_dir = m_target - m_pos;
 	m_up = AVector::UP;
-	m_right = m_dir.Cross(m_up);
-	HMatrix temp(m_dir.X(), m_up.X(), m_right.X(), m_pos.X(),
-		m_dir.Y(), m_up.Y(), m_right.Y(), m_pos.Y(),
-		m_dir.Z(), m_up.Z(), m_right.Z(), m_pos.Z(),
+	m_right = m_up.Cross(m_dir);
+	
+	m_right.Normalize(EPSILON_E6);
+	m_dir.Normalize(EPSILON_E6);
+	HMatrix temp(m_right.X(), m_up.X(), m_dir.X(), m_pos.X(),
+		m_right.Y(),  m_up.Y(), m_dir.Y(), m_pos.Y(),
+		m_right.Z(), m_up.Z(), m_dir.Z(), m_pos.Z(),
 		0.0f, 0.0f, 0.0f, 1.0f
 	);
 	m_View = temp.Inverse();
