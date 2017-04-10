@@ -21,13 +21,23 @@ const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::TestFormat[3] =
 	{ "COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,24,D3D11_INPUT_PER_VERTEX_DATA,0 }
 
 };
+
+
+const D3D11_INPUT_ELEMENT_DESC InputLayoutDesc::UltraFormat[3] =
+{
+	{ "POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
+	{ "NORMAL",0,DXGI_FORMAT_R32G32B32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0 },
+	{ "TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,24,D3D11_INPUT_PER_VERTEX_DATA,0 },
+	//{ "COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,32,D3D11_INPUT_PER_VERTEX_DATA,0 }
+};
+
 Hikari::InputLayout::InputLayout(DirectRenderer* renderer,const PdrVertexShader * vShader,const PdrVertexFormat * vFormat)
 	:mInputLayout(0)
 {
 	DirectRenderData* mData = renderer->mData;
 	ID3DBlob* vBuffer = vShader->vsBuffer;
-	int numElement = ARRAYSIZE(InputLayoutDesc::TestFormat);
-	HRESULT hr = mData->mDevice->CreateInputLayout(InputLayoutDesc::TestFormat, numElement,
+	int numElement = ARRAYSIZE(InputLayoutDesc::UltraFormat);
+	HRESULT hr = mData->mDevice->CreateInputLayout(InputLayoutDesc::UltraFormat, numElement,
 		vBuffer->GetBufferPointer(), vBuffer->GetBufferSize(),
 		&mInputLayout);
 	if (FAILED(hr))

@@ -25,6 +25,10 @@ namespace Hikari
 		APoint& operator=(const APoint& pnt);
 
 		AVector operator-(const APoint& pnt)const;
+		inline AVector operator-()const
+		{
+			return AVector(-M[0], -M[1], -M[2]);
+		}
 
 		APoint operator+(const AVector& vec)const;
 		APoint operator-(const AVector& vec)const;

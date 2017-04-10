@@ -53,6 +53,16 @@ namespace Hikari
 			VT_QUANTITY
 		};
 
+		enum ShaderType
+		{
+			UnKnownShaderType = 0,
+			VertexShader,
+			TessellatonControlShader,
+			TessellationEvaluationShader,
+			GeometryShader,
+			PixelShader,
+			ComputeShader
+		};
 		// Semantics for the input and output variables of the shader program.
 		enum VariableSemantic
 		{
@@ -113,6 +123,8 @@ namespace Hikari
 		VariableType* mOutputType;
 		VariableSemantic*	mInputSemantic;
 		VariableSemantic* mOutputSemantic;
+
+		ShaderType* mShaderType;
 		std::string*	mConstantName;
 		int* mNumRegistersUsed;
 		std::string	mSamplerName;

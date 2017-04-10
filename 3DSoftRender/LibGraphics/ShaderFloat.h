@@ -24,7 +24,7 @@ namespace Hikari
 			return mData;
 		}
 	protected:
-		int mNumElements;
+		int mNumElement;
 		float*	mData;
 		bool	mAllowUpdater;
 	};

@@ -47,6 +47,79 @@ void Hikari::StandardMesh::SetTransform(const Transform & transform)
 {
 	mTransform = transform;
 }
+TriMesh * Hikari::StandardMesh::ExternalModel(int numOfAttribute, ...)
+{
+	if (numOfAttribute < 0)
+		return nullptr;
+	int numVertices = 0;
+	int numIndices = 0;
+	int stride = 0;
+	va_list arguments;
+	va_start(arguments, numOfAttribute);
+	unsigned int offset = 0;
+	switch (numOfAttribute)
+	{
+	case 4:
+		const std::vector<unsigned short> & indicies = va_arg(arguments, std::vector<unsigned short>);
+		const std::vector<Vector3f>& vertices = va_arg(arguments, std::vector<Vector3f>);
+		const std::vector<Vector2f>& uv = va_arg(arguments, std::vector<Vector2f>);
+		const std::vector<Vector3f>& normal = va_arg(arguments, std::vector<Vector3f>);
+
+		numVertices = vertices.size();
+		numIndices = indicies.size();
+		stride = mVFormat->GetStride();
+		VertexBuffer* vbuffer = new VertexBuffer(numVertices, stride, mUsage);
+		VertexBufferAccessor vba(mVFormat, vbuffer);
+
+		// Generate geometry.
+		std::vector<Vector3f>::const_iterator iter;
+		int i;
+		for (iter = vertices.begin(),i = 0; iter != vertices.end(); ++iter,++i)
+		{
+			vba.Position<Float3>(i) = Float3((*iter)[0], (*iter)[1], (*iter)[2] );
+
+		}
+
+		for (iter = normal.begin(), i = 0; iter != normal.end(); ++iter, ++i)
+		{
+			vba.Normal<Float3>(i) = Float3((*iter)[0], (*iter)[1], (*iter)[2]);
+
+		}
+
+		std::vector<Vector2f>::const_iterator uv_iter;
+		int j = 0;
+		for (i = 0; i < MAX_UNITS; ++i)
+		{
+			if (mHasTCoords[i])
+			{
+				for (uv_iter = uv.begin() ,j =0;uv_iter != uv.end(); ++j,++uv_iter)
+				{
+					vba.TCoord<Float2>(i, j) = Float2((*uv_iter)[0], (*uv_iter)[1]);
+
+				}
+			}
+
+		}
+
+
+		IndexBuffer* ibuffer = new IndexBuffer(numIndices, sizeof(unsigned short), mUsage);
+		unsigned short* temp = (unsigned short*)ibuffer->GetData();
+		std::vector<unsigned short>::const_iterator indexIter;
+		for (indexIter = indicies.begin(),i=0; indexIter != indicies.end(); ++indexIter,++i)
+		{
+			temp[i] = (*indexIter);
+		}
+
+		TriMesh* mesh = new TriMesh(mVFormat, vbuffer, ibuffer);
+		return mesh;
+		break;
+	}
+	va_end(arguments);
+
+
+	
+	return nullptr;
+}
 TriMesh * Hikari::StandardMesh::Box(float xExtent, float yExtent, float zExtent)
 {
 	int numVertices = 8;

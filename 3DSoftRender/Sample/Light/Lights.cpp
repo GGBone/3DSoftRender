@@ -19,7 +19,7 @@ bool Lights::OnInitialize()
 		return false;
 
 	mCamera->SetProjParams(60.0f, GetAspectRatio(), 0.1f, 1000.0f);
-	APoint camPosition(0, 0, -256.0f);
+	APoint camPosition(1.0f, .0f, 1.5f);
 	//XMVECTOR UP = XMVectorSet(0.0f, 1.0f, 0.0, 0.0f);
 	//XMVECTOR Pos = XMVectorSet(0, 100.0f, -1000.0f,1.0f);
 	//XMVECTOR Target = XMVectorSet(0, .0f,.0f,1.0f);
@@ -36,6 +36,7 @@ bool Lights::OnInitialize()
 	CreateScene();
 
 	scene->Update();
+	
 	
 	return true;
 }
@@ -56,26 +57,33 @@ bool Lights::OnKeyDown(unsigned char key, int x, int y)
 
 void Lights::CreateScene()
 {
-	scene = new Node();
-	
-	VertexFormat* vformat = VertexFormat::Create(3, VertexFormat::AU_POSITION, VertexFormat::AT_FLOAT4, 0,
-		VertexFormat::AU_NORMAL, VertexFormat::AT_FLOAT3, 0,
-		VertexFormat::AU_COLOR, VertexFormat::AT_FLOAT3, 1);
 
+	const char * path = "../../External/Data/cube.obj";
+	std::vector<unsigned short>  out_indices;
+	std::vector<Vector3f> out_vertices;
+	std::vector<Vector2f> out_uvs;
+	std::vector<Vector3f> out_normals;
+	MeshLoader mesh;
+	mesh.loadMesh_assimp(path, out_indices, out_vertices, out_uvs, out_normals);
+
+	scene = new Node();
+
+	VertexFormat* vformat = VertexFormat::Create(3, VertexFormat::AU_POSITION, VertexFormat::AT_FLOAT3, 0,
+		VertexFormat::AU_NORMAL, VertexFormat::AT_FLOAT3, 0,
+		VertexFormat::AU_TEXCOORD, VertexFormat::AT_FLOAT2, 0);
 	DefaultEffect* effect = new DefaultEffect();
 	mInstance = effect->CreateInstance();
 
 	StandardMesh sm(vformat);
-	//scene = new Visual(vertexBuffer,indexBuffer);
+
 	VertexBufferAccessor vba;
 
-	mPlane = sm.Box(128,128,128);
+	//mPlane = sm.Box(128,128,128);
+	//vba.ApplyTo(mPlane);
+	
+	mPlane = sm.ExternalModel(4, out_indices, out_vertices, out_uvs, out_normals);
 	vba.ApplyTo(mPlane);
-	for (int i = 0; i < vba.GetNumVertices(); ++i)
-	{
-//		vba.TCoord<Float3>(1, i) = vba.Normal<Float3>(i);
-	}
-	mPlane->localTransfrom.SetTranslate(APoint(0.0f, 8.0f, 0.0f));
+	mPlane->localTransfrom.SetTranslate(APoint(0.0f, 0.0f, 0.0f));
 	mPlane->SetEffectInstance(mInstance);
 	scene->AttachChild(mPlane);
 }

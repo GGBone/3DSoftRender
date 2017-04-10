@@ -21,6 +21,12 @@ namespace Hikari
 		AVector& operator=(const AVector& vec);
 
 		//operations
+		AVector operator-()const
+		{
+			return AVector(-M[0], -M[1], -M[2]);
+		}
+
+
 		AVector operator+(const AVector& vec)const;
 		AVector operator-(const AVector& vec)const;
 		AVector operator*(float scalar)const;

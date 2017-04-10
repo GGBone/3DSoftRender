@@ -21,6 +21,11 @@ Hikari::VertexBufferAccessor::VertexBufferAccessor()
 		mColor[i] = 0;
 		mColorChannels[i] = 0;
 	}
+	for (i = 0; i < VertexFormat::AM_MAX_TOORD_UNITS;++i)
+	{
+		mTCoord[i] = 0;
+		mTCoordChannels[i] = 0;
+	}
 }
 
 Hikari::VertexBufferAccessor::VertexBufferAccessor(VertexFormat * vformat, VertexBuffer * vbuffer)
@@ -94,41 +99,28 @@ void Hikari::VertexBufferAccessor::Initialize()
 		mNormal = 0;
 		mNormalChannel = 0;
 	}
-
-	//index = mVFormat->GetIndex(VertexFormat::AU_TANGENT);
-	//if (index >= 0)
-	//{
-	//	mTangent = mData + mVFormat->GetOffset(index);
-	//	type = (int)mVFormat->GetAttributeType(index);
-	//	mTangentChannels = type - baseType;
-	//	if (mTangentChannels > 4)
-	//	{
-	//		mTangentChannels = 0;
-	//	}
-	//}
-	//else
-	//{
-	//	mTangent = 0;
-	//	mTangentChannels = 0;
-	//}
-
-	//index = mVFormat->GetIndex(VertexFormat::AU_BINORMAL);
-	//if (index >= 0)
-	//{
-	//	mBinormal = mData + mVFormat->GetOffset(index);
-	//	type = (int)mVFormat->GetAttributeType(index);
-	//	mBinormalChannels = type - baseType;
-	//	if (mBinormalChannels > 4)
-	//	{
-	//		mBinormalChannels = 0;
-	//	}
-	//}
-	//else
-	//{
-	//	mBinormal = 0;
-	//	mBinormalChannels = 0;
-	//}
-	for (unsigned int unit = 0; unit < VertexFormat::AM_MAX_COLOR_UNITS; ++unit)
+	unsigned int unit = 0;
+	
+	for (unit = 0; unit < VertexFormat::AM_MAX_TOORD_UNITS; ++unit)
+	{
+		index = mVFormat->GetIndex(VertexFormat::AU_TEXCOORD, unit);
+		if (index >= 0)
+		{
+			mTCoord[unit] = mData + mVFormat->GetOffset(index);
+			type = (int)mVFormat->GetAttributeType(index);
+			mTCoordChannels[unit] = type - baseType;
+			if (mTCoordChannels[unit] > 4)
+			{
+				mTCoordChannels[unit] = 0;
+			}
+		}
+		else
+		{
+			mTCoord[unit] = 0;
+			mTCoordChannels[unit] = 0;
+		}
+	}
+	for (unit = 0; unit < VertexFormat::AM_MAX_COLOR_UNITS; ++unit)
 	{
 		index = mVFormat->GetIndex(VertexFormat::AU_COLOR, unit);
 		if (index >= 0)

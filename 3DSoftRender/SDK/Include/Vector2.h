@@ -22,8 +22,14 @@ namespace Hikari
 	template<typename Real>
 	Hikari::Vector2<Real>::Vector2(Real x, Real y)
 	{
-		mTuble[0] = x;
+		mTuple[0] = x;
 		mTuple[1] = y;
+	}
+	template<typename Real>
+	inline Hikari::Vector2<Real>::Vector2(const Vector2 & vec)
+	{
+		mTuple[0] = vec[0];
+		mTuple[1] = vec[1];
 	}
 	typedef Vector2<float> Vector2f;
 	typedef Vector2<double> Vector2d;

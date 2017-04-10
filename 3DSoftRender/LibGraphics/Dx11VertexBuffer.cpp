@@ -29,7 +29,7 @@ Hikari::PdrVertexBuffer::~PdrVertexBuffer()
 
 void Hikari::PdrVertexBuffer::Enable(DirectRenderer * renderer, unsigned int vertexSize, unsigned int streamIndex, unsigned int offset)
 {
-	//renderer->mData->mImmediateContext->IASetVertexBuffers(0, 1, &mBuffer, &vertexSize, &offset);
+	renderer->mData->mImmediateContext->IASetVertexBuffers(0, 1, &mBuffer, &vertexSize, &offset);
 }
 
 void Hikari::PdrVertexBuffer::Disable(Renderer * render, unsigned int streamIndex)

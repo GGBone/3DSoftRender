@@ -32,6 +32,7 @@ namespace Hikari
 			AU_POSITION,
 			AU_NORMAL,
 			AU_TANGENT,
+			AU_BINORMAL,
 			AU_TEXCOORD,
 			AU_COLOR,
 			AU_QUANTITY

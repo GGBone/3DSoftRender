@@ -16,8 +16,11 @@ Hikari::PdrIndexBuffer::PdrIndexBuffer(DirectRenderer * renderer, const IndexBuf
 
 	HRESULT hr = device->CreateBuffer(&desc, &resourceData, &mbuffer);
 
+	if(ibuffer->GetElementSize() == 4)
+		renderer->mData->mImmediateContext->IASetIndexBuffer(mbuffer, DXGI_FORMAT_R32_UINT, 0);
+	else if(ibuffer->GetElementSize() == 2)
+		renderer->mData->mImmediateContext->IASetIndexBuffer(mbuffer, DXGI_FORMAT_R16_UINT, 0);
 
-	renderer->mData->mImmediateContext->IASetIndexBuffer(mbuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
 Hikari::PdrIndexBuffer::~PdrIndexBuffer()
@@ -26,7 +29,8 @@ Hikari::PdrIndexBuffer::~PdrIndexBuffer()
 
 void Hikari::PdrIndexBuffer::Enable(DirectRenderer * renderer, unsigned int vertexSize, unsigned int streamIndex, unsigned int offset)
 {
-	renderer->mData->mImmediateContext->IASetIndexBuffer(mbuffer, DXGI_FORMAT_R32_UINT, offset);
+	//renderer->mData->mImmediateContext->IASetIndexBuffer(mbuffer, DXGI_FORMAT_R32_UINT, offset);
+	
 }
 
 ID3D11Buffer* const * Hikari::PdrIndexBuffer::GetIndexBuffer() const

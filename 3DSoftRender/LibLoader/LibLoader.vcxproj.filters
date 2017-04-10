@@ -18,9 +18,15 @@
     <ClInclude Include="tiny_obj_loader.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MeshLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tiny_obj_loader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

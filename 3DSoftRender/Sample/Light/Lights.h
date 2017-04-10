@@ -1,6 +1,6 @@
 #pragma once
 #include "WindowApplication3.h"
-
+#include "MeshLoader.h"
 using namespace Hikari;
 class Lights : public WindowApplication3
 {

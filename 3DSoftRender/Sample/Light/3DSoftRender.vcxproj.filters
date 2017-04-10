@@ -28,13 +28,19 @@
     <ClCompile Include="Lights.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Geometry.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SolidGreenColor.fx">
+    <FxCompile Include="DefaultShader.fx">
       <Filter>资源文件</Filter>
-    </None>
+    </FxCompile>
+    <FxCompile Include="LightShader.hlsl">
+      <Filter>资源文件</Filter>
+    </FxCompile>
+    <FxCompile Include="CommonInclude.hlsl">
+      <Filter>资源文件</Filter>
+    </FxCompile>
+    <FxCompile Include="ForwardRendering.hlsl">
+      <Filter>资源文件</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

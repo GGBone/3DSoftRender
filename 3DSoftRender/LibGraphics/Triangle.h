@@ -5,6 +5,7 @@
 #include "APoint.h"
 #include "VertexBuffer.h"
 #include "VertexBufferAccessor.h"
+#include "Vector2.h"
 namespace Hikari
 {
 	class Triangles : public Visual

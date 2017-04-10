@@ -14,6 +14,8 @@ namespace Hikari
 
 		const Transform& GetTransform()const;
 		
+		TriMesh* ExternalModel(int numOfAttribute,...);
+
 		TriMesh* Rectangle(int xSample, int ySample, float xExtent, float yExtent);
 
 		TriMesh* Disk(int shellSamples, int radialSamples, float radius);

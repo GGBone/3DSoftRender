@@ -69,6 +69,44 @@ AVector Hikari::AVector::Cross(const AVector & vec) const
 	);
 }
 
+void Hikari::AVector::GenerateOrthonormalBasis(AVector & vec0, AVector & vec1, AVector & vec2)
+{
+	vec2.Normalize();
+	GenerateComplementBasis(vec0, vec1, vec2);
+}
+
+void Hikari::AVector::GenerateComplementBasis(AVector & vec0, AVector & vec1, const AVector & vec2)
+{
+	int invLength;
+
+	if (fabsf(vec2.M[0]) >= fabsf(vec2.M[1]))
+	{
+		// vec2.x or vec2.z is the largest magnitude component, swap them
+		invLength = 1.0f / sqrtf(vec2.M[0] * vec2.M[0] +
+			vec2.M[2] * vec2.M[2]);
+		vec0.M[0] = -vec2.M[2] * invLength;
+		vec0.M[1] = 0.0f;
+		vec0.M[2] = +vec2.M[0] * invLength;
+		vec1.M[0] = vec2.M[1] * vec0.M[2];
+		vec1.M[1] = vec2.M[2] * vec0.M[0] -
+			vec2.M[0] * vec0.M[2];
+		vec1.M[2] = -vec2.M[1] * vec0.M[0];
+	}
+	else
+	{
+		// vec2.y or vec2.z is the largest magnitude component, swap them
+		invLength = 1.0f / sqrtf(vec2.M[1] * vec2.M[1] +
+			vec2.M[2] * vec2.M[2]);
+		vec0.M[0] = 0.0f;
+		vec0.M[1] = +vec2.M[2] * invLength;
+		vec0.M[2] = -vec2.M[1] * invLength;
+		vec1.M[0] = vec2.M[1] * vec0.M[2] -
+			vec2.M[2] * vec0.M[1];
+		vec1.M[1] = -vec2.M[0] * vec0.M[2];
+		vec1.M[2] = vec2.M[0] * vec0.M[1];
+	}
+}
+
 AVector & Hikari::AVector::operator+=(const AVector & vec)
 {
 

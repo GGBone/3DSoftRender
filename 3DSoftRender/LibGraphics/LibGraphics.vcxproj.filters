@@ -211,6 +211,9 @@
     <ClInclude Include="ShaderMMatrix.h">
       <Filter>ShaderStream</Filter>
     </ClInclude>
+    <ClInclude Include="LightEffect.h">
+      <Filter>Data\Dx11ShaderEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -364,6 +367,9 @@
     </ClCompile>
     <ClCompile Include="ShaderPMatrix.cpp">
       <Filter>ShaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="LightEffect.cpp">
+      <Filter>Data\Dx11ShaderEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
