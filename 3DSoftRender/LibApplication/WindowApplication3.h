@@ -20,7 +20,7 @@ namespace Hikari
 		virtual void MoveUp();
 		virtual void MoveDown();
 		virtual void MoveLeft();
-		Camera4DV1* mCamera;
+		Camera* mCamera;
 		AVector mWorldAixs[3];
 		bool MoveObject();
 		void RotateTrackBall(float x0, float y0, float x1, float y1);

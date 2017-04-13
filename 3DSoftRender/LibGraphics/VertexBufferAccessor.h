@@ -1,8 +1,8 @@
 #pragma once
 #include "GraphicsLib.h"
-#include "VertexBuffer.h"
 #include "APoint.h"
 #include "VertexFormat.h"
+
 namespace Hikari
 
 {
@@ -11,11 +11,11 @@ namespace Hikari
 	{
 	public:
 		VertexBufferAccessor();
-		VertexBufferAccessor(VertexFormat* vformat, VertexBuffer* vbuffer);
+		VertexBufferAccessor(VertexFormat* vformat, Buffer* vbuffer);
 		VertexBufferAccessor(Visual* visual);
 		~VertexBufferAccessor();
 
-		void ApplyTo(VertexFormat* vformat, VertexBuffer* vbuffer);
+		void ApplyTo(VertexFormat* vformat, Buffer* vbuffer);
 		void ApplyTo(Visual* visual);
 		inline char* GetData()const;
 		inline int GetNumVertices()const;
@@ -61,7 +61,7 @@ namespace Hikari
 	private:
 		void Initialize();
 		VertexFormat* mVFormat;
-		VertexBuffer* mVBuffer;
+		Buffer* mVBuffer;
 		int mStride;
 		char* mData;
 
@@ -111,7 +111,7 @@ namespace Hikari
 	}
 	inline int Hikari::VertexBufferAccessor::GetNumVertices() const
 	{
-		return mVBuffer->GetNumElements();
+		return mVBuffer->GetElementCount();
 	}
 
 
@@ -120,8 +120,6 @@ namespace Hikari
 	{
 		return mData;
 	}
-
-
 
 	inline int Hikari::VertexBufferAccessor::GetStride() const
 	{

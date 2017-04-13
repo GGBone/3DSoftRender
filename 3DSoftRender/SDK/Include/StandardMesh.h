@@ -49,6 +49,5 @@ namespace Hikari
 		Transform mTransform;
 		bool mIsStatic, mInside, mHasNormals;
 		bool mHasTCoords[MAX_UNITS];
-		Buffer::Usage mUsage;
 	};
 }

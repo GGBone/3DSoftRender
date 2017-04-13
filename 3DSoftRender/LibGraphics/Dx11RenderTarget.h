@@ -1,31 +1,50 @@
 #pragma once
-#include "RenderTarget.h"
-#include "Dx11RenderLIB.h"
+
+#include <RenderTarget.h>
+
 namespace Hikari
 {
-	class DirectRenderer;
-	class PdrRenderTarget
+
+	class TextureDX11;
+	class StructuredBufferDX11;
+
+	class RenderTargetDX11 : public RenderTarget
 	{
 	public:
-		PdrRenderTarget(DirectRenderer* renderer, RenderTarget* renderTarget);
-		~PdrRenderTarget();
-		void Enable(DirectRenderer* renderer);
-		void Disable(DirectRenderer* renderer);
-		void ReadColor(int i, DirectRenderer* renderer, Texture2D*& texture);
+		RenderTargetDX11(ID3D11Device* pDevice);
+		virtual ~RenderTargetDX11();
+
+		virtual void AttachTexture(AttachmentPoint attachment,Texture* texture);
+		virtual Texture* GetTexture(AttachmentPoint attachment);
+		virtual void Clear(AttachmentPoint attachemnt, ClearFlags clearFlags = ClearFlags::All, const Float4& color = Float4(0, 0, 0, 0), float depth = 1.0f, uint8_t stencil = 0);
+		virtual void Clear(ClearFlags clearFlags = ClearFlags::All, const Float4& color = Float4(0,0,0,0), float depth = 1.0f, uint8_t stencil = 0);
+		virtual void GenerateMipMaps();
+		virtual void AttachStructuredBuffer(uint8_t slot, StructuredBuffer* rwBuffer);
+		virtual StructuredBuffer* GetStructuredBuffer(uint8_t slot);
+		virtual void Resize(uint16_t width, uint16_t height);
+		virtual void Bind();
+		virtual void UnBind();
+		virtual bool IsValid() const;
+
+	protected:
+
+
 	private:
-		int mNumTargets;
-		UINT mWidth, mHeight;
-		Texture::Format mFormat;
-		bool mHasDepthStencil;
+		ID3D11Device* m_pDevice;
+		ID3D11DeviceContext* m_pDeviceContext;
 
-		ID3D11RenderTargetView* mRenderTarget;
-		ID3D11Texture2D** mColorTexture;
+		typedef std::vector< TextureDX11*> TextureList;
+		TextureList m_Textures;
 
-		ID3D11DepthStencilView* mDepthStencil;
-		ID3D11Texture2D* mDepthStencilTexture;
+		typedef std::vector<StructuredBufferDX11*> StructuredBufferList;
+		StructuredBufferList m_StructuredBuffers;
 
-		ID3D11RenderTargetView* saveRenderView;
-		ID3D11DepthStencilView* saveDepthView;
+		// The width in pixels of textures associated to this render target.
+		uint16_t m_Width;
+		// The height in pixels of textures associated to this render target.
+		uint16_t m_Height;
+
+		// Check to see if the render target is valid.
+		bool m_bCheckValidity;
 	};
-
 }

@@ -14,7 +14,7 @@ namespace Hikari
 		TriMesh();
 
 	public:
-		TriMesh(VertexFormat* vformat, VertexBuffer* vbuffer, IndexBuffer* ibuffer);
+		TriMesh(VertexFormat* vformat, Buffer* vbuffer, Buffer* ibuffer);
 		virtual ~TriMesh();
 		virtual int GetNumTriangles()const;
 		virtual bool GetTriangle(int i, int &v0, int &v1, int &v2) const;

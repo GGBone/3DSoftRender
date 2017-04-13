@@ -253,6 +253,12 @@ const HMatrix & Hikari::Transform::Inverse() const
 	return mInvHMatrix;
 }
 
+const HMatrix & Hikari::Transform::GetMatrix() const
+{
+	// TODO: 在此处插入 return 语句
+	return mHMatrix;
+}
+
 Transform Hikari::Transform::InverseTransform() const
 {
 	return Transform();

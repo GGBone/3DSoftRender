@@ -2,8 +2,7 @@
 #include "WindowApplication.h"
 
 #include "Dx11RenderData.h"
-#include "WinSoftRenderer.h"
-#include "SoftRenderData.h"
+
 #include "Dx11Renderer.h"
 #include "Renderer.h"
 #include <Windows.h>

@@ -1,20 +1,19 @@
 #pragma once
 #include "GraphicsLib.h"
 #include "Object.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexFormat.h"
 #include "Spatial.h"
-#include "VisualEffectInstance.h"
-#include "Culler.h"
 namespace Hikari
 {
 	class VisualEffectInstance;
+	class BufferBinding;
+	class VertexFormat;
+	class Buffer;
 	class Visual : public Spatial
 	{
 		DECLARE_RTTI;
 		DECLARE_NAMES;
 	public:
+
 		enum PrimitiveType
 		{
 			PT_NONE,
@@ -22,23 +21,41 @@ namespace Hikari
 			PT_TRIMESH
 		};
 		Visual(PrimitiveType type = PT_NONE);
-		Visual(PrimitiveType type,VertexFormat* vformat,VertexBuffer* vBuffer,IndexBuffer* iBuffer);
-		inline const VertexBuffer* GetVertexBuffer()const;
-		inline VertexBuffer* GetVertexBuffer()
-		{
-			return mvBuffer;
-		}
-		inline const IndexBuffer* GetIndexBuffer()const;
-		inline IndexBuffer* GetIndexBuffer()
+		Visual(PrimitiveType type,VertexFormat* vformat);
+		
+		virtual void SetVertexBuffer(Buffer* buffer);
+		virtual void SetIndexBuffer(Buffer* buffer);
+
+		inline const Buffer* GetIndexBuffer()const
 		{
 			return miBuffer;
 		}
-		inline const VertexFormat* GetVertexFormat()const;
+		inline Buffer* GetIndexBuffer()
+		{
+			return miBuffer;
+		}
+
+		inline const Buffer* GetVertexBuffer()const
+		{
+			return mvBuffer;
+		}
+		inline Buffer* GetVertexBuffer()
+		{
+			return mvBuffer;
+		}
+
+		inline const VertexFormat* GetVertexFormat()const
+		{
+			return mvFormat;
+		}
 		inline VertexFormat* Visual::GetVertexFormat()
 		{
 			return mvFormat;
 		}
-		inline const PrimitiveType GetPrimitiveType()const;
+		inline const PrimitiveType GetPrimitiveType()const
+		{
+			return mType;
+		}
 		
 		enum UpdateType
 		{
@@ -60,11 +77,15 @@ namespace Hikari
 		
 	protected:
 		PrimitiveType mType;
-		VertexBufferPtr mvBuffer;
-		IndexBuffer* miBuffer;
+		
+		Buffer* mvBuffer;
+
+		Buffer* miBuffer;
+
 		VertexFormat* mvFormat;
 
 		VisualEffectInstance* mEffect;
 	};
-#include "Visual.inl"
+
+
 }

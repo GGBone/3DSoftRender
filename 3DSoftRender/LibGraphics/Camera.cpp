@@ -45,11 +45,11 @@ void ArcBall::Reset()
 //	return AVector(x, y, z);
 //}
 
-void Camera4DV1::FrameMove(float dt)
+void Camera::FrameMove(float dt)
 {
 	//Translate(m_dir, dt * 10);
 }
-void Camera4DV1::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
+void Camera::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
 {
 	BaseCamera::SetViewParams(pvEyePt, pvLookatPt);
 }
@@ -168,15 +168,15 @@ void BaseCamera::GetInput(bool bGetKeyboardInput, bool GetMouseInput, bool bGetG
 }
 
 
-CameraKeys Camera4DV1::MapKey(UINT nKey)
+CameraKeys Camera::MapKey(UINT nKey)
 {
 	return CameraKeys();
 }
-void Camera4DV1::SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane)
+void Camera::SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane)
 {
 	BaseCamera::SetProjParams(fFOV, fAspect, fNearPlane, fFarPlane);
 }
-void Camera4DV1::Viewport(float xvmin, float xvmax, float yvmax, float yvmin)
+void Camera::Viewport(float xvmin, float xvmax, float yvmax, float yvmin)
 {
 	HMatrix viewport;
 	float v[4][4];
@@ -280,14 +280,14 @@ void BaseCamera::SetProjParams(float fFOV, float fAspect, float fNearPlane, floa
 //	m_View = HMatrix(&CAMERA_M[0][0]);
 //	m_View.Inverse(m_View);
 //}
-Camera4DV1::Camera4DV1()
+Camera::Camera()
 {
 	/*m_pos = APoint(0.0f, 0.0f, 0.0);
 	m_dir = AVector::FORWARD;
 	m_up = AVector::UP;
 	m_right = AVector::RIGHT;*/
 }
-Camera4DV1::Camera4DV1(APoint& point)
+Camera::Camera(APoint& point)
 {
 	/*m_pos = point;
 	m_dir = AVector::FORWARD;

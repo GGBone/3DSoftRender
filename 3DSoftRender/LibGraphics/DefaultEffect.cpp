@@ -1,17 +1,25 @@
 #include "GraphicsPCH.h"
 #include "DefaultEffect.h"
+#include "Dx11Shader.h"
 using namespace Hikari;
 
-Hikari::DefaultEffect::DefaultEffect()
+Hikari::DefaultEffect::DefaultEffect(DirectRenderer* renderer)
 {
-	VertexShader* vshader = new VertexShader("DefaultShader.fx", 1, 1, 3, 0, false);
+	/*Shader* vshader = new Shader("DefaultShader.fx", 1, 1, 3, 0, false);
 	vshader->SetInput(0, "VS", Shader::VT_FLOAT4, Shader::VS_POSITION);
 	vshader->SetOutput(0, "", Shader::VT_FLOAT4, Shader::VS_POSITION);
 	vshader->SetConstant(0, "mvp", 4);
 	
 	PixelShader* pshader = new PixelShader("DefaultShader.fx", 1, 1, 0, 0, false);
 	pshader->SetInput(0, "PS", Shader::VT_FLOAT4, Shader::VS_POSITION);
-	pshader->SetOutput(0, "", Shader::VT_FLOAT4, Shader::VS_COLOR0);
+	pshader->SetOutput(0, "", Shader::VT_FLOAT4, Shader::VS_COLOR0);*/
+
+	ShaderDx* vshader = new ShaderDx(renderer);
+	vshader->LoadShaderFromFile(Shader::VertexShader, "DefaultShader.fx", Shader::ShaderMacros(), "VS_main", "latest");
+
+	ShaderDx* pshader = new ShaderDx(renderer);
+	pshader->LoadShaderFromFile(Shader::VertexShader, "DefaultShader.fx", Shader::ShaderMacros(), "PS_main", "latest");
+
 
 	VisualPass* pass = new VisualPass();
 	pass->SetVertexShader(vshader);

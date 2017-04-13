@@ -1,5 +1,5 @@
 #include "MathematicsPCH.h"
-
+#include "AVector.h"
 #include "APoint.h"
 using namespace Hikari;
 const APoint APoint::ORIGIN = APoint(0, 0, 0);
@@ -66,6 +66,13 @@ APoint & Hikari::APoint::operator=(const APoint & pnt)
 APoint Hikari::APoint::operator+(const AVector & vec) const
 {
 	return APoint(M[0] + vec.X(), M[1] + vec.Y(), M[2] + vec.Z());
+}
+
+AVector Hikari::APoint::operator-() const
+{
+	{
+		return AVector(-M[0], -M[1], -M[2]);
+	}
 }
 
 APoint Hikari::APoint::operator+(const APoint & vec) const

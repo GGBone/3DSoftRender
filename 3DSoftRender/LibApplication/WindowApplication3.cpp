@@ -16,7 +16,7 @@ bool Hikari::WindowApplication3::OnInitialize()
 {
 	if (!WindowApplication::OnInitialize())
 		return false;
-	mCamera = new Camera4DV1;
+	mCamera = new Camera;
 	mRenderer->SetCamera(mCamera);
 	return true;
 }

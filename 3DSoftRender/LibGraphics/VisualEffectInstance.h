@@ -1,10 +1,10 @@
 #pragma once
 #include "GraphicsLib.h"
 #include "VisualEffect.h"
-#include "ShaderParameters.h"
+#include "ShaderParameter.h"
 namespace Hikari
 {
-	class ShaderParameters;
+	class ShaderParameter;
 	class ShaderFloat;
 	class VisualEffectInstance
 	{
@@ -12,8 +12,8 @@ namespace Hikari
 		VisualEffectInstance(const VisualEffect* effect, int techniqueIndex);
 		~VisualEffectInstance();
 		const VisualPass* GetPass(int pass) const;
-		ShaderParameters * GetVertexShaderParam(int pass) const;
-		ShaderParameters * GetPixelShaderParam(int pass) const;
+		ShaderParameter * GetVertexShaderParam(int pass) const;
+		ShaderParameter * GetPixelShaderParam(int pass) const;
 		int SetVertexConstant(int pass, const std::string & name, ShaderFloat * sfloat);
 		int SetPixelConstant(int pass, const std::string & name, ShaderFloat * sfloat);
 		void SetVertexConstant(int pass, int handle, ShaderFloat * sfloat);
@@ -26,8 +26,8 @@ namespace Hikari
 		VisualEffect* mEffect;
 		int mTechniqueIndex;
 		int mNumPasses;
-		ShaderParameters** mVertexParameters;
-		ShaderParameters** mPixelParameters;
+		ShaderParameter** mVertexParameters;
+		ShaderParameter** mPixelParameters;
 	};
 	typedef VisualEffectInstance* VisualEffectInstancePtr;
 }

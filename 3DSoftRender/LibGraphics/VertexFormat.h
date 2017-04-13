@@ -109,8 +109,6 @@ namespace Hikari
 		return mElements[attribute].Usage;
 	}
 
-
-
 	inline unsigned int Hikari::VertexFormat::GetUsageIndex(int attribute) const
 	{
 		return mElements[attribute].UsageIndex;

@@ -7,15 +7,15 @@ Hikari::VisualEffectInstance::VisualEffectInstance(const VisualEffect * effect, 
 {
 	VisualTechnique* techi = mEffect->GetTechnique(mTechniqueIndex);
 	mNumPasses = techi->GetNumPass();
-	mVertexParameters = new ShaderParameters*[mNumPasses];
-	mPixelParameters = new ShaderParameters*[mNumPasses];
+	mVertexParameters = new ShaderParameter*[mNumPasses];
+	mPixelParameters = new ShaderParameter*[mNumPasses];
 
 	for (int i = 0; i < mNumPasses; ++i)
 	{
 		VisualPass* pass = techi->GetPass(i);
-		mVertexParameters[i] = new ShaderParameters(pass->GetVertexShader());
+		mVertexParameters[i] = new ShaderParameter(pass->GetVertexShader());
 
-		mPixelParameters[i] = new ShaderParameters(pass->GetPixelShader());
+		mPixelParameters[i] = new ShaderParameter(pass->GetPixelShader());
 	}
 }
 
@@ -29,12 +29,12 @@ const VisualPass* Hikari::VisualEffectInstance::GetPass(int pass) const
 	return mEffect->GetTechnique(mTechniqueIndex)->GetPass(pass);
 }
 
-ShaderParameters * Hikari::VisualEffectInstance::GetVertexShaderParam(int pass) const
+ShaderParameter * Hikari::VisualEffectInstance::GetVertexShaderParam(int pass) const
 {
 	return mVertexParameters[pass];
 }
 
-ShaderParameters * Hikari::VisualEffectInstance::GetPixelShaderParam(int pass) const
+ShaderParameter * Hikari::VisualEffectInstance::GetPixelShaderParam(int pass) const
 {
 	return mPixelParameters[pass];
 }

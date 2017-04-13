@@ -63,6 +63,7 @@ namespace Hikari
 		float Quadratic;
 		float Intensity;
 
+		//SpotAngle
 		float Angle;
 		float CosAngle;
 		float SinAngle;
@@ -94,7 +95,8 @@ namespace Hikari
 
 		AVector DVectorVS;
 
-	
+		Float4 mColor;
+
 
 		void SetDirection(const AVector& direction)
 		{

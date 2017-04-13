@@ -8,8 +8,8 @@ namespace Hikari
 	public:
 		VisualTechnique::VisualTechnique();
 		VisualTechnique::~VisualTechnique();
-		VertexShader* Hikari::VisualTechnique::GetVertexShader(int passIndex) const;
-		PixelShader * Hikari::VisualTechnique::GetPixelShader(int passIndex) const;
+		Shader* Hikari::VisualTechnique::GetVertexShader(int passIndex) const;
+		Shader * Hikari::VisualTechnique::GetPixelShader(int passIndex) const;
 		void Hikari::VisualTechnique::InsertPass(VisualPass * pass);
 		int Hikari::VisualTechnique::GetNumPass() const;
 		VisualPass * Hikari::VisualTechnique::GetPass(int i) const;

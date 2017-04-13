@@ -2,18 +2,70 @@
 #include "RenderData.h"
 #include "Dx11Renderer.h"
 #include "Dx11RenderData.h"
-#include "Dx11VertexBuffer.h"
-#include "Dx11VertexShader.h"
-#include "Dx11PixelShader.h"
-
-
+#include "Dx11ConstantBuffer.h"
+#include "Dx11StructureBuffer.h"
+#include "Dx11Texture.h"
+#include "Material.h"
+#include "Dx11Scene.h"
+#include "Dx11Mesh.h"
+#include "Dx11Shader.h"
+#include "Dx11RenderTarget.h"
+#include "Dx11SamplerState.h"
+#include <sstream>
 
 using namespace Hikari;
+
+inline Float4 RotationFromTwoVectors(const AVector& u, const AVector& v)
+{
+	float normUV = sqrtf(u.Dot(u)) * (v.Dot( v));
+	float real = normUV + u.Dot(v);
+
+	AVector vec;
+
+	if (real < 1.e-6f * normUV)
+	{
+		/* If u and v are exactly opposite, rotate 180 degrees
+		* around an arbitrary orthogonal axis. Axis normalisation
+		* can happen later, when we normalise the quaternion.
+		*/
+		real = 0.0f;
+		vec = (abs(u[0]) > abs(u[2])) ? Float3(-u[1], u[0], 0.0f) : Float3(0.0f, -u[2], u[1]);
+	}
+	else
+	{
+		/* Otherwise, build quaternion the standard way. */
+		vec = u.Cross(v);
+	}
+
+	return Float4(real, vec.X(),vec.Y(),vec.Z());
+}
+
+
+// Gets a string resource from the module's resources.
+inline std::string GetStringResource(int ID, const std::string& type)
+{
+	HMODULE hModule = GetModuleHandle(nullptr);
+	HRSRC hResource = FindResourceA(hModule, MAKEINTRESOURCE(ID), type.c_str());
+	if (hResource)
+	{
+		HGLOBAL hResourceData = LoadResource(hModule, hResource);
+		DWORD resourceSize = SizeofResource(hModule, hResource);
+		if (hResourceData && resourceSize > 0)
+		{
+			const char* resourceData = static_cast<const char*>(LockResource(hResourceData));
+			std::string strData(resourceData, resourceSize);
+			return strData;
+		}
+	}
+	// Just return an empty string.
+	return std::string();
+}
+
 DirectRenderer::DirectRenderer(int width, int height, int numMultisamples, HWND handle)
 	:Renderer(new RendererData(width,height,handle))
 {
 	mData = new DirectRenderData(width, height, numMultisamples, handle);
-	Initialize(width, height, Texture::Format(), Texture::Format(), numMultisamples);
+	Initialize(width, height, Texture::TextureFormat(), Texture::TextureFormat(), numMultisamples);
 
 }
 DirectRenderer::~DirectRenderer()
@@ -22,33 +74,10 @@ DirectRenderer::~DirectRenderer()
 	Terminate();
 }
 
-void Hikari::DirectRenderer::Bind(const VertexFormat * vFormat)
+void Hikari::DirectRenderer::SetViewport(int xPosition, int yPosition, int width, int height)
 {
 }
 
-void Hikari::DirectRenderer::Unbind(const VertexFormat * vFormat)
-{
-}
-
-void Hikari::DirectRenderer::Enable(const VertexFormat * vFormat)
-{
-}
-
-void DirectRenderer::SetViewport(int xPosition, int yPosition, int width,
-	int height)
-{
-	
-}
-void DirectRenderer::Disable(const VertexFormat* vFormat)
-{
-
-}
-void Hikari::DirectRenderer::Bind(const VertexBuffer * vBuffer)
-{
-}
-void Hikari::DirectRenderer::Unbind(const VertexBuffer * vBuffer)
-{
-}
 void DirectRenderer::GetViewport(int& xPosition, int& yPosition, int& width,
 	int& height) const
 {
@@ -107,8 +136,7 @@ void DirectRenderer::ClearStencilBuffer()
 void DirectRenderer::ClearBuffers()
 {
 	ClearBackBuffer();
-	//ClearDepthBuffer();
-	//ClearStencilBuffer();
+	
 }
 void DirectRenderer::ClearBackBuffer(int x, int y, int w, int h)
 {
@@ -127,30 +155,6 @@ void Hikari::DirectRenderer::SetClearColor(const Float4 & color)
 {
 	mClearColor = color;
 }
-void Hikari::DirectRenderer::ClearDepthBuffer(int x, int y, int w, int h)
-{
-}
-void Hikari::DirectRenderer::ClearStencilBuffer(int x, int y, int w, int h)
-{
-}
-void Hikari::DirectRenderer::ClearBuffers(int x, int y, int w, int h)
-{
-}
-
-void Hikari::DirectRenderer::DisplayBackBuffer()
-{
-}
-
-void Hikari::DirectRenderer::SetColorMask(bool allowRed, bool allowGreen, bool allowBlue, bool allowAlpha)
-{
-}
-bool Hikari::DirectRenderer::PreDraw()
-{
-	return false;
-}
-void Hikari::DirectRenderer::PostDraw()
-{
-}
 void Hikari::DirectRenderer::Draw(const unsigned char * screenBuffer, bool reflectY)
 {
 }
@@ -158,85 +162,408 @@ void Hikari::DirectRenderer::Draw(int x, int y, const Float4 & color, const std:
 {
 }
 
+const std::string & Hikari::DirectRenderer::GetDeviceName() const
+{
+	// TODO: 在此处插入 return 语句
+	return "";
+}
+
+void Hikari::DirectRenderer::DestroyVertexBuffer(Buffer * buffer)
+{
+	DestroyBuffer(buffer);
+}
+
+void Hikari::DirectRenderer::DestroyBuffer(Buffer * buffer)
+{
+	BufferList::iterator iter = std::find(m_Buffer.begin(), m_Buffer.end(), buffer);
+	if (iter != m_Buffer.end())
+	{
+		m_Buffer.erase(iter);
+	}
+}
+
+void Hikari::DirectRenderer::DestroyIndexBuffer(Buffer * buffer)
+{
+	DestroyBuffer(buffer);
+}
+
+void Hikari::DirectRenderer::DestroyConstantBuffer(ConstantBuffer * buffer)
+{
+	DestroyBuffer(buffer);
+}
+
+void Hikari::DirectRenderer::DestroyStructuredBuffer(StructuredBuffer * buffer)
+{
+	DestroyBuffer(buffer);
+}
+
+Scene * Hikari::DirectRenderer::CreateScene()
+{
+	return nullptr;
+}
+
+Scene * Hikari::DirectRenderer::CreatePlane(float size, const AVector & N)
+{
+	float halfSize = size * 0.5f;
+	Float3 p[4];
+	// Crate the 4 points of the plane aligned to the X,Z plane.
+	// Vertex winding is assuming a right-handed coordinate system 
+	// (counter-clockwise winding order for front-facing polygons)
+	p[0] = Float3(halfSize, 0, halfSize);
+	p[1] = Float3(-halfSize, 0, halfSize);
+	p[2] = Float3(-halfSize, 0, -halfSize);
+	p[3] = Float3(halfSize, 0, -halfSize);
+
+	// Rotate the plane vertices in the direction of the surface normal.
+	Float4 rot = RotationFromTwoVectors(Float3(0, 1, 0), N);
+
+	for (int i = 0; i < 4; i++)
+	{
+		//p[i] = rot * p[i];
+	}
+
+	// Now create the plane polygon from the transformed vertices.
+	Scene* scene = CreateScene();
+
+	std::stringstream ss;
+
+	// Create a white diffuse material for the plane.
+	// f red green blue Kd Ks Shine transmittance indexOfRefraction
+	ss << "f 1 1 1 1 0 0 0 0" << std::endl;
+
+	// Create a 4-point polygon
+	ss << "p 4" << std::endl;
+	for (int i = 0; i < 4; i++)
+	{
+		ss << p[i][0] << " " << p[i][1] << " " << p[i][2] << std::endl;
+	}
+
+	if (scene->LoadFromString(ss.str(), "nff"))
+	{
+		return scene;
+	}
+
+	// An error occurred while loading the scene.
+	DestroyScene(scene);
+	return nullptr;
+	return nullptr;
+}
+
+Scene * Hikari::DirectRenderer::CreateScreenQuad(float left, float right, float bottom, float top, float z)
+{
+	return nullptr;
+}
+
+Scene * Hikari::DirectRenderer::CreateSphere(float radius, float tesselation)
+{
+	return nullptr;
+}
+
+Scene * Hikari::DirectRenderer::CreateCube(float size)
+{
+	Scene* scene = CreateScene();
+	std::stringstream ss;
+
+	// Create a white diffuse material for the cube.
+	// f red green blue Kd Ks Shine transmittance indexOfRefraction
+	ss << "f 1 1 1 1 0 0 0 0" << std::endl;
+
+	// hex x y z size
+	ss << "hex 0 0 0 " << size;
+
+	if (scene->LoadFromString(ss.str(), "nff"))
+	{
+		return scene;
+	}
+
+	// An error occurred while loading the scene.
+	DestroyScene(scene);
+	return nullptr;
+}
+
 void DirectRenderer::DrawPrimitive(const Visual * visual)
 {
 	//ClearBuffers();
 
-	mData->mImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//mData->mImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	mData->mImmediateContext->DrawIndexed(visual->GetIndexBuffer()->GetNumElements(),0,0);
+	//mData->mImmediateContext->DrawIndexed(visual->GetIndexBuffer()->GetNumElements(),0,0);
 
-	mData->g_pSwapChain->Present(0, 0);
+	//mData->g_pSwapChain->Present(0, 0);
 }
 
-void Hikari::DirectRenderer::Enable(const VertexBuffer * vBuffer)
+PipelineState* Hikari::DirectRenderer::CreatePipelineState()
 {
-	VertexBufferMap::iterator iter = mVertexBuffers.find(vBuffer);
-	PdrVertexBuffer* pdrVBuffer;
-	if (iter != mVertexBuffers.end())
-	{
-		pdrVBuffer = iter->second;
-	}
-	else
-	{
-		// Lazy creation.
-		pdrVBuffer = new PdrVertexBuffer(this, vBuffer);
-		mVertexBuffers[vBuffer] = pdrVBuffer;
-	}
+	std::shared_ptr<PipelineState> pPipeline = std::make_shared<PipelineStateDX11>(m_pDevice.Get());
+	m_Pipelines.push_back(pPipeline);
 
-	pdrVBuffer->Enable(this, vBuffer->GetElementSize(), 0, 0);
-}
-void Hikari::DirectRenderer::Enable(const IndexBuffer * iBuffer)
-{
-	IndexBufferMap::iterator iter = mIndexBuffers.find(iBuffer);
-	PdrIndexBuffer* pdrIBuffer;
-	if (iter != mIndexBuffers.end())
-	{
-		pdrIBuffer = iter->second;
-	}
-	else
-	{
-		// Lazy creation.
-		pdrIBuffer = new PdrIndexBuffer(this, iBuffer);
-		mIndexBuffers[iBuffer] = pdrIBuffer;
-	}
-
-	pdrIBuffer->Enable(this, iBuffer->GetElementSize(), 0, 0);
-}
-void Hikari::DirectRenderer::Disable(const VertexBuffer * vBuffer)
-{
+	return pPipeline;
 }
 
-void Hikari::DirectRenderer::Enable(const VertexShader * vShader, const ShaderParameters * vParam)
+void Hikari::DirectRenderer::DestoryPipelineState(PipelineState* pipeline)
 {
-	PdrVertexShader* pvShader;
-	VertexShaderMap::iterator iter = mVertexShaders.find(vShader);
-	if (iter != mVertexShaders.end())
+	PipelineList::iterator iter = std::find(m_Pipelines.begin(), m_Pipelines.end(), pipeline);
+	if (iter != m_Pipelines.end())
 	{
-		pvShader = iter->second;
+		m_Pipelines.erase(iter);
 	}
-	else
-	{
-		pvShader = new PdrVertexShader(this, vShader);
-		mVertexShaders[vShader] = pvShader;
-		InputLayout* input = new InputLayout(this, pvShader, nullptr);
-		mData->mImmediateContext->IASetInputLayout(input->GetInputLayout());
-	}
-	pvShader->Enable(this, vShader, vParam);
 }
 
-void Hikari::DirectRenderer::Enable(const PixelShader * pShader, const ShaderParameters * pParam)
+Buffer * Hikari::DirectRenderer::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride)
 {
-	PdrPixelShader* ppShader;
-	PixelShaderMap::iterator iter = mPixelShaders.find(pShader);
-	if (iter != mPixelShaders.end())
+	Buffer* buffer = new BufferDx(this, D3D11_BIND_VERTEX_BUFFER, data, count, stride);
+	m_Buffer.push_back(buffer);
+	return buffer;
+}
+
+Buffer * Hikari::DirectRenderer::CreateDoubleVertexBuffer(const double * data, unsigned int count, unsigned int stride)
+{
+	Buffer* buffer = new BufferDx(this, D3D11_BIND_VERTEX_BUFFER, data, count, stride);
+	m_Buffer.push_back(buffer);
+	return buffer;
+}
+
+Buffer * Hikari::DirectRenderer::CreateUIntIndexBuffer(const unsigned int * data, unsigned int sizeInBytes)
+{
+	Buffer* buffer = new BufferDx(DestroyBuffer, D3D11_BIND_INDEX_BUFFER, data, sizeInBytes,0);
+	m_Buffer.push_back(buffer);
+	return buffer;
+}
+
+ConstantBuffer * Hikari::DirectRenderer::CreateConstantBuffer(const void * data, size_t size)
+{
+	ConstantBuffer* buffer = new ConstantBufferDX11(this->mData->mDevice, size);
+	if (data)
+		buffer->Set(data, size);
+	m_Buffer.push_back(buffer);
+	return buffer;
+}
+
+StructuredBuffer * Hikari::DirectRenderer::CreateStructuredBuffer(void * data, unsigned int count, unsigned int stride, CPUAccess cpuAccess, bool gpuWrite)
+{
+	StructuredBuffer* buffer = new StructuredBufferDX11(mData->mDevice, 0, data, count, stride, cpuAccess, gpuWrite);
+	m_Buffer.push_back(buffer);
+	return buffer;
+}
+
+void Hikari::DirectRenderer::LoadDefaultResources()
+{
+	// Load a default shader
+	std::string defaultShaderSource = GetStringResource(DEFAULT_SHADER, "Shader");
+
+	std::shared_ptr<Shader> pDefaultVertexShader = CreateShader();
+	pDefaultVertexShader->LoadShaderFromString(Shader::VertexShader, defaultShaderSource, L"DefaultShader.hlsl", Shader::ShaderMacros(), "VS_main", "vs_4_0");
+
+	std::shared_ptr<Shader> pDefaultPixelShader = CreateShader();
+	pDefaultPixelShader->LoadShaderFromString(Shader::PixelShader, defaultShaderSource, L"DefaultShader.hlsl", Shader::ShaderMacros(), "PS_main", "ps_4_0");
+
+	// Create a magenta texture if a texture defined in the shader is not bound.
+	m_pDefaultTexture = CreateTexture2D(1, 1, 1, Texture::TextureFormat());
+	m_pDefaultTexture->Clear(ClearFlags::Color, glm::vec4(1, 0, 1, 1));
+
+	m_pDefaultPipeline = CreatePipelineState();
+
+	m_pDefaultPipeline->SetShader(Shader::VertexShader, pDefaultVertexShader);
+	m_pDefaultPipeline->SetShader(Shader::PixelShader, pDefaultPixelShader);
+	// TODO: Default pipeline state must be assigned to a renderwindow
+	// because the RenderWindow has a default render target that must be bound to the pipeline.
+
+}
+
+Scene * Hikari::DirectRenderer::CreateAxis(float radius, float length)
+{
+	return nullptr;
+}
+
+void Hikari::DirectRenderer::DestroyScene(Scene * scene)
+{
+	SceneList::iterator iter = std::find(m_Scene.begin(), m_Scene.end(), scene);
+	if (iter != m_Scene.end())
 	{
-		ppShader = iter->second;
+		m_Scene.erase(iter);
 	}
-	else
+}
+
+Mesh * Hikari::DirectRenderer::CreateMesh()
+{
+	Mesh* mesh = new MeshDx(this);
+	m_Meshes.push_back(mesh);
+	return mesh;
+}
+
+void Hikari::DirectRenderer::DestroyMesh(Mesh * mesh)
+{
+	MeshList::iterator iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
+	if (iter != m_Meshes.end())
 	{
-		ppShader = new PdrPixelShader(this, pShader);
-		mPixelShaders[pShader] = ppShader;
+		m_Meshes.erase(iter);
 	}
-	ppShader->Enable(this, pShader, pParam);
+}
+
+Shader * Hikari::DirectRenderer::CreateShader()
+{
+	Shader* shader = new ShaderDx(this);
+	m_Shaders.push_back(shader);
+	return nullptr;
+}
+
+void Hikari::DirectRenderer::DestroyShader(Shader * shader)
+{
+	ShaderList::iterator iter = std::find(m_Shaders.begin(), m_Shaders.end(), shader);
+	if (iter != m_Shaders.end())
+	{
+		m_Shaders.erase(iter);
+	}
+}
+
+Texture * Hikari::DirectRenderer::CreateTexture(const std::wstring & fileName)
+{
+	TextureMap::iterator iter = m_TextureByName.find(fileName);
+	if (iter != m_TextureByName.end())
+	{
+		return iter->second;
+	}
+
+	Texture* texture = new TextureDX11(mData->mDevice);
+	texture->LoadTexture2D(fileName);
+
+	m_Texture.push_back(texture);
+	m_TextureByName.insert(TextureMap::value_type(fileName, texture));
+}
+
+Texture * Hikari::DirectRenderer::CreateTextureCube(const std::wstring & fileName)
+{
+	TextureMap::iterator iter = m_TextureByName.find(fileName);
+	if (iter != m_TextureByName.end())
+	{
+		return iter->second;
+	}
+
+	Texture* texture =new TextureDX11(mData->mDevice);
+	texture->LoadTextureCube(fileName);
+
+	m_Texture.push_back(texture);
+	m_TextureByName.insert(TextureMap::value_type(fileName, texture));
+
+	return texture;
+}
+
+Texture * Hikari::DirectRenderer::CreateTexture1D(uint16_t width, uint16_t slices, const Texture::TextureFormat & format, CPUAccess cpuAccess, bool gpuWrite)
+{
+	Texture* texture = new TextureDX11(mData->mDevice, width, slices, format, cpuAccess, gpuWrite);
+	m_Texture.push_back(texture);
+
+	return texture;
+}
+
+Texture * Hikari::DirectRenderer::CreateTexture2D(uint16_t width, uint16_t height, uint16_t slices, const Texture::TextureFormat & format, CPUAccess cpuAccess, bool gpuWrite)
+{
+	Texture* texture = new TextureDX11(mData->mDevice, width, height, slices, format, cpuAccess, gpuWrite);
+	m_Texture.push_back(texture);
+
+	return texture;
+}
+
+Texture * Hikari::DirectRenderer::CreateTexture3D(uint16_t width, uint16_t height, uint16_t depth, const Texture::TextureFormat & format, CPUAccess cpuAccess, bool gpuWrite)
+{
+	Texture* texture = new TextureDX11(TextureDX11::Tex3d, mData->mDevice, width, height, depth, format, cpuAccess, gpuWrite);
+	m_Texture.push_back(texture);
+
+	return texture;
+}
+
+Texture * Hikari::DirectRenderer::CreateTextureCube(uint16_t size, uint16_t numCubes, const Texture::TextureFormat & format, CPUAccess cpuAccess, bool gpuWrite)
+{
+	Texture* texture = new TextureDX11(TextureDX11::Cube, mData->mDevice, size, numCubes, format, cpuAccess, gpuWrite);
+	m_Texture.push_back(texture);
+
+	return texture;
+}
+
+Texture * Hikari::DirectRenderer::CreateTexture()
+{
+	Texture* texture = new TextureDX11(mData->mDevice);
+	m_Texture.push_back(texture);
+
+	return texture;
+}
+
+void Hikari::DirectRenderer::DestroyTexture(Texture * texture)
+{
+	TextureList::iterator iter = std::find(m_Texture.begin(), m_Texture.end(), texture);
+	if (iter != m_Texture.end())
+	{
+		m_Texture.erase(iter);
+	}
+
+	TextureMap::iterator iter2 = std::find_if(m_TextureByName.begin(), m_TextureByName.end(), [=](TextureMap::value_type val) { return (val.second == texture); });
+	if (iter2 != m_TextureByName.end())
+	{
+		m_TextureByName.erase(iter2);
+	}
+}
+
+RenderTarget * Hikari::DirectRenderer::CreateRenderTarget()
+{
+	RenderTargetDX11* renderTarget =  new RenderTargetDX11(mData->mDevice);
+	m_RenderTargets.push_back(renderTarget);
+
+	return renderTarget;
+}
+
+void Hikari::DirectRenderer::DestroyRenderTarget(RenderTarget * renderTarget)
+{
+	RenderTargetList::iterator iter = std::find(m_RenderTargets.begin(), m_RenderTargets.end(), renderTarget);
+	if (iter != m_RenderTargets.end())
+	{
+		m_RenderTargets.erase(iter);
+	}
+}
+
+SamplerState * Hikari::DirectRenderer::CreateSamplerState()
+{
+	SamplerState* sampler = new SamplerState(mData.mDevice);
+	m_Samplers.push_back(sampler);
+
+	return sampler;
+}
+
+void Hikari::DirectRenderer::DestroySampler(SamplerState * sampler)
+{
+	SamplerList::iterator iter = std::find(m_Samplers.begin(), m_Samplers.end(), sampler);
+	if (iter != m_Samplers.end())
+	{
+		m_Samplers.erase(iter);
+	}
+}
+
+Material * Hikari::DirectRenderer::CreateMaterial()
+{
+	std::shared_ptr<Material> pMaterial = std::make_shared<Material>(*this);
+	m_Materials.push_back(pMaterial);
+	return pMaterial;
+}
+
+void Hikari::DirectRenderer::DestroyMaterial(Material * material)
+{
+	MaterialList::iterator iter = std::find(m_Materials.begin(), m_Materials.end(), material);
+	if (iter != m_Materials.end())
+	{
+		m_Materials.erase(iter);
+	}
+}
+
+Scene * Hikari::DirectRenderer::CreateCylinder(float baseRadius, float apexRadius, float height, const AVector & axis)
+{
+	return nullptr;
+}
+
+Scene * Hikari::DirectRenderer::CreateCone(float baseRadius, float height)
+{
+	return nullptr;
+}
+
+Scene * Hikari::DirectRenderer::CreateArrow(const AVector & tail, const AVector & head, float radius)
+{
+	return nullptr;
 }

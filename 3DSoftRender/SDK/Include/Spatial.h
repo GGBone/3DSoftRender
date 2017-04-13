@@ -13,8 +13,10 @@ namespace Hikari
 	public:
 		virtual ~Spatial();
 
-		Transform localTransfrom;
+		Transform localTransform;
 		Transform worldTransform;
+
+		Transform inverseTransform;
 		bool worldTransfromIsCurrent;
 
 		enum CullingMode

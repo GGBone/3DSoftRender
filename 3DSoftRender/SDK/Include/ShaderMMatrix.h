@@ -9,6 +9,6 @@ namespace Hikari
 		MMatrixParam();
 		~MMatrixParam();
 		void SetMatrix(float* data);
-		virtual void Update(const Visual * visual, const Camera4DV1 * camera) override;
+		virtual void Update(const Visual * visual, const Camera * camera) override;
 	};
 }

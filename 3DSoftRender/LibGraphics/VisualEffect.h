@@ -1,25 +1,28 @@
 #pragma once
 #include "GraphicsLib.h"
 #include "VisualTechnique.h"
-#include "Shader.h"
+#include "Dx11Shader.h"
+#include "Renderer.h"
 namespace Hikari
 {
 	class VisualEffect
 	{
 	public:
-		Hikari::VisualEffect::VisualEffect();
-		Hikari::VisualEffect::~VisualEffect();
-		Hikari::VisualEffect::VisualEffect(const std::string & name, int mode);
-		void Hikari::VisualEffect::InsertTechnique(VisualTechnique * technique);
+		VisualEffect::VisualEffect();
+		VisualEffect::~VisualEffect();
+		VisualEffect::VisualEffect(const std::string & name, int mode);
+		void VisualEffect::InsertTechnique(VisualTechnique * technique);
 		VisualTechnique * Hikari::VisualEffect::GetTechnique(int techIndex);
-		VisualEffect * Hikari::VisualEffect::LoadFX(const std::string & name, int mode);
-		Shader* LoadShader(std::ifstream & in);
-		VisualTechnique * Hikari::VisualEffect::LoadVisualTechnique(std::ifstream & in);
 
-		VisualPass * Hikari::VisualEffect::LoadVisualPass(std::ifstream & in);
-		std::string Hikari::VisualEffect::LoadStdString(std::ifstream & inFile);
+		VisualEffect * Hikari::VisualEffect::LoadFX(Renderer* render,const std::string & name, int mode);
+		Shader* LoadShader(Renderer* render,std::ifstream & in);
+		VisualTechnique * Hikari::VisualEffect::LoadVisualTechnique(Renderer* render,std::ifstream & in);
+
+		VisualPass * Hikari::VisualEffect::LoadVisualPass(Renderer* render,std::ifstream & in);
+		std::string Hikari::VisualEffect::LoadStdString(Renderer* render,std::ifstream & inFile);
 		
 	private:
 		std::vector<VisualTechnique*> mTechniques;
+		
 	};
 }

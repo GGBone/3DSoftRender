@@ -1,5 +1,7 @@
 #include "MathematicsPCH.h"
 #include "AVector.h"
+#include "Float3.h"
+#include "APoint.h"
 using namespace Hikari;
 const AVector AVector::ZERO = AVector(0, 0, 0);
 const AVector AVector::UP = AVector(0, 1, 0);
@@ -116,4 +118,9 @@ AVector & Hikari::AVector::operator+=(const AVector & vec)
 		M[1] += vec.M[1],
 		M[2] += vec.M[2]
 	);
+}
+
+AVector AVector::operator+(const APoint& vec)const
+{
+	return AVector(M[0] + vec.X(), M[1] + vec.Y(), M[2] + vec.Z());
 }

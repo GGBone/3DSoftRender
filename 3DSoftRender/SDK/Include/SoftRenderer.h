@@ -1,3 +1,4 @@
+#if 0
 #pragma once
 #include "Renderer.h"
 #include "GraphicsLib.h"
@@ -58,15 +59,15 @@ namespace Hikari
 		virtual void ClearStencilBuffer(int x, int y, int w, int h);
 		virtual void ClearBuffers(int x, int y, int w, int h);
 
-		virtual void Bind(const VertexBuffer* vFormat);
-		virtual void Unbind(const VertexBuffer* vBuffer);
+		virtual void Bind(const Buffer* vFormat);
+		virtual void Unbind(const Buffer* vBuffer);
 		virtual void Unbind(const VertexFormat* vFormat);
 
-		virtual void Enable(const VertexBuffer* vBuffer);
+		virtual void Enable(const Buffer* vBuffer);
 		virtual void Enable(const VertexFormat* vFormat);
 		virtual void Enable(const VertexShader* vShader);
 
-		virtual void Disable(const VertexBuffer* vFormat);
+		virtual void Disable(const Buffer* vFormat);
 		virtual void Disable(const VertexFormat* vFormat);
 		virtual void Disable(const VertexShader* vShader);
 	protected:
@@ -89,7 +90,7 @@ namespace Hikari
 
 		//Store Vertex
 		//VRAM
-		VertexBuffer** mVertexBuffer;
+		Buffer** mVertexBuffer;
 
 		//Input the External Setting like multisample,isFullScreen,Resolution and so on.
 
@@ -111,3 +112,4 @@ namespace Hikari
 
 	};
 }
+#endif

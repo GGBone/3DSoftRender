@@ -1,12 +1,12 @@
 #pragma once
 #include "MathematicsLIB.h"
 #include "HPoint.h"
-#include "Float3.h"
 #include "Vector3.h"
-
 namespace Hikari
 {
 	//Affine Vector
+	class APoint;
+	class Float3;
 	class AVector : public HPoint
 	{
 	public:
@@ -20,13 +20,14 @@ namespace Hikari
 		//Assignment
 		AVector& operator=(const AVector& vec);
 
-		//operations
-		AVector operator-()const
+		inline AVector operator-() const
 		{
 			return AVector(-M[0], -M[1], -M[2]);
 		}
+		
+		AVector operator+(const APoint& vec)const;
 
-
+		//operations
 		AVector operator+(const AVector& vec)const;
 		AVector operator-(const AVector& vec)const;
 		AVector operator*(float scalar)const;

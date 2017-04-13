@@ -1,10 +1,13 @@
 #include "GraphicsPCH.h"
 #include "Node.h"
+#include "Mesh.h"
+#include "Visitor.h"
 using namespace Hikari;
 IMPLEMENT_DEFAULT_NAMES(Spatial, Node);
 IMPLEMENT_RTTI(Hikari, Spatial, Node);
-Hikari::Node::Node()
+Hikari::Node::Node(const HMatrix& localTransform)
 {
+	this->localTransform.SetMatrix(localTransform);
 }
 
 Hikari::Node::~Node()
@@ -13,90 +16,121 @@ Hikari::Node::~Node()
 
 inline int Hikari::Node::GetNumChildren() const
 {
-	return mChild.size();
+	return m_Children.size();
 }
 
-int Hikari::Node::AttachChild(Spatial * child)
+const std::string & Hikari::Node::GetName() const
 {
-	if (!child)
-		return -1;
-	if (child->GetParent())
-		return -1;
-
-	child->SetParent(this);
-	std::vector<SpatialPtr>::iterator iter = mChild.begin();
-	std::vector<SpatialPtr>::iterator end = mChild.end();
-
-	for (int i = 0; iter != end; ++iter, ++i)
-	{
-		if (*iter == 0)
-		{
-			*iter = child;
-			return i;
-		}
-	}
-	const int numChildren = (int)mChild.size();
-	mChild.push_back(child);
-	return numChildren;
+	return m_Name;
 }
 
-int Hikari::Node::DetachChild(Spatial * child)
+const HMatrix& Hikari::Node::GetLocalTransform() const
+{
+	return localTransform.GetMatrix();
+}
+
+void Hikari::Node::SetLocalTransform(const HMatrix & matrix)
+{
+	localTransform.SetMatrix(matrix);
+	inverseTransform.SetMatrix(matrix.Inverse());
+}
+
+const HMatrix& Hikari::Node::GetWorldTransform() const
+{
+	return GetWorldTransform() * localTransform.GetMatrix();
+}
+
+void Hikari::Node::SetWorldTransform(const HMatrix & matrix)
+{
+	HMatrix _inverseParentTranform = GetParentWorldTransform().Inverse();
+	SetLocalTransform(_inverseParentTranform);
+}
+
+const HMatrix& Hikari::Node::GetInverseWorldTranform() const
+{
+	return GetWorldTransform().Inverse();
+}
+
+void Hikari::Node::AttachChild(Node * child)
 {
 	if (child)
 	{
-		std::vector<SpatialPtr>::iterator iter = mChild.begin();
-		std::vector<SpatialPtr>::iterator end = mChild.end();
-		for (int i = 0; iter != end; ++iter, ++i)
+		NodeList::iterator iter = std::find(m_Children.begin(), m_Children.end(), child);
+		if (iter == m_Children.end())
 		{
-			if (*iter == child)
+			child->GetWorldTransform();
+			m_Children.push_back(child);
+		}
+	}
+}
+
+void Hikari::Node::DetachChild(Node * pNode)
+{
+	if (pNode)
+	{
+		NodeList::iterator iter = std::find(m_Children.begin(), m_Children.end(), pNode);
+		if (iter != m_Children.end())
+		{
+			pNode->SetParent(nullptr);
+
+			m_Children.erase(iter);
+
+			// Also remove it from the name map.
+			NodeNameMap::iterator iter2 = m_ChildrenByName.find(pNode->GetName());
+			if (iter2 != m_ChildrenByName.end())
 			{
-				(*iter)->SetParent(0);
-				*iter = 0;
-				return i;
+				m_ChildrenByName.erase(iter2);
+			}
+		}
+		else
+		{
+			// Maybe this node appears lower in the hierarchy...
+			for (auto child : m_Children)
+			{
+				child->DetachChild(pNode);
 			}
 		}
 	}
-	return -1;
 }
 
-Spatial * Hikari::Node::DetachChildAt(int i)
+void Hikari::Node::SetParent(Node * pNode)
 {
-	if (0 <= i && i < (int)mChild.size())
-	{
-		SpatialPtr child = mChild[i];
-		if (child)
-		{
-			child->SetParent(0);
-			mChild[i] = 0;
-		}
-		return child;
-	}
-	return 0;
+
+		pNode->AttachChild(this);
+
 }
 
-Spatial * Hikari::Node::GetChild(int i)
+void Hikari::Node::AddMesh(Mesh * mesh)
 {
-	if (0 <= i && i < (int)mChild.size())
+	MeshList::iterator iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
+	if (iter == m_Meshes.end())
+		m_Meshes.push_back(mesh);
+}
+
+void Hikari::Node::RemoveMesh(Mesh * mesh)
+{
+	MeshList::iterator iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
+	if (iter != m_Meshes.end())
 	{
-		return mChild[i];
+		m_Meshes.erase(iter);
 	}
-	return 0;
+}
+
+void Hikari::Node::Render(RenderEventArgs& args)
+{
+	for (auto mesh : m_Meshes)
+	{
+		mesh->Render(args);
+	}
+	for (auto child : m_Children)
+	{
+		child->Render(args);
+	}
 }
 
 void Hikari::Node::UpdateWorldData(double applicationTime)
 {
-	Spatial::UpdateWorldData(applicationTime);
-
-	std::vector<SpatialPtr>::iterator iter = mChild.begin();
-	std::vector<SpatialPtr>::iterator end = mChild.end();
-	for (/**/; iter != end; ++iter)
-	{
-		Spatial* child = *iter;
-		if (child)
-		{
-			child->Update(applicationTime, false);
-		}
-	}
+	
 }
 
 void Hikari::Node::UpdateWorldBound()
@@ -105,14 +139,27 @@ void Hikari::Node::UpdateWorldBound()
 
 void Hikari::Node::GetVisibleSet(Culler & culler, bool noCull)
 {
-	std::vector<SpatialPtr>::iterator iter = mChild.begin();
-	std::vector<SpatialPtr>::iterator end = mChild.end();
-	for (/**/; iter != end; ++iter)
+	
+}
+
+const HMatrix& Node::GetParentWorldTransform() const
+{
+	return m_pParent->GetWorldTransform();
+}
+
+void Node::Accept(Visitor& visitor)
+{
+	visitor.Visit(*this);
+	
+	// Visit meshes.
+	for (auto mesh : m_Meshes)
 	{
-		Spatial* child = *iter;
-		if (child)
-		{
-			child->OnGetVisibleSet(culler, noCull);
-		}
+		mesh->Accept(visitor);
+	}
+
+	// Now visit children
+	for (auto child : m_Children)
+	{
+		child->Accept(visitor);
 	}
 }

@@ -1,6 +1,5 @@
 #ifndef HMATH_H
 #define HMATH_H
-#include "MathematicsPCH.h"
 #include <cmath>
 #include <cstdlib>
 #include <cfloat>

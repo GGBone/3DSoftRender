@@ -7,13 +7,13 @@ Hikari::VisualTechnique::VisualTechnique()
 Hikari::VisualTechnique::~VisualTechnique()
 {
 }
-VertexShader* Hikari::VisualTechnique::GetVertexShader(int passIndex) const
+Shader* Hikari::VisualTechnique::GetVertexShader(int passIndex) const
 {
 	if (passIndex > mPasses.size())
 		return nullptr;
 	return mPasses[passIndex]->GetVertexShader();
 }
-PixelShader * Hikari::VisualTechnique::GetPixelShader(int passIndex) const
+Shader * Hikari::VisualTechnique::GetPixelShader(int passIndex) const
 {
 	if (passIndex > mPasses.size())
 		return nullptr;

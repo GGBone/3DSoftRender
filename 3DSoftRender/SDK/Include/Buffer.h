@@ -1,55 +1,40 @@
 #pragma once
-#include "GraphicsLIB.h"
 #include "Object.h"
+#include "ShaderParameter.h"
+#include "Shader.h"
+// A buffer is an index buffer or vertex buffer to 
+// geometry that should be stored on the GPU.
 namespace Hikari
 {
+	class Shader;
+	class ShaderParameter;
 	class Buffer : public Object
 	{
-		DECLARE_RTTI;
-		DECLARE_NAMES;
-		//DECLEAR_STREAM(Buffer);
-
 	public:
-		enum Usage
+		typedef Object base;
+
+		enum BufferType
 		{
-			BU_STATIC,
-			BU_DYNAMIC,
-			BU_RENDERTARGET,
-			BU_DEPTHSTENCIL,
-			BU_TEXTURE,
-			BU_QUANTITY
+			Unknown = 0,
+			VertexBuffer,
+			IndexBuffer,
+			StructuredBuffer,
+			ConstantBuffer
 		};
 
-		enum Locking
-		{
-			BL_READ_ONLY,
-			BL_WRITE_ONLY,
-			BL_READ_WRITE,
-			BL_NEVER
-		};
-		Buffer(int numElements, int elementSize, Usage usage = BU_STATIC);
-	public:
-		virtual ~Buffer();
+		// Bind the buffer for rendering.
+		virtual bool Bind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType) = 0;
+		// Unbind the buffer for rendering.
+		virtual void UnBind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType) = 0;
 
-		inline int GetNumElements()const;
-		inline int GetElementSize()const;
-		inline Usage GetUsage() const;
+		// Copy the contents of another buffer to this one.
+		// Buffers must be the same size in bytes.
+		virtual void Copy(Buffer* other) = 0;
 
-		inline void SetNumElements(int numElements);
+		// Is this an index buffer or an attribute/vertex buffer?
+		virtual BufferType GetType() const = 0;
+		// How many elements does this buffer contain?
+		virtual unsigned int GetElementCount() const = 0;
 
-		inline int GetNumBytes()const;
-		inline const void* GetData()const;
-		inline void SetData(void* data);
-	protected:
-		int mNumElements;
-		int mElementSize;
-		Usage mUsage;
-		int mNumBytes;
-		void* mData;
-		friend class WinSoftRenderer;
-		friend class SoftRenderer;
 	};
-	typedef Buffer* BufferPtr;
-#include "Buffer.inl"
-
 }

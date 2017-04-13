@@ -9,14 +9,14 @@ namespace Hikari
 	class Culler
 	{
 	public:
-		Culler(const Camera4DV1* camera = 0);
+		Culler(const Camera* camera = 0);
 		virtual~Culler();
 
-		inline void SetCamera(const Camera4DV1* camera)
+		inline void SetCamera(const Camera* camera)
 		{
 			mCamera = camera;
 		}
-		inline const Camera4DV1* GetCamera()const
+		inline const Camera* GetCamera()const
 		{
 			return mCamera;
 		}
@@ -30,7 +30,7 @@ namespace Hikari
 		
 
 	protected:
-		const Camera4DV1* mCamera;
+		const Camera* mCamera;
 		
 
 

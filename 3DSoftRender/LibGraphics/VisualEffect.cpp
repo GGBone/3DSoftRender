@@ -23,7 +23,7 @@ VisualTechnique * Hikari::VisualEffect::GetTechnique(int techIndex)
 	return mTechniques[techIndex];
 }
 
-VisualEffect * Hikari::VisualEffect::LoadFX(const std::string & name, int mode)
+VisualEffect * Hikari::VisualEffect::LoadFX(Renderer* render,const std::string & name, int mode)
 {
 	return new VisualEffect(name, mode);
 }
@@ -33,46 +33,32 @@ Hikari::VisualEffect::VisualEffect(const std::string & name, int mode)
 
 }
 
-VisualTechnique * Hikari::VisualEffect::LoadVisualTechnique(std::ifstream & in)
+VisualTechnique * Hikari::VisualEffect::LoadVisualTechnique(Renderer* render,std::ifstream & in)
 {
 	VisualTechnique* technique = new VisualTechnique();
 	char numPass;
 	in.read(&numPass, sizeof(int));
 	for (int i = 0; i < numPass; ++i)
 	{
-		technique->InsertPass(LoadVisualPass(in));
+		technique->InsertPass(LoadVisualPass(render,in));
 	}
 	return technique;
 }
 
-VisualPass * Hikari::VisualEffect::LoadVisualPass(std::ifstream & in)
+VisualPass * Hikari::VisualEffect::LoadVisualPass(Renderer* render,std::ifstream & in)
 {
 	VisualPass* pass = new VisualPass();
-	pass->SetVertexShader((VertexShader*)LoadShader(in));
-	pass->SetPixelShader((PixelShader*)LoadShader(in));
+	pass->SetVertexShader(LoadShader(render,in));
+	pass->SetPixelShader(LoadShader(render,in));
 	return nullptr;
 }
 
-Shader* Hikari::VisualEffect::LoadShader(std::ifstream & in)
+Shader* Hikari::VisualEffect::LoadShader(Renderer* render,std::ifstream & in)
 {
-	std::string programName = LoadStdString(in);
-	char numInput, numOutput, numConstants, numSamplers, numProfilers;
-
-	in.read(&numInput, sizeof(char));
-	in.read(&numOutput, sizeof(char));
-	in.read(&numConstants, sizeof(char));
-	in.read(&numSamplers, sizeof(char));
-	in.read(&numProfilers, sizeof(char));
-
-	Shader* shader = nullptr;
-	//VertexShader
-	shader = new VertexShader(programName, numInput, numOutput, numConstants, numSamplers, true);
-	//Pixel
-	shader = new PixelShader(programName, numInput, numOutput, numConstants, numSamplers, true);
-	return shader;
+	return nullptr;
 }
 
-std::string Hikari::VisualEffect::LoadStdString(std::ifstream & inFile)
+std::string Hikari::VisualEffect::LoadStdString(Renderer* render,std::ifstream & inFile)
 {
 	return NULL;
 }

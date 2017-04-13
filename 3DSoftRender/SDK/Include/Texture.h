@@ -1,173 +1,160 @@
 #pragma once
 #include "GraphicsLib.h"
 #include "Object.h"
-#include "ShaderParameters.h"
-#include "Buffer.h"	
-#include "Float4.h"
+#include "Shader.h"
+#include "ShaderParameter.h"
 namespace Hikari
 {
+	enum class ClearFlags : uint8_t
+	{
+		Color = 1 << 0,
+		Depth = 1 << 1,
+		Stencil = 1 << 2,
+		DepthStencil = Depth | Stencil,
+		All = Color | Depth | Stencil,
+	};
+
+	class Float2;
 	class Texture : public Object
 	{
 		DECLARE_RTTI;
 		DECLARE_NAMES;
 
 	public:
-		enum Format
+		enum class Dimension
 		{
-			TF_NONE,
-			//small color
-			TF_R5G6B5,
-			TF_A1R5G5B5,
-			TF_A4R4G4B4,
-
-			//8-bit integer formats
-			TF_A8,
-			TF_L8,
-			TF_A8L8,
-			TF_R8G8B8,
-			TF_R8G8B8A8,
-			TF_A8B8G8R8,
-
-			//16bit
-			TF_L16,
-			TF_G16R16,
-			TF_A16B16G16R16,
-
-			//16bit floating-point formats
-			TF_R16F,
-			TF_G16R16F,
-			TF_A16B16G16R16F,
-
-			//32bit floating-point formats
-			TF_R32F,
-			TF_G32R32F,
-			TF_A32B32G32R32F,
-
-			//DXT compressed formats
-			TF_DXT1,
-			TF_DXT3,
-			TF_DXT5,
-
-			//Depth-stencil format
-			TF_D24S8,
-			TF_QUANTITY
+			Texture1D,
+			Texture1DArray,
+			Texture2D,
+			Texture2DArray,
+			Texture3D,
+			TextureCube,
 		};
 
-		enum Type
+		// The number of components used to create the texture.
+		enum class Components
 		{
-			TT_1D,
-			TT_2D,
-			TT_3D,
-			TT_CUBE,
-			TT_QUANTITY
+			R,              // One red component.
+			RG,             // Red, and green components.
+			RGB,            // Red, green, and blue components.
+			RGBA,           // Red, green, blue, and alpha components.
+			Depth,          // Depth component.
+			DepthStencil    // Depth and stencil in the same texture.
 		};
 
-		enum
+		// The type of components in the texture.
+		enum class Type
 		{
-			MM_MAX_MIPMAP_LEVELS = 16
+			Typeless,           // Typeless formats.
+			// TODO: sRGB type
+			UnsignedNormalized, // Unsigned normalized (8, 10, or 16-bit unsigned integer values mapped to the range [0..1])
+			SignedNormalized,   // Signed normalized (8, or 16-bit signed integer values mapped to the range [-1..1])
+			Float,              // Floating point format (16, or 32-bit).
+			UnsignedInteger,    // Unsigned integer format (8, 16, or 32-bit unsigned integer formats).
+			SignedInteger,      // Signed integer format (8, 16, or 32-bit signed integer formats).
 		};
+
+		struct  TextureFormat
+		{
+			Texture::Components Components;
+			Texture::Type Type;
+			uint8_t NumSamples;
+
+			uint8_t RedBits;
+			uint8_t GreenBits;
+			uint8_t BlueBits;
+			uint8_t AlphaBits;
+			uint8_t DepthBits;
+			uint8_t StencilBits;
+
+			TextureFormat(Texture::Components components = Components::RGBA,
+				Texture::Type type = Type::UnsignedNormalized,
+				uint8_t numSamples = 1,
+				uint8_t redBits = 8,
+				uint8_t greenBits = 8,
+				uint8_t blueBits = 8,
+				uint8_t alphaBits = 8,
+				uint8_t depthBits = 0,
+				uint8_t stencilBits = 0
+			)
+				: Components(components)
+				, Type(type)
+				, NumSamples(numSamples)
+				, RedBits(redBits)
+				, GreenBits(greenBits)
+				, BlueBits(blueBits)
+				, AlphaBits(alphaBits)
+				, DepthBits(depthBits)
+				, StencilBits(stencilBits)
+			{}
+		};
+
+		enum class CubeFace
+		{
+			Right,  // +X
+			Left,   // -X
+			Top,    // +Y
+			Bottom, // -Y
+			Front,  // +Z
+			Back,   // -Z
+		};
+
+		virtual bool LoadTexture2D(const std::wstring& fileName) = 0;
+
+		virtual bool LoadTextureCube(const std::wstring& fileName) = 0;
+
+		virtual void GenerateMipmaps() = 0;
+
+		virtual Texture* GetFace(CubeFace face) const = 0;
+
+		virtual Texture* GetSlice(unsigned int slice) const = 0;
+
+		virtual uint16_t GetWidth() const = 0;
+
+		virtual uint16_t GetHeight() const = 0;
+
+		virtual uint16_t GetDepth() const = 0;
+
+		virtual uint8_t GetBpp() const = 0;
+
+		virtual bool IsTransparent() const = 0;
+
+		virtual void Resize(uint16_t width, uint16_t height = 0, uint16_t depth = 0) = 0;
+
+		template <typename T>
+		void Plot(Float2& coord, const T& color);
+
+		template< typename T >
+		T FetchPixel(Float2& coord);
+
+		virtual void Copy(Texture* other) = 0;
+
+		virtual void Clear(ClearFlags clearFlags = ClearFlags::All, const Float4& color = Float4(0,0,0,0), float depth = 1.0f, uint8_t stencil = 0) = 0;
+
+		virtual void Bind(uint32_t ID, Shader::ShaderType shaderType, ShaderParameter::Type parameterType) = 0;
+
+		virtual void UnBind(uint32_t ID, Shader::ShaderType shaderType, ShaderParameter::Type parameterType) = 0;
 
 	protected:
-		Texture(Format tformat, Type type, Buffer::Usage usage, int numLevels);
+		virtual void Plot(Float2& coord, const uint8_t* pixel, size_t size) = 0;
+		virtual void FetchPixel(Float2& coord, uint8_t*& pixel, size_t size) = 0;
 
-	public:
-		virtual ~Texture();
-
-		inline Format GetFormat()const
-		{
-			return mFormat;
-		}
-		inline Type GetTextureType()const
-		{
-			return mType;
-		}
-		inline Buffer::Usage GetUsage()const
-		{
-			return mUsage;
-		}
-		inline int GetNumLevels()const
-		{
-			return mNumLevels;
-		}
-		inline int GetNumDimensions()const
-		{
-			return msNumDimensions[mType];
-		}
-		inline int GetDimension(int i, int level)const
-		{
-			return mDimension[i][level];
-		}
-		inline int GetNumLevelBytes(int level)const
-		{
-			return mNumLevelBytes[level];
-		}
-		inline int GetNumTotalBytes()const 
-		{
-			return mNumTotalBytes;
-		}
-		inline int GetLevelOffset(int level)const
-		{
-			return mLevelOffsets[level];
-		}
-		inline int GetPixelSize()const
-		{
-			return msPixelSize[mFormat];
-		}
-
-		inline static int GetPixelSize(Format tformat)
-		{
-			return msPixelSize[tformat];
-		}
-		inline bool IsCompressed()const
-		{
-			return mFormat == TF_DXT1 || mFormat == TF_DXT3 || mFormat == TF_DXT5;
-		}
-		inline bool IsMipmapable()const
-		{
-			return msMipmapable[mFormat];
-		}
-
-
-		inline const char* GetData()const
-		{
-			return mData;
-		}
-		enum { MAX_USER_FIELDS = 8 };
-		inline void SetUserField(int i, int userField)
-		{
-			mUserField[i] = userField;
-		}
-		inline int GetUserField(int i)const
-		{
-			return mUserField[i];
-		}
-	protected:
-		Format mFormat;
-		Type mType;
-		Buffer::Usage mUsage;
-		int mNumLevels;
-
-		int mDimension[3][MM_MAX_MIPMAP_LEVELS];
-		int mNumLevelBytes[MM_MAX_MIPMAP_LEVELS];
-		int mNumTotalBytes;
-		int mLevelOffsets[MM_MAX_MIPMAP_LEVELS];
-
-		int mUserField[MAX_USER_FIELDS];
-		char* mData;
-
-		static int msNumDimensions[TT_QUANTITY];
-		static int msPixelSize[TF_QUANTITY];
-		static bool msMipmapable[TF_QUANTITY];
-
-		typedef void (*ConvertFrom)(int, const char*, Float4*);
-		static ConvertFrom msConvertFrom[TF_QUANTITY];
-		typedef void(*ConvertTo)(int, const Float4*, char*);
-		static ConvertTo msConvertTo[TF_QUANTITY];
-
-		public:
-			static Texture* Load(const std::string& name);
-			void Save(const std::string& name);
 	};
 	typedef Texture* TexturePtr;
+
+	template< typename T >
+	void Texture::Plot(Float2& coord, const T& color)
+	{
+		Plot(coord, reinterpret_cast<const uint8_t*>(&color), sizeof(T));
+	}
+
+	template< typename T >
+	T Texture::FetchPixel(Float2& coord)
+	{
+		uint8_t* pixel = nullptr;
+		FetchPixel(coord, pixel, sizeof(T));
+
+		return *reinterpret_cast<T*>(pixel);
+	}
 
 }

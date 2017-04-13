@@ -5,7 +5,7 @@
 namespace Hikari
 {
 	class Visual;
-	class Camera4DV1;
+	class Camera;
 	class ShaderFloat
 	{
 	protected:
@@ -15,7 +15,7 @@ namespace Hikari
 		ShaderFloat::ShaderFloat(int numRegisters);
 		
 		void SetNumRegisters(int numRegisters);
-		virtual void Update(const Visual*, const Camera4DV1 *);
+		virtual void Update(const Visual*, const Camera *);
 		void SetRegister(int i, const float * data);
 		void SetRegisters(const float * data);
 		float* GetRegister(int i);

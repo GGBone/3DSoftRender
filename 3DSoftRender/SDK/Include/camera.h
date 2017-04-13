@@ -226,7 +226,7 @@ namespace Hikari
 
 
 
-	class Camera4DV1 :public BaseCamera
+	class Camera :public BaseCamera
 	{
 	private:
 		int state;
@@ -237,9 +237,9 @@ namespace Hikari
 		HMatrix mper;
 		HMatrix mscr;
 	public:
-		Camera4DV1();
-		Camera4DV1(APoint& point);
-		~Camera4DV1() {}
+		Camera();
+		Camera(APoint& point);
+		~Camera() {}
 		CameraKeys MapKey(UINT nKey) override;
 		void SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane) override;
 		inline AVector Forward() { return m_dir; }

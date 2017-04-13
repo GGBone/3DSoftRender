@@ -2,13 +2,13 @@
 #include "ShaderFloat.h"
 using namespace Hikari;
 Hikari::ShaderFloat::ShaderFloat()
-	:mNumElements(0),
+	:mNumElement(0),
 	mData(nullptr),
 	mAllowUpdater(false)
 {
 }
 Hikari::ShaderFloat::ShaderFloat(int numRegisters)
-	: mNumElements(numRegisters),
+	: mNumElement(numRegisters),
 	mData(nullptr),
 	mAllowUpdater(false)
 {
@@ -18,10 +18,10 @@ Hikari::ShaderFloat::~ShaderFloat()
 }
 void Hikari::ShaderFloat::SetNumRegisters(int numRegisters)
 {
-	mNumElements = numRegisters;
+	mNumElement = numRegisters;
 }
 
-void Hikari::ShaderFloat::Update(const Visual*, const Camera4DV1 *)
+void Hikari::ShaderFloat::Update(const Visual*, const Camera *)
 {
 
 }

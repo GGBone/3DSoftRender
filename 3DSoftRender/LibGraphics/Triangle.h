@@ -3,7 +3,6 @@
 #include "Visual.h"
 #include "Float2.h"
 #include "APoint.h"
-#include "VertexBuffer.h"
 #include "VertexBufferAccessor.h"
 #include "Vector2.h"
 namespace Hikari
@@ -14,8 +13,7 @@ namespace Hikari
 		DECLARE_NAMES;
 	protected:
 		Triangles(PrimitiveType type = PT_TRIANGLES);
-		Triangles(PrimitiveType type, VertexFormat* vformat,
-			VertexBuffer* vbuffer, IndexBuffer* ibuffer);
+		Triangles(PrimitiveType type, VertexFormat* vformat);
 
 	public:
 		~Triangles();

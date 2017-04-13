@@ -8,8 +8,8 @@ Hikari::Triangles::Triangles(PrimitiveType type)
 {
 }
 
-Hikari::Triangles::Triangles(PrimitiveType type, VertexFormat * vformat, VertexBuffer * vbuffer, IndexBuffer * ibuffer)
-	:Visual(type,vformat, vbuffer,ibuffer)
+Hikari::Triangles::Triangles(PrimitiveType type, VertexFormat * vformat)
+	:Visual(type,vformat)
 {
 
 }
@@ -29,8 +29,6 @@ bool Hikari::Triangles::GetModelTriangle(int i, APoint * modelTrangle) const
 		modelTrangle[2] = vba.Position<Float3>(v2);
 		return true;
 	}
-	
-
 	return false;
 }
 
@@ -49,7 +47,7 @@ bool Hikari::Triangles::GetWorldTrangle(int i, APoint * worldTrangle) const
 
 inline int Hikari::Triangles::GetNumVertices() const
 {
-	return mvBuffer->GetNumElements();
+	return mvBuffer->GetElementCount();
 }
 //
 //inline const Transform & Hikari::Triangles::GetWorldTransform() const
@@ -63,7 +61,7 @@ Float3 Hikari::Triangles::GetPoistion(int v) const
 	int index = mvFormat->GetIndex(VertexFormat::AU_POSITION);
 	if (index >= 0)
 	{
-		char* position = (char*)mvBuffer->GetData() + mvFormat->GetOffset(index);
+		char* position = mvBuffer + mvFormat->GetOffset(index);
 		int stride = mvFormat->GetStride();
 		return *(Float3*)(position + v * stride);
 	}

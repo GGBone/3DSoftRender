@@ -14,7 +14,7 @@ void Hikari::MMatrixParam::SetMatrix(float * data)
 	memcpy_s(mData, sizeof(float) * 16, data, sizeof(float) * 16);
 }
 
-void Hikari::MMatrixParam::Update(const Visual * visual, const Camera4DV1 * camera)
+void Hikari::MMatrixParam::Update(const Visual * visual, const Camera * camera)
 {
 	HMatrix Matrix = visual->worldTransform.Matrix();
 	const float* source = (const float*)Matrix;

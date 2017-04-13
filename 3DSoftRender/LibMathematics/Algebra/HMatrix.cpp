@@ -1,6 +1,7 @@
 
 #include "MathematicsLIB.h"
 #include "HMatrix.h"
+#include "AVector.h"
 using namespace Hikari;
 
 const HMatrix HMatrix::ZERO(true);

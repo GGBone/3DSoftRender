@@ -1,6 +1,6 @@
 #include "Culler.h"
 
-Hikari::Culler::Culler(const Camera4DV1 * camera)
+Hikari::Culler::Culler(const Camera * camera)
 {
 }
 
