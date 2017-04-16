@@ -12,7 +12,7 @@ namespace Hikari
 		enum MinFilter
 		{
 			MinNearest,
-			MinLenear
+			MinLinear
 		};
 		enum  MagFilter
 		{
@@ -41,7 +41,7 @@ namespace Hikari
 
 		enum CompareFunc
 		{
-			Near,
+			Never,
 			Less,
 			Equal,
 			LessEqual,
@@ -70,7 +70,7 @@ namespace Hikari
 		virtual float GetMaxLOD() const = 0;
 
 		virtual void SetBorderColor(const Float4& borderColor) = 0;
-		virtual Float4& GetBorderColor() const = 0;
+		virtual const Float4& GetBorderColor() const = 0;
 
 		virtual void EnableAnisotropicFiltering(bool enabled) = 0;
 		virtual bool IsAnisotropicFilteringEnabled() const = 0;

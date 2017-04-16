@@ -62,6 +62,9 @@
     <ClInclude Include="Algebra\Vector3.h">
       <Filter>Algebra</Filter>
     </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MathematicsPCH.cpp">

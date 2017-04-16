@@ -16,7 +16,7 @@ namespace Hikari
 
 		virtual Mesh* CreateMesh() const;
 		virtual Material* CreateMaterial() const;
-		virtual Texture* CreateTexture(const std::wstring& fileName) const;
+		virtual Texture* CreateTexture(const std::string& fileName) const override;
 		virtual Texture* CreateTexture2D(uint16_t width, uint16_t height);
 		virtual Texture* GetDefaultTexture();
 

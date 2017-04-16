@@ -3,7 +3,7 @@
 
 //Effect
 #include "DefaultEffect.h"
-
+#include "LightEffect.h"
 //Renderers
 #include "Renderer.h"
 
@@ -32,7 +32,7 @@
 #include "Texture.h"
 //#include "Texture2D.h"
 
-#include "camera.h"
+#include "Camera.h"
 #include "Spatial.h"
 #include "Visual.h"
 
@@ -44,10 +44,5 @@
 #include "VisualPass.h"
 #include "VisualTechnique.h"
 
-#include "ShaderFloat.h"
-#include "ShaderVMatrix.h"
 
-#include "DefaultEffect.h"
-
-#include "StandardMesh.h"
 #include "Node.h"

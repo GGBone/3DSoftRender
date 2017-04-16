@@ -1,5 +1,6 @@
 #include "GraphicsPCH.h"
 #include "Dx11Texture.h"
+#include "Float2.h"
 #include <sstream>
 using namespace Hikari;
 static void ReportAndThrowTextureFormatError(const Texture::TextureFormat& format, const std::string& file, int line, const std::string& function, const std::string& message)

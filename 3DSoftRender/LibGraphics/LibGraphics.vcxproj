@@ -74,9 +74,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\SDK\Library\</OutDir>
+    <OutDir>../SDK/Library/</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>../SDK/Library/</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -84,11 +86,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;../SDK/Include;../External/FreeImage/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -97,7 +102,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;..\SDK\Include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,6 +141,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractPass.h" />
+    <ClInclude Include="BasePass.h" />
     <ClInclude Include="BlendState.h" />
     <ClInclude Include="BufferBinding.h" />
     <ClInclude Include="Camera.h" />
@@ -151,6 +158,7 @@
     <ClInclude Include="Dx11DepthStencilState.h" />
     <ClInclude Include="Dx11Mesh.h" />
     <ClInclude Include="Dx11PipelineState.h" />
+    <ClInclude Include="Dx11Query.h" />
     <ClInclude Include="Dx11RasterizerState.h" />
     <ClInclude Include="Dx11Renderer.h" />
     <ClInclude Include="Dx11RenderLIB.h" />
@@ -172,6 +180,7 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="PipelineState.h" />
     <ClInclude Include="Pixel.h" />
+    <ClInclude Include="Query.h" />
     <ClInclude Include="RasterizerState.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RayCast.h" />
@@ -191,20 +200,27 @@
     <ClInclude Include="Spatial.h" />
     <ClInclude Include="StandardMesh.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="StructuredBuffer.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Texture2D.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Triangle.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="TriMesh.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="VertexBufferAccessor.h" />
-    <ClInclude Include="VertexFormat.h" />
+    <ClInclude Include="VertexBufferAccessor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="VertexFormat.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="Visual.h" />
     <ClInclude Include="VisualEffect.h" />
@@ -213,6 +229,8 @@
     <ClInclude Include="VisualTechnique.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractPass.cpp" />
+    <ClCompile Include="BasePass.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Culler.cpp" />
     <ClCompile Include="DefaultEffect.cpp" />
@@ -222,10 +240,12 @@
     <ClCompile Include="Dx11DepthStencilState.cpp" />
     <ClCompile Include="Dx11Mesh.cpp" />
     <ClCompile Include="Dx11PipelineState.cpp" />
+    <ClCompile Include="Dx11Query.cpp" />
     <ClCompile Include="Dx11RasterizerState.cpp" />
     <ClCompile Include="Dx11RenderData.cpp" />
     <ClCompile Include="Dx11Renderer.cpp" />
     <ClCompile Include="Dx11RenderTarget.cpp" />
+    <ClCompile Include="Dx11SamplerState.cpp" />
     <ClCompile Include="Dx11Scene.cpp" />
     <ClCompile Include="Dx11Shader.cpp" />
     <ClCompile Include="Dx11ShaderParameter.cpp" />
@@ -234,6 +254,7 @@
     <ClCompile Include="GraphicsLib.h" />
     <ClCompile Include="GraphicsPCH.cpp" />
     <ClCompile Include="LightEffect.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderData.cpp" />
@@ -246,18 +267,25 @@
     <ClCompile Include="Spatial.cpp" />
     <ClCompile Include="StandardMesh.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Triangle.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="TriMesh.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="VertexBufferAccessor.cpp" />
-    <ClCompile Include="VertexFormat.cpp" />
+    <ClCompile Include="VertexBufferAccessor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="VertexFormat.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Visual.cpp" />
     <ClCompile Include="VisualEffect.cpp" />
     <ClCompile Include="VisualEffectInstance.cpp" />
@@ -266,7 +294,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Node.inl" />
-    <None Include="Visual.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

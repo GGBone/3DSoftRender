@@ -17,8 +17,6 @@ namespace Hikari
 	class Float2;
 	class Texture : public Object
 	{
-		DECLARE_RTTI;
-		DECLARE_NAMES;
 
 	public:
 		enum class Dimension

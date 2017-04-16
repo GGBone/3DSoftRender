@@ -18,7 +18,10 @@
     <ClInclude Include="tiny_obj_loader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MeshLoader.h">
+    <ClInclude Include="ConfigurationSetting.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DependencyTracker.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -26,7 +29,7 @@
     <ClCompile Include="tiny_obj_loader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MeshLoader.cpp">
+    <ClCompile Include="ConfigurationSetting.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

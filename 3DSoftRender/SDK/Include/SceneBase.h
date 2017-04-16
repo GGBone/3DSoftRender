@@ -1,19 +1,15 @@
 #pragma once
-
+#include "GraphicsLib.h"
 #include <Scene.h>
 namespace Hikari
 {
-	struct aiMaterial;
-	struct aiMesh;
-	struct aiNode;
-
 	class Material;
 	class Buffer;
 	class Mesh;
 	class Texture;
 	class Camera;
 	class SceneNode;
-
+	
 	class SceneBase : public Scene
 	{
 	public:

@@ -5,8 +5,7 @@
 
 #include "Dx11Renderer.h"
 #include "Renderer.h"
-#include <Windows.h>
-#include <WinUser.h>
+
 
 using namespace Hikari;
 

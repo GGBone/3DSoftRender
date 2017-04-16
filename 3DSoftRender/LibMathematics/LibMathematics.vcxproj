@@ -37,6 +37,7 @@
     <ClInclude Include="Mathematics.h" />
     <ClInclude Include="MathematicsLIB.h" />
     <ClInclude Include="MathematicsPCH.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algebra\APoint.cpp" />
@@ -109,7 +110,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../SDK/Library/</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>../SDK/Library/</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -117,7 +120,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;Algebra;Approximation;Base;ComputationalGeometry;Containment;CurvesSurfacesVolumes;Distance;Interpolation;Intersection;Meshes;Miscellaneous;NumericalAnalysis;Objects2D;Objects3D;Query;Rational;..\SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;Algebra;Approximation;Base;ComputationalGeometry;Containment;CurvesSurfacesVolumes;Distance;Interpolation;Intersection;Meshes;Miscellaneous;NumericalAnalysis;Objects2D;Objects3D;Query;Rational;../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,7 +133,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;Algebra;Approximation;Base;ComputationalGeometry;Containment;CurvesSurfacesVolumes;Distance;Interpolation;Intersection;Meshes;Miscellaneous;NumericalAnalysis;Objects2D;Objects3D;Query;Rational;..\SDK\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;Algebra;Approximation;Base;ComputationalGeometry;Containment;CurvesSurfacesVolumes;Distance;Interpolation;Intersection;Meshes;Miscellaneous;NumericalAnalysis;Objects2D;Objects3D;Query;Rational;../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

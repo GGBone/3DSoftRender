@@ -45,22 +45,28 @@
   <ItemGroup>
     <ClInclude Include="ControlPoint.h" />
     <ClInclude Include="Geometry.h" />
-    <ClInclude Include="Lights.h" />
+    <ClInclude Include="Sample.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lights.cpp" />
+    <ClCompile Include="Sample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="CommonInclude.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="DefaultShader.fx" />
-    <FxCompile Include="ForwardRendering.hlsl">
+    <CustomBuild Include="DefaultShader.fx">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="ForwardRendering.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">PS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="LightShader.hlsl" />
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="LightShader.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A99C0649-C5EB-4A75-ADF4-44DD8E088F20}</ProjectGuid>
@@ -177,15 +183,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>..\..\SDK\Library;..\..\External\ExternalLibrary;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+    <LibraryPath>../../SDK/Library;../../External/ExternalLibrary;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
     <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
     <LibraryWPath>$(WindowsSDK_MetadataPath);..\..\SDK\Library;</LibraryWPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>..\..\SDK\Library;..\..\External\ExternalLibrary;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
+    <LibraryPath>../../SDK/Library;../../External/ExternalLibrary;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -265,14 +271,14 @@
       <SDLCheck>true</SDLCheck>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <AdditionalIncludeDirectories>..\..\SDK\Include\;..\..\External\assimp\include\assimp\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../SDK/Include/;../../External/;../../External/FreeImage/;../../External/boost_1_58_0/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>LibLoader.lib;assimp-vc140-mt.lib;dxguid.lib;d3dcompiler.lib;LibMathematics.lib;LibGraphics.lib;LibCore.lib;LibApplication.lib;d3dcompiler.lib;dxgi.lib;d3d11.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libboost_filesystem-vc140-mt-gd-1_58.lib;libboost_serialization-vc140-mt-gd-1_58.lib;libboost_system-vc140-mt-gd-1_58.lib;libboost_wserialization-vc140-mt-gd-1_58.lib;assimp.lib;FreeImageLib.lib;LibLoader.lib;assimp-vc140-mt.lib;dxguid.lib;d3dcompiler.lib;LibMathematics.lib;LibGraphics.lib;LibCore.lib;LibApplication.lib;dxgi.lib;d3d11.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>true</Profile>
-      <AdditionalLibraryDirectories>..\..\SDK\Library\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../SDK/Library/;../../External/ExternalLibrary/</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <Bscmake>
@@ -289,12 +295,12 @@
       <SDLCheck>true</SDLCheck>
       <BrowseInformation>true</BrowseInformation>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <AdditionalIncludeDirectories>..\..\SDK\Include\;..\..\External\assimp\include\assimp\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../SDK/Include/;../../External/FreeImage/;../../External/boost_1_58_0/;../../External/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dxguid.lib;d3dcompiler.lib;LibMathematics.lib;LibGraphics.lib;LibCore.lib;LibApplication.lib;d3dcompiler.lib;dxgi.lib;d3d11.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libboost_serialization-vc140-mt-gd-1_58.lib;libboost_filesystem-vc140-mt-gd-1_58.lib;libboost_system-vc140-mt-gd-1_58.lib;libboost_wserialization-vc140-mt-gd-1_58.lib;assimp.lib;FreeImageLib.lib;LibLoader.lib;assimp-vc140-mt.lib;dxguid.lib;d3dcompiler.lib;LibMathematics.lib;LibGraphics.lib;LibCore.lib;LibApplication.lib;dxgi.lib;d3d11.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Profile>true</Profile>
       <AdditionalLibraryDirectories>..\..\SDK\Library\</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>

@@ -12,6 +12,14 @@ namespace Hikari
 		inline Float3(const Float3& tuple);
 
 		inline Float3& operator=(const Float3& tuple);
+
+		template <class Archive>
+		void serialize(Archive& archive, const unsigned int version)
+		{
+			archive & BOOST_SERIALIZATION_NVP(mTuple);
+
+		}
+
 	};
 	inline Hikari::Float3::Float3()
 	{

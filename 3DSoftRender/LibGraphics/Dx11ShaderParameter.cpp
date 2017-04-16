@@ -2,6 +2,7 @@
 #include "Dx11ShaderParameter.h"
 #include "Dx11ConstantBuffer.h"
 #include "Dx11StructureBuffer.h"
+#include "Dx11SamplerState.h"
 using namespace Hikari;
 
 Hikari::ShaderParameterDx::ShaderParameterDx()
@@ -31,9 +32,9 @@ void Hikari::ShaderParameterDx::Bind()
 	if(!mConstantBuffer)
 		mConstantBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 	if (!mTexture)
-		//mTexture->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
+		mTexture->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 	if(!mSamplerState)
-		//mSamplerState->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
+		mSamplerState->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 	if(!mStructuredBuffer)
 		mStructuredBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 

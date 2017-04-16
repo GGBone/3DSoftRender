@@ -5,14 +5,18 @@
 #include "ShaderMMatrix.h"
 #include "ShaderPMatrix.h"
 #include "Dx11Shader.h"
+#include "ConfigurationSetting.h"
 namespace Hikari
 {
 	class LightEffect :public VisualEffect
 	{
 	public:
+		
 		LightEffect();
 		virtual ~LightEffect();
 
-		VisualEffectInstance* CreateInstance() const;
+		VisualEffectInstance* CreateInstance(Renderer* renderer) const;
+
+
 	};
 }

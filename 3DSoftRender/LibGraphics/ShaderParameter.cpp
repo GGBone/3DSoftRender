@@ -1,19 +1,30 @@
 #include "ShaderParameter.h"
 using namespace Hikari;
-template<>
-void ShaderParameter::Set<ConstantBuffer>(ConstantBuffer* value);
-
-template<>
-void ShaderParameter::Set<Texture>(Texture* value);
-
-template<>
-void ShaderParameter::Set<SamplerState>(SamplerState* value);
-
-template<>
-void ShaderParameter::Set<StructuredBuffer>(StructuredBuffer* value);
-
-template<typename T>
-void ShaderParameter::Set(T* value)
+bool ShaderParameter::IsValid() const
 {
-	//BOOST_STATIC_ASSERT_MSG(false, "This function must be specialized.");
+	return false;
+}
+
+template<>
+void ShaderParameter::Set<ConstantBuffer>(ConstantBuffer* value)
+{
+	SetConstantBuffer(value);
+}
+
+template<>
+void ShaderParameter::Set<Texture>(Texture* value)
+{
+	SetTexture(value);
+}
+
+template<>
+void ShaderParameter::Set<SamplerState>(SamplerState* value)
+{
+	SetSampler(value);
+}
+
+template<>
+void ShaderParameter::Set<StructuredBuffer>(StructuredBuffer* value)
+{
+	SetStructuredBuffer(value);
 }

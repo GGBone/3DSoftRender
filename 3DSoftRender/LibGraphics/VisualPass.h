@@ -1,44 +1,27 @@
 #pragma once
 #include "Object.h"
 #include "Dx11RenderLIB.h"
-#include "Shader.h"
+#include "Visitor.h"
 namespace Hikari
 {
-	class VisualPass : public Object
+	class RenderEventArgs;
+	class VisualPass : public Visitor
 	{
 		DECLARE_RTTI;
 		DECLARE_NAMES;
 	public:
-		VisualPass():
-			mvShader(nullptr),
-			mpShader(nullptr)
-		{
+		virtual void SetEnabled(bool enabled) = 0;
+		virtual bool IsEnabled() const = 0;
 
-		}
-		~VisualPass() {}
-		inline void SetVertexShader(Shader* vsShader)
-		{
-			mvShader = vsShader;
-		}
-		inline void SetPixelShader(Shader* psShader)
-		{
-			mpShader = psShader;
-		}
-		inline Shader* GetVertexShader() const
-		{
-			return mvShader;
-		}
-		inline Shader* GetPixelShader() const
-		{
-			return mpShader;
-		}
+		// Render the pass. This should only be called by the RenderTechnique.
+		virtual void PreRender(RenderEventArgs& e) = 0;
+		virtual void Render(RenderEventArgs& e) = 0;
+		virtual void PostRender(RenderEventArgs& e) = 0;
 
-	private:
-		Shader* mvShader;
-		Shader* mpShader;
-		Shader* mgShader;
-		Shader* mhShader;
-		Shader* mcShader;
+		// Inherited from Visitor
+		virtual void Visit(Scene& scene) = 0;
+		virtual void Visit(Node& node) = 0;
+		virtual void Visit(Mesh& mesh) = 0;
 
 	};
 	typedef VisualPass* VisualPassPtr;

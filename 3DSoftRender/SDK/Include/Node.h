@@ -57,5 +57,4 @@ namespace Hikari
 		MeshList m_Meshes;
 	};
 	typedef Node* NodePtr;
-#include "Node.inl"
 }

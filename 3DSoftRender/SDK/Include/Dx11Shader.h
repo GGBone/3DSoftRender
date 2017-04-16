@@ -6,11 +6,12 @@
 #include "BufferBinding.h"
 namespace Hikari
 {
+	class DirectRenderer;
 	class ShaderDx : public Shader 
 	{
 	public:
 		ShaderDx(DirectRenderer* renderer);
-		virtual ShaderType GetType()const;
+		virtual ShaderType GetType()const override;
 
 		virtual void LoadShaderFromString(ShaderType type, const std::string& source, const std::string& sourceFileName,
 			const ShaderMacros& shaderMacros, const std::string& entryPoint, const std::string& profile) override;

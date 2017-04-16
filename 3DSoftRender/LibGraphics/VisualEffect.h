@@ -14,7 +14,6 @@ namespace Hikari
 		void VisualEffect::InsertTechnique(VisualTechnique * technique);
 		VisualTechnique * Hikari::VisualEffect::GetTechnique(int techIndex);
 
-		VisualEffect * Hikari::VisualEffect::LoadFX(Renderer* render,const std::string & name, int mode);
 		Shader* LoadShader(Renderer* render,std::ifstream & in);
 		VisualTechnique * Hikari::VisualEffect::LoadVisualTechnique(Renderer* render,std::ifstream & in);
 

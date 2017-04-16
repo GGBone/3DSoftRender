@@ -118,9 +118,6 @@
     <ClInclude Include="Culler.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Dx11RenderTarget.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
@@ -247,6 +244,18 @@
     <ClInclude Include="Dx11Scene.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractPass.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="BasePass.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Query.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11Query.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -301,9 +310,6 @@
     <ClCompile Include="Dx11RenderTarget.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Culler.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
@@ -346,9 +352,6 @@
     <ClCompile Include="Node.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderParameter.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="Dx11BlendState.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
@@ -373,12 +376,27 @@
     <ClCompile Include="Dx11PipelineState.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11Scene.cpp" />
+    <ClCompile Include="Material.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="BasePass.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11Scene.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11SamplerState.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractPass.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderParameter.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11Query.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Visual.inl">
-      <Filter>SceneGraph</Filter>
-    </None>
     <None Include="Node.inl">
       <Filter>SceneGraph</Filter>
     </None>

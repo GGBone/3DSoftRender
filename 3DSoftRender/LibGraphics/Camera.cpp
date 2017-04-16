@@ -1,296 +1,413 @@
-#include "Camera.h"
-#include "Math.h"
-#include "Object.h"
+#include <GraphicsPCH.h>
+#include <Camera.h>
 using namespace Hikari;
-ArcBall::ArcBall()
+HMatrix Perspective(float a,float r,float f,float n)
 {
-	Reset();
-	m_vDownPt = Vector3f(0,0,0);
-	m_vCurrentPt = Vector3f(0, 0, 0);
-	m_Offset[0] = m_Offset[1] = 0;
+	HMatrix temp
+	(	(1.0f / (r*tanf(a / 2.0f))), 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f / (tanf(a / 2.0f)), 0.0f, 0.0f,
+				0.0f, 0.0f, f / (f - n), 1.0f,
+				0.0f, 0.0f, -n*f / (f - n), 0.0f
+	);
+	return temp;
+}
+HMatrix Ortho(float l,float r,float b,float t,float n,float f)
+{
+	HMatrix temp
+	(2.0f/(r - l), 0.0f, 0.0f, -(r+l)/(r-l),
+		0.0f, 2.0f/(t-b),.0f, 0.0f,
+		0.0f, 0.0f, 1.0f/(f-n), -n/(f-n),
+		0.0f, 0.0f,  0.0f, 1.0f
+	);
+	return temp;
+}
+Camera::Camera()
+	: m_Translate(0,0,0)
+	, m_PivotDistance(0)
+	, m_bViewDirty(true)
+	, m_bViewProjectionInverseDirty(true)
+{}
 
-	RECT rc;
-	GetClientRect(GetForegroundWindow(), &rc);
-	SetWindow(rc.right, rc.bottom);
+void Camera::SetViewport(const Viewport& viewport)
+{
+	m_Viewport = viewport;
 }
 
-void ArcBall::Reset()
+const Viewport& Camera::GetViewport() const
 {
-	/*m_qDown.SetIdentity();
-	m_qNow.SetIdentity();
-	m_mRotation.setIdentity();
-	m_mTranslation.setIdentity();
-	m_mTranslationDelta.setIdentity();*/
-	m_bDrag = FALSE;
-	m_fRadiusTranslation = 1.0f;
-	m_fRadius = 1.0f;
-}
-//
-//AVector ArcBall::ScreenToVector(float fScreenX, float fScreeny)
-//{
-//	float x = -(fScreenX - m_Offset[0] - m_nWidth / 2) / (m_fRadius * m_nWidth / 2);
-//	float y = (fScreeny - m_Offset[1] - m_nHeight / 2) / (m_fRadius * m_nHeight / 2);
-//
-//	float z = 0.0f;
-//
-//	float mag = x*x + y *y;
-//	if (mag > 1.0f)
-//	{
-//		float scale = 1.0f / sqrtf(mag);
-//		y *= scale;
-//		x *= scale;
-//	}
-//	else
-//		z = sqrtf(1.0 - mag);
-//	return AVector(x, y, z);
-//}
-
-void Camera::FrameMove(float dt)
-{
-	//Translate(m_dir, dt * 10);
-}
-void Camera::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
-{
-	BaseCamera::SetViewParams(pvEyePt, pvLookatPt);
+	return m_Viewport;
 }
 
-
-void BaseCamera::Perspective(int size, float znear, float zfar, float angle, float aspect)
+void Camera::SetProjectionRH(float fovy, float aspect, float zNear, float zFar)
 {
+	m_fVFOV = fovy;
+	m_fAspect = aspect;
+	m_fNear = zNear;
+	m_fFar = zFar;
 	
+	m_ProjectionMatrix = Perspective(m_fVFOV, m_fAspect, m_fNear, m_fFar);
+	
+	m_bViewProjectionInverseDirty = true;
 }
 
-void BaseCamera::Division(APoint& point)
+void Camera::SetProjectionLH(float fovy, float aspect, float zNear, float zFar)
 {
-	point = APoint(point[0] / point[3], point[1] / point[3], point[2] / point[3]);
+	HMatrix fix(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 2.0f, 0.0f,
+		0.0f, 0.0f, -1.0f, 1.0f
+	);
+
+	m_fVFOV = fovy;
+	m_fAspect = aspect;
+	m_fNear = zNear;
+	m_fFar = zFar;
+
+	//    m_ProjectionMatrix = fix * glm::perspective( fovy, aspect, zNear, zFar ); // * fix;	
+	m_ProjectionMatrix = fix * Perspective(fovy, aspect, zNear, zFar);
+	m_bViewProjectionInverseDirty = true;
 }
-/*
-void BaseCamera::Perspective(RenderList& rend_list)
+
+float Camera::GetNearClipPlane() const
 {
-	float top = m_near_clip_z * tan(m_fov / 2);
-	float right = m_aspect_ratio * top;
-	float left = -right;
-	float bottom = -top;
+	return m_fNear;
+}
 
-	float XClip[][4] =
-	{
-		2 * m_near_clip_z / (right - left), 0, -(right + left) / (right - left), 0,
-		0, 2 * m_near_clip_z / (top - bottom), -(top + bottom) / (top - bottom), 0,
-		0, 0, m_near_clip_z / (m_far_clip_z - m_near_clip_z), -m_near_clip_z * m_far_clip_z / (m_far_clip_z - m_near_clip_z),
-		0, 0, 1, 0
-	};
-	m_View = HMatrix(&XClip[0][0]);
+float Camera::GetFarClipPlane() const
+{
+	return m_fFar;
+}
 
-	for (int i = 0; i < rend_list.num_polys; i++)
+void Camera::SetOrthographic(float left, float right, float top, float bottom)
+{
+	m_ProjectionMatrix = Ortho(left, right, bottom, top,0.1f,1000.0f);
+	m_bViewProjectionInverseDirty = true;
+}
+
+void Camera::AddPitch(float fPitch, Space space)
+{
+	switch (space)
 	{
-		PolyF4DV1* curr_poly = rend_list.poly_ptrs[i];
-		if (curr_poly == NULL)
-			continue;
-		for (int vertex = 0; vertex < 3; vertex++)
-		{
-			curr_poly->tvlist[vertex] = m_View * curr_poly->tvlist[vertex];
-			Division(curr_poly->tvlist[vertex]);
-		}
+	//case Space::Local:
+	//	m_Rotate = glm::angleAxis(glm::radians(fPitch), m_Rotate * Vector3f(1, 0, 0)) * m_Rotate;
+	//	break;
+	//case Space::World:
+	//	m_Rotate = glm::angleAxis(glm::radians(fPitch), Vector3f(1, 0, 0)) * m_Rotate;
 	}
-}*/
-//
-void BaseCamera::RemoveBackface(Object* obj)
+
+	m_bViewDirty = true;
+}
+
+void Camera::AddYaw(float fYaw, Space space)
 {
-	//Object4DV1* temp = static_cast<Object4DV1*>(obj);
-	//if (temp)
+	switch (space)
+	{
+	//case Space::Local:
+	//	m_Rotate = glm::angleAxis(glm::radians(fYaw), m_Rotate * Vector3f(0, 1, 0)) * m_Rotate;
+	//	break;
+	//case Space::World:
+	//	m_Rotate = glm::angleAxis(glm::radians(fYaw), Vector3f(0, 1, 0)) * m_Rotate;
+	//	break;
+	}
+
+	m_bViewDirty = true;
+}
+
+void Camera::AddRoll(float fRoll, Space space)
+{
+	switch (space)
+	{
+	/*case Space::Local:
+		m_Rotate = glm::angleAxis(glm::radians(fRoll), m_Rotate * Vector3f(0, 0, 1)) * m_Rotate;
+		break;
+	case Space::World:
+		m_Rotate = glm::angleAxis(glm::radians(fRoll), Vector3f(0, 0, 1)) * m_Rotate;
+		break;*/
+	}
+	m_bViewDirty = true;
+}
+
+void Camera::SetEulerAngles(const Vector3f& eulerAngles)
+{
+	//m_Rotate = Float4(glm::radians(eulerAngles));
+	//m_bViewDirty = true;
+}
+
+void Camera::AddRotation(const Float4& deltaRot)
+{
+/*	m_Rotate = m_Rotate * deltaRot;*/
+	m_bViewDirty = true;
+}
+
+void Camera::TranslateX(float x, Space space)
+{
+	/*switch (space)
+	{
+	case Camera::Space::Local:
+		m_Translate += m_Rotate * Vector3f(x, 0, 0);
+		break;
+	case Camera::Space::World:
+		m_Translate += Vector3f(x, 0, 0);
+		break;
+	}
+	m_bViewDirty = true;*/
+}
+
+void Camera::TranslateY(float y, Space space)
+{
+	//switch (space)
 	//{
-	//	/*if (temp->state & OBJECTDV1_STATE_CULLED)
-	//	return;*/
+	//case Space::Local:
+	//	m_Translate += m_Rotate * Vector3f(0, y, 0);
+	//	break;
+	//case Space::World:
+	//	m_Translate += Vector3f(0, y, 0);
+	//	break;
+	//}
 
-	//	for (int poly = 0; poly < temp->num_polys; poly++)
-	//	{
-	//		Poly4DV1* curr = &temp->plist[poly];
+	//m_bViewDirty = true;
+}
 
-	//		//check the state
-	//		if (!(curr->state & POLY4DV1_STATE_ACTIVE) ||
-	//			(curr->state & POLY4DV1_STATE_CLIPPED) ||
+void Camera::TranslateZ(float z, Space space)
+{
+	/*switch (space)
+	{
+	case Space::Local:
+		m_Translate += m_Rotate * Vector3f(0, 0, z);
+		break;
+	case Space::World:
+		m_Translate += Vector3f(0, 0, z);
+		break;
+	}
 
-	//			(curr->state & POLY4DV1_STATE_BACKFACE))
-	//			continue; // move onto next poly
+	m_bViewDirty = true;*/
+}
 
-	//		int index0 = curr->vert[0];
-	//		int index1 = curr->vert[1];
-	//		int index2 = curr->vert[2];
+void Camera::SetTranslate(const Vector3f& translate)
+{
+	m_Translate = translate;
+	m_bViewDirty = true;
+}
 
-	//		AVector u, v, n;
-	//		u = temp->vlist_trans[index1] - temp->vlist_trans[index0];
-	//		v = temp->vlist_trans[index2] - temp->vlist_trans[index0];
+void Camera::SetRotate(float pitch, float yaw, float roll)
+{
+	//SetRotate(Vector3f(pitch, yaw, roll));
+}
 
-	//		n = u.cross(v);
+void Camera::SetRotate(const Vector3f& rotate)
+{
+	//SetRotate(Float4(glm::radians(rotate)));
+}
 
-	//		AVector camDirection = temp->vlist_trans[index0] - m_pos;
-	//		float degree = n * camDirection;
+void Camera::SetRotate(const Float4& rot)
+{
+	m_Rotate = rot;
+	m_bViewDirty = true;
+}
 
-	//		if (degree < 0.0)
-	//			curr->state |= POLY4DV1_STATE_BACKFACE;
+void Camera::SetPivotDistance(float pivotDistance)
+{
+	// Make sure pivot distance is always positive.
+	//m_PivotDistance = std::max(pivotDistance, 0.0f);
+	m_bViewDirty = true;
+}
+
+float Camera::GetPivotDistance() const
+{
+	return m_PivotDistance;
+}
+
+Vector3f Camera::GetPivotPoint() const
+{
+	// The camera actually pivots around its "translation" point.
+	return m_Translate;
+}
 
 
-	//	}
+Vector3f Camera::GetTranslation() const
+{
+	return m_Translate;
+}
+
+
+Vector3f Camera::GetEulerAngles() const
+{
+	//return glm::degrees(glm::eulerAngles(m_Rotate));
+	return Vector3f();
+}
+
+void Camera::UpdateViewMatrix()
+{
+	/*if (m_bViewDirty)
+	{
+		HMatrix translateMatrix = glm::translate(m_Translate);
+		HMatrix rotationMatrix = glm::toMat4(m_Rotate);
+		HMatrix pivotMatrix = glm::translate(Vector3f(0, 0, m_PivotDistance));
+
+		m_ViewMatrix = glm::inverse(translateMatrix * rotationMatrix * pivotMatrix);
+
+		m_bViewProjectionInverseDirty = true;
+		m_bViewDirty = false;
+	}*/
+}
+
+void Camera::UpdateViewProjectionInverse()
+{
+	UpdateViewMatrix();
+
+	//if (m_bViewProjectionInverseDirty)
+	//{
+	//	m_ViewProjectionInverse = glm::inverse(m_ProjectionMatrix * m_ViewMatrix);
+	//	m_bViewProjectionInverseDirty = false;
 	//}
 }
-void BaseCamera::Perspective(Object* obj)
-{
-	float top = m_near_clip_z * tan(m_fov / 2 /180.0f * PI);
-	float right = m_aspect_ratio * top;
-	float left = -right;
-	float bottom = -top;
 
-	float XClip[][4] =
+void Camera::SetViewMatrix(const HMatrix& viewMatrix)
+{
+	// Inverse the view matrix to get the world matrix of the camera
+	//HMatrix inverseView = glm::inverse(viewMatrix);
+
+	//// Extract the translation
+	//m_Translate = Vector3f(inverseView[3]);
+
+	//// Extract the top-left 3x3 matrix to decompose the scale and rotation
+	//glm::mat3 tmp = glm::mat3(inverseView);
+
+	//// TODO: I don't know if any of the scales are negative.
+	//// I have to figure out how can I reliably determine if any of the scales are negative?
+	//float sx = glm::length(tmp[0]);
+	//float sy = glm::length(tmp[1]);
+	//float sz = glm::length(tmp[2]);
+
+	//glm::mat3 invScale = glm::mat3(glm::scale(Vector3f(1.0f / sx, 1.0f / sy, 1.0f / sz)));
+	//// This will remove the scale factor (if there is one) so we can extract
+	//// the unit quaternion.
+	//tmp = tmp * invScale;
+	//m_Rotate = glm::toQuat(tmp);
+
+	//// The view matrix needs to be rebuilt from the rotation and translation components.
+	//m_bViewDirty = true;
+}
+
+HMatrix Camera::GetViewMatrix() const
+{
+	const_cast<Camera*>(this)->UpdateViewMatrix();
+	return m_ViewMatrix;
+}
+
+void Camera::SetProjectionMatrix(const HMatrix& projectionMatrix)
+{
+	// TODO: Decompose the projection matrix?
+	m_ProjectionMatrix = projectionMatrix;
+	m_bViewProjectionInverseDirty = true;
+}
+
+HMatrix Camera::GetProjectionMatrix() const
+{
+	return m_ProjectionMatrix;
+}
+
+HMatrix Camera::GetViewProjectionInverseMatrix() const
+{
+	const_cast<Camera*>(this)->UpdateViewProjectionInverse();
+	return m_ViewProjectionInverse;
+}
+/*
+
+Ray Camera::ScreenPointToRay(const Fl& screenPoint) const
+{
+	//HMatrix clipToWorld = GetViewProjectionInverseMatrix();
+	//Float4 clipPoint = Float4(screenPoint, 1, 1);
+	//clipPoint.x = (screenPoint.x - m_Viewport.X) / m_Viewport.Width;
+	//clipPoint.y = 1.0f - (screenPoint.y - m_Viewport.Y) / m_Viewport.Height;
+	//clipPoint = clipPoint * 2.0f - 1.0f;
+
+	//Vector3f p0 = m_Translate;
+	//Float4 worldSpace = clipToWorld * clipPoint;
+	//Vector3f p1 = Vector3f(worldSpace / worldSpace.w); // glm::unProject( Vector3f( screenPoint, 0), m_ViewMatrix, m_ProjectionMatrix, Float4( m_Viewport.X, m_Viewport.Y, m_Viewport.Width, m_Viewport.Height ) );
+
+	//return Ray(p0, glm::normalize(p1 - p0));
+}
+
+Vector3f Camera::ProjectOntoUnitSphere(glm::ivec2 screenPos)
+{
+	// Map the screen coordinates so that (0, 0) is the center of the viewport.
+	screenPos -= glm::vec2(m_Viewport.Width, m_Viewport.Height) * 0.5f;
+
+	float x, y, z;
+	// The radius of the unit sphere is 1/2 of the shortest dimension of the viewport.
+	float radius = glm::min(m_Viewport.Width, m_Viewport.Height) * 0.5f;
+
+	// Now normalize the screen coordinates into the range [-1 .. 1].
+	x = screenPos.x / radius;
+	// The y-coordinate has to be inverted so that +1 is the top of the unit sphere
+	// and -1 is the bottom of the unit sphere.
+	y = -(screenPos.y / radius);
+
+	float length_sqr = (x * x) + (y * y);
+
+	// If the screen point is mapped outside of the unit sphere
+	if (length_sqr > 1.0f)
 	{
-		2 * m_near_clip_z / (right - left), 0, -(right + left) / (right - left), 0,
-		0, 2 * m_near_clip_z / (top - bottom), -(top + bottom) / (top - bottom), 0,
-		0, 0, m_near_clip_z / (m_far_clip_z - m_near_clip_z), -m_near_clip_z * m_far_clip_z / (m_far_clip_z - m_near_clip_z),
-		0, 0, 1, 0
-	};
-	m_View = HMatrix(&XClip[0][0]);
-	RemoveBackface(obj);
+		float invLength = glm::inversesqrt(length_sqr);
 
-}
+		// Return the normalized point that is closest to the outside of the unit sphere.
+		x *= invLength;
+		y *= invLength;
+		z = 0.0f;
+	}
+	else
+	{
+		// The point is on the inside of the unit sphere.
+		z = glm::sqrt(1.0f - length_sqr);
+		// If we are "inside" the unit sphere, then 
+		// invert the z component.
+		// In a right-handed coordinate system, the "+z" axis of the unit
+		// sphere points towards the viewer. If we are in the Unit sphere, we
+		// want to project the point to the inside of the sphere and in this case
+		// the z-axis we want to project on points away from the viewer (-z).
+		if (m_PivotDistance <= 0.0f)
+		{
+			z = -z;
+		}
+	}
 
-CameraKeys BaseCamera::MapKey(UINT nKey)
-{
-	return CameraKeys();
-}
-
-void BaseCamera::UpdateMouseDelta()
-{
-}
-void BaseCamera::UpdateVelocity(float fElapsedTime)
-{
-}
-void BaseCamera::GetInput(bool bGetKeyboardInput, bool GetMouseInput, bool bGetGamepadInput, bool bResetCursorAfterMove)
-{
-}
-
-
-CameraKeys Camera::MapKey(UINT nKey)
-{
-	return CameraKeys();
-}
-void Camera::SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane)
-{
-	BaseCamera::SetProjParams(fFOV, fAspect, fNearPlane, fFarPlane);
-}
-void Camera::Viewport(float xvmin, float xvmax, float yvmax, float yvmin)
-{
-	HMatrix viewport;
-	float v[4][4];
-	v[0][0] = (xvmax - xvmin) / 2;
-	v[1][1] = (yvmax - yvmin) / 2;
-
+	return Vector3f(x, y, z);
 }
 
-
-LRESULT BaseCamera::HandleMessage(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
+void Camera::OnMousePressed(MouseButtonEventArgs& e)
 {
-	return LRESULT();
+	m_PreviousPoint = ProjectOntoUnitSphere(glm::ivec2(e.X, e.Y));
 }
 
-void BaseCamera::FrameMove(float fElapsedTime)
+void Camera::OnMouseMoved(MouseMotionEventArgs& e)
 {
-}
+	Vector3f currentPoint = ProjectOntoUnitSphere(glm::ivec2(e.X, e.Y));
 
-void BaseCamera::Reset()
-{
-}
+	AddRotation(Float4(currentPoint, m_PreviousPoint));
 
-void BaseCamera::SetViewParams(const APoint& pvEyePt,const APoint& pvLookatPt)
-{
-	m_pos = pvEyePt;
-	m_target = pvLookatPt;
-	m_dir = m_target - m_pos;
-	m_up = AVector::UP;
-	m_right = m_up.Cross(m_dir);
-	
-	m_right.Normalize(EPSILON_E6);
-	m_dir.Normalize(EPSILON_E6);
-	HMatrix temp(m_right.X(), m_up.X(), m_dir.X(), m_pos.X(),
-		m_right.Y(),  m_up.Y(), m_dir.Y(), m_pos.Y(),
-		m_right.Z(), m_up.Z(), m_dir.Z(), m_pos.Z(),
-		0.0f, 0.0f, 0.0f, 1.0f
-	);
-	m_View = temp.Inverse();
-}
+	//// Compute the axis of rotation.
+	//Vector3f axis = glm::cross( currentPoint, m_PreviousPoint );
 
-void BaseCamera::SetProjParams(float fFOV, float fAspect, float fNearPlane, float fFarPlane)
-{
-	float top = fNearPlane * tan(fFOV / 2);
-	float right = fAspect * top;
-	float left = -right;
-	float bottom = -top;
+	//float length_sqr = glm::length2( axis );
 
-	m_Proj = HMatrix
-	(
-		2 * fNearPlane / (right - left), 0, -(right + left) / (right - left), 0,
-		0, 2 * fNearPlane / (top - bottom), -(top + bottom) / (top - bottom), 0,
-		0, 0, fFarPlane / (fFarPlane - fNearPlane), -fNearPlane*fFarPlane / (fFarPlane - fNearPlane),
-		0, 0, 1, 0
-	);
-}
+	//// If the rotation axis is too short, don't rotate.
+	//if ( length_sqr > 0.0f )
+	//{
+	//    // Normalize the axis of rotation
+	//    //axis *= glm::inversesqrt( length_sqr );
 
-//void BaseCamera::LookAt(float Ex, float Ey, float Ez, float rx, float ry, float rz, float ux, float uy, float uz, float fx, float fy, float fz)
-//{
-//	m_pos = APoint(Ex, Ey, Ez);
-//	m_up = AVector(ux, uy, uz);
-//	m_right = AVector(rx, ry, rz);
-//
-//	float CAMERA_M[4][4];
-//
-//	CAMERA_M[0][0] = rx;
-//	CAMERA_M[0][1] = ux;
-//	CAMERA_M[0][2] = fx;
-//	CAMERA_M[0][3] = Ex;
-//
-//	CAMERA_M[1][0] = ry;
-//	CAMERA_M[1][1] = uy;
-//	CAMERA_M[1][2] = fy;
-//	CAMERA_M[1][3] = Ey;
-//
-//	CAMERA_M[2][0] = rz;
-//	CAMERA_M[2][1] = uz;
-//	CAMERA_M[2][2] = fz;
-//	CAMERA_M[2][3] = Ez;
-//
-//	CAMERA_M[3][0] = 0.0f;
-//	CAMERA_M[3][1] = 0.0f;
-//	CAMERA_M[3][2] = 0.0f;
-//	CAMERA_M[3][3] = 1;
-//
-//	//求出逆矩阵，然后与世界坐标的v相乘
-//	m_View = HMatrix(&CAMERA_M[0][0]);
-//	m_View.Inverse(m_View);
-//}
-//void BaseCamera::LookAt(APoint& point)
-//{
-//	m_dir = (point - m_pos).Normal();
-//	m_right = m_up.cross(m_dir);
-//	m_up = m_dir.cross(m_right);
-//	float CAMERA_M[][4] =
-//	{
-//		m_right[0], m_up[0], m_dir[0], m_pos[0],
-//		m_right[1], m_up[1], m_dir[1], m_pos[1],
-//		m_right[2], m_up[2], m_dir[2], m_pos[2],
-//		0.0f, 0.0f, 0.0f, 1.0f
-//	};
-//	m_View = HMatrix(&CAMERA_M[0][0]);
-//	m_View.Inverse(m_View);
-//}
-Camera::Camera()
-{
-	/*m_pos = APoint(0.0f, 0.0f, 0.0);
-	m_dir = AVector::FORWARD;
-	m_up = AVector::UP;
-	m_right = AVector::RIGHT;*/
+	//    // The dot product between the two vectors gives the angle of rotation.
+	//    float dotProduct = glm::dot( m_PreviousPoint, currentPoint );
+	//    if ( dotProduct <= 1 && dotProduct >= -1 )
+	//    {
+	//        // Add the resulting rotation to our current rotation
+	//        Float4 deltaRotate = glm::angleAxis( glm::acos( dotProduct ), glm::normalize(axis) );
+	//        AddRotation( deltaRotate );
+	//    }
+	//}
+
+	m_PreviousPoint = currentPoint;
 }
-Camera::Camera(APoint& point)
-{
-	/*m_pos = point;
-	m_dir = AVector::FORWARD;
-	m_up = AVector::UP;
-	m_right = AVector::RIGHT;*/
-}
+*/

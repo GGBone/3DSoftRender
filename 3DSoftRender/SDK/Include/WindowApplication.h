@@ -16,6 +16,8 @@ namespace Hikari
 		inline int GetYPosition()const;
 		inline int GetWidth()const;
 		inline int GetHeight()const;
+		inline void SetWidth(int width);
+		inline void SetHeight(int height);
 		inline float GetAspectRatio()const;
 		inline void SetWindowID(int windowID);
 		inline int GetWindowID()const;

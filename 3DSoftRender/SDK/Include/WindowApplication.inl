@@ -1,3 +1,4 @@
+#include "WindowApplication.h"
 inline const char* WindowApplication::GetWindowTitle() const
 {
 	return mWindowTitle.c_str();
@@ -22,6 +23,7 @@ inline int WindowApplication::GetHeight()const
 	return mHeight;
 }
 
+
 inline float WindowApplication::GetAspectRatio() const
 {
 	return (float)mWidth / (float)mHeight;
@@ -37,6 +39,14 @@ inline int WindowApplication::GetWindowID()const
 	return mWindowID;
 }
 
+inline void WindowApplication::SetWidth(int width)
+{
+	mWidth = width;
+}
+inline void WindowApplication::SetHeight(int height)
+{
+	mHeight = height;
+}
 //inline const Renderer * Hikari::WindowApplication::GetRenderer()
 //{
 //	return mRenderer;

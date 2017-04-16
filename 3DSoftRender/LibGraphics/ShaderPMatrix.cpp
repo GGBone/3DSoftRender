@@ -16,11 +16,11 @@ void Hikari::PMatrixParam::SetMatrix(float * data)
 
 void Hikari::PMatrixParam::Update(const Visual * visual, const Camera * camera)
 {
-	HMatrix viewMatrix = ((BaseCamera*)camera)->GetProjectMatrix();
-	const float* source = (const float*)viewMatrix;
+//	HMatrix viewMatrix = ((BaseCamera*)camera)->GetProjectMatrix();
+	/*const float* source = (const float*)viewMatrix;
 	float* target = mData;
 	for (int i = 0; i < 16; ++i)
 	{
 		*target++ = *source++;
-	}
+	}*/
 }

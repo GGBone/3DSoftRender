@@ -14,20 +14,20 @@ Hikari::DefaultEffect::DefaultEffect(DirectRenderer* renderer)
 	pshader->SetInput(0, "PS", Shader::VT_FLOAT4, Shader::VS_POSITION);
 	pshader->SetOutput(0, "", Shader::VT_FLOAT4, Shader::VS_COLOR0);*/
 
-	ShaderDx* vshader = new ShaderDx(renderer);
-	vshader->LoadShaderFromFile(Shader::VertexShader, "DefaultShader.fx", Shader::ShaderMacros(), "VS_main", "latest");
+	//ShaderDx* vshader = new ShaderDx(renderer);
+	//vshader->LoadShaderFromFile(Shader::VertexShader, "DefaultShader.fx", Shader::ShaderMacros(), "VS_main", "latest");
 
-	ShaderDx* pshader = new ShaderDx(renderer);
-	pshader->LoadShaderFromFile(Shader::VertexShader, "DefaultShader.fx", Shader::ShaderMacros(), "PS_main", "latest");
+	//ShaderDx* pshader = new ShaderDx(renderer);
+	//pshader->LoadShaderFromFile(Shader::VertexShader, "DefaultShader.fx", Shader::ShaderMacros(), "PS_main", "latest");
 
 
-	VisualPass* pass = new VisualPass();
-	pass->SetVertexShader(vshader);
-	pass->SetPixelShader(pshader);
+	//VisualPass* pass = new VisualPass();
+	//pass->SetVertexShader(vshader);
+	//pass->SetPixelShader(pshader);
 
-	VisualTechnique* technique = new VisualTechnique();
-	technique->InsertPass(pass);
-	InsertTechnique(technique);
+	//VisualTechnique* technique = new VisualTechnique();
+	//technique->InsertPass(pass);
+	//InsertTechnique(technique);
 }
 
 Hikari::DefaultEffect::~DefaultEffect()
@@ -36,11 +36,12 @@ Hikari::DefaultEffect::~DefaultEffect()
 
 VisualEffectInstance * Hikari::DefaultEffect::CreateInstance() const
 {
-	VisualEffectInstance* instance = new VisualEffectInstance(this, 0);
+	/*VisualEffectInstance* instance = new VisualEffectInstance(this, 0);
 
 	instance->SetVertexConstant(0, 0, new MMatrixParam());
 	instance->SetVertexConstant(0, 1, new VMatrixParam());
 
 	instance->SetVertexConstant(0, 2, new PMatrixParam());
-	return instance;
+	return instance;*/
+	return nullptr;
 }

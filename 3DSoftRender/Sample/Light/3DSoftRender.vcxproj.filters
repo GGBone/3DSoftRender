@@ -14,33 +14,35 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lights.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ControlPoint.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Sample.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lights.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="DefaultShader.fx">
-      <Filter>资源文件</Filter>
-    </FxCompile>
-    <FxCompile Include="LightShader.hlsl">
-      <Filter>资源文件</Filter>
-    </FxCompile>
     <FxCompile Include="CommonInclude.hlsl">
       <Filter>资源文件</Filter>
     </FxCompile>
-    <FxCompile Include="ForwardRendering.hlsl">
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="DefaultShader.fx">
       <Filter>资源文件</Filter>
-    </FxCompile>
+    </CustomBuild>
+    <CustomBuild Include="ForwardRendering.hlsl">
+      <Filter>资源文件</Filter>
+    </CustomBuild>
+    <CustomBuild Include="LightShader.hlsl">
+      <Filter>资源文件</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sample.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

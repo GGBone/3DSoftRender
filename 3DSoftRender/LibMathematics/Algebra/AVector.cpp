@@ -124,3 +124,7 @@ AVector AVector::operator+(const APoint& vec)const
 {
 	return AVector(M[0] + vec.X(), M[1] + vec.Y(), M[2] + vec.Z());
 }
+float Hikari::AVector::Dot(const AVector & vec) const
+{
+	return M[0] * vec.M[0] + M[1] * vec.M[1] + M[2] * vec.M[2];
+}

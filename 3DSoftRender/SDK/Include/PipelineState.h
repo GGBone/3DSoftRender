@@ -8,6 +8,7 @@ namespace Hikari
 	class DepthStencilState;
 	class RenderTarget;
 	class RasterizerState;
+	class Shader;
 	class PipelineState : Object
 	{
 	public:

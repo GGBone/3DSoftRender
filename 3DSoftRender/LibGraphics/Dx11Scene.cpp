@@ -11,41 +11,48 @@ Hikari::SceneDX11::SceneDX11(DirectRenderer * render)
 
 Hikari::SceneDX11::~SceneDX11()
 {
+	
 }
 
 Buffer * Hikari::SceneDX11::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride) const
 {
-	return ;
+	return m_Renderer->CreateFloatVertexBuffer(data, count, stride);
+
 }
 
 Buffer * Hikari::SceneDX11::CreateUIntIndexBuffer(const unsigned int * data, unsigned int count) const
 {
-	return nullptr;
+	return m_Renderer->CreateUIntIndexBuffer(data, count);
+
 }
 
 Mesh * Hikari::SceneDX11::CreateMesh() const
 {
-	return nullptr;
+	return m_Renderer->CreateMesh();
 }
 
 Material * Hikari::SceneDX11::CreateMaterial() const
 {
-	return nullptr;
+	return m_Renderer->CreateMaterial();
+
 }
 
-Texture * Hikari::SceneDX11::CreateTexture(const std::wstring & fileName) const
+Texture * Hikari::SceneDX11::CreateTexture(const std::string & fileName) const
 {
-	return nullptr;
+	return m_Renderer->CreateTexture(fileName);
+
 }
 
 Texture * Hikari::SceneDX11::CreateTexture2D(uint16_t width, uint16_t height)
 {
-	return nullptr;
+	return m_Renderer->CreateTexture2D(width, height);
+
 }
 
 Texture * Hikari::SceneDX11::GetDefaultTexture()
 {
-	return nullptr;
+	return m_Renderer->GetDefaultTexture();
+
 }
 
 

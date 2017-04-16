@@ -17,10 +17,10 @@ void Hikari::MMatrixParam::SetMatrix(float * data)
 void Hikari::MMatrixParam::Update(const Visual * visual, const Camera * camera)
 {
 	HMatrix Matrix = visual->worldTransform.Matrix();
-	const float* source = (const float*)Matrix;
+	/*const float* source = (const float*)Matrix;
 	float* target = mData;
 	for (int i = 0; i < 16; ++i)
 	{
 		*target++ = *source++;
-	}
+	}*/
 }

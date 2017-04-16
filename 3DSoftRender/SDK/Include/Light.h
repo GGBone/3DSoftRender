@@ -1,109 +1,91 @@
 #pragma once
 #include "GraphicsLib.h"
 #include "Object.h"
-#include "Float4.h"
-#include "Vector2.h"
+#include "Test.h"
 #include "APoint.h"
-
+#include "Float2.h"
+#include "AVector.h"
 namespace Hikari
 {
 	class Light : public Object
 	{
-		DECLARE_RTTI;
-		DECLARE_NAMES;
 	public:
-		enum Type
+		enum class LightType : uint32_t
 		{
-			LT_AMBIENT,
-			LT_DIRECTION,
-			LT_POINT,
-			LT_SPOT,
-			LT_QUANTITY
+			Point = 0,
+			Spot = 1,
+			Directional = 2
 		};
 
-		Light(Type etype = LT_AMBIENT)
-			:Ambient(Float4(0.0f, 0.0f, .0f, 1.0f)),
-			Diffuse(Float4(.0f, 0.f, 0.f, 1.0f)),
-			Specular(Float4(0.0f, .0f, .0f, 1.0f)),
-			Constant(1.0f),
-			Linear(.0f),
-			Quadratic(0.0f),
-			Intensity(1.0f),
-			Angle(PI),
-			CosAngle(-1.0f),
-			SinAngle(0.0f),
-			Exponent(1.0f),
-			PositionWS(APoint::ORIGIN),
-			DVectorWS(-AVector::FORWARD),
-			UVectorWS(AVector::UP),
-			RVectorWS(AVector::RIGHT),
+		/**
+		* Position for point and spot lights (World space).
+		*/
+		Test4   m_PositionWS;
+		//--------------------------------------------------------------( 16 bytes )
+		/**
+		* Direction for spot and directional lights (World space).
+		*/
+		Test4   m_DirectionWS;
+		//--------------------------------------------------------------( 16 bytes )
+		/**
+		* Position for point and spot lights (View space).
+		*/
+		Test4   m_PositionVS;
+		//--------------------------------------------------------------( 16 bytes )
+		/**
+		* Direction for spot and directional lights (View space).
+		*/
+		Test4   m_DirectionVS;
+		//--------------------------------------------------------------( 16 bytes )
+		/**
+		* Color of the light. Diffuse and specular colors are not separated.
+		*/
+		Test4   m_Color;
+		//--------------------------------------------------------------( 16 bytes )
+		/**
+		* The half angle of the spotlight cone.
+		*/
+		float       m_SpotlightAngle;
+		/**
+		* The range of the light.
+		*/
+		float       m_Range;
 
-			PositionVS(APoint::ORIGIN),
-			DVectorVS(-AVector::FORWARD),
-			mType(etype)
-		{
-			
-		}
-		virtual ~Light() {}
+		/**
+		* The intensity of the light.
+		*/
+		float       m_Intensity;
 
-		inline void SetType(Type type)
-		{
-			mType = type;
-		}
-		inline Type GetType()const
-		{
-			return mType;
-		}
-		Float4 Ambient;
-		Float4 Diffuse;
-		Float4 Specular;
+		/**
+		* Disable or enable the light.
+		*/
+		uint32_t    m_Enabled;
+		//--------------------------------------------------------------(16 bytes )
 
-		float Constant;
-		float Linear;
-		float Quadratic;
-		float Intensity;
+		/**
+		* True if the light is selected in the editor.
+		*/
+		uint32_t    m_Selected;
+		/**
+		* The type of the light.
+		*/
+		LightType   m_Type;
 
-		//SpotAngle
-		float Angle;
-		float CosAngle;
-		float SinAngle;
-		float Exponent;
-		float Range;
-
-		uint32_t m_Enable;
-
-		uint32_t m_Selected;
-
-		Vector2f m_Padding;
-		void SetAngle(float angle)
-		{
-			Angle = angle;
-			CosAngle = cosf(angle);
-			SinAngle = sinf(angle);
-		}
-		
-		//Position for point and spot lights(world)
-		APoint PositionWS;
-
-		//Direction for spot and directional light(world)
-		AVector DVectorWS;
-		AVector UVectorWS;
-		AVector RVectorWS;
-
-		//Position View Space
-		APoint PositionVS;
-
-		AVector DVectorVS;
-
-		Float4 mColor;
-
-
-		void SetDirection(const AVector& direction)
-		{
-			DVectorWS = direction;
-			AVector::GenerateOrthonormalBasis(UVectorWS, RVectorWS, DVectorWS);
-		}
-	protected:
-		Type mType;
+		Float2   m_Padding;
+		//--------------------------------------------------------------(16 bytes )
+		//--------------------------------------------------------------( 16 * 7 = 112 bytes )
+		Light::Light()
+			: m_PositionWS(0, 0, 0, 1)
+			, m_DirectionWS(0, 0, -1, 0)
+			, m_PositionVS(0, 0, 0, 1)
+			, m_DirectionVS(0, 0, 1, 0)
+			, m_Color(1, 1, 1, 1)
+			, m_SpotlightAngle(45.0f)
+			, m_Range(100.0f)
+			, m_Intensity(1.0f)
+			, m_Enabled(true)
+			, m_Selected(false)
+			, m_Type(LightType::Point)
+		{}
 	};
 }

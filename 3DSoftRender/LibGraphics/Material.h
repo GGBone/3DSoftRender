@@ -1,10 +1,12 @@
 #pragma once
 #include "GraphicsLib.h"
 #include "Object.h"
-
+#include "Float4.h"
+#include "Float2.h"
 namespace Hikari
 {
 	class Float4;
+	class Renderer;
 	class Material : public Object
 	{
 	public:
@@ -24,7 +26,7 @@ namespace Hikari
 			Opacity = 7,
 		};
 
-		Material(DirectRenderer* Renderer);
+		Material(Renderer* Renderer);
 		virtual ~Material();
 
 		virtual void Bind(Shader* pShader) const;
@@ -62,8 +64,8 @@ namespace Hikari
 		float GetBumpIntensity() const;
 		void SetBumpIntensity(float bumpIntensity);
 
-		Texture& GetTexture(TextureType ID) const;
-		void SetTexture(TextureType type, Texture& texture);
+		Texture* GetTexture(TextureType ID) const;
+		void SetTexture(TextureType type, Texture* texture);
 
 		// This material defines a transparent material 
 		// if the opacity value is < 1, or there is an opacity map, or the diffuse texture has an alpha channel.
@@ -140,7 +142,7 @@ namespace Hikari
 			// for the material properties.
 		MaterialProperties* m_pProperties;
 
-		DirectRenderer& m_Renderer;
+		Renderer* m_Renderer;
 
 		// Constant buffer that stores material properties.
 		// This material owns this constant buffer and will delete it 

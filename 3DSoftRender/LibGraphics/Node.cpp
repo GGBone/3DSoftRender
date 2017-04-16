@@ -95,7 +95,9 @@ void Hikari::Node::DetachChild(Node * pNode)
 
 void Hikari::Node::SetParent(Node * pNode)
 {
-
+	if (pNode == nullptr)
+		mParent = pNode;
+	else
 		pNode->AttachChild(this);
 
 }

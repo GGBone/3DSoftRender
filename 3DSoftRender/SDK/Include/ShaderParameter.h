@@ -11,8 +11,7 @@ namespace Hikari
 	class Texture;
 	class ShaderParameter : public Object
 	{
-		DECLARE_RTTI;
-		DECLARE_NAMES;
+		
 	public:
 		enum class Type
 		{
@@ -23,8 +22,10 @@ namespace Hikari
 			RWTexture,
 			RWBuffer
 		};
+
 		template <typename T>
 		void Set(T* value);
+
 		template <typename T>
 		T* GetType() const;
 
@@ -33,10 +34,8 @@ namespace Hikari
 		virtual void Bind() = 0;
 		virtual void UnBind() = 0;
 
-		virtual bool IsValid() const
-		{
-			return false;
-		}
+		virtual bool IsValid() const;
+
 		friend class Buffer;
 	protected:
 		virtual void SetConstantBuffer(ConstantBuffer* constantBuffer) = 0;
@@ -44,7 +43,22 @@ namespace Hikari
 		virtual void SetSampler(SamplerState* sampler) = 0;
 		virtual void SetStructuredBuffer(StructuredBuffer* rwBuffer) = 0;
 	};
-	typedef ShaderParameter* ShaderParameterPtr;
 
+	template<>
+	void ShaderParameter::Set<ConstantBuffer>(ConstantBuffer* value);
 
+	template<>
+	void ShaderParameter::Set<Texture>(Texture* value);
+
+	template<>
+	void ShaderParameter::Set<SamplerState>(SamplerState* value);
+
+	template<>
+	void ShaderParameter::Set<StructuredBuffer>(StructuredBuffer* value);
+
+	template<typename T>
+	void ShaderParameter::Set(T* value)
+	{
+		//BOOST_STATIC_ASSERT_MSG(false, "This function must be specialized.");
+	}
 }

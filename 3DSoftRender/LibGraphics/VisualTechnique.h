@@ -3,17 +3,26 @@
 #include "VisualPass.h"
 namespace Hikari
 {
+	class RenderEventArgs;
 	class VisualTechnique
 	{
+
 	public:
-		VisualTechnique::VisualTechnique();
-		VisualTechnique::~VisualTechnique();
-		Shader* Hikari::VisualTechnique::GetVertexShader(int passIndex) const;
-		Shader * Hikari::VisualTechnique::GetPixelShader(int passIndex) const;
-		void Hikari::VisualTechnique::InsertPass(VisualPass * pass);
-		int Hikari::VisualTechnique::GetNumPass() const;
-		VisualPass * Hikari::VisualTechnique::GetPass(int i) const;
+		VisualTechnique();
+		virtual ~VisualTechnique();
+
+		// Add a pass to the technique. The ID of the added pass is returned
+		// and can be used to retrieve the pass later.
+		virtual unsigned int AddPass(VisualPass* pass);
+		virtual VisualPass* GetPass(unsigned int ID) const;
+
+		// Render the scene using the passes that have been configured.
+		virtual void Render(RenderEventArgs& renderEventArgs);
+
+	protected:
+
 	private:
-		std::vector<VisualPass*> mPasses;
+		typedef std::vector<VisualPass*> RenderPassList;
+		RenderPassList m_Passes;
 	};
 }

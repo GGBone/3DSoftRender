@@ -83,6 +83,14 @@ namespace Hikari
 		static Vector3 RIGHT;
 		static Vector3 FORWARD;
 
+		template <class Archive>
+		void serialize(Archive& archive, const unsigned int version)
+		{
+			archive & BOOST_SERIALIZATION_NVP(m_day);
+			archive & BOOST_SERIALIZATION_NVP(m_month);
+			archive & BOOST_SERIALIZATION_NVP(m_year);
+		}
+
 	protected:
 		using Tuple<3, Real>::mTuple;
 	};
