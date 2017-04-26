@@ -7,8 +7,6 @@ namespace Hikari
 	class RenderEventArgs;
 	class VisualPass : public Visitor
 	{
-		DECLARE_RTTI;
-		DECLARE_NAMES;
 	public:
 		virtual void SetEnabled(bool enabled) = 0;
 		virtual bool IsEnabled() const = 0;

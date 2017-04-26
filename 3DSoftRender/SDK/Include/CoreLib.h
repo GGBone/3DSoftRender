@@ -44,9 +44,9 @@
 //#define foreach BOOST_FOREACH
 //#include <boost/math/special_functions/round.hpp>
 //
-//#include <boost/filesystem.hpp>
-//#include <boost/filesystem/fstream.hpp>
-//namespace fs = boost::filesystem;
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+namespace fs = boost::filesystem;
 //
 //#include <boost/bind.hpp>
 //#include <boost/function.hpp>

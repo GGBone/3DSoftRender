@@ -51,14 +51,16 @@ void BasePass::BindPerObjectConstantBuffer(Shader* shader)
 	}
 }
 
+
+
 void BasePass::PreRender(RenderEventArgs& e)
 {
 	e.PipelineState = m_Pipeline;
 	SetRenderEventArgs(e);
 
 	if (m_Pipeline)
-	{
-		// Make sure the per object constant buffer is bound to the vertex shader.
+	{	
+		m_Pipeline->GetRasterizerState().SetViewport(Viewport(0,0,1280,760,0.0f,1.0f));
 		BindPerObjectConstantBuffer(m_Pipeline->GetShader(Shader::VertexShader));
 		m_Pipeline->Bind();
 	}
@@ -93,9 +95,15 @@ void BasePass::Visit(Node& node)
 	{
 		PerObject perObjectData;
 		// Update the constant buffer data for the node.
-		HMatrix viewMatrix = camera->GetViewMatrix();
-		perObjectData.ModelView = viewMatrix * node.GetWorldTransform();
-		perObjectData.ModelViewProjection = camera->GetProjectionMatrix() * perObjectData.ModelView;
+		XMMATRIX viewMatrix = camera->View();
+		HMatrix temp = node.GetWorldTransform();
+		XMMATRIX worldTransform = XMMatrixSet(temp[0][0], temp[0][1], temp[0][2], temp[0][3],
+			temp[1][0], temp[1][1], temp[1][2], temp[1][3],
+			temp[2][0], temp[2][1], temp[2][2], temp[2][3],
+			temp[3][0], temp[3][1], temp[3][2], temp[3][3]);
+		perObjectData.ModelView = XMMatrixMultiply(viewMatrix, worldTransform);
+
+		perObjectData.ModelViewProjection = camera->ViewProj();
 
 		// Update the constant buffer data
 		SetPerObjectConstantBufferData(perObjectData);

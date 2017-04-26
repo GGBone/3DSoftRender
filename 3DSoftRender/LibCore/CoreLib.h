@@ -36,25 +36,22 @@
 
 #include <Windows.h>
 #define UNUSED(variable) (void)variable
-
-
-// BOOST
-
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-
-#include <boost/foreach.hpp>
-#define foreach BOOST_FOREACH
-#include <boost/math/special_functions/round.hpp>
-
+//
+//#include <boost/uuid/uuid.hpp>
+//#include <boost/uuid/uuid_generators.hpp>
+//
+//#include <boost/foreach.hpp>
+//#define foreach BOOST_FOREACH
+//#include <boost/math/special_functions/round.hpp>
+//
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 namespace fs = boost::filesystem;
-
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-#include <boost/any.hpp>
+//
+//#include <boost/bind.hpp>
+//#include <boost/function.hpp>
+//#include <boost/signals2.hpp>
+//#include <boost/any.hpp>
 
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>
@@ -79,6 +76,5 @@ namespace fs = boost::filesystem;
 #include <FreeImage.h>
 
 #pragma comment(lib, "FreeImageLib.lib")
-
 
 #endif

@@ -37,7 +37,6 @@
     <ClInclude Include="Mathematics.h" />
     <ClInclude Include="MathematicsLIB.h" />
     <ClInclude Include="MathematicsPCH.h" />
-    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algebra\APoint.cpp" />

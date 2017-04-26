@@ -1,9 +1,10 @@
 #pragma once
 #include "MathematicsLIB.h"
 #include "Tuple.h"
+#include "Test.h"
 namespace Hikari
 {
-	class Float3 :public Tuple<3, float>
+	class Float3 : public Tuple<3, float>
 	{
 	public:
 		inline Float3();
@@ -13,13 +14,13 @@ namespace Hikari
 
 		inline Float3& operator=(const Float3& tuple);
 
-		template <class Archive>
-		void serialize(Archive& archive, const unsigned int version)
+		inline Float3& operator=(const Test3& tuple)
 		{
-			archive & BOOST_SERIALIZATION_NVP(mTuple);
-
+			mTuple[0] = tuple.X;
+			mTuple[1] = tuple.Y;
+			mTuple[2] = tuple.Z;
+			return *this;
 		}
-
 	};
 	inline Hikari::Float3::Float3()
 	{

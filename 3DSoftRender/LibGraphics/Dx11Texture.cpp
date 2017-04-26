@@ -93,6 +93,7 @@ TextureDX11::TextureDX11(ID3D11Device* pDevice)
 	, m_bIsTransparent(false)
 	, m_bIsDirty(false)
 {
+	FreeImage_Initialise();
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
 
 }
@@ -189,7 +190,7 @@ TextureDX11::TextureDX11(ID3D11Device* pDevice, uint16_t width, uint16_t height,
 	, m_TextureFormat(format)
 	, m_CPUAccess(cpuAccess)
 	, m_bGenerateMipmaps(false)
-	, m_bIsTransparent(true)
+	, m_bIsTransparent(false)
 	, m_bIsDirty(false)
 {
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
@@ -430,8 +431,13 @@ void PrintMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP* dib)
 
 bool TextureDX11::LoadTexture2D(const std::wstring& fileName)
 {
+	fs::path filePath(fileName);
+	if (!fs::exists(filePath) || !fs::is_regular_file(filePath))
+	{
+		//ReportError("Could not load texture: " + filePath.string());
+		return false;
+	};
 	m_TextureFileName = fileName;
-
 
 	// Try to determine the file type from the image file.
 	FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeU(fileName.c_str());
@@ -1264,16 +1270,6 @@ void TextureDX11::Clear(ClearFlags clearFlags, const Float4& color, float depth,
 
 void TextureDX11::Bind(uint32_t ID, Shader::ShaderType shaderType, ShaderParameter::Type parameterType)
 {
-
-	if (m_TextureDimension == Texture::Dimension::Texture2D)
-	{
-		LoadTexture2D(m_TextureFileName);
-	}
-	else if (m_TextureDimension == Texture::Dimension::TextureCube)
-	{
-		LoadTextureCube(m_TextureFileName);
-	}
-
 	if (m_bIsDirty)
 	{
 		if (m_bDynamic && m_pTexture2D)

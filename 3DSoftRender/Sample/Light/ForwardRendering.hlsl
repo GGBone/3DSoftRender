@@ -19,7 +19,6 @@ VertexShaderOutput VS_main(AppData IN)
 [earlydepthstencil]
 float4 PS_main(VertexShaderOutput IN) : SV_TARGET
 {
-	// Everything is in view space.
 	float4 eyePos = { 0, 0, 0, 1 };
 Material mat = Mat;
 float4 diffuse = mat.DiffuseColor;
@@ -36,11 +35,10 @@ if (mat.HasDiffuseTexture)
 	}
 }
 
-// By default, use the alpha from the diffuse component.
+
 float alpha = diffuse.a;
 if (mat.HasOpacityTexture)
 {
-	// If the material has an opacity texture, use that to override the diffuse alpha.
 	alpha = OpacityTexture.Sample(LinearRepeatSampler, IN.texCoord).r;
 }
 
@@ -84,7 +82,6 @@ float4 N;
 // Normal mapping
 if (mat.HasNormalTexture)
 {
-	// For scense with normal mapping, I don't have to invert the binormal.
 	float3x3 TBN = float3x3(normalize(IN.tangentVS),
 		normalize(IN.binormalVS),
 		normalize(IN.normalVS));
@@ -94,7 +91,6 @@ if (mat.HasNormalTexture)
 // Bump mapping
 else if (mat.HasBumpTexture)
 {
-	// For most scenes using bump mapping, I have to invert the binormal.
 	float3x3 TBN = float3x3(normalize(IN.tangentVS),
 		normalize(-IN.binormalVS),
 		normalize(IN.normalVS));

@@ -25,6 +25,11 @@ VisualPass* VisualTechnique::GetPass(unsigned int ID) const
 	return nullptr;
 }
 
+unsigned int Hikari::VisualTechnique::GetNumPass() const
+{
+	return m_Passes.size();
+}
+
 // Render the scene using the passes that have been configured.
 void VisualTechnique::Render(RenderEventArgs& renderEventArgs)
 {
@@ -37,6 +42,16 @@ void VisualTechnique::Render(RenderEventArgs& renderEventArgs)
 			pass->PostRender(renderEventArgs);
 		}
 	}
+}
+
+void Hikari::VisualTechnique::SetSampler(SamplerState * sampler)
+{
+	mSampler = sampler;
+}
+
+SamplerState * Hikari::VisualTechnique::GetSampler() const
+{
+	return mSampler;
 }
 
 

@@ -12,11 +12,8 @@ namespace Hikari
 	{
 	public:
 		
-		LightEffect();
+		LightEffect(DirectRenderer* renderer,Scene* scene, std::vector<Light>& light);
 		virtual ~LightEffect();
-
-		VisualEffectInstance* CreateInstance(Renderer* renderer) const;
-
-
+		VisualEffectInstance* CreateInstance() const;
 	};
 }

@@ -42,6 +42,7 @@ Material* Hikari::MeshDx::GetMaterial() const
 
 void Hikari::MeshDx::Render(RenderEventArgs & renderArgs)
 {
+	
 	ShaderDx* pVS = nullptr;
 	PipelineState* pipeline = renderArgs.PipelineState;
 	if (pipeline)
@@ -71,7 +72,7 @@ void Hikari::MeshDx::Render(RenderEventArgs & renderArgs)
 	}
 
 	m_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
+	
 	if (m_pIndexBuffer != nullptr)
 	{
 		m_pIndexBuffer->Bind(0, Shader::VertexShader, ShaderParameter::Type::Buffer);
@@ -96,6 +97,7 @@ void Hikari::MeshDx::Render(RenderEventArgs & renderArgs)
 			}
 		}
 	}
+	
 }
 
 void Hikari::MeshDx::Accept(Visitor & visitor)

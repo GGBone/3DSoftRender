@@ -146,6 +146,8 @@
     <ClInclude Include="BlendState.h" />
     <ClInclude Include="BufferBinding.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ClearFlag.h" />
+    <ClInclude Include="ClearRenderTargetPass.h" />
     <ClInclude Include="ColorRGBA.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CPUAccess.h" />
@@ -175,9 +177,11 @@
     <ClInclude Include="GraphicsPCH.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightEffect.h" />
+    <ClInclude Include="LightPass.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="OpaquePass.h" />
     <ClInclude Include="PipelineState.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Query.h" />
@@ -232,6 +236,7 @@
     <ClCompile Include="AbstractPass.cpp" />
     <ClCompile Include="BasePass.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ClearRenderTargetPass.cpp" />
     <ClCompile Include="Culler.cpp" />
     <ClCompile Include="DefaultEffect.cpp" />
     <ClCompile Include="Dx11BlendState.cpp" />
@@ -254,8 +259,10 @@
     <ClCompile Include="GraphicsLib.h" />
     <ClCompile Include="GraphicsPCH.cpp" />
     <ClCompile Include="LightEffect.cpp" />
+    <ClCompile Include="LightPass.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="OpaquePass.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderData.cpp" />
     <ClCompile Include="Renderer.cpp" />

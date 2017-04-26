@@ -104,7 +104,9 @@ int WindowApplication::Main(int, char**)
 	/*SoftRenderData inputData(theApp->GetWidth(), theApp->GetHeight(), 0, hWnd);
 	mRenderer = new WinSoftRenderer(&inputData,hWnd);*/
 	DirectRenderData inputData(theApp->GetWidth(), theApp->GetHeight(), 0, hWnd);
+
 	mRenderer = new DirectRenderer(theApp->GetWidth(), theApp->GetHeight(),0, hWnd);
+
 	if (theApp->OnInitialize())
 	{
 		MSG msg;
@@ -126,7 +128,6 @@ int WindowApplication::Main(int, char**)
 				theApp->OnIdle();
 		}
 	}
-	
 	
 	theApp->OnTerminate();
 	

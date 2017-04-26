@@ -13,6 +13,7 @@ namespace Hikari
 	class Scene;
 	class PipelineState;
 	class Query;
+	class Renderer;
 	class BasePass : public AbstractPass
 	{
 	public:
@@ -40,8 +41,8 @@ namespace Hikari
 		// PerObject constant buffer data.
 		__declspec(align(16)) struct PerObject
 		{
-			HMatrix ModelViewProjection;
-			HMatrix ModelView;
+			XMMATRIX ModelViewProjection;
+			XMMATRIX ModelView;
 		};
 
 		void SetRenderEventArgs(RenderEventArgs& e);
@@ -54,7 +55,7 @@ namespace Hikari
 		// Bind the constant to the shader.
 		void BindPerObjectConstantBuffer(Shader* shader);
 
-	private:
+	protected:
 
 		PerObject* m_PerObjectData;
 		ConstantBuffer* m_PerObjectConstantBuffer;

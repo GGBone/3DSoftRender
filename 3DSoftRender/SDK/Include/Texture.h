@@ -3,17 +3,9 @@
 #include "Object.h"
 #include "Shader.h"
 #include "ShaderParameter.h"
+#include "ClearFlag.h"
 namespace Hikari
 {
-	enum class ClearFlags : uint8_t
-	{
-		Color = 1 << 0,
-		Depth = 1 << 1,
-		Stencil = 1 << 2,
-		DepthStencil = Depth | Stencil,
-		All = Color | Depth | Stencil,
-	};
-
 	class Float2;
 	class Texture : public Object
 	{

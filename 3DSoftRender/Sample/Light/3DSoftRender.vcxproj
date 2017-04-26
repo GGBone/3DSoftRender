@@ -67,6 +67,15 @@
     <CustomBuild Include="LightShader.hlsl">
       <FileType>Document</FileType>
     </CustomBuild>
+    <FxCompile Include="VoxelizationGS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="VoxelizationPS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="VoxelizationVS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A99C0649-C5EB-4A75-ADF4-44DD8E088F20}</ProjectGuid>

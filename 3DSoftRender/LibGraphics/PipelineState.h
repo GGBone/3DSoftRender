@@ -16,9 +16,7 @@ namespace Hikari
 
 		virtual void SetShader(Shader::ShaderType type, Shader* pShader) = 0;
 		virtual Shader* GetShader(Shader::ShaderType type) const = 0;
-		// Get all shaders associates with this pipeline.
 		virtual const ShaderMap& GetShaders() const = 0;
-
 
 		virtual void SetBlendState(const BlendState& blendState) = 0;
 		virtual BlendState& GetBlendState() = 0;

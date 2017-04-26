@@ -45,7 +45,7 @@ Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT 
 		}
 	}
 	bufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-	bufferDesc.StructureByteStride = m_uiSlot;
+	bufferDesc.StructureByteStride = m_uiStride;
 
 	D3D11_SUBRESOURCE_DATA subResourceData;
 	subResourceData.pSysMem = (void*)m_Data.data();

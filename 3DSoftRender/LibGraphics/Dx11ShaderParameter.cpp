@@ -7,9 +7,13 @@ using namespace Hikari;
 
 Hikari::ShaderParameterDx::ShaderParameterDx()
 	:m_uiSlot(UINT_MAX),
-	m_ParameterType(Type::Invalid)
+	m_ParameterType(Type::Invalid),
+	mTexture(nullptr),
+	mSamplerState(nullptr),
+	mConstantBuffer(nullptr),
+	mStructuredBuffer(nullptr)
 {
-	
+
 }
 
 Hikari::ShaderParameterDx::ShaderParameterDx(const std::string & name, UINT slotID, Shader::ShaderType shaderType, Type parameterType)
@@ -17,8 +21,18 @@ Hikari::ShaderParameterDx::ShaderParameterDx(const std::string & name, UINT slot
 	mName(name),
 	m_uiSlot(slotID),
 	m_ShaderType(shaderType),
-	m_ParameterType(parameterType)
+	m_ParameterType(parameterType),
+	mTexture(nullptr),
+	mSamplerState(nullptr),
+	mConstantBuffer(nullptr),
+	mStructuredBuffer(nullptr)
 {
+}
+
+bool Hikari::ShaderParameterDx::IsValid() const
+{
+	return m_ParameterType != ShaderParameter::Type::Invalid;
+
 }
 
 ShaderParameter::Type Hikari::ShaderParameterDx::GetType() const
@@ -29,19 +43,27 @@ ShaderParameter::Type Hikari::ShaderParameterDx::GetType() const
 void Hikari::ShaderParameterDx::Bind()
 {
 	
-	if(!mConstantBuffer)
+	if(mConstantBuffer)
 		mConstantBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
-	if (!mTexture)
+	if (mTexture)
 		mTexture->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
-	if(!mSamplerState)
+	if(mSamplerState)
 		mSamplerState->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
-	if(!mStructuredBuffer)
+	if(mStructuredBuffer)
 		mStructuredBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 
 }
 
 void Hikari::ShaderParameterDx::UnBind()
 {
+	if (mConstantBuffer)
+		mConstantBuffer->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
+	if (mTexture)
+		mTexture->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
+	if (mSamplerState)
+		mSamplerState->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
+	if (mStructuredBuffer)
+		mStructuredBuffer->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
 }
 
 void Hikari::ShaderParameterDx::SetConstantBuffer(ConstantBuffer * constantBuffer)

@@ -123,6 +123,13 @@ HMatrix & Hikari::HMatrix::operator=(const HMatrix & m)
 	return *this;
 }
 
+HMatrix & Hikari::HMatrix::operator=(const XMFLOAT4X4 & m)
+{
+	// TODO: 在此处插入 return 语句
+	memccpy(M, m.m, sizeof(M), sizeof(m.m));
+	return *this;
+}
+
 HMatrix Hikari::HMatrix::operator*(const HMatrix & mat) const
 {
 	return HMatrix(
@@ -260,60 +267,69 @@ HPoint Hikari::operator*(const HPoint &p, const HMatrix & mat)
 
 HMatrix Hikari::HMatrix::Inverse(const float epsilon) const
 {
-	float a0 = M[0] * M[5] - M[1] * M[4];
-	float a1 = M[0] * M[6] - M[2] * M[4];
-	float a2 = M[0] * M[7] - M[3] * M[4];
-	float a3 = M[1] * M[6] - M[2] * M[5];
-	float a4 = M[1] * M[7] - M[3] * M[5];
-	float a5 = M[2] * M[7] - M[3] * M[6];
-	float b0 = M[8] * M[13] - M[9] * M[12];
-	float b1 = M[8] * M[14] - M[10] * M[12];
-	float b2 = M[8] * M[15] - M[11] * M[12];
-	float b3 = M[9] * M[14] - M[10] * M[13];
-	float b4 = M[9] * M[15] - M[11] * M[13];
-	float b5 = M[10] * M[15] - M[11] * M[14];
+	//float a0 = M[0] * M[5] - M[1] * M[4];
+	//float a1 = M[0] * M[6] - M[2] * M[4];
+	//float a2 = M[0] * M[7] - M[3] * M[4];
+	//float a3 = M[1] * M[6] - M[2] * M[5];
+	//float a4 = M[1] * M[7] - M[3] * M[5];
+	//float a5 = M[2] * M[7] - M[3] * M[6];
+	//float b0 = M[8] * M[13] - M[9] * M[12];
+	//float b1 = M[8] * M[14] - M[10] * M[12];
+	//float b2 = M[8] * M[15] - M[11] * M[12];
+	//float b3 = M[9] * M[14] - M[10] * M[13];
+	//float b4 = M[9] * M[15] - M[11] * M[13];
+	//float b5 = M[10] * M[15] - M[11] * M[14];
 
-	float det = a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0;
-	if (fabsf(det) <= epsilon)
-	{
-		//return ZERO;
-	}
+	//float det = a0*b5 - a1*b4 + a2*b3 + a3*b2 - a4*b1 + a5*b0;
+	//if (fabsf(det) <= epsilon)
+	//{
+	//	//return ZERO;
+	//}
 
+	//HMatrix inverse;
+	//inverse.M[0] = +M[5] * b5 - M[6] * b4 + M[7] * b3;
+	//inverse.M[4] = -M[4] * b5 + M[6] * b2 - M[7] * b1;
+	//inverse.M[8] = +M[4] * b4 - M[5] * b2 + M[7] * b0;
+	//inverse.M[12] = -M[4] * b3 + M[5] * b1 - M[6] * b0;
+	//inverse.M[1] = -M[1] * b5 + M[2] * b4 - M[3] * b3;
+	//inverse.M[5] = +M[0] * b5 - M[2] * b2 + M[3] * b1;
+	//inverse.M[9] = -M[0] * b4 + M[1] * b2 - M[3] * b0;
+	//inverse.M[13] = +M[0] * b3 - M[1] * b1 + M[2] * b0;
+	//inverse.M[2] = +M[13] * a5 - M[14] * a4 + M[15] * a3;
+	//inverse.M[6] = -M[12] * a5 + M[14] * a2 - M[15] * a1;
+	//inverse.M[10] = +M[12] * a4 - M[13] * a2 + M[15] * a0;
+	//inverse.M[14] = -M[12] * a3 + M[13] * a1 - M[14] * a0;
+	//inverse.M[3] = -M[9] * a5 + M[10] * a4 - M[11] * a3;
+	//inverse.M[7] = +M[8] * a5 - M[10] * a2 + M[11] * a1;
+	//inverse.M[11] = -M[8] * a4 + M[9] * a2 - M[11] * a0;
+	//inverse.M[15] = +M[8] * a3 - M[9] * a1 + M[10] * a0;
+
+	//float invDet = 1.0f / det;
+	//inverse.M[0] *= invDet;
+	//inverse.M[1] *= invDet;
+	//inverse.M[2] *= invDet;
+	//inverse.M[3] *= invDet;
+	//inverse.M[4] *= invDet;
+	//inverse.M[5] *= invDet;
+	//inverse.M[6] *= invDet;
+	//inverse.M[7] *= invDet;
+	//inverse.M[8] *= invDet;
+	//inverse.M[9] *= invDet;
+	//inverse.M[10] *= invDet;
+	//inverse.M[11] *= invDet;
+	//inverse.M[12] *= invDet;
+	//inverse.M[13] *= invDet;
+	//inverse.M[14] *= invDet;
+	//inverse.M[15] *= invDet;
+	XMMATRIX inverseMatrix = XMMatrixSet(M[0],M[1],M[2],M[3],
+		M[4],M[5],M[6],M[7],
+		M[8],M[9],M[10],M[11],
+		M[12],M[13],M[14],M[15]);
+	XMVECTOR determ;
+	XMMatrixInverse(&determ, inverseMatrix);
+	XMFLOAT4X4 temp;
+	XMStoreFloat4x4(&temp, inverseMatrix);
 	HMatrix inverse;
-	inverse.M[0] = +M[5] * b5 - M[6] * b4 + M[7] * b3;
-	inverse.M[4] = -M[4] * b5 + M[6] * b2 - M[7] * b1;
-	inverse.M[8] = +M[4] * b4 - M[5] * b2 + M[7] * b0;
-	inverse.M[12] = -M[4] * b3 + M[5] * b1 - M[6] * b0;
-	inverse.M[1] = -M[1] * b5 + M[2] * b4 - M[3] * b3;
-	inverse.M[5] = +M[0] * b5 - M[2] * b2 + M[3] * b1;
-	inverse.M[9] = -M[0] * b4 + M[1] * b2 - M[3] * b0;
-	inverse.M[13] = +M[0] * b3 - M[1] * b1 + M[2] * b0;
-	inverse.M[2] = +M[13] * a5 - M[14] * a4 + M[15] * a3;
-	inverse.M[6] = -M[12] * a5 + M[14] * a2 - M[15] * a1;
-	inverse.M[10] = +M[12] * a4 - M[13] * a2 + M[15] * a0;
-	inverse.M[14] = -M[12] * a3 + M[13] * a1 - M[14] * a0;
-	inverse.M[3] = -M[9] * a5 + M[10] * a4 - M[11] * a3;
-	inverse.M[7] = +M[8] * a5 - M[10] * a2 + M[11] * a1;
-	inverse.M[11] = -M[8] * a4 + M[9] * a2 - M[11] * a0;
-	inverse.M[15] = +M[8] * a3 - M[9] * a1 + M[10] * a0;
-
-	float invDet = 1.0f / det;
-	inverse.M[0] *= invDet;
-	inverse.M[1] *= invDet;
-	inverse.M[2] *= invDet;
-	inverse.M[3] *= invDet;
-	inverse.M[4] *= invDet;
-	inverse.M[5] *= invDet;
-	inverse.M[6] *= invDet;
-	inverse.M[7] *= invDet;
-	inverse.M[8] *= invDet;
-	inverse.M[9] *= invDet;
-	inverse.M[10] *= invDet;
-	inverse.M[11] *= invDet;
-	inverse.M[12] *= invDet;
-	inverse.M[13] *= invDet;
-	inverse.M[14] *= invDet;
-	inverse.M[15] *= invDet;
-
+	inverse= temp;
 	return inverse;
 }

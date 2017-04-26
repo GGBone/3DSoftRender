@@ -37,7 +37,7 @@ Material * Hikari::SceneDX11::CreateMaterial() const
 
 }
 
-Texture * Hikari::SceneDX11::CreateTexture(const std::string & fileName) const
+Texture * Hikari::SceneDX11::CreateTexture(const std::wstring & fileName) const
 {
 	return m_Renderer->CreateTexture(fileName);
 

@@ -19,13 +19,13 @@ namespace Hikari
 
 		inline int GetNumChildren()const;
 		const std::string& GetName() const;
-		const HMatrix& GetLocalTransform() const;
+		const HMatrix GetLocalTransform() const;
 		void SetLocalTransform(const HMatrix& matrix);
 
-		const HMatrix& GetWorldTransform() const;
+		const HMatrix GetWorldTransform() const;
 		void SetWorldTransform(const HMatrix& matrix);
 
-		const HMatrix& GetInverseWorldTranform() const;
+		const HMatrix GetInverseWorldTranform() const;
 
 
 		void AttachChild(Node* child);
@@ -42,7 +42,7 @@ namespace Hikari
 		virtual void UpdateWorldData(double applicationTime);
 		virtual void UpdateWorldBound();
 		virtual void GetVisibleSet(Culler& culler, bool noCull);
-		const HMatrix& GetParentWorldTransform() const;
+		const HMatrix GetParentWorldTransform() const;
 	private:
 		typedef std::vector<Node*> NodeList;
 		typedef std::multimap<std::string, Node*> NodeNameMap;

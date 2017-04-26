@@ -1,40 +1,23 @@
 #pragma once
 #include "Dx11RenderLIB.h"
 namespace Hikari
-
 {
+	class DirectRenderer;
+	class RenderTarget;
 	class DirectRenderData
 	{
 	public:
 		DirectRenderData(int width, int height, int numMultisamples, HWND handle);
 		~DirectRenderData();
 
-		ID3D11Device* mDevice = NULL;
-		ID3D11DeviceContext* mImmediateContext = NULL;
-		IDXGISwapChain* g_pSwapChain = NULL;
-		ID3D11RenderTargetView* g_pRenderTargetView = NULL;
-		ID3D11Texture2D* g_pDepthStencil = NULL;
-		ID3D11DepthStencilView* g_pDepthStencilView = NULL;
+		ID3D11Device* mDevice = nullptr;
+		ID3D11DeviceContext* mImmediateContext = nullptr;
+		IDXGISwapChain* g_pSwapChain = nullptr;
+		ID3D11Texture2D* pBackBuffer = nullptr;
+		RenderTarget* renderTarget;
 
-		ID3D11InputLayout* g_pVertexLayout = NULL;
-		ID3D11InputLayout*	g_pCurveLayout = NULL;
-
-		ID3D11Buffer*	g_pCBNeverChanges = NULL;
-
-		ID3D11Buffer*	g_pCBChangeOnResize = NULL;
-		ID3D11Buffer*	g_pCBChangesEveryFrame = NULL;
-
-		ID3D11Buffer*	g_pVertexBuffer = NULL;
-		ID3D11Buffer*	g_pIndexBuffer = NULL;
-
-		ID3D11Buffer*	g_pCurveVertexBuffer = NULL;
-
-		ID3D11SamplerState*	g_pSamplerLinear = NULL;
-
+		void ResizeSwapChainBuffers(uint32_t width, uint32_t height);
 		D3D11_VIEWPORT vp;
-
-	private:
-		bool InitDevice();
 		int mWidth;
 		int mHeight;
 		HWND mHwnd;

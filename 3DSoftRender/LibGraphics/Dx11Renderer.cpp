@@ -13,6 +13,7 @@
 #include "Dx11SamplerState.h"
 #include "Dx11PipelineState.h"
 #include "Dx11SamplerState.h"
+#include "RenderEventArgs.h"
 #include <sstream>
 
 using namespace Hikari;
@@ -26,16 +27,11 @@ inline Float4 RotationFromTwoVectors(const AVector& u, const AVector& v)
 
 	if (real < 1.e-6f * normUV)
 	{
-		/* If u and v are exactly opposite, rotate 180 degrees
-		* around an arbitrary orthogonal axis. Axis normalisation
-		* can happen later, when we normalise the quaternion.
-		*/
 		real = 0.0f;
 		vec = (abs(u[0]) > abs(u[2])) ? Float3(-u[1], u[0], 0.0f) : Float3(0.0f, -u[2], u[1]);
 	}
 	else
 	{
-		/* Otherwise, build quaternion the standard way. */
 		vec = u.Cross(v);
 	}
 
@@ -47,7 +43,7 @@ DirectRenderer::DirectRenderer(int width, int height, int numMultisamples, HWND 
 	:Renderer(new RendererData(width,height,handle))
 {
 	mData = new DirectRenderData(width, height, numMultisamples, handle);
-	Initialize(width, height, Texture::TextureFormat(), Texture::TextureFormat(), numMultisamples);
+	Initialize();
 
 }
 DirectRenderer::~DirectRenderer()
@@ -56,9 +52,6 @@ DirectRenderer::~DirectRenderer()
 	Terminate();
 }
 
-void Hikari::DirectRenderer::SetViewport(int xPosition, int yPosition, int width, int height)
-{
-}
 
 void DirectRenderer::GetViewport(int& xPosition, int& yPosition, int& width,
 	int& height) const
@@ -101,19 +94,19 @@ void Hikari::DirectRenderer::Resize(int width, int height)
 //// Support for clearing the color, depth, and stencil buffers.
 void DirectRenderer::ClearBackBuffer()
 {
-	FLOAT color[] = { 0,0,0,1 };
-	mData->mImmediateContext->ClearRenderTargetView(mData->g_pRenderTargetView, color);
+	//FLOAT color[] = { 0,0,0,1 };
+	//mData->mImmediateContext->ClearRenderTargetView(mData->g_pRenderTargetView, color);
 }
 
 void DirectRenderer::ClearDepthBuffer()
 {
-	D3D11_CLEAR_FLAG clearFlag = D3D11_CLEAR_DEPTH;
-	mData->mImmediateContext->ClearDepthStencilView(mData->g_pDepthStencilView, clearFlag, 1, 0);
+	//D3D11_CLEAR_FLAG clearFlag = D3D11_CLEAR_DEPTH;
+	//mData->mImmediateContext->ClearDepthStencilView(mData->g_pDepthStencilView, clearFlag, 1, 0);
 }
 void DirectRenderer::ClearStencilBuffer()
 {
-	D3D11_CLEAR_FLAG clearFlag = D3D11_CLEAR_STENCIL;
-	mData->mImmediateContext->ClearDepthStencilView(mData->g_pDepthStencilView, clearFlag, 0, 0);
+	/*D3D11_CLEAR_FLAG clearFlag = D3D11_CLEAR_STENCIL;
+	mData->mImmediateContext->ClearDepthStencilView(mData->g_pDepthStencilView, clearFlag, 0, 0);*/
 }
 void DirectRenderer::ClearBuffers()
 {
@@ -131,7 +124,7 @@ void Hikari::DirectRenderer::ClearBuffers(int x, int y, int w, int h)
 }
 void DirectRenderer::ClearBackBuffer(int x, int y, int w, int h)
 {
-	D3D11_RECT rect;
+	/*D3D11_RECT rect;
 	rect.left = (long)x;
 	rect.top = (long)y;
 
@@ -139,7 +132,7 @@ void DirectRenderer::ClearBackBuffer(int x, int y, int w, int h)
 	rect.bottom = (long)(y + h - 1);
 
 	FLOAT clearColor[] = { mClearColor[0],mClearColor[1],mClearColor[2],mClearColor[3] };
-	(static_cast<DirectRenderData*>(mData))->mImmediateContext->ClearRenderTargetView((static_cast<DirectRenderData*>(mData))->g_pRenderTargetView, clearColor);
+	(static_cast<DirectRenderData*>(mData))->mImmediateContext->ClearRenderTargetView((static_cast<DirectRenderData*>(mData))->g_pRenderTargetView, clearColor);*/
 
 }
 void Hikari::DirectRenderer::SetClearColor(const Float4 & color)
@@ -148,6 +141,93 @@ void Hikari::DirectRenderer::SetClearColor(const Float4 & color)
 }
 void Hikari::DirectRenderer::DisplayBackBuffer()
 {
+}
+bool Hikari::DirectRenderer::PreDraw()
+{
+	return false;
+}
+void Hikari::DirectRenderer::PostDraw()
+{
+}
+void Hikari::DirectRenderer::Initialize()
+{
+	HRESULT hr = S_OK;
+
+	D3D_DRIVER_TYPE	g_driverType;
+	D3D_FEATURE_LEVEL g_featureLevel;
+
+	RECT rc;
+	GetClientRect(mData->mHwnd, &rc);
+	mWidth = rc.right - rc.left;
+	mHeight = rc.bottom - rc.top;
+
+	UINT createDeviceFlags = 0;
+#ifdef _DEBUG
+	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+	D3D_DRIVER_TYPE driverTypes[] =
+	{
+		D3D_DRIVER_TYPE_HARDWARE,
+		D3D_DRIVER_TYPE_WARP,
+		D3D_DRIVER_TYPE_REFERENCE,
+	};
+	UINT numDriverTypes = ARRAYSIZE(driverTypes);
+
+	D3D_FEATURE_LEVEL featureLevels[] =
+	{
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+	};
+	UINT numFeatureLevels = ARRAYSIZE(featureLevels);
+
+	DXGI_SWAP_CHAIN_DESC sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.BufferCount = 1;
+	sd.BufferDesc.Width = mWidth;
+	sd.BufferDesc.Height = mHeight;
+	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	sd.BufferDesc.RefreshRate.Numerator = 60;
+	sd.BufferDesc.RefreshRate.Denominator = 1;
+	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	sd.OutputWindow = mData->mHwnd;
+	sd.SampleDesc.Count = 1;
+	sd.SampleDesc.Quality = 0;
+	sd.Windowed = TRUE;
+
+	for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++)
+	{
+		g_driverType = driverTypes[driverTypeIndex];
+		hr = D3D11CreateDeviceAndSwapChain(NULL, g_driverType, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
+			D3D11_SDK_VERSION, &sd, &mData->g_pSwapChain, &mData->mDevice, &g_featureLevel, &mData->mImmediateContext);
+		if (SUCCEEDED(hr))
+			break;
+	}
+	
+	mData->renderTarget = CreateRenderTarget();
+
+
+	hr = mData->g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&mData->pBackBuffer);
+
+	//hr = mDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_pRenderTargetView);
+	Texture::TextureFormat depthStencilTextureFormat(
+		Texture::Components::DepthStencil,
+		Texture::Type::UnsignedNormalized,
+		1, 0, 0, 0, 0, 24, 8
+	);
+	Texture* depthStencilTexture = CreateTexture2D(mWidth, mHeight,
+		1, depthStencilTextureFormat);
+
+	Texture::TextureFormat colorTextureFormat(
+		Texture::Components::RGBA,
+		Texture::Type::UnsignedNormalized,
+		1, 8, 8, 8, 8, 0, 0);
+	Texture* colorTexture = CreateTexture2D(mWidth, mHeight, 1, colorTextureFormat);
+
+	mData->renderTarget->AttachTexture(RenderTarget::AttachmentPoint::Color0, colorTexture);
+	mData->renderTarget->AttachTexture(RenderTarget::AttachmentPoint::DepthStencil, depthStencilTexture);
 }
 void Hikari::DirectRenderer::Draw(const unsigned char * screenBuffer, bool reflectY)
 {
@@ -262,8 +342,6 @@ Scene * Hikari::DirectRenderer::CreateCube(float size)
 	Scene* scene = CreateScene();
 	std::stringstream ss;
 
-	// Create a white diffuse material for the cube.
-	// f red green blue Kd Ks Shine transmittance indexOfRefraction
 	ss << "f 1 1 1 1 0 0 0 0" << std::endl;
 
 	// hex x y z size
@@ -279,15 +357,20 @@ Scene * Hikari::DirectRenderer::CreateCube(float size)
 	return nullptr;
 }
 
-void DirectRenderer::DrawPrimitive(const Visual * visual)
+void DirectRenderer::DrawPrimitive(const Visual * visual,VisualEffect* effect)
 {
-	//ClearBuffers();
+	RenderEventArgs eve(*this,0,0,0,mCamera);
+	
+	effect->GetTechnique(0)->Render(eve);
+	
+	mData->renderTarget->Bind();
 
-	//mData->mImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	//mData->mImmediateContext->DrawIndexed(visual->GetIndexBuffer()->GetNumElements(),0,0);
-
-	//mData->g_pSwapChain->Present(0, 0);
+	TextureDX11* colorBuffer = static_cast<TextureDX11*>(mData->renderTarget->GetTexture(RenderTarget::AttachmentPoint::Color0));
+	if (colorBuffer)
+	{
+		mData->mImmediateContext->CopyResource(mData->pBackBuffer, colorBuffer->GetTextureResource());
+	}
+	mData->g_pSwapChain->Present(0, 0);
 }
 
 PipelineState* Hikari::DirectRenderer::CreatePipelineState()
@@ -410,7 +493,7 @@ Shader * Hikari::DirectRenderer::CreateShader()
 {
 	Shader* shader = new ShaderDx(this);
 	m_Shaders.push_back(shader);
-	return nullptr;
+	return shader;
 }
 
 void Hikari::DirectRenderer::DestroyShader(Shader * shader)
@@ -421,7 +504,7 @@ void Hikari::DirectRenderer::DestroyShader(Shader * shader)
 		m_Shaders.erase(iter);
 	}
 }
-Texture * Hikari::DirectRenderer::CreateTexture(const std::string & fileName)
+Texture * Hikari::DirectRenderer::CreateTexture(const std::wstring & fileName)
 {
 	TextureMap::iterator iter = m_TextureByName.find(fileName);
 	if (iter != m_TextureByName.end())
@@ -431,15 +514,15 @@ Texture * Hikari::DirectRenderer::CreateTexture(const std::string & fileName)
 
 	Texture* texture = new TextureDX11(mData->mDevice);
 
-	std::wstring temp;
-	StringToWString(fileName, temp);
-	texture->LoadTexture2D(temp);
+
+	texture->LoadTexture2D(fileName);
 
 	m_Texture.push_back(texture);
 	m_TextureByName.insert(TextureMap::value_type(fileName, texture));
+	return texture;
 }
 
-Texture * Hikari::DirectRenderer::CreateTextureCube(const std::string & fileName)
+Texture * Hikari::DirectRenderer::CreateTextureCube(const std::wstring & fileName)
 {
 	TextureMap::iterator iter = m_TextureByName.find(fileName);
 	if (iter != m_TextureByName.end())
@@ -449,9 +532,8 @@ Texture * Hikari::DirectRenderer::CreateTextureCube(const std::string & fileName
 
 	Texture* texture =new TextureDX11(mData->mDevice);
 
-	std::wstring temp;
-	StringToWString(fileName, temp);
-	texture->LoadTextureCube(temp);
+
+	texture->LoadTextureCube(fileName);
 
 	m_Texture.push_back(texture);
 	m_TextureByName.insert(TextureMap::value_type(fileName, texture));

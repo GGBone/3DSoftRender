@@ -13,13 +13,7 @@ namespace Hikari
 		VisualEffect::VisualEffect(const std::string & name, int mode);
 		void VisualEffect::InsertTechnique(VisualTechnique * technique);
 		VisualTechnique * Hikari::VisualEffect::GetTechnique(int techIndex);
-
-		Shader* LoadShader(Renderer* render,std::ifstream & in);
-		VisualTechnique * Hikari::VisualEffect::LoadVisualTechnique(Renderer* render,std::ifstream & in);
-
-		VisualPass * Hikari::VisualEffect::LoadVisualPass(Renderer* render,std::ifstream & in);
-		std::string Hikari::VisualEffect::LoadStdString(Renderer* render,std::ifstream & inFile);
-		
+		void PreRender();
 	private:
 		std::vector<VisualTechnique*> mTechniques;
 		

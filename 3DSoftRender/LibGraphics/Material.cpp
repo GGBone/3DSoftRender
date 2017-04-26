@@ -48,25 +48,17 @@ void Material::Bind(Shader* wpShader) const
 		_this->UpdateConstantBuffer();
 		_this->m_Dirty = false;
 	}
-
-	// OOPS.. Dangerous. Just blindly set all textures associated to this material.
-	// Maybe I should check the names of the textures in the shader before doing this?
-	// I could be replacing textures that are bound to the shader that shouldn't be changed!?
-	// (Because they have been specified by the user for example).
 	for (auto texture : m_Textures)
 	{
 		Texture* pTexture = texture.second;
 		pTexture->Bind((uint32_t)texture.first, pShader->GetType(), ShaderParameter::Type::Texture);
 	}
 
-	// If the shader has a parameter called "Material".
 	ShaderParameter& materialParameter = pShader->GetShaderParameterByName("Material");
 	if (materialParameter.IsValid())
 	{
-		// Assign this material's constant buffer to it.
 		materialParameter.Set<ConstantBuffer>(m_pConstantBuffer);
-		// If the shader parameter is modified, they have to be 
-		// rebound to update the rendering pipeline.
+
 		materialParameter.Bind();
 	}
 }

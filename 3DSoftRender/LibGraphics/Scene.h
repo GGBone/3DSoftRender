@@ -14,7 +14,7 @@ namespace Hikari
 	{
 	public:
 		
-		virtual bool LoadFromFile(const std::string& fileName) = 0;
+		virtual bool LoadFromFile(const std::wstring& fileName) = 0;
 	
 		virtual bool LoadFromString(const std::string& scene, const std::string& format) = 0;
 		virtual void Render(RenderEventArgs& renderEventArgs) = 0;

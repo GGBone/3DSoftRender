@@ -3,9 +3,20 @@
 using namespace Hikari;
 static ShaderParameterDx g_InvalidShaderParameter;
 
+
 DXGI_FORMAT GetDXGIFormat(const D3D11_SIGNATURE_PARAMETER_DESC& paramDesc);
 Hikari::ShaderDx::ShaderDx(DirectRenderer * renderer)
-	:mShaderType(UnKnownShaderType)
+	:mShaderType(UnKnownShaderType),
+	mDevice(nullptr),
+	mContext(nullptr),
+	vShader(nullptr),
+	pShader(nullptr),
+	hShader(nullptr),
+	dShader(nullptr),
+	gShader(nullptr),
+	cShader(nullptr),
+	mShaderBlob(nullptr),
+	mInputlayout(nullptr)
 {
 	mDevice = renderer->mData->mDevice;
 	mDevice->GetImmediateContext(&mContext);
@@ -115,7 +126,7 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 		inputElement.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 		inputElement.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;	//WILL Modify
 		inputElement.Format = GetDXGIFormat(parameterSignature);
-
+		inputElement.InstanceDataStepRate = 0;
 		inputElements.push_back(inputElement);
 		mInputSemantics.insert(SemanticMap::value_type(BufferBinding(inputElement.SemanticName, inputElement.SemanticIndex), i));
 
@@ -321,10 +332,71 @@ UINT Hikari::ShaderDx::GeetSlotIDBySemantic(const BufferBinding & binding)
 
 void Hikari::ShaderDx::Bind()
 {
+
+	for (ParameterMap::value_type value : mShaderParameter)
+	{
+		value.second->Bind();
+	}
+
+	if (vShader)
+	{
+		mContext->IASetInputLayout(mInputlayout);
+		mContext->VSSetShader(vShader, nullptr, 0);
+	}
+	else if (hShader)
+	{
+		mContext->HSSetShader(hShader, nullptr, 0);
+	}
+	else if (dShader)
+	{
+		mContext->DSSetShader(dShader, nullptr, 0);
+	}
+	else if (gShader)
+	{
+		mContext->GSSetShader(gShader, nullptr, 0);
+	}
+	else if (pShader)
+	{
+		mContext->PSSetShader(pShader, nullptr, 0);
+	}
+	else if (cShader)
+	{
+		mContext->CSSetShader(cShader, nullptr, 0);
+	}
 }
 
 void Hikari::ShaderDx::UnBind()
 {
+	for (ParameterMap::value_type value : mShaderParameter)
+	{
+		value.second->UnBind();
+	}
+
+	if (vShader)
+	{
+		mContext->IASetInputLayout(nullptr);
+		mContext->VSSetShader(nullptr, nullptr, 0);
+	}
+	else if (hShader)
+	{
+		mContext->HSSetShader(nullptr, nullptr, 0);
+	}
+	else if (dShader)
+	{
+		mContext->DSSetShader(nullptr, nullptr, 0);
+	}
+	else if (gShader)
+	{
+		mContext->GSSetShader(nullptr, nullptr, 0);
+	}
+	else if (pShader)
+	{
+		mContext->PSSetShader(nullptr, nullptr, 0);
+	}
+	else if (cShader)
+	{
+		mContext->CSSetShader(nullptr, nullptr, 0);
+	}
 }
 
 void Hikari::ShaderDx::Dispatch(const Vector3f & numGroup)

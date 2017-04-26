@@ -200,7 +200,7 @@ namespace Hikari
 					   // Number of bytes to next scanline.
 		uint16_t m_Pitch;
 
-		bool     m_bIsTransparent;
+		bool     m_bIsTransparent = false;
 
 		typedef std::vector<uint8_t> ColorBuffer;
 		// A buffer for dynamic textures.

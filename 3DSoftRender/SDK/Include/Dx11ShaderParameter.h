@@ -10,7 +10,7 @@ namespace Hikari
 	public:
 		ShaderParameterDx();
 		ShaderParameterDx(const std::string& name, UINT slotID, Shader::ShaderType shaderType, Type parameterType);
-
+		bool IsValid() const override;
 		virtual Type GetType()const;
 		virtual void Bind() override;
 		virtual void UnBind() override;

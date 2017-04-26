@@ -20,6 +20,7 @@ namespace Hikari
 		bool operator!=(const Tuple& tuple)const;
 		bool operator<(const Tuple& tuple)const;
 		bool operator>(const Tuple& tuple) const;
+
 	protected:
 		Type mTuple[Dimension];
 	};

@@ -18,6 +18,18 @@ void Hikari::VisualEffect::InsertTechnique(VisualTechnique * technique)
 	}
 }
 
+void Hikari::VisualEffect::PreRender()
+{
+	std::vector<VisualTechnique*>::const_iterator iter;
+	for (iter = mTechniques.begin(); iter != mTechniques.end(); ++iter)
+	{
+		for (int i = 0; i < (*iter)->GetNumPass(); ++i)
+		{
+			(*iter)->GetPass(i);
+		}
+	}
+}
+
 VisualTechnique * Hikari::VisualEffect::GetTechnique(int techIndex)
 {
 	return mTechniques[techIndex];
@@ -26,33 +38,4 @@ VisualTechnique * Hikari::VisualEffect::GetTechnique(int techIndex)
 Hikari::VisualEffect::VisualEffect(const std::string & name, int mode)
 {
 
-}
-
-VisualTechnique * Hikari::VisualEffect::LoadVisualTechnique(Renderer* render,std::ifstream & in)
-{
-	VisualTechnique* technique = new VisualTechnique();
-	char numPass;
-	in.read(&numPass, sizeof(int));
-	for (int i = 0; i < numPass; ++i)
-	{
-		technique->AddPass(LoadVisualPass(render,in));
-	}
-	return technique;
-}
-
-VisualPass * Hikari::VisualEffect::LoadVisualPass(Renderer* render,std::ifstream & in)
-{
-	
-	
-	return nullptr;
-}
-
-Shader* Hikari::VisualEffect::LoadShader(Renderer* render,std::ifstream & in)
-{
-	return nullptr;
-}
-
-std::string Hikari::VisualEffect::LoadStdString(Renderer* render,std::ifstream & inFile)
-{
-	return NULL;
 }

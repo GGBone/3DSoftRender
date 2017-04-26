@@ -15,13 +15,13 @@ namespace Hikari
 	public:
 		typedef Scene base;
 
-		virtual bool LoadFromFile(const std::string& fileName);
-		virtual bool LoadFromString(const std::string& scene, const std::string& format);
-		virtual void Render(RenderEventArgs& renderArgs);
+		virtual bool LoadFromFile(const std::wstring& fileName) override;
+		virtual bool LoadFromString(const std::string& scene, const std::string& format) override;
+		virtual void Render(RenderEventArgs& renderArgs) override;
 
-		virtual Node* GetRootNode() const;
+		virtual Node* GetRootNode() const override;
 
-		virtual void Accept(Visitor& visitor);
+		virtual void Accept(Visitor& visitor) override;
 
 	protected:
 
@@ -34,7 +34,7 @@ namespace Hikari
 
 		virtual Mesh* CreateMesh() const = 0;
 		virtual Material* CreateMaterial() const = 0;
-		virtual Texture* CreateTexture(const std::string& fileName) const = 0;
+		virtual Texture* CreateTexture(const std::wstring& fileName) const = 0;
 		virtual Texture* CreateTexture2D(uint16_t width, uint16_t height) = 0;
 
 		virtual Texture* GetDefaultTexture() = 0;
@@ -50,11 +50,11 @@ namespace Hikari
 
 		Node* m_pRootNode;
 
-		void ImportMaterial(const aiMaterial& material, std::string parentPath);
+		void ImportMaterial(const aiMaterial& material, fs::path parentPath);
 		void ImportMesh(const aiMesh& mesh);
 		Node* ImportSceneNode(Node* parent, aiNode* aiNode);
 
-		std::string m_SceneFile;
+		std::wstring m_SceneFile;
 
 	};
 

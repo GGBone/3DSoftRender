@@ -6,6 +6,7 @@ using namespace Hikari;
 IMPLEMENT_DEFAULT_NAMES(Spatial, Node);
 IMPLEMENT_RTTI(Hikari, Spatial, Node);
 Hikari::Node::Node(const HMatrix& localTransform)
+	:m_pParent(nullptr)
 {
 	this->localTransform.SetMatrix(localTransform);
 }
@@ -24,7 +25,7 @@ const std::string & Hikari::Node::GetName() const
 	return m_Name;
 }
 
-const HMatrix& Hikari::Node::GetLocalTransform() const
+const HMatrix Hikari::Node::GetLocalTransform() const
 {
 	return localTransform.GetMatrix();
 }
@@ -35,9 +36,9 @@ void Hikari::Node::SetLocalTransform(const HMatrix & matrix)
 	inverseTransform.SetMatrix(matrix.Inverse());
 }
 
-const HMatrix& Hikari::Node::GetWorldTransform() const
+const HMatrix Hikari::Node::GetWorldTransform() const
 {
-	return GetWorldTransform() * localTransform.GetMatrix();
+	return GetParentWorldTransform() * localTransform.GetMatrix();
 }
 
 void Hikari::Node::SetWorldTransform(const HMatrix & matrix)
@@ -46,9 +47,9 @@ void Hikari::Node::SetWorldTransform(const HMatrix & matrix)
 	SetLocalTransform(_inverseParentTranform);
 }
 
-const HMatrix& Hikari::Node::GetInverseWorldTranform() const
+const HMatrix Hikari::Node::GetInverseWorldTranform() const
 {
-	return GetWorldTransform().Inverse();
+	return GetParentWorldTransform().Inverse();
 }
 
 void Hikari::Node::AttachChild(Node * child)
@@ -58,8 +59,15 @@ void Hikari::Node::AttachChild(Node * child)
 		NodeList::iterator iter = std::find(m_Children.begin(), m_Children.end(), child);
 		if (iter == m_Children.end())
 		{
-			child->GetWorldTransform();
+			HMatrix worldTransform= child->GetWorldTransform();
+			child->m_pParent = this;
+			HMatrix localTransform = GetInverseWorldTranform();
+			child->SetLocalTransform(localTransform);
 			m_Children.push_back(child);
+			if (!child->GetName().empty())
+			{
+				m_ChildrenByName.insert(NodeNameMap::value_type(child->GetName(), child));
+			}
 		}
 	}
 }
@@ -95,10 +103,17 @@ void Hikari::Node::DetachChild(Node * pNode)
 
 void Hikari::Node::SetParent(Node * pNode)
 {
-	if (pNode == nullptr)
-		mParent = pNode;
-	else
+
+	if (pNode != nullptr)
 		pNode->AttachChild(this);
+	else if (m_pParent != nullptr)
+	{
+		m_pParent = pNode;
+		HMatrix worldTransform = GetWorldTransform();
+		((Node*)m_pParent)->DetachChild(this);
+		m_pParent = nullptr;
+		SetLocalTransform(worldTransform);
+	}
 
 }
 
@@ -144,8 +159,10 @@ void Hikari::Node::GetVisibleSet(Culler & culler, bool noCull)
 	
 }
 
-const HMatrix& Node::GetParentWorldTransform() const
+const HMatrix Node::GetParentWorldTransform() const
 {
+	if (m_pParent == nullptr)
+		return HMatrix::IDENTITY;
 	return m_pParent->GetWorldTransform();
 }
 

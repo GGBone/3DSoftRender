@@ -66,81 +66,41 @@ namespace Hikari
 	
 		struct BlendMode
 		{
-			/**
-			* Set to true to enable blending.
-			* Default: false
-			*/
+
 			bool BlendEnabled;
 
-			/**
-			* Set to true to enable the logical operator.
-			* Default: false
-			*/
+
 			bool LogicOpEnabled;
 
-			/**
-			* The blend factor to apply to the source color (S).
-			* Default: BlendFactor::One
-			*/
+
 			BlendFactor SrcFactor;
-			/**
-			* The blend factor to apply the the destination color (D).
-			* Default: BlendFactor::Zero
-			*/
+		
 			BlendFactor DstFactor;
 
-			/**
-			* The blend operation to perform on the color components.
-			* Default: BlendOperation::Add
-			*/
 			BlendOperation BlendOp;
 
-			/**
-			* The blend factor to apply to the source alpha (As)
-			* Default: BlendFactor::One
-			*/
+		
 			BlendFactor SrcAlphaFactor;
 
-			/**
-			* The blend factor to apply to the destination alpha (Ad)
-			* Default: BlendFactor::Zero
-			*/
+		
 			BlendFactor DstAlphaFactor;
 
-			/**
-			* The blend operation to perform on the alpha components.
-			* Default: BlendOperation::Add
-			*/
+	
 			BlendOperation AlphaOp;
 
-			/**
-			* The logical operator to perform at the current pixel.
-			* Default: LogicOperator::None.
-			*/
+		
+		
 			LogicOperator LogicOp;
 
-			/**
-			* Enable writing to the red channel of the back buffer.
-			* Default: true
-			*/
 			bool WriteRed;
 
-			/**
-			* Enable writing to the green channel of the back buffer.
-			* Default: true
-			*/
+		
 			bool WriteGreen;
 
-			/**
-			* Enable writing to the blue channel of the back buffer.
-			* Default: true
-			*/
+		
 			bool WriteBlue;
 
-			/**
-			* Enable writing to the alpha channel of the back buffer.
-			* Default: true
-			*/
+		
 			bool WriteAlpha;
 
 			explicit BlendMode(bool enabled = false,
@@ -171,7 +131,7 @@ namespace Hikari
 				, WriteAlpha(writeAlpha)
 			{}
 
-			// TODO: Define some default blend modes that are commonly used ( As * S + ( 1 - As ) * D, 1 * S + 1 * D, etc... )
+	
 		};
 
 		virtual void SetBlendMode(const BlendMode& blendMode) = 0;
@@ -179,9 +139,6 @@ namespace Hikari
 		virtual void SetBlendModes(const std::vector<BlendMode>& blendModes) = 0;
 		virtual const std::vector<BlendMode>& GetBlendModes() const = 0;
 
-		/**
-		* Set a constant blend factor that is used when the BlendFactor is set to ConstBlendFactor.
-		*/
 		virtual void SetConstBlendFactor(Float4& constantBlendFactor) = 0;
 		virtual const Float4& GetConstBlendFactor() const = 0;
 

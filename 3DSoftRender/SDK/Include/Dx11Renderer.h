@@ -43,9 +43,9 @@ namespace Hikari
 		bool PreDraw();
 		void PostDraw();
 
-
+		virtual void Initialize() override;
 		void Draw(const unsigned char* screenBuffer, bool reflectY = false);
-		void DrawPrimitive(const Visual* visual);
+		virtual void DrawPrimitive(const Visual* visual, VisualEffect* pass) override;
 		// The entry point for drawing 2D text.
 		void Draw(int x, int y, const Float4& color,
 			const std::string& message);
@@ -123,8 +123,8 @@ namespace Hikari
 		virtual void DestroyShader(Shader* shader) override;
 
 		// Create a texture from a file.
-		virtual Texture* CreateTexture(const std::string& fileName) override;
-		virtual Texture* CreateTextureCube(const std::string& fileName) override;
+		virtual Texture* CreateTexture(const std::wstring& fileName) override;
+		virtual Texture* CreateTextureCube(const std::wstring& fileName) override;
 
 		virtual Texture* CreateTexture1D(uint16_t width, uint16_t slices = 1, const Texture::TextureFormat& format = Texture::TextureFormat(), CPUAccess cpuAccess = CPUAccess::None, bool gpuWrite = false) override;
 		virtual Texture* CreateTexture2D(uint16_t width, uint16_t height, uint16_t slices = 1, const Texture::TextureFormat& format = Texture::TextureFormat(), CPUAccess cpuAccess = CPUAccess::None, bool gpuWrite = false) override;
@@ -184,7 +184,7 @@ namespace Hikari
 		typedef std::vector<Texture*> TextureList;
 		TextureList m_Texture;
 
-		typedef std::map<std::string, Texture*> TextureMap;
+		typedef std::map<std::wstring, Texture*> TextureMap;
 		TextureMap m_TextureByName;
 
 		typedef std::vector<RenderTarget*> RenderTargetList;

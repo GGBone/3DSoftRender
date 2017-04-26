@@ -25,14 +25,6 @@ namespace Hikari
 	private:
 		std::string name;
 
-
-		//Streaming
-	public:
-		//	typedef Object* (*FactoryFunction)(InStream& stream);
-
-
-
-		//Abstract base class,Construction and deconstruction
 	protected:
 		Object() {};
 		virtual ~Object() {};

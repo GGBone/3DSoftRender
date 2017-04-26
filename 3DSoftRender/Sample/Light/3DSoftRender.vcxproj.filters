@@ -12,6 +12,12 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{865884c3-b55d-4a7e-b988-a1f81dcbb0b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Voxel">
+      <UniqueIdentifier>{ec57997e-39a3-4f80-acaa-a25f1bb4cec3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Voxel\Voxelization">
+      <UniqueIdentifier>{8f7570ed-617d-4568-aa7f-4f5e53247bcc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry.h">
@@ -27,6 +33,15 @@
   <ItemGroup>
     <FxCompile Include="CommonInclude.hlsl">
       <Filter>资源文件</Filter>
+    </FxCompile>
+    <FxCompile Include="VoxelizationGS.hlsl">
+      <Filter>资源文件\Voxel\Voxelization</Filter>
+    </FxCompile>
+    <FxCompile Include="VoxelizationVS.hlsl">
+      <Filter>资源文件\Voxel\Voxelization</Filter>
+    </FxCompile>
+    <FxCompile Include="VoxelizationPS.hlsl">
+      <Filter>资源文件\Voxel\Voxelization</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

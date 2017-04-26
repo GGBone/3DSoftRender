@@ -86,9 +86,9 @@ namespace Hikari
 		template <class Archive>
 		void serialize(Archive& archive, const unsigned int version)
 		{
-			archive & BOOST_SERIALIZATION_NVP(mTuple[0]);
-			archive & BOOST_SERIALIZATION_NVP(mTuple[1]);
-			archive & BOOST_SERIALIZATION_NVP(mTuple[2]);
+			archive & BOOST_SERIALIZATION_NVP(m_day);
+			archive & BOOST_SERIALIZATION_NVP(m_month);
+			archive & BOOST_SERIALIZATION_NVP(m_year);
 		}
 
 	protected:

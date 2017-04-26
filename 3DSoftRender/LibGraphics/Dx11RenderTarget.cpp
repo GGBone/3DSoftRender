@@ -123,7 +123,7 @@ void RenderTargetDX11::Bind()
 		}
 	}
 
-	ID3D11UnorderedAccessView* uavViews[8];
+	ID3D11UnorderedAccessView* uavViews[8] = {0};
 	UINT uavStartSlot = numRTVs;
 	UINT numUAVs = 0;
 
@@ -150,6 +150,7 @@ void RenderTargetDX11::Bind()
 	}
 
 	m_pDeviceContext->OMSetRenderTargetsAndUnorderedAccessViews(numRTVs, renderTargetViews, depthStencilView, uavStartSlot, numUAVs, uavViews, nullptr);
+	//m_pDeviceContext->OMSetRenderTargets(numRTVs, renderTargetViews, depthStencilView);
 }
 
 void RenderTargetDX11::UnBind()

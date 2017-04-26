@@ -1,19 +1,24 @@
 #pragma once
-/**
-* RaycastHit structure is used to return the result of a Raycast
-*/
-
-class RaycastHit
+#include "GraphicsLib.h"
+#include "Apoint.h"
+#include "AVector.h"
+namespace Hikari
 {
-public:
-	// The point in 3D space where the ray hit the geometry.
-	std::vec3 Point;
-	// The surface normal where the ray hit the geometry.
-	std::vec3 Normal;
-	// The distance from the ray origin to the impact point.
-	float Distance;
+	class APoint;
+	class AVector;
+	class Material;
+	class RaycastHit
+	{
+	public:
+		// The point in 3D space where the ray hit the geometry.
+		APoint Point;
+		// The surface normal where the ray hit the geometry.
+		AVector Normal;
+		// The distance from the ray origin to the impact point.
+		float Distance;
 
-	// A pointer to the material that was hit (if one was, NULL otherwise)
-	Material* pMaterial;
+		// A pointer to the material that was hit (if one was, NULL otherwise)
+		Material* pMaterial;
 
-};
+	};
+}
