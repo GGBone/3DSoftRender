@@ -7,7 +7,7 @@ namespace Hikari
 
 	class TextureDX11;
 	class StructuredBufferDX11;
-
+	class RWBufferDX11;
 	class RenderTargetDX11 : public RenderTarget
 	{
 	public:
@@ -21,6 +21,8 @@ namespace Hikari
 		virtual void GenerateMipMaps();
 		virtual void AttachStructuredBuffer(uint8_t slot, StructuredBuffer* rwBuffer);
 		virtual StructuredBuffer* GetStructuredBuffer(uint8_t slot);
+		virtual void AttachRWBuffer(uint8_t slot, RWBuffer* rwBuffer) override;
+		virtual RWBuffer* GetRWBuffer(uint8_t) override;
 		virtual void Resize(uint16_t width, uint16_t height);
 		virtual void Bind();
 		virtual void UnBind();
@@ -39,6 +41,8 @@ namespace Hikari
 		typedef std::vector<StructuredBufferDX11*> StructuredBufferList;
 		StructuredBufferList m_StructuredBuffers;
 
+		typedef std::vector<RWBufferDX11*> RWBufferList;
+		RWBufferList m_RWBuffers;
 		// The width in pixels of textures associated to this render target.
 		uint16_t m_Width;
 		// The height in pixels of textures associated to this render target.

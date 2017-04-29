@@ -1,0 +1,119 @@
+#include "VoxelEffect.h"
+#include "PipelineState.h"
+#include "ClearRenderTargetPass.h"
+#include "VoxelizationPass.h"
+#include "Camera.h"
+#include "RenderTarget.h"
+#include "SamplerState.h"
+#include "Dx11RWBuffer.h"
+using namespace Hikari;
+Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
+{
+	orthoCamera = new Camera;
+
+	Shader* vShader = renderer->CreateShader();
+	Shader* pShader = renderer->CreateShader();
+	Shader* gShader = renderer->CreateShader();
+	vShader->LoadShaderFromFile(Shader::VertexShader, "../Assets/shaders/VoxelizationVS.hlsl",Shader::ShaderMacros(),"main","latest");
+	gShader->LoadShaderFromFile(Shader::GeometryShader, "../Assets/shaders/VoxelizationGS.hlsl", Shader::ShaderMacros(), "main", "latest");
+	pShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/VoxelizationPS.hlsl", Shader::ShaderMacros(), "main", "latest");
+	
+	//z
+	XMFLOAT3 camPos = XMFLOAT3(0, 0, -1);
+	orthoCamera->LookAt(camPos, XMFLOAT3(camPos.x, camPos.y, camPos.z + 1), XMFLOAT3(0, 1, 0));
+	orthoCamera->UpdateViewMatrix();
+	XMMATRIX view0 = orthoCamera->View();
+
+	//x
+	camPos = XMFLOAT3(1, 0, 0);
+	orthoCamera->LookAt(camPos, XMFLOAT3(camPos.x-1, camPos.y, camPos.z), XMFLOAT3(0, 1, 0));
+	orthoCamera->UpdateViewMatrix();
+	XMMATRIX view1 = orthoCamera->View();
+	//y
+	camPos = XMFLOAT3(0, 1, 0);
+	orthoCamera->LookAt(camPos, XMFLOAT3(camPos.x, camPos.y-1, camPos.z), XMFLOAT3(0, 0, 1));
+	orthoCamera->UpdateViewMatrix();
+	XMMATRIX view2 = orthoCamera->View();
+
+	XMMATRIX Proj = XMMatrixOrthographicLH(2, 2, .1f, 10.0f);
+
+
+	//Set Pipeline
+	PipelineState* g_VoxelPipeline = renderer->CreatePipelineState();
+	g_VoxelPipeline->SetShader(Shader::VertexShader, vShader);
+	g_VoxelPipeline->SetShader(Shader::PixelShader, pShader);
+	g_VoxelPipeline->SetShader(Shader::GeometryShader, gShader);
+	g_VoxelPipeline->GetRasterizerState().SetCullMode(RasterizerState::CullMode::None);
+	g_VoxelPipeline->GetRasterizerState().SetFillMode(RasterizerState::FillMode::Solid);
+	g_VoxelPipeline->GetRasterizerState().SetFrontFacing(RasterizerState::FrontFace::ClockWise);
+	g_VoxelPipeline->GetRasterizerState().SetDepthClipEnabled(FALSE);
+
+
+	//Voxelization Pass
+	VoxelizationPass::PerGeometry perGeometry;
+	perGeometry.zproj = XMMatrixTranspose(Proj * view0);
+	perGeometry.xproj = XMMatrixTranspose(Proj * view1);
+	perGeometry.yproj = XMMatrixTranspose(Proj * view2);
+	ConstantBuffer* geometryConstant = renderer->CreateConstantBuffer(&perGeometry, sizeof(perGeometry));
+
+	VoxelizationPass::cbAttri cbAttri;
+	cbAttri.origin = Float4(0.0f, 0.0f, 0.0f,1.0f);
+	cbAttri.extent = Float4(2.0f, 2.0f, 2.0f,0.0f);
+	ConstantBuffer* cbAttrConstant = renderer->CreateConstantBuffer(&cbAttri, sizeof(cbAttri));
+
+	//fragment
+	uint32_t fragmentSize = sizeof(VoxelizationPass::Voxel) * 16 * 16 * 16;
+
+	//bind uav Views
+	StructuredBuffer* voxelUAVBuffer = renderer->CreateStructuredBuffer(nullptr, fragmentSize / sizeof(VoxelizationPass::Voxel),
+		sizeof(VoxelizationPass::Voxel), CPUAccess::None, true, true,true);
+	
+	//bind uav Views
+	RWBuffer* indexUAVBuffer = renderer->CreateRWBuffer(nullptr,1,4);
+
+
+	//RenderTarget
+	RenderTarget* renderTarget = renderer->CreateRenderTarget();
+	renderTarget->AttachStructuredBuffer(0, voxelUAVBuffer);
+	renderTarget->AttachRWBuffer(0, indexUAVBuffer);
+
+	g_VoxelPipeline->SetRenderTarget(renderTarget);
+
+	VoxelizationPass* voxelPass = new VoxelizationPass(renderer, scene, g_VoxelPipeline);
+
+	//samplerstate
+	SamplerState* sampler = renderer->CreateSamplerState();
+	sampler->SetFilter(SamplerState::MinFilter::MinLinear,SamplerState::MagFilter::MagLinear,SamplerState::MipFilter::MipLinear);
+	sampler->SetWrapMode(SamplerState::WrapMode::Repeat, SamplerState::WrapMode::Repeat, SamplerState::WrapMode::Repeat);
+	sampler->SetMaxAnisotropy(16);
+	sampler->SetCompareFunction(SamplerState::CompareFunc::Never);
+	sampler->SetMinLOD(-FLT_MAX);
+	sampler->SetLODBias(0);
+	sampler->SetMaxLOD(FLT_MAX);
+	
+	voxelPass->SetGeometryConstantBuffer(geometryConstant,"cbProj");
+	voxelPass->SetCbAttriConstantBufferData(cbAttrConstant,"cbAttri");
+	voxelPass->SetVoxelBuffer(voxelUAVBuffer,"FragmentList");
+	voxelPass->SetIndexBuffer(indexUAVBuffer,"voxelIndex");
+	voxelPass->SetSampler(sampler,"sam");
+	
+	ClearRenderTargetPass* clearPass = new ClearRenderTargetPass(renderer->mData->renderTarget);
+
+	VisualTechnique* forwardTechnique = new VisualTechnique();
+
+
+	forwardTechnique->AddPass(clearPass);
+	forwardTechnique->AddPass(voxelPass);
+
+	InsertTechnique(forwardTechnique);
+}
+
+Hikari::VoxelEffect::~VoxelEffect()
+{
+}
+
+VisualEffectInstance * Hikari::VoxelEffect::CreateInstance() const
+{
+	VisualEffectInstance* instance = new VisualEffectInstance(this, 0);
+	return instance;
+}

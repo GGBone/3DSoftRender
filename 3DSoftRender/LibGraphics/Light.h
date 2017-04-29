@@ -4,7 +4,7 @@
 #include "Float4.h"
 namespace Hikari
 {
-	class Light : public Object
+	class Light
 	{
 	public:
 		enum class LightType : uint32_t

@@ -141,18 +141,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractPass.h" />
-    <ClInclude Include="BasePass.h" />
     <ClInclude Include="BlendState.h" />
     <ClInclude Include="BufferBinding.h" />
+    <ClInclude Include="ByteAddressBuffer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ClearFlag.h" />
-    <ClInclude Include="ClearRenderTargetPass.h" />
     <ClInclude Include="ColorRGBA.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="CPUAccess.h" />
     <ClInclude Include="Culler.h" />
-    <ClInclude Include="DefaultEffect.h" />
     <ClInclude Include="DepthStencilState.h" />
     <ClInclude Include="Dx11BlendState.h" />
     <ClInclude Include="Dx11Buffer.h" />
@@ -166,6 +163,7 @@
     <ClInclude Include="Dx11RenderLIB.h" />
     <ClInclude Include="Dx11RenderData.h" />
     <ClInclude Include="Dx11RenderTarget.h" />
+    <ClInclude Include="Dx11RWBuffer.h" />
     <ClInclude Include="Dx11SamplerState.h" />
     <ClInclude Include="Dx11Scene.h" />
     <ClInclude Include="Dx11Shader.h" />
@@ -176,12 +174,9 @@
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="GraphicsPCH.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="LightEffect.h" />
-    <ClInclude Include="LightPass.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Node.h" />
-    <ClInclude Include="OpaquePass.h" />
     <ClInclude Include="PipelineState.h" />
     <ClInclude Include="Pixel.h" />
     <ClInclude Include="Query.h" />
@@ -190,6 +185,7 @@
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="RenderEventArgs.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="RWBuffer.h" />
     <ClInclude Include="SamplerState.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneBase.h" />
@@ -217,6 +213,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="UnorderedAccessBuffer.h" />
     <ClInclude Include="VertexBufferAccessor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -233,12 +230,8 @@
     <ClInclude Include="VisualTechnique.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractPass.cpp" />
-    <ClCompile Include="BasePass.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ClearRenderTargetPass.cpp" />
     <ClCompile Include="Culler.cpp" />
-    <ClCompile Include="DefaultEffect.cpp" />
     <ClCompile Include="Dx11BlendState.cpp" />
     <ClCompile Include="Dx11Buffer.cpp" />
     <ClCompile Include="Dx11ConstantBuffer.cpp" />
@@ -250,6 +243,7 @@
     <ClCompile Include="Dx11RenderData.cpp" />
     <ClCompile Include="Dx11Renderer.cpp" />
     <ClCompile Include="Dx11RenderTarget.cpp" />
+    <ClCompile Include="Dx11RWBuffer.cpp" />
     <ClCompile Include="Dx11SamplerState.cpp" />
     <ClCompile Include="Dx11Scene.cpp" />
     <ClCompile Include="Dx11Shader.cpp" />
@@ -258,11 +252,8 @@
     <ClCompile Include="Dx11Texture.cpp" />
     <ClCompile Include="GraphicsLib.h" />
     <ClCompile Include="GraphicsPCH.cpp" />
-    <ClCompile Include="LightEffect.cpp" />
-    <ClCompile Include="LightPass.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Node.cpp" />
-    <ClCompile Include="OpaquePass.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RenderData.cpp" />
     <ClCompile Include="Renderer.cpp" />

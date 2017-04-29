@@ -1,7 +1,7 @@
 #include "GraphicsPCH.h"
 #include "Dx11Texture.h"
 #include "Dx11StructureBuffer.h"
-
+#include "Dx11RWBuffer.h"
 #include "Dx11RenderTarget.h"
 using namespace Hikari;
 
@@ -14,6 +14,7 @@ RenderTargetDX11::RenderTargetDX11(ID3D11Device* pDevice)
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
 	m_Textures.resize((size_t)RenderTarget::AttachmentPoint::NumAttachmentPoints + 1);
 	m_StructuredBuffers.resize(8);
+	m_RWBuffers.resize(8);
 }
 
 RenderTargetDX11::~RenderTargetDX11()
@@ -82,6 +83,22 @@ StructuredBuffer* RenderTargetDX11::GetStructuredBuffer(uint8_t slot)
 	return nullptr;
 }
 
+void Hikari::RenderTargetDX11::AttachRWBuffer(uint8_t slot, RWBuffer * rwBuffer)
+{
+	RWBufferDX11* trwBuffer = static_cast<RWBufferDX11*>(rwBuffer);
+	m_RWBuffers[slot] = trwBuffer;
+	m_bCheckValidity = true;
+}
+
+RWBuffer * Hikari::RenderTargetDX11::GetRWBuffer(uint8_t slot)
+{
+	if (slot < m_RWBuffers.size())
+	{
+		return m_RWBuffers[slot];
+	}
+	return nullptr;
+}
+
 
 void RenderTargetDX11::Resize(uint16_t width, uint16_t height)
 {
@@ -123,7 +140,8 @@ void RenderTargetDX11::Bind()
 		}
 	}
 
-	ID3D11UnorderedAccessView* uavViews[8] = {0};
+	ID3D11UnorderedAccessView* uavViews[8];
+	bool hasUnorderedAccessView = false;
 	UINT uavStartSlot = numRTVs;
 	UINT numUAVs = 0;
 
@@ -133,9 +151,18 @@ void RenderTargetDX11::Bind()
 		if (rwbuffer)
 		{
 			uavViews[numUAVs++] = rwbuffer->GetUnorderedAccessView();
+			hasUnorderedAccessView = true;
 		}
 	}
-
+	for (uint8_t i = 0; i < 8 && numUAVs < 8; i++)
+	{
+		RWBufferDX11* rwBuffer = m_RWBuffers[i];
+		if (rwBuffer)
+		{
+			uavViews[numUAVs++] = rwBuffer->GetUnorderedAccessView();
+			hasUnorderedAccessView = true;
+		}
+	}
 	ID3D11DepthStencilView* depthStencilView = nullptr;
 	TextureDX11* depthTexture = m_Textures[(uint8_t)AttachmentPoint::Depth];
 	TextureDX11* depthStencilTexture = m_Textures[(uint8_t)AttachmentPoint::DepthStencil];
@@ -149,7 +176,7 @@ void RenderTargetDX11::Bind()
 		depthStencilView = depthStencilTexture->GetDepthStencilView();
 	}
 
-	m_pDeviceContext->OMSetRenderTargetsAndUnorderedAccessViews(numRTVs, renderTargetViews, depthStencilView, uavStartSlot, numUAVs, uavViews, nullptr);
+	m_pDeviceContext->OMSetRenderTargetsAndUnorderedAccessViews(numRTVs, renderTargetViews, depthStencilView, uavStartSlot, numUAVs, hasUnorderedAccessView?uavViews:nullptr, nullptr);
 	//m_pDeviceContext->OMSetRenderTargets(numRTVs, renderTargetViews, depthStencilView);
 }
 

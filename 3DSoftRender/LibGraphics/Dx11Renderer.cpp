@@ -14,6 +14,8 @@
 #include "Dx11PipelineState.h"
 #include "Dx11SamplerState.h"
 #include "RenderEventArgs.h"
+#include "VisualEffect.h"
+#include "Dx11RWBuffer.h"
 #include <sstream>
 
 using namespace Hikari;
@@ -271,6 +273,11 @@ void Hikari::DirectRenderer::DestroyStructuredBuffer(StructuredBuffer * buffer)
 	DestroyBuffer(buffer);
 }
 
+void Hikari::DirectRenderer::DestroyRWBuffer(RWBuffer * buffer)
+{
+	DestroyBuffer(buffer);
+}
+
 Scene * Hikari::DirectRenderer::CreateScene()
 {
 	Scene* scene = new SceneDX11(this);
@@ -365,11 +372,11 @@ void DirectRenderer::DrawPrimitive(const Visual * visual,VisualEffect* effect)
 	
 	mData->renderTarget->Bind();
 
-	TextureDX11* colorBuffer = static_cast<TextureDX11*>(mData->renderTarget->GetTexture(RenderTarget::AttachmentPoint::Color0));
+	/*TextureDX11* colorBuffer = static_cast<TextureDX11*>(mData->renderTarget->GetTexture(RenderTarget::AttachmentPoint::Color0));
 	if (colorBuffer)
 	{
 		mData->mImmediateContext->CopyResource(mData->pBackBuffer, colorBuffer->GetTextureResource());
-	}
+	}*/
 	mData->g_pSwapChain->Present(0, 0);
 }
 
@@ -420,10 +427,19 @@ ConstantBuffer * Hikari::DirectRenderer::CreateConstantBuffer(const void * data,
 	return buffer;
 }
 
-StructuredBuffer * Hikari::DirectRenderer::CreateStructuredBuffer(void * data, unsigned int count, unsigned int stride, CPUAccess cpuAccess, bool gpuWrite)
+
+StructuredBuffer * Hikari::DirectRenderer::CreateStructuredBuffer(void * data, unsigned int count, unsigned int stride, CPUAccess cpuAccess,  bool bSRV, bool bUAV, bool appendFlag)
 {
-	StructuredBuffer* buffer = new StructuredBufferDX11(mData->mDevice, 0, data, count, stride, cpuAccess, gpuWrite);
+	StructuredBuffer* buffer = new StructuredBufferDX11(mData->mDevice, 0, data, count, stride, cpuAccess, bSRV, bUAV,appendFlag);
 	m_Buffer.push_back(buffer);
+	return buffer;
+}
+
+RWBuffer * Hikari::DirectRenderer::CreateRWBuffer(void * data, unsigned int count, unsigned int stride, CPUAccess cpuAccess)
+{
+	RWBuffer* buffer = new RWBufferDX11(mData->mDevice, 0, data, count, stride);
+	m_Buffer.push_back(buffer);
+
 	return buffer;
 }
 

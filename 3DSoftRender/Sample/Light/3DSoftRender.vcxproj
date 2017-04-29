@@ -44,36 +44,50 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlPoint.h" />
+    <ClInclude Include="Data\AbstractPass.h" />
+    <ClInclude Include="Data\BasePass.h" />
+    <ClInclude Include="Data\ClearRenderTargetPass.h" />
+    <ClInclude Include="Data\DefaultEffect.h" />
+    <ClInclude Include="Data\LightEffect.h" />
+    <ClInclude Include="Data\LightPass.h" />
+    <ClInclude Include="Data\OpaquePass.h" />
+    <ClInclude Include="Data\VoxelEffect.h" />
+    <ClInclude Include="Data\VoxelizationPass.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Sample.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Data\AbstractPass.cpp" />
+    <ClCompile Include="Data\BasePass.cpp" />
+    <ClCompile Include="Data\ClearRenderTargetPass.cpp" />
+    <ClCompile Include="Data\DefaultEffect.cpp" />
+    <ClCompile Include="Data\LightEffect.cpp" />
+    <ClCompile Include="Data\LightPass.cpp" />
+    <ClCompile Include="Data\OpaquePass.cpp" />
+    <ClCompile Include="Data\VoxelEffect.cpp" />
+    <ClCompile Include="Data\VoxelizationPass.cpp" />
     <ClCompile Include="Sample.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="CommonInclude.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\CommonInclude.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <CustomBuild Include="DefaultShader.fx">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <CustomBuild Include="ForwardRendering.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">PS_main</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|Win32'">5.0</ShaderModel>
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <CustomBuild Include="LightShader.hlsl">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <FxCompile Include="VoxelizationGS.hlsl">
+    <FxCompile Include="..\Assets\shaders\DeferredRendering.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="VoxelizationPS.hlsl">
+    <FxCompile Include="..\Assets\shaders\ForwardPlusRendering.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="VoxelizationVS.hlsl">
+    <FxCompile Include="..\Assets\shaders\ForwardRendering.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\VoxelizationGS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\VoxelizationPS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\VoxelizationVS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
@@ -198,7 +212,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>./Data/;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>../../SDK/Library;../../External/ExternalLibrary;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH)</ExecutablePath>
   </PropertyGroup>

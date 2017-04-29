@@ -20,14 +20,14 @@ namespace Hikari
 		virtual void SetTexture(Texture* texture) override;
 		virtual void SetSampler(SamplerState* sampler) override;
 		virtual void SetStructuredBuffer(StructuredBuffer* rwBuffer) override;
-
+		virtual void SetRWBuffer(RWBuffer* rwBuffer) override;
 	private:
 		std::string mName;
 		Texture* mTexture;
 		SamplerState* mSamplerState;
 		ConstantBuffer* mConstantBuffer;
 		StructuredBuffer* mStructuredBuffer;
-
+		RWBuffer* mRWBuffer;
 		UINT m_uiSlot;
 		Shader::ShaderType m_ShaderType;
 		Type m_ParameterType;

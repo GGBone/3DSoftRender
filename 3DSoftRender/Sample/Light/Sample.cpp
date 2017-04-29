@@ -1,6 +1,8 @@
 #include "Sample.h"
 #include "Scene.h"
-#include "GraphicsPCH.h"
+#include "VisualEffectInstance.h"
+#include "VoxelEffect.h"
+#include "LightEffect.h"
 WINDOW_APPLICATION(Lights);
 std::wstring configFileName = L"../Conf/DefaultConfiguration.conf";
 
@@ -59,8 +61,10 @@ void Lights::CreateScene()
 		0, 0, g_Setting.SceneScaleFactor, 0,
 		0, 0, 0, 1
 	));
-	LightEffect* lightEffect = new LightEffect(static_cast<DirectRenderer*>(mRenderer),mainScene,g_Setting.Lights);
-	mInstance = lightEffect->CreateInstance();
+	VoxelEffect* voxelEffect = new VoxelEffect(static_cast<DirectRenderer*>(mRenderer),mainScene);
+	
+	LightEffect* lightEffect = new LightEffect(static_cast<DirectRenderer*>(mRenderer), mainScene,g_Setting.Lights);
+	mInstance = voxelEffect->CreateInstance();
 }
 
 void Lights::CreatePlane()

@@ -28,3 +28,9 @@ void ShaderParameter::Set<StructuredBuffer>(StructuredBuffer* value)
 {
 	SetStructuredBuffer(value);
 }
+
+template<>
+void ShaderParameter::Set<RWBuffer>(RWBuffer* value)
+{
+	SetRWBuffer(value);
+}

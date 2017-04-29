@@ -292,34 +292,30 @@ TextureDX11::TextureDX11(Tex3DCtor, ID3D11Device* pDevice, uint16_t width, uint1
 	// Query for texture format support.
 	if (FAILED(m_pDevice->CheckFormatSupport(m_TextureResourceFormat, &m_TextureResourceFormatSupport)))
 	{
-		////ReportError("Failed to query texture resource format support.");
+		
 	}
 	if (FAILED(m_pDevice->CheckFormatSupport(m_DepthStencilViewFormat, &m_DepthStencilViewFormatSupport)))
 	{
-		////ReportError("Failed to query depth/stencil format support.");
 	}
 	if (FAILED(m_pDevice->CheckFormatSupport(m_ShaderResourceViewFormat, &m_ShaderResourceViewFormatSupport)))
 	{
-		////ReportError("Failed to query shader resource format support.");
 	}
 	if (FAILED(m_pDevice->CheckFormatSupport(m_RenderTargetViewFormat, &m_RenderTargetViewFormatSupport)))
 	{
-		////ReportError("Failed to query render target format support.");
 	}
 	if (FAILED(m_pDevice->CheckFormatSupport(m_UnorderedAccessViewFormat, &m_UnorderedAccessViewFormatSupport)))
 	{
-		////ReportError("Failed to query render target format support.");
 	}
 
 	if ((m_TextureResourceFormatSupport & D3D11_FORMAT_SUPPORT_TEXTURE3D) == 0)
 	{
 		ReportTextureFormatError(m_TextureFormat, "Unsupported texture format for 3D textures.");
 	}
-	// Can the texture be dynamically modified on the CPU?
+	
 	m_bDynamic = (int)m_CPUAccess != 0 && (m_TextureResourceFormatSupport & D3D11_FORMAT_SUPPORT_CPU_LOCKABLE) != 0;
-	// Can mipmaps be automatically generated for this texture format?
+	
 	m_bGenerateMipmaps = !m_bDynamic && (m_ShaderResourceViewFormatSupport & D3D11_FORMAT_SUPPORT_MIP_AUTOGEN) != 0;
-	// Are UAVs supported?
+	
 	m_bUAV = bUAV && (m_UnorderedAccessViewFormatSupport & D3D11_FORMAT_SUPPORT_SHADER_LOAD) != 0;
 
 }
@@ -1142,7 +1138,234 @@ void TextureDX11::Resize2D(uint16_t width, uint16_t height)
 
 void TextureDX11::Resize3D(uint16_t width, uint16_t height, uint16_t depth)
 {
-	// TODO
+	if (m_TextureWidth != width || m_TextureHeight != height || m_NumSlices!= depth)
+	{
+		// Release resource before resizing
+		m_pTexture2D = 0;
+		m_pRenderTargetView = 0;
+		m_pDepthStencilView = 0;
+		m_pShaderResourceView = 0;
+		m_pUnorderedAccessView = 0;
+
+		m_TextureWidth = std::max<uint16_t>(width, 1);
+		m_TextureHeight = std::max<uint16_t>(height, 1);
+		m_NumSlices = std::max<uint16_t>(depth, 1);
+		// Create texture with the dimensions specified.
+		D3D11_TEXTURE3D_DESC textureDesc = { 0 };
+
+		/*
+		textureDesc.ArraySize = m_NumSlices;
+		textureDesc.Format = m_TextureResourceFormat;
+		textureDesc.SampleDesc = m_SampleDesc;
+
+		textureDesc.Width = m_TextureWidth;
+		textureDesc.Height = m_TextureHeight;
+		textureDesc.MipLevels = 1;
+
+		if (((int)m_CPUAccess & (int)CPUAccess::Read) != 0)
+		{
+			textureDesc.Usage = D3D11_USAGE_STAGING;
+			textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
+		}
+		else if (((int)m_CPUAccess & (int)CPUAccess::Write) != 0)
+		{
+			textureDesc.Usage = D3D11_USAGE_DYNAMIC;
+			textureDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		}
+		else
+		{
+			textureDesc.Usage = D3D11_USAGE_DEFAULT;
+			textureDesc.CPUAccessFlags = 0;
+		}
+
+		if (!m_bUAV && !m_bDynamic && (m_DepthStencilViewFormatSupport & D3D11_FORMAT_SUPPORT_DEPTH_STENCIL) != 0)
+		{
+			textureDesc.BindFlags |= D3D11_BIND_DEPTH_STENCIL;
+		}
+		if (!m_bDynamic && (m_RenderTargetViewFormatSupport & D3D11_FORMAT_SUPPORT_RENDER_TARGET) != 0)
+		{
+			textureDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
+		}
+		if (((int)m_CPUAccess & (int)CPUAccess::Read) == 0)
+		{
+			textureDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+		}
+		if (m_bUAV && !m_bDynamic)
+		{
+			textureDesc.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+		}
+
+		textureDesc.MiscFlags = m_bGenerateMipmaps ? D3D11_RESOURCE_MISC_GENERATE_MIPS : 0;
+
+		if (FAILED(m_pDevice->CreateTexture2D(&textureDesc, nullptr, &m_pTexture2D)))
+		{
+			//ReportError("Failed to create texture.");
+			return;
+		}
+
+		if ((textureDesc.BindFlags & D3D11_BIND_DEPTH_STENCIL) != 0)
+		{
+			// Create the depth/stencil view for the texture.
+			D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+			depthStencilViewDesc.Format = m_DepthStencilViewFormat;
+			depthStencilViewDesc.Flags = 0;
+
+			if (m_NumSlices > 1)
+			{
+				if (m_SampleDesc.Count > 1)
+				{
+					depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY;
+					depthStencilViewDesc.Texture2DMSArray.FirstArraySlice = 0;
+					depthStencilViewDesc.Texture2DMSArray.ArraySize = m_NumSlices;
+				}
+				else
+				{
+					depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
+					depthStencilViewDesc.Texture2DArray.MipSlice = 0;
+					depthStencilViewDesc.Texture2DArray.FirstArraySlice = 0;
+					depthStencilViewDesc.Texture2DArray.ArraySize = m_NumSlices;
+				}
+			}
+			else
+			{
+				if (m_SampleDesc.Count > 1)
+				{
+					depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+				}
+				else
+				{
+					depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+					depthStencilViewDesc.Texture2D.MipSlice = 0;
+				}
+			}
+
+			if (FAILED(m_pDevice->CreateDepthStencilView(m_pTexture2D, &depthStencilViewDesc, &m_pDepthStencilView)))
+			{
+				//ReportError("Failed to create depth/stencil view.");
+			}
+		}
+
+		if ((textureDesc.BindFlags & D3D11_BIND_SHADER_RESOURCE) != 0)
+		{
+			// Create a Shader resource view for the texture.
+			D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
+			resourceViewDesc.Format = m_ShaderResourceViewFormat;
+
+			if (m_NumSlices > 1)
+			{
+				if (m_SampleDesc.Count > 1)
+				{
+					resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY;
+					resourceViewDesc.Texture2DMSArray.FirstArraySlice = 0;
+					resourceViewDesc.Texture2DMSArray.ArraySize = m_NumSlices;
+				}
+				else
+				{
+					resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+					resourceViewDesc.Texture2DArray.FirstArraySlice = 0;
+					resourceViewDesc.Texture2DArray.ArraySize = m_NumSlices;
+					resourceViewDesc.Texture2DArray.MipLevels = m_bGenerateMipmaps ? -1 : 1;
+					resourceViewDesc.Texture2DArray.MostDetailedMip = 0;
+				}
+			}
+			else
+			{
+				if (m_SampleDesc.Count > 1)
+				{
+					resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+				}
+				else
+				{
+					resourceViewDesc.ViewDimension = D3D_SRV_DIMENSION_TEXTURE2D;
+					resourceViewDesc.Texture2D.MipLevels = m_bGenerateMipmaps ? -1 : 1;
+					resourceViewDesc.Texture2D.MostDetailedMip = 0;
+				}
+			}
+
+			if (FAILED(m_pDevice->CreateShaderResourceView(m_pTexture2D, &resourceViewDesc, &m_pShaderResourceView)))
+			{
+				//ReportError("Failed to create texture resource view.");
+			}
+			else if (m_bGenerateMipmaps)
+			{
+				m_pDeviceContext->GenerateMips(m_pShaderResourceView);
+			}
+		}
+
+		if ((textureDesc.BindFlags & D3D11_BIND_RENDER_TARGET) != 0)
+		{
+			// Create the render target view for the texture.
+			D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+			renderTargetViewDesc.Format = m_RenderTargetViewFormat;
+
+			if (m_NumSlices > 1)
+			{
+				if (m_SampleDesc.Count > 1)
+				{
+					renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY;
+					renderTargetViewDesc.Texture2DArray.FirstArraySlice = 0;
+					renderTargetViewDesc.Texture2DArray.ArraySize = m_NumSlices;
+
+				}
+				else
+				{
+					renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
+					renderTargetViewDesc.Texture2DArray.MipSlice = 0;
+					renderTargetViewDesc.Texture2DArray.FirstArraySlice = 0;
+					renderTargetViewDesc.Texture2DArray.ArraySize = m_NumSlices;
+				}
+			}
+			else
+			{
+				if (m_SampleDesc.Count > 1)
+				{
+					renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
+				}
+				else
+				{
+					renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+					renderTargetViewDesc.Texture2D.MipSlice = 0;
+				}
+			}
+
+			if (FAILED(m_pDevice->CreateRenderTargetView(m_pTexture2D, &renderTargetViewDesc, &m_pRenderTargetView)))
+			{
+				//ReportError("Failed to create render target view.");
+			}
+		}
+
+		if ((textureDesc.BindFlags & D3D11_BIND_UNORDERED_ACCESS) != 0)
+		{
+			// UAVs cannot be multi sampled.
+			assert(m_SampleDesc.Count == 1);
+
+			// Create a Shader resource view for the texture.
+			D3D11_UNORDERED_ACCESS_VIEW_DESC unorderedAccessViewDesc;
+			unorderedAccessViewDesc.Format = m_UnorderedAccessViewFormat;
+
+			if (m_NumSlices > 1)
+			{
+				unorderedAccessViewDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2DARRAY;
+				unorderedAccessViewDesc.Texture2DArray.MipSlice = 0;
+				unorderedAccessViewDesc.Texture2DArray.FirstArraySlice = 0;
+				unorderedAccessViewDesc.Texture2DArray.ArraySize = m_NumSlices;
+			}
+			else
+			{
+				unorderedAccessViewDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
+				unorderedAccessViewDesc.Texture2D.MipSlice = 0;
+			}
+
+			if (FAILED(m_pDevice->CreateUnorderedAccessView(m_pTexture2D, &unorderedAccessViewDesc, &m_pUnorderedAccessView)))
+			{
+				//ReportError("Failed to create unordered access view.");
+			}
+		}
+
+		assert(m_BPP > 0 && m_BPP % 8 == 0);
+		m_Buffer.resize(width * height * (m_BPP / 8));
+		*/
+	}
 }
 
 void TextureDX11::ResizeCube(uint16_t size)

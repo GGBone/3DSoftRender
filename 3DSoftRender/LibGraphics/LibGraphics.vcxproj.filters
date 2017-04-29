@@ -28,20 +28,11 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{146bfd9a-92cc-469f-a6f9-620c399a7008}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data">
-      <UniqueIdentifier>{3a182711-3a73-4bb3-a293-9bc40f558d3d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DataType">
       <UniqueIdentifier>{d0e8c93e-fa01-4b83-ab90-034b9508f18a}</UniqueIdentifier>
     </Filter>
     <Filter Include="ShaderStream">
       <UniqueIdentifier>{35b5e524-a997-4a6d-bbf3-7b6fb9155604}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Data\SoftShader">
-      <UniqueIdentifier>{68f8eed7-a6db-461d-bedc-51a99bdb9239}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Data\Dx11ShaderEffect">
-      <UniqueIdentifier>{0cbe26d2-4875-4c5f-b09b-cc7c00e50693}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -103,9 +94,6 @@
     <ClInclude Include="VisualEffect.h">
       <Filter>Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultEffect.h">
-      <Filter>Data\Dx11ShaderEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Resource</Filter>
     </ClInclude>
@@ -147,9 +135,6 @@
     </ClInclude>
     <ClInclude Include="ShaderMMatrix.h">
       <Filter>ShaderStream</Filter>
-    </ClInclude>
-    <ClInclude Include="LightEffect.h">
-      <Filter>Data\Dx11ShaderEffect</Filter>
     </ClInclude>
     <ClInclude Include="Dx11Shader.h">
       <Filter>Renderer\DXRender</Filter>
@@ -244,29 +229,26 @@
     <ClInclude Include="Dx11Scene.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractPass.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="BasePass.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
     <ClInclude Include="Query.h">
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="Dx11Query.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="OpaquePass.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="ClearRenderTargetPass.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
     <ClInclude Include="ClearFlag.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
-    <ClInclude Include="LightPass.h">
-      <Filter>SceneGraph</Filter>
+    <ClInclude Include="RWBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="ByteAddressBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="UnorderedAccessBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11RWBuffer.h">
+      <Filter>Renderer\DXRender</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -313,9 +295,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>DataType</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultEffect.cpp">
-      <Filter>Data\Dx11ShaderEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
@@ -342,9 +321,6 @@
     </ClCompile>
     <ClCompile Include="ShaderPMatrix.cpp">
       <Filter>ShaderStream</Filter>
-    </ClCompile>
-    <ClCompile Include="LightEffect.cpp">
-      <Filter>Data\Dx11ShaderEffect</Filter>
     </ClCompile>
     <ClCompile Include="Dx11Shader.cpp">
       <Filter>Renderer\DXRender</Filter>
@@ -391,28 +367,20 @@
     <ClCompile Include="Material.cpp">
       <Filter>SceneGraph</Filter>
     </ClCompile>
-    <ClCompile Include="BasePass.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
     <ClCompile Include="Dx11Scene.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
     <ClCompile Include="Dx11SamplerState.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="AbstractPass.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderParameter.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11Query.cpp" />
-    <ClCompile Include="ClearRenderTargetPass.cpp" />
-    <ClCompile Include="OpaquePass.cpp">
-      <Filter>SceneGraph</Filter>
+    <ClCompile Include="Dx11Query.cpp">
+      <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="LightPass.cpp">
-      <Filter>SceneGraph</Filter>
+    <ClCompile Include="Dx11RWBuffer.cpp">
+      <Filter>Renderer\DXRender</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

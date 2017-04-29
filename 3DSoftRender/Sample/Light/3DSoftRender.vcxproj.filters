@@ -18,6 +18,30 @@
     <Filter Include="资源文件\Voxel\Voxelization">
       <UniqueIdentifier>{8f7570ed-617d-4568-aa7f-4f5e53247bcc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Common">
+      <UniqueIdentifier>{ac86aed8-447c-4d8f-9240-1b9681b2c410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Forward">
+      <UniqueIdentifier>{2aac7da6-682e-4bdb-9281-524de5474562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\DeferredRendering">
+      <UniqueIdentifier>{68a3c82e-d0a4-487d-992e-a0d7dbf8fb8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\ForwardPlus">
+      <UniqueIdentifier>{843cfa9e-c237-471d-b9d4-d06bdafe7822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Data">
+      <UniqueIdentifier>{c065575e-070b-4b03-9cc0-0aa47be2b528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Data\SoftShader">
+      <UniqueIdentifier>{c3bb2654-ee95-4f20-9036-bbaca433a2bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Data\Dx11ShaderEffect">
+      <UniqueIdentifier>{60ebd437-3f1a-4c9e-8616-1b4d238e2085}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Data\Pass">
+      <UniqueIdentifier>{99e6a150-0bd1-416c-bb86-185ac3e181cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry.h">
@@ -29,35 +53,87 @@
     <ClInclude Include="Sample.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Data\DefaultEffect.h">
+      <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\LightEffect.h">
+      <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\VoxelEffect.h">
+      <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\AbstractPass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\BasePass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\ClearRenderTargetPass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\LightPass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\OpaquePass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\VoxelizationPass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="CommonInclude.hlsl">
-      <Filter>资源文件</Filter>
-    </FxCompile>
-    <FxCompile Include="VoxelizationGS.hlsl">
+    <FxCompile Include="..\Assets\shaders\VoxelizationGS.hlsl">
       <Filter>资源文件\Voxel\Voxelization</Filter>
     </FxCompile>
-    <FxCompile Include="VoxelizationVS.hlsl">
+    <FxCompile Include="..\Assets\shaders\VoxelizationPS.hlsl">
       <Filter>资源文件\Voxel\Voxelization</Filter>
     </FxCompile>
-    <FxCompile Include="VoxelizationPS.hlsl">
+    <FxCompile Include="..\Assets\shaders\VoxelizationVS.hlsl">
       <Filter>资源文件\Voxel\Voxelization</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="DefaultShader.fx">
-      <Filter>资源文件</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ForwardRendering.hlsl">
-      <Filter>资源文件</Filter>
-    </CustomBuild>
-    <CustomBuild Include="LightShader.hlsl">
-      <Filter>资源文件</Filter>
-    </CustomBuild>
+    <FxCompile Include="..\Assets\shaders\CommonInclude.hlsl">
+      <Filter>资源文件\Common</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\ForwardRendering.hlsl">
+      <Filter>资源文件\Forward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\DeferredRendering.hlsl">
+      <Filter>资源文件\DeferredRendering</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\ForwardPlusRendering.hlsl">
+      <Filter>资源文件\ForwardPlus</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\DefaultEffect.cpp">
+      <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\LightEffect.cpp">
+      <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\VoxelEffect.cpp">
+      <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\AbstractPass.cpp">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\BasePass.cpp">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\ClearRenderTargetPass.cpp">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\LightPass.cpp">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\OpaquePass.cpp">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\VoxelizationPass.cpp">
+      <Filter>资源文件\Data\Pass</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

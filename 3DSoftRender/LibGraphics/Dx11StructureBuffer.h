@@ -8,7 +8,7 @@ namespace Hikari
 	public:
 		typedef StructuredBuffer base;
 
-		StructuredBufferDX11(ID3D11Device* pDevice, UINT bindFlags, const void* data, size_t count, UINT stride, CPUAccess cpuAccess = CPUAccess::None, bool bUAV = false);
+		StructuredBufferDX11(ID3D11Device* pDevice, UINT bindFlags, const void* data, size_t count, UINT stride, CPUAccess cpuAccess = CPUAccess::None, bool bSRV = true, bool bUAV = false,  bool AppendFlag = false);
 		virtual ~StructuredBufferDX11();
 
 		// Bind the buffer for rendering.
@@ -27,9 +27,11 @@ namespace Hikari
 		// Clear the contents of the buffer.
 		virtual void Clear();
 
+		virtual UINT GetStride() const;
 		// Used by the RenderTargetDX11 only.
 		ID3D11UnorderedAccessView* GetUnorderedAccessView() const;
 
+		
 	protected:
 		virtual void Copy(Buffer* other);
 		virtual void SetData(void* data, size_t elementSize, size_t offset, size_t numElements);

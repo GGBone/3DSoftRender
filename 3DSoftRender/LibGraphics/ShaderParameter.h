@@ -9,6 +9,7 @@ namespace Hikari
 	class SamplerState;
 	class StructuredBuffer;
 	class Texture;
+	class RWBuffer;
 	class ShaderParameter : public Object
 	{
 		
@@ -42,6 +43,7 @@ namespace Hikari
 		virtual void SetTexture(Texture* texture) = 0;
 		virtual void SetSampler(SamplerState* sampler) = 0;
 		virtual void SetStructuredBuffer(StructuredBuffer* rwBuffer) = 0;
+		virtual void SetRWBuffer(RWBuffer* rwBuffer) = 0;
 	};
 
 	template<>

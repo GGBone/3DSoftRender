@@ -159,13 +159,13 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 			parameterType = ShaderParameter::Type::Buffer;
 			break;
 		case D3D_SIT_UAV_RWSTRUCTURED:
+		case D3D_SIT_UAV_APPEND_STRUCTURED:
 			parameterType = ShaderParameter::Type::RWBuffer;
 			break;
 		case D3D_SIT_UAV_RWTYPED:
 			parameterType = ShaderParameter::Type::RWTexture;
 			break;
 		}
-
 		ShaderParameterDx* shaderParameter = new ShaderParameterDx(resourceName, bindDesc.BindPoint, type, parameterType);
 		mShaderParameter.insert(ParameterMap::value_type(resourceName, shaderParameter));
 	}

@@ -1,10 +1,7 @@
 ﻿#pragma once
 #include "Transform.h"
 
-//Effect
-#include "DefaultEffect.h"
-#include "LightEffect.h"
-//Renderers
+#include "VisualEffect.h"
 #include "Renderer.h"
 
 #include "Dx11Shader.h"
@@ -39,10 +36,6 @@
 
 #include "Shader.h"
 
-#include "VisualEffect.h"
-#include "VisualEffectInstance.h"
-#include "VisualPass.h"
-#include "VisualTechnique.h"
 
 
 #include "Node.h"

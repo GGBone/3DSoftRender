@@ -19,7 +19,10 @@ namespace Hikari
 			VertexBuffer,
 			IndexBuffer,
 			StructuredBuffer,
-			ConstantBuffer
+			ConstantBuffer,
+			RWBuffers,
+			ByteAddressBuffer,
+			UnoderedAccessBuffer
 		};
 
 		// Bind the buffer for rendering.

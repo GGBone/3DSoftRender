@@ -2,7 +2,7 @@
 #include "Dx11StructureBuffer.h"
 
 using namespace Hikari;
-Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const void * data, size_t count, UINT stride, CPUAccess cpuAccess, bool bUAV)
+Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const void * data, size_t count, UINT stride, CPUAccess cpuAccess,bool bSRV, bool bUAV,bool AppendFlag)
 	:m_pDevice(pDevice),
 	m_uiStride(stride),
 	m_uiCount((UINT)count),
@@ -27,6 +27,7 @@ Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT 
 	{
 		bufferDesc.Usage = D3D11_USAGE_STAGING;
 		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
+		bufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 
 	}
 	else if ((((int)m_CPUAccess) & (int)CPUAccess::Write) != 0)
@@ -34,17 +35,26 @@ Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT 
 		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		bufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 	}
 	else
 	{
 		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		if (m_bUAV)
+		if (bSRV)
 		{
-			bufferDesc.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+			bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+			if (m_bUAV)
+				bufferDesc.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+			bufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+		}
+		else if (m_bUAV)
+		{
+			bufferDesc.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
+
+			bufferDesc.MiscFlags = 0;
 		}
 	}
-	bufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	
 	bufferDesc.StructureByteStride = m_uiStride;
 
 	D3D11_SUBRESOURCE_DATA subResourceData;
@@ -57,7 +67,9 @@ Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT 
 	if ((bufferDesc.BindFlags & D3D11_BIND_SHADER_RESOURCE))
 	{
 		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	
 		srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+
 		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
 		srvDesc.Buffer.FirstElement = 0;
 		srvDesc.Buffer.NumElements = m_uiCount;
@@ -68,11 +80,19 @@ Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT 
 	if ((bufferDesc.BindFlags & D3D11_BIND_UNORDERED_ACCESS) != 0)
 	{
 		D3D11_UNORDERED_ACCESS_VIEW_DESC uavDesc;
-		uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+		if (!bSRV && bUAV)
+			uavDesc.Format = DXGI_FORMAT_R32_SINT;
+		else
+			uavDesc.Format = DXGI_FORMAT_UNKNOWN;
+
 		uavDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 		uavDesc.Buffer.FirstElement = 0;
 		uavDesc.Buffer.NumElements = m_uiCount;
-		uavDesc.Buffer.Flags = 0;
+
+		if (AppendFlag)
+			uavDesc.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_APPEND;
+		else
+			uavDesc.Buffer.Flags = 0;
 
 		m_pDevice->CreateUnorderedAccessView(m_pBuffer, &uavDesc, &m_pUAV);
 	}
@@ -204,6 +224,11 @@ void Hikari::StructuredBufferDX11::Clear()
 		FLOAT clearColor[4] = { 0, 0, 0, 0 };
 		m_pDeviceContext->ClearUnorderedAccessViewFloat(m_pUAV, clearColor);
 	}
+}
+
+UINT Hikari::StructuredBufferDX11::GetStride() const
+{
+	return m_uiStride;
 }
 
 ID3D11UnorderedAccessView * Hikari::StructuredBufferDX11::GetUnorderedAccessView() const

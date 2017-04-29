@@ -69,6 +69,8 @@ namespace Hikari
 
 		virtual void DestroyStructuredBuffer(StructuredBuffer* buffer) override;
 
+		virtual void DestroyRWBuffer(RWBuffer* buffer) override;
+
 		virtual Scene* CreateScene() override;
 
 
@@ -162,8 +164,9 @@ namespace Hikari
 		virtual Buffer* CreateDoubleVertexBuffer(const double* data, unsigned int count, unsigned int stride) override;
 		virtual Buffer* CreateUIntIndexBuffer(const unsigned int* data, unsigned int sizeInBytes) override;
 		virtual ConstantBuffer* CreateConstantBuffer(const void* data, size_t size) override;
-		virtual StructuredBuffer* CreateStructuredBuffer(void* data, unsigned int count, unsigned int stride, CPUAccess cpuAccess = CPUAccess::None, bool gpuWrite = false) override;
-
+		virtual StructuredBuffer* CreateStructuredBuffer(void* data, unsigned int count, unsigned int stride, CPUAccess cpuAccess = CPUAccess::None,
+			bool bSRV = true,bool bUAV = false,bool appendFlag = false) override;
+		virtual RWBuffer* CreateRWBuffer(void* data, unsigned int count, unsigned int stride,CPUAccess cpuAccess = CPUAccess::None) override;
 	private:
 		ID3D11Debug* m_pDebugLayer;
 		

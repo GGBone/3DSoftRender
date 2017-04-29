@@ -85,3 +85,8 @@ void Hikari::ShaderParameterDx::SetStructuredBuffer(StructuredBuffer * rwBuffer)
 {
 	mStructuredBuffer = rwBuffer;
 }
+
+void Hikari::ShaderParameterDx::SetRWBuffer(RWBuffer * rwBuffer)
+{
+	mRWBuffer = rwBuffer;
+}

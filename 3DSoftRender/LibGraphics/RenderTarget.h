@@ -40,7 +40,8 @@ namespace Hikari
 		virtual void AttachStructuredBuffer(uint8_t slot, StructuredBuffer* rwBuffer) = 0;
 		virtual StructuredBuffer* GetStructuredBuffer(uint8_t slot) = 0;
 
-	
+		virtual void AttachRWBuffer(uint8_t slot, RWBuffer* rwBuffer) = 0;
+		virtual RWBuffer* GetRWBuffer(uint8_t slot) = 0;
 		virtual void Resize(uint16_t width, uint16_t height) = 0;
 
 		
