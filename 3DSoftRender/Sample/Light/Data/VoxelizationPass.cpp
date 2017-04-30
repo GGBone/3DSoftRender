@@ -70,7 +70,7 @@ void Hikari::VoxelizationPass::PreRender(RenderEventArgs & e)
 	SetRenderEventArgs(e);
 	if (m_Pipeline)
 	{
-		m_Pipeline->GetRasterizerState().SetViewport(Viewport(0, 0, 2.0f, 2.0f));
+		m_Pipeline->GetRasterizerState().SetViewport(Viewport(0, 0, 128, 128));
 		BindPerObjectConstantBuffer("cbTrans");
 		m_Pipeline->Bind();
 	}
@@ -88,10 +88,10 @@ void Hikari::VoxelizationPass::PostRender(RenderEventArgs & e)
 {
 	if (m_Pipeline)
 	{
-		/*StructuredBuffer* uavFragment =  m_Pipeline->GetRenderTarget()->GetStructuredBuffer(0);
 		RWBuffer* index = m_Pipeline->GetRenderTarget()->GetRWBuffer(0);
 		
-		index->Copy(nullptr)*/
+		index->Copy(nullptr);
+		valueFragment = *((UINT*)(index->GetData()));
 		m_Pipeline->UnBind();
 	}
 }

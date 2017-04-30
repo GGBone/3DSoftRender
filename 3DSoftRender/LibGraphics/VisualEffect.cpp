@@ -3,6 +3,7 @@
 using namespace Hikari;
 
 Hikari::VisualEffect::VisualEffect()
+:m_EffectName("Default")
 {
 }
 
@@ -16,6 +17,11 @@ void Hikari::VisualEffect::InsertTechnique(VisualTechnique * technique)
 	{
 		mTechniques.push_back(technique);
 	}
+}
+
+size_t Hikari::VisualEffect::GetTechniqueSize() const
+{
+	return mTechniques.size();
 }
 
 void Hikari::VisualEffect::PreRender()
@@ -36,6 +42,7 @@ VisualTechnique * Hikari::VisualEffect::GetTechnique(int techIndex)
 }
 
 Hikari::VisualEffect::VisualEffect(const std::string & name, int mode)
+	:m_EffectName(name)
 {
 
 }

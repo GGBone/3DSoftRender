@@ -19,23 +19,23 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	pShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/VoxelizationPS.hlsl", Shader::ShaderMacros(), "main", "latest");
 	
 	//z
-	XMFLOAT3 camPos = XMFLOAT3(0, 0, -1);
+	XMFLOAT3 camPos = XMFLOAT3(0, 0, -0.5f);
 	orthoCamera->LookAt(camPos, XMFLOAT3(camPos.x, camPos.y, camPos.z + 1), XMFLOAT3(0, 1, 0));
 	orthoCamera->UpdateViewMatrix();
 	XMMATRIX view0 = orthoCamera->View();
 
 	//x
-	camPos = XMFLOAT3(1, 0, 0);
+	camPos = XMFLOAT3(0.5f, 0, 0);
 	orthoCamera->LookAt(camPos, XMFLOAT3(camPos.x-1, camPos.y, camPos.z), XMFLOAT3(0, 1, 0));
 	orthoCamera->UpdateViewMatrix();
 	XMMATRIX view1 = orthoCamera->View();
 	//y
-	camPos = XMFLOAT3(0, 1, 0);
+	camPos = XMFLOAT3(0, 0.5f, 0);
 	orthoCamera->LookAt(camPos, XMFLOAT3(camPos.x, camPos.y-1, camPos.z), XMFLOAT3(0, 0, 1));
 	orthoCamera->UpdateViewMatrix();
 	XMMATRIX view2 = orthoCamera->View();
 
-	XMMATRIX Proj = XMMatrixOrthographicLH(2, 2, .1f, 10.0f);
+	XMMATRIX Proj = XMMatrixOrthographicLH(1, 1, 0.f, 1.0f);
 
 
 	//Set Pipeline
@@ -51,18 +51,18 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 
 	//Voxelization Pass
 	VoxelizationPass::PerGeometry perGeometry;
-	perGeometry.zproj = XMMatrixTranspose(Proj * view0);
-	perGeometry.xproj = XMMatrixTranspose(Proj * view1);
-	perGeometry.yproj = XMMatrixTranspose(Proj * view2);
+	perGeometry.zproj = XMMatrixTranspose( view0*Proj);
+	perGeometry.xproj = XMMatrixTranspose( view1*Proj);
+	perGeometry.yproj = XMMatrixTranspose( view2*Proj);
 	ConstantBuffer* geometryConstant = renderer->CreateConstantBuffer(&perGeometry, sizeof(perGeometry));
 
 	VoxelizationPass::cbAttri cbAttri;
-	cbAttri.origin = Float4(0.0f, 0.0f, 0.0f,1.0f);
-	cbAttri.extent = Float4(2.0f, 2.0f, 2.0f,0.0f);
+	cbAttri.origin = Float4(-.5f, .5f, -.5f,1.0f);
+	cbAttri.extent = Float4(3.0f, 3.0f, 3.0f,0.0f);
 	ConstantBuffer* cbAttrConstant = renderer->CreateConstantBuffer(&cbAttri, sizeof(cbAttri));
 
 	//fragment
-	uint32_t fragmentSize = sizeof(VoxelizationPass::Voxel) * 16 * 16 * 16;
+	uint32_t fragmentSize = sizeof(VoxelizationPass::Voxel) * 128 * 128 * 128;
 
 	//bind uav Views
 	StructuredBuffer* voxelUAVBuffer = renderer->CreateStructuredBuffer(nullptr, fragmentSize / sizeof(VoxelizationPass::Voxel),

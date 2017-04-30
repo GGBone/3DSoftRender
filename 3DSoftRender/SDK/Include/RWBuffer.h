@@ -19,9 +19,10 @@ namespace Hikari
 		template<typename T>
 		void Set(const std::vector<T>& value);
 
+		virtual void* GetData() const = 0;
 	protected:
 		virtual void SetData(void* data, size_t elementSize, size_t offset, size_t numElements) = 0;
-
+		void* m_data;
 	};
 	template<typename T>
 	void RWBuffer::Set(const std::vector<T>& values)

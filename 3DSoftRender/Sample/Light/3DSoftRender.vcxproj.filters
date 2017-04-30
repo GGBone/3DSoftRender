@@ -42,6 +42,9 @@
     <Filter Include="资源文件\Data\Pass">
       <UniqueIdentifier>{99e6a150-0bd1-416c-bb86-185ac3e181cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Voxel\OctTree">
+      <UniqueIdentifier>{5a4b49ff-567b-4182-91af-124004b7a484}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry.h">
@@ -80,6 +83,9 @@
     <ClInclude Include="Data\VoxelizationPass.h">
       <Filter>资源文件\Data\Pass</Filter>
     </ClInclude>
+    <ClInclude Include="SVOPass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Assets\shaders\VoxelizationGS.hlsl">
@@ -102,6 +108,9 @@
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\ForwardPlusRendering.hlsl">
       <Filter>资源文件\ForwardPlus</Filter>
+    </FxCompile>
+    <FxCompile Include="AllocOctree.hlsl">
+      <Filter>资源文件\Voxel\OctTree</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

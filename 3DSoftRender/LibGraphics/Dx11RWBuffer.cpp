@@ -45,6 +45,11 @@ m_uiCount(count)
 
 	m_data = new byte[m_uiStride*count];
 
+	m_pDeviceContext->CopyResource(m_pStage, m_pBuffer);
+	D3D11_MAPPED_SUBRESOURCE ms;
+	hr = m_pDeviceContext->Map(m_pStage, 0, D3D11_MAP_READ, 0, &ms);
+	memcpy_s(m_data, m_uiCount*m_uiStride, ms.pData, m_uiCount*m_uiStride);
+	m_pDeviceContext->Unmap(m_pStage, 0);
 }
 
 Hikari::RWBufferDX11::~RWBufferDX11()
@@ -71,7 +76,7 @@ void Hikari::RWBufferDX11::Copy(RWBuffer * other)
 	m_pDeviceContext->CopyResource(m_pStage, m_pBuffer);
 	D3D11_MAPPED_SUBRESOURCE ms;
 	HRESULT hr = m_pDeviceContext->Map(m_pStage, 0, D3D11_MAP_READ, 0, &ms);
-	m_data = ms.pData;
+	memcpy_s(m_data, m_uiCount*m_uiStride, ms.pData, m_uiCount*m_uiStride);
 	m_pDeviceContext->Unmap(m_pStage, 0);
 }
 
@@ -79,6 +84,11 @@ void Hikari::RWBufferDX11::Copy(RWBuffer * other)
 ID3D11UnorderedAccessView * Hikari::RWBufferDX11::GetUnorderedAccessView() const
 {
 	return m_pUAV;
+}
+
+void * Hikari::RWBufferDX11::GetData() const
+{
+	return m_data;
 }
 
 void Hikari::RWBufferDX11::Copy(Buffer * other)

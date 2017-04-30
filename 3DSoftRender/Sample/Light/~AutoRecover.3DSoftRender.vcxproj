@@ -91,9 +91,7 @@
     <FxCompile Include="..\Assets\shaders\VoxelizationVS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="AllocOctree.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
-    </FxCompile>
+    <FxCompile Include="AllocOctree.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A99C0649-C5EB-4A75-ADF4-44DD8E088F20}</ProjectGuid>

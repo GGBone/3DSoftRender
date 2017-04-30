@@ -24,8 +24,7 @@ namespace Hikari
 
 		// Used by the RenderTargetDX11 only.
 		ID3D11UnorderedAccessView* GetUnorderedAccessView() const;
-
-
+		virtual void* GetData() const override;
 	protected:
 		virtual void Copy(Buffer* other);
 		virtual void SetData(void* data, size_t elementSize, size_t offset, size_t numElements);
@@ -39,7 +38,7 @@ namespace Hikari
 		ID3D11Buffer* m_pStage;
 		ID3D11ShaderResourceView* m_pSRV;
 		ID3D11UnorderedAccessView* m_pUAV;
-		void* m_data;
+		
 
 		UINT m_uiStride;
 

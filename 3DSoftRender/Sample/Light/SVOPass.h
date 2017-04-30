@@ -18,14 +18,14 @@ namespace Hikari
 	class SamplerState;
 	class Buffer;
 	class RWBuffer;
-	class VoxelizationPass : public AbstractPass
+	class SVOPass : public AbstractPass
 	{
 	public:
 		typedef AbstractPass base;
 
-		VoxelizationPass(Renderer* render);
-		VoxelizationPass(Renderer* render, Scene* scene, PipelineState* pipeline);
-		virtual ~VoxelizationPass();
+		SVOPass(Renderer* render);
+		SVOPass(Renderer* render, Scene* scene, PipelineState* pipeline);
+		virtual ~SVOPass();
 
 		inline void SetDevice(Renderer* render)
 		{
@@ -64,7 +64,7 @@ namespace Hikari
 		struct Voxel
 		{
 			Float3 pos;
-			UINT normal;
+			Float4 normal;
 			UINT color;
 		};
 

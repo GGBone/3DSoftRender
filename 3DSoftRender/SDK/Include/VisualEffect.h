@@ -13,9 +13,10 @@ namespace Hikari
 		VisualEffect::VisualEffect(const std::string & name, int mode);
 		void VisualEffect::InsertTechnique(VisualTechnique * technique);
 		VisualTechnique * Hikari::VisualEffect::GetTechnique(int techIndex);
+		size_t GetTechniqueSize() const;
 		void PreRender();
 	private:
 		std::vector<VisualTechnique*> mTechniques;
-		
+		std::string m_EffectName;
 	};
 }

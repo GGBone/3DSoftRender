@@ -368,9 +368,15 @@ void DirectRenderer::DrawPrimitive(const Visual * visual,VisualEffect* effect)
 {
 	RenderEventArgs eve(*this,0,0,0,mCamera);
 	
-	effect->GetTechnique(0)->Render(eve);
+	int index = 0;
+	int count = effect->GetTechniqueSize();
+	do
+	{
+		effect->GetTechnique(index++)->Render(eve);
+
+	} while (index<count);
 	
-	mData->renderTarget->Bind();
+	//mData->renderTarget->Bind();
 
 	/*TextureDX11* colorBuffer = static_cast<TextureDX11*>(mData->renderTarget->GetTexture(RenderTarget::AttachmentPoint::Color0));
 	if (colorBuffer)
