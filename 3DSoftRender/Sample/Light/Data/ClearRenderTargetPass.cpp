@@ -1,4 +1,5 @@
 #include "GraphicsPCH.h"
+#include "RenderEventArgs.h"
 #include <RenderTarget.h>
 #include <Texture.h>
 
@@ -25,8 +26,10 @@ ClearRenderTargetPass::ClearRenderTargetPass(Texture* texture, ClearFlags clearF
 ClearRenderTargetPass::~ClearRenderTargetPass()
 {}
 
+
 void ClearRenderTargetPass::Render(RenderEventArgs& e)
 {
+	e.PipelineState = nullptr;
 	if (m_RenderTarget)
 	{
 		m_RenderTarget->Clear(m_ClearFlags, m_ClearColor, m_ClearDepth, m_ClearStencil);

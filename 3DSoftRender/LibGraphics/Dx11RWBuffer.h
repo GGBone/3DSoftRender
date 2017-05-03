@@ -39,6 +39,8 @@ namespace Hikari
 		ID3D11ShaderResourceView* m_pSRV;
 		ID3D11UnorderedAccessView* m_pUAV;
 		
+		typedef std::vector<uint8_t> BufferType;
+		BufferType m_Data;
 
 		UINT m_uiStride;
 

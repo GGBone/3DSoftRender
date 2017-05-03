@@ -28,6 +28,7 @@ namespace Hikari
 
 	private:
 		RenderTarget* m_RenderTarget;
+		RenderEventArgs* m_RenderEventArgs;
 		Texture* m_Texture;
 		ClearFlags m_ClearFlags;
 		Float4  m_ClearColor;

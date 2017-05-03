@@ -24,10 +24,8 @@ m_Scene(nullptr)
 	m_PerObjectData = (PerObject*)_aligned_malloc(sizeof(PerObject), 16);
 	m_PerObjectConstantBuffer = m_RenderDevice->CreateConstantBuffer(PerObject());
 	
-	//m_pGeometryData = (PerGeometry*)_aligned_malloc(sizeof(PerGeometry), 16);
 	m_PerGeometryConstantBuffer = m_RenderDevice->CreateConstantBuffer(PerGeometry());
 
-	//m_Attri = (cbAttri*)_aligned_malloc(sizeof(cbAttri), 16);
 	m_AttriConstantBuffer = m_RenderDevice->CreateConstantBuffer(cbAttri());
 
 }
@@ -43,10 +41,8 @@ Hikari::VoxelizationPass::VoxelizationPass(Renderer * render, Scene * scene, Pip
 	m_PerObjectData = (PerObject*)_aligned_malloc(sizeof(PerObject), 16);
 	m_PerObjectConstantBuffer = m_RenderDevice->CreateConstantBuffer(PerObject());
 
-	//m_pGeometryData = (PerGeometry*)_aligned_malloc(sizeof(PerGeometry), 16);
 	m_PerGeometryConstantBuffer = m_RenderDevice->CreateConstantBuffer(PerGeometry());
 
-	//m_Attri = (cbAttri*)_aligned_malloc(sizeof(cbAttri), 16);
 	m_AttriConstantBuffer = m_RenderDevice->CreateConstantBuffer(cbAttri());
 
 }
@@ -56,10 +52,8 @@ Hikari::VoxelizationPass::~VoxelizationPass()
 	_aligned_free(m_PerObjectData);
 	m_RenderDevice->DestroyConstantBuffer(m_PerObjectConstantBuffer);
 
-	//_aligned_free(m_pGeometryData);
 	m_RenderDevice->DestroyConstantBuffer(m_PerGeometryConstantBuffer);
 
-	//_aligned_free(m_Attri);
 	m_RenderDevice->DestroyConstantBuffer(m_AttriConstantBuffer);
 
 }
@@ -91,7 +85,6 @@ void Hikari::VoxelizationPass::PostRender(RenderEventArgs & e)
 		RWBuffer* index = m_Pipeline->GetRenderTarget()->GetRWBuffer(0);
 		
 		index->Copy(nullptr);
-		valueFragment = *((UINT*)(index->GetData()));
 		m_Pipeline->UnBind();
 	}
 }
@@ -126,10 +119,6 @@ void Hikari::VoxelizationPass::SetRenderEventArgs(RenderEventArgs & e)
 	m_pRenderEventArgs = &e;
 }
 
-RenderEventArgs & Hikari::VoxelizationPass::GetRenderEventArgs() const
-{
-	return *m_pRenderEventArgs;
-}
 
 Renderer * Hikari::VoxelizationPass::GetRenderDevice() const
 {
@@ -171,17 +160,6 @@ void Hikari::VoxelizationPass::BindCbAttriConstantBuffer(const std::string& name
 }
 
 
-void Hikari::VoxelizationPass::BindVoxelStructuredBuffer(const std::string & name)
-{
-	//m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(name).Set(m_VoxelBuffer);
-
-}
-
-void Hikari::VoxelizationPass::BindVoxelIndexStructuredBuffer(const std::string & name)
-{
-	//m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(name).Set(m_VoxelIndexBuffer);
-}
-
 void Hikari::VoxelizationPass::BindSampler(const std::string & name)
 {
 	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(name).Set(m_Sampler);
@@ -203,11 +181,9 @@ void Hikari::VoxelizationPass::SetGeometryConstantBuffer(ConstantBuffer * buffer
 void Hikari::VoxelizationPass::SetVoxelBuffer(StructuredBuffer * buffer, const std::string & name)
 {
 	m_VoxelBuffer = buffer;
-	//BindVoxelStructuredBuffer(name);
 }
 
 void Hikari::VoxelizationPass::SetIndexBuffer(RWBuffer * buffer, const std::string & name)
 {
 	m_VoxelIndexBuffer = buffer;
-	//BindVoxelIndexStructuredBuffer(name);
 }

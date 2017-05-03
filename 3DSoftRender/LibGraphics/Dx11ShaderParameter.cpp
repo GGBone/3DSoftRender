@@ -3,6 +3,7 @@
 #include "Dx11ConstantBuffer.h"
 #include "Dx11StructureBuffer.h"
 #include "Dx11SamplerState.h"
+#include "RWBuffer.h"
 using namespace Hikari;
 
 Hikari::ShaderParameterDx::ShaderParameterDx()
@@ -25,7 +26,8 @@ Hikari::ShaderParameterDx::ShaderParameterDx(const std::string & name, UINT slot
 	mTexture(nullptr),
 	mSamplerState(nullptr),
 	mConstantBuffer(nullptr),
-	mStructuredBuffer(nullptr)
+	mStructuredBuffer(nullptr),
+	mRWBuffer(nullptr)
 {
 }
 
@@ -51,7 +53,8 @@ void Hikari::ShaderParameterDx::Bind()
 		mSamplerState->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 	if(mStructuredBuffer)
 		mStructuredBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
-
+	if (mRWBuffer)
+		mRWBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 }
 
 void Hikari::ShaderParameterDx::UnBind()
@@ -64,6 +67,8 @@ void Hikari::ShaderParameterDx::UnBind()
 		mSamplerState->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
 	if (mStructuredBuffer)
 		mStructuredBuffer->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
+	if (mRWBuffer)
+		mRWBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 }
 
 void Hikari::ShaderParameterDx::SetConstantBuffer(ConstantBuffer * constantBuffer)

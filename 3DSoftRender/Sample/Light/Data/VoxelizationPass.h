@@ -41,6 +41,9 @@ namespace Hikari
 		virtual void Visit(Node& node) override;
 		virtual void Visit(Mesh& mesh) override;
 
+
+
+		Renderer* GetRenderDevice() const;
 	public:
 		// PerObject constant buffer data.
 		__declspec(align(16)) struct PerObject
@@ -69,41 +72,27 @@ namespace Hikari
 		};
 
 		void SetRenderEventArgs(RenderEventArgs& e);
-		RenderEventArgs& GetRenderEventArgs() const;
 
-		Renderer* GetRenderDevice() const;
-
-		// Set and bind the constant buffer data.
 		void SetPerObjectConstantBufferData(PerObject& perObjectData);
-		// Bind the constant to the shader.
-		void BindPerObjectConstantBuffer(const std::string& name);
 
-		// Set and bind the constant buffer data.
 		void SetPerGeometryConstantBufferData(PerGeometry& perObjectData);
-		// Bind the constant to the shader.
-		void BindPerGeometryConstantBuffer(const std::string& name);
 
-		// Set and bind the constant buffer data.
-		void SetCbAttriConstantBufferData(ConstantBuffer* perObjectData, const std::string& name);
-		// Bind the constant to the shader.
-		void BindCbAttriConstantBuffer(const std::string& name);
 
-		void BindVoxelStructuredBuffer(const std::string& name);
-		void BindVoxelIndexStructuredBuffer(const std::string& name);
-
-		void BindSampler(const std::string& name);
 		void SetSampler(SamplerState* samp, const std::string& name);
+		void SetCbAttriConstantBufferData(ConstantBuffer* perObjectData, const std::string& name);
 		void SetGeometryConstantBuffer(ConstantBuffer* buffer, const std::string& name);
 		void SetVoxelBuffer(StructuredBuffer* buffer, const std::string& name);
 		void SetIndexBuffer(RWBuffer* buffer, const std::string& name);
 
 		UINT valueFragment;
 	private:
+		
+		void BindSampler(const std::string& name);
+		void BindCbAttriConstantBuffer(const std::string& name);
+		void BindPerGeometryConstantBuffer(const std::string& name);
+		void BindPerObjectConstantBuffer(const std::string& name);
 
 		PerObject* m_PerObjectData;
-		//PerGeometry* m_pGeometryData;
-		//cbAttri*	m_Attri;
-		//Voxel*		m_Voxel;
 
 		ConstantBuffer* m_PerObjectConstantBuffer;
 		ConstantBuffer* m_PerGeometryConstantBuffer;

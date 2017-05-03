@@ -43,6 +43,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AllocOctreePass.h" />
     <ClInclude Include="ControlPoint.h" />
     <ClInclude Include="Data\AbstractPass.h" />
     <ClInclude Include="Data\BasePass.h" />
@@ -51,11 +52,13 @@
     <ClInclude Include="Data\LightEffect.h" />
     <ClInclude Include="Data\LightPass.h" />
     <ClInclude Include="Data\OpaquePass.h" />
+    <ClInclude Include="Data\FlagOctreePass.h" />
     <ClInclude Include="Data\VoxelEffect.h" />
     <ClInclude Include="Data\VoxelizationPass.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="MipmapOctree.h" />
     <ClInclude Include="Sample.h" />
-    <ClInclude Include="SVOPass.h" />
+    <ClInclude Include="WriteLeafOctree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data\AbstractPass.cpp" />
@@ -65,6 +68,7 @@
     <ClCompile Include="Data\LightEffect.cpp" />
     <ClCompile Include="Data\LightPass.cpp" />
     <ClCompile Include="Data\OpaquePass.cpp" />
+    <ClCompile Include="Data\FlagOctreePass.cpp" />
     <ClCompile Include="Data\VoxelEffect.cpp" />
     <ClCompile Include="Data\VoxelizationPass.cpp" />
     <ClCompile Include="Sample.cpp" />
@@ -84,6 +88,8 @@
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\VoxelizationGS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\VoxelizationPS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
@@ -91,7 +97,22 @@
     <FxCompile Include="..\Assets\shaders\VoxelizationVS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="AllocOctree.hlsl">
+    <FxCompile Include="AllocOrtree.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="FlagOctree.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="MipmapOctree.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="WriteLeafOctree.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>

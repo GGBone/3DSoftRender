@@ -83,7 +83,16 @@
     <ClInclude Include="Data\VoxelizationPass.h">
       <Filter>资源文件\Data\Pass</Filter>
     </ClInclude>
-    <ClInclude Include="SVOPass.h">
+    <ClInclude Include="Data\FlagOctreePass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="AllocOctreePass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="MipmapOctree.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteLeafOctree.h">
       <Filter>资源文件\Data\Pass</Filter>
     </ClInclude>
   </ItemGroup>
@@ -109,7 +118,16 @@
     <FxCompile Include="..\Assets\shaders\ForwardPlusRendering.hlsl">
       <Filter>资源文件\ForwardPlus</Filter>
     </FxCompile>
-    <FxCompile Include="AllocOctree.hlsl">
+    <FxCompile Include="AllocOrtree.hlsl">
+      <Filter>资源文件\Voxel\OctTree</Filter>
+    </FxCompile>
+    <FxCompile Include="FlagOctree.hlsl">
+      <Filter>资源文件\Voxel\OctTree</Filter>
+    </FxCompile>
+    <FxCompile Include="MipmapOctree.hlsl">
+      <Filter>资源文件\Voxel\OctTree</Filter>
+    </FxCompile>
+    <FxCompile Include="WriteLeafOctree.hlsl">
       <Filter>资源文件\Voxel\OctTree</Filter>
     </FxCompile>
   </ItemGroup>
@@ -142,6 +160,9 @@
       <Filter>资源文件\Data\Pass</Filter>
     </ClCompile>
     <ClCompile Include="Data\VoxelizationPass.cpp">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\FlagOctreePass.cpp">
       <Filter>资源文件\Data\Pass</Filter>
     </ClCompile>
   </ItemGroup>

@@ -18,8 +18,6 @@ Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT 
 	{
 		m_Data.assign((uint8_t*)data, (uint8_t*)data + numBytes);
 	}
-	else
-		m_Data.reserve(numBytes);
 
 	D3D11_BUFFER_DESC bufferDesc = {};
 	bufferDesc.ByteWidth = (UINT)numBytes;
@@ -57,12 +55,17 @@ Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT 
 	
 	bufferDesc.StructureByteStride = m_uiStride;
 
-	D3D11_SUBRESOURCE_DATA subResourceData;
-	subResourceData.pSysMem = (void*)m_Data.data();
-	subResourceData.SysMemPitch = 0;
-	subResourceData.SysMemSlicePitch = 0;
+	if (m_Data.size() == 0)
+		m_pDevice->CreateBuffer(&bufferDesc, 0, &m_pBuffer);
+	else
+	{
+		D3D11_SUBRESOURCE_DATA subResourceData;
+		subResourceData.pSysMem = (void*)m_Data.data();
+		subResourceData.SysMemPitch = 0;
+		subResourceData.SysMemSlicePitch = 0;
+		m_pDevice->CreateBuffer(&bufferDesc, &subResourceData, &m_pBuffer);
 
-	m_pDevice->CreateBuffer(&bufferDesc, &subResourceData, &m_pBuffer);
+	}
 
 	if ((bufferDesc.BindFlags & D3D11_BIND_SHADER_RESOURCE))
 	{

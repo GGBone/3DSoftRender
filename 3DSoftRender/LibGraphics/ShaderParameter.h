@@ -58,6 +58,9 @@ namespace Hikari
 	template<>
 	void ShaderParameter::Set<StructuredBuffer>(StructuredBuffer* value);
 
+	template<>
+	void ShaderParameter::Set<RWBuffer>(RWBuffer* value);
+
 	template<typename T>
 	void ShaderParameter::Set(T* value)
 	{

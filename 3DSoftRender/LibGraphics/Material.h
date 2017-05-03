@@ -7,6 +7,7 @@ namespace Hikari
 {
 	class Float4;
 	class Renderer;
+	class Texture;
 	class Material : public Object
 	{
 	public:

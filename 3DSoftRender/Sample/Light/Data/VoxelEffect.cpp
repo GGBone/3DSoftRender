@@ -6,7 +6,9 @@
 #include "RenderTarget.h"
 #include "SamplerState.h"
 #include "Dx11RWBuffer.h"
+#include "FlagOctreePass.h"
 using namespace Hikari;
+#define PAD16(x) ((x+15) & (~15))
 Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 {
 	orthoCamera = new Camera;
@@ -99,12 +101,71 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	
 	ClearRenderTargetPass* clearPass = new ClearRenderTargetPass(renderer->mData->renderTarget);
 
+	Shader* flagshader = renderer->CreateShader();
+	Shader* allocShader = renderer->CreateShader();
+	Shader* mipmapShader = renderer->CreateShader();
+	Shader* writeLeafNode = renderer->CreateShader();
+	flagshader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "FlagOctree.hlsl",
+		Shader::ShaderMacros(), "main", "latest");
+	allocShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "AllocOrtree.hlsl",
+		Shader::ShaderMacros(), "main", "latest");
+	mipmapShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "MipmapOctree.hlsl",
+		Shader::ShaderMacros(), "main", "latest");
+	writeLeafNode->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "WriteLeafOctree.hlsl",
+		Shader::ShaderMacros(), "main", "latest");
+
+
+
+	PipelineState* g_SVOPipeline = renderer->CreatePipelineState();
+	g_SVOPipeline->SetShader(Shader::ShaderType::ComputeShader, flagshader);
+
+	UINT brickInit = 0;
+	UINT nodeInit = 0;
+	RWBuffer* brickIndex = renderer->CreateRWBuffer(&brickIndex, 1, sizeof(UINT));
+	RWBuffer* nodeInedx = renderer->CreateRWBuffer(&nodeInedx, 1, sizeof(UINT));
+	UINT mTotalLevel = std::log2f(128) + 1;
+	UINT mTotalNode = 0;
+	UINT res = 128;
+	while (res)
+	{
+		mTotalNode += (res * res * res);
+		res /= 2;
+	}
+	std::vector<UINT> initNum;
+	initNum.push_back(1);
+	for (UINT i = 0; i < mTotalLevel; ++i)
+	{
+		initNum.push_back(0);
+	}
+	RWBuffer* numNode = renderer->CreateRWBuffer(initNum.data(), initNum.size(), sizeof(UINT));
+
+	FlagOctreePass::CBInfo cbInfo;
+	ConstantBuffer* cbConstantBuffer = renderer->CreateConstantBuffer(&cbInfo, sizeof(FlagOctreePass::CBInfo));
+
+	FlagOctreePass::CBBrickInfo cbBrickInfo;
+	ConstantBuffer* cbBrickConstant = renderer->CreateConstantBuffer(&cbBrickInfo, PAD16(sizeof(FlagOctreePass::CBBrickInfo)));
+
+	FlagOctreePass::CBGroupInfo cbGroupInfo;
+	ConstantBuffer* cbGroupConstant = renderer->CreateConstantBuffer(&cbGroupInfo, PAD16(sizeof(FlagOctreePass::CBGroupInfo)));
+
+	StructuredBuffer* nodePool = renderer->CreateStructuredBuffer(nullptr, mTotalNode, sizeof(FlagOctreePass::Node), CPUAccess::None, true, true);
+	
+	FlagOctreePass* svoPass = new FlagOctreePass(renderer, scene, g_SVOPipeline);
+	svoPass->SetTotalLevel(mTotalLevel);
+	svoPass->SetTotalNode(mTotalNode);
+	/*svoPass->SetBrickIndex(brickIndex, "");
+	svoPass->SetNodeIndex(nodeInedx, "");
+	svoPass->SetNumNode(numNode, "");*/
+	svoPass->SetConstantInfo(cbConstantBuffer,"cbInfo");
+	//svoPass->SetConstantBrick(cbBrickConstant, "");
+	svoPass->SetConstantGroup(cbGroupConstant, "cbGroupInfo");
+	svoPass->SetNodeBuffer(nodePool, "nodesPool");
 	VisualTechnique* forwardTechnique = new VisualTechnique();
 
 
 	forwardTechnique->AddPass(clearPass);
 	forwardTechnique->AddPass(voxelPass);
-
+	forwardTechnique->AddPass(svoPass);
 	InsertTechnique(forwardTechnique);
 }
 

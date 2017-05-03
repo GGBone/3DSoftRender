@@ -374,6 +374,7 @@ void DirectRenderer::DrawPrimitive(const Visual * visual,VisualEffect* effect)
 	{
 		effect->GetTechnique(index++)->Render(eve);
 
+
 	} while (index<count);
 	
 	//mData->renderTarget->Bind();

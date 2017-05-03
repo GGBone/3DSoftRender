@@ -7,6 +7,7 @@ PipelineStateDX11::PipelineStateDX11(ID3D11Device* pDevice)
 	, m_BlendState(pDevice)
 	, m_RasterizerState(pDevice)
 	, m_DepthStencilState(pDevice)
+	, m_RenderTarget(nullptr)
 {
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
 }

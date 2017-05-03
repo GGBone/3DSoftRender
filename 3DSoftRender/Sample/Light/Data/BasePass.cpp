@@ -56,6 +56,7 @@ void BasePass::BindPerObjectConstantBuffer(Shader* shader)
 void BasePass::PreRender(RenderEventArgs& e)
 {
 	e.PipelineState = m_Pipeline;
+	m_pRenderEventArgs->PipelineState = m_Pipeline;
 	SetRenderEventArgs(e);
 
 	if (m_Pipeline)
