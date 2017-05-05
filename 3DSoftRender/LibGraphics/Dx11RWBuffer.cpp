@@ -12,7 +12,7 @@ Hikari::RWBufferDX11::RWBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = stride;
+	bd.ByteWidth = stride * count;
 	bd.CPUAccessFlags = 0;
 	bd.MiscFlags = 0;
 	bd.StructureByteStride = 0;
@@ -36,7 +36,7 @@ Hikari::RWBufferDX11::RWBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const
 
 	uavd.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 	uavd.Buffer.FirstElement = 0;
-	uavd.Buffer.NumElements = 1;
+	uavd.Buffer.NumElements = m_uiCount;
 	uavd.Buffer.Flags = 0;
 	hr = m_pDevice->CreateUnorderedAccessView(m_pBuffer, &uavd, &m_pUAV);
 	
@@ -47,6 +47,7 @@ Hikari::RWBufferDX11::RWBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
 
 	m_data = new byte[m_uiStride*count];
+	memset(m_data, 0, m_uiStride * count);
 }
 
 Hikari::RWBufferDX11::~RWBufferDX11()
@@ -82,7 +83,7 @@ bool Hikari::RWBufferDX11::Bind(unsigned int ID, Shader::ShaderType shaderType, 
 			break;
 		}
 	}
-	else if (parameterType == ShaderParameter::Type::RWBuffer && m_pUAV)
+	else if (parameterType == ShaderParameter::Type::RWBuffer || parameterType == ShaderParameter::Type::RWTexture && m_pUAV)
 	{
 		ID3D11UnorderedAccessView* uav[] = { m_pUAV };
 		switch (shaderType)

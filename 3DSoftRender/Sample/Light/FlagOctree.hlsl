@@ -30,6 +30,7 @@ RWStructuredBuffer<Node> nodesPool;
 
 uint extralPos(uint childPtr)
 {
+    //extract last 2+28 = 30bit
     return childPtr & 0x3FFFFFFF;
 }
 
@@ -43,6 +44,7 @@ void main(uint3 DTid:SV_DispatchThreadID)
     uint curIndex = 0;
     for (uint level = 0; level < curLevel;++level)
     {
+        //scale to row resolution
         int tt = pow(2.0f, level);
         uint xx = uint(frac(voxel.pos.x * tt) * 2.0f);
         uint yy = uint(frac(voxel.pos.y * tt) * 2.0f);

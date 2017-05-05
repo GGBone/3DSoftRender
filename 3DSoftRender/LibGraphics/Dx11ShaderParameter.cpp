@@ -68,7 +68,12 @@ void Hikari::ShaderParameterDx::UnBind()
 	if (mStructuredBuffer)
 		mStructuredBuffer->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
 	if (mRWBuffer)
-		mRWBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
+		mRWBuffer->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
+	mConstantBuffer = nullptr;
+	mTexture = nullptr;
+	mSamplerState = nullptr;
+	mStructuredBuffer = nullptr;
+	mRWBuffer = nullptr;
 }
 
 void Hikari::ShaderParameterDx::SetConstantBuffer(ConstantBuffer * constantBuffer)

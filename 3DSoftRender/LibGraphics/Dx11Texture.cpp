@@ -92,6 +92,9 @@ TextureDX11::TextureDX11(ID3D11Device* pDevice)
 	, m_Pitch(0)
 	, m_bIsTransparent(false)
 	, m_bIsDirty(false)
+	, m_pTexture1D(nullptr)
+	, m_pTexture2D(nullptr)
+	, m_pTexture3D(nullptr)
 {
 	FreeImage_Initialise();
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
@@ -111,6 +114,9 @@ TextureDX11::TextureDX11(ID3D11Device* pDevice, uint16_t width, uint16_t slices,
 	, m_bIsTransparent(false)
 
 	, m_bIsDirty(false)
+	, m_pTexture1D(nullptr)
+	, m_pTexture2D(nullptr)
+	, m_pTexture3D(nullptr)
 {
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
 
@@ -192,6 +198,8 @@ TextureDX11::TextureDX11(ID3D11Device* pDevice, uint16_t width, uint16_t height,
 	, m_bGenerateMipmaps(false)
 	, m_bIsTransparent(false)
 	, m_bIsDirty(false)
+	, m_pTexture1D(nullptr)
+	, m_pTexture3D(nullptr)
 {
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
 
@@ -261,6 +269,19 @@ TextureDX11::TextureDX11(ID3D11Device* pDevice, uint16_t width, uint16_t height,
 
 // 3D Texture
 TextureDX11::TextureDX11(Tex3DCtor, ID3D11Device* pDevice, uint16_t width, uint16_t height, uint16_t depth, const TextureFormat& format, CPUAccess cpuAccess, bool bUAV)
+	: m_pDevice(pDevice)
+	, m_TextureWidth(width)
+	, m_TextureHeight(height)
+	, m_CPUAccess(cpuAccess)
+	, m_bGenerateMipmaps(false)
+	, m_BPP(0)
+	, m_Pitch(0)
+	, m_bIsTransparent(false)
+	, m_bIsDirty(false)
+	, m_TextureFormat(format)
+	, m_pTexture1D(nullptr)
+	, m_pTexture2D(nullptr)
+	, m_pTexture3D(nullptr)
 {
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
 
@@ -318,6 +339,7 @@ TextureDX11::TextureDX11(Tex3DCtor, ID3D11Device* pDevice, uint16_t width, uint1
 	
 	m_bUAV = bUAV && (m_UnorderedAccessViewFormatSupport & D3D11_FORMAT_SUPPORT_SHADER_LOAD) != 0;
 
+	Resize(width, height,depth);
 }
 
 // CUBE Texture
@@ -392,7 +414,22 @@ uint8_t Hikari::TextureDX11::GetBpp() const
 }
 
 TextureDX11::~TextureDX11()
-{}
+{
+			
+	if (m_pTexture1D)
+		m_pTexture1D->Release();
+	if (m_pTexture2D)
+		m_pTexture2D->Release();
+	if (m_pTexture3D)
+		m_pTexture3D->Release();
+	if (m_pShaderResourceView)
+		m_pShaderResourceView->Release();
+	if (m_pDepthStencilView)
+		m_pDepthStencilView->Release();
+	if (m_pUnorderedAccessView)
+		m_pUnorderedAccessView->Release();
+
+}
 
 void PrintMetaData(FREE_IMAGE_MDMODEL model, FIBITMAP* dib)
 {
@@ -444,14 +481,12 @@ bool TextureDX11::LoadTexture2D(const std::wstring& fileName)
 
 	if (fif == FIF_UNKNOWN || !FreeImage_FIFSupportsReading(fif))
 	{
-		////ReportError("Unknow file format: " + fileName.string());
 		return false;
 	}
 
 	FIBITMAP* dib = FreeImage_LoadU(fif, fileName.c_str());
 	if (dib == nullptr || FreeImage_HasPixels(dib) == FALSE)
 	{
-		////ReportError("Failed to load image: " + filePath.string());
 		return false;
 	}
 
@@ -1138,7 +1173,8 @@ void TextureDX11::Resize2D(uint16_t width, uint16_t height)
 
 void TextureDX11::Resize3D(uint16_t width, uint16_t height, uint16_t depth)
 {
-	if (m_TextureWidth != width || m_TextureHeight != height || m_NumSlices!= depth)
+	//different
+	if (!(m_TextureWidth != width || m_TextureHeight != height || m_NumSlices!= depth))
 	{
 		// Release resource before resizing
 		m_pTexture2D = 0;
@@ -1153,10 +1189,10 @@ void TextureDX11::Resize3D(uint16_t width, uint16_t height, uint16_t depth)
 		// Create texture with the dimensions specified.
 		D3D11_TEXTURE3D_DESC textureDesc = { 0 };
 
-		/*
-		textureDesc.ArraySize = m_NumSlices;
+		
+		textureDesc.Depth = m_NumSlices;
 		textureDesc.Format = m_TextureResourceFormat;
-		textureDesc.SampleDesc = m_SampleDesc;
+		textureDesc.MiscFlags = 0;
 
 		textureDesc.Width = m_TextureWidth;
 		textureDesc.Height = m_TextureHeight;
@@ -1197,9 +1233,8 @@ void TextureDX11::Resize3D(uint16_t width, uint16_t height, uint16_t depth)
 
 		textureDesc.MiscFlags = m_bGenerateMipmaps ? D3D11_RESOURCE_MISC_GENERATE_MIPS : 0;
 
-		if (FAILED(m_pDevice->CreateTexture2D(&textureDesc, nullptr, &m_pTexture2D)))
+		if (FAILED(m_pDevice->CreateTexture3D(&textureDesc, nullptr, &m_pTexture3D)))
 		{
-			//ReportError("Failed to create texture.");
 			return;
 		}
 
@@ -1247,91 +1282,12 @@ void TextureDX11::Resize3D(uint16_t width, uint16_t height, uint16_t depth)
 
 		if ((textureDesc.BindFlags & D3D11_BIND_SHADER_RESOURCE) != 0)
 		{
-			// Create a Shader resource view for the texture.
-			D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-			resourceViewDesc.Format = m_ShaderResourceViewFormat;
-
-			if (m_NumSlices > 1)
-			{
-				if (m_SampleDesc.Count > 1)
-				{
-					resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY;
-					resourceViewDesc.Texture2DMSArray.FirstArraySlice = 0;
-					resourceViewDesc.Texture2DMSArray.ArraySize = m_NumSlices;
-				}
-				else
-				{
-					resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-					resourceViewDesc.Texture2DArray.FirstArraySlice = 0;
-					resourceViewDesc.Texture2DArray.ArraySize = m_NumSlices;
-					resourceViewDesc.Texture2DArray.MipLevels = m_bGenerateMipmaps ? -1 : 1;
-					resourceViewDesc.Texture2DArray.MostDetailedMip = 0;
-				}
-			}
-			else
-			{
-				if (m_SampleDesc.Count > 1)
-				{
-					resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
-				}
-				else
-				{
-					resourceViewDesc.ViewDimension = D3D_SRV_DIMENSION_TEXTURE2D;
-					resourceViewDesc.Texture2D.MipLevels = m_bGenerateMipmaps ? -1 : 1;
-					resourceViewDesc.Texture2D.MostDetailedMip = 0;
-				}
-			}
-
-			if (FAILED(m_pDevice->CreateShaderResourceView(m_pTexture2D, &resourceViewDesc, &m_pShaderResourceView)))
-			{
-				//ReportError("Failed to create texture resource view.");
-			}
-			else if (m_bGenerateMipmaps)
-			{
-				m_pDeviceContext->GenerateMips(m_pShaderResourceView);
-			}
+			
 		}
 
 		if ((textureDesc.BindFlags & D3D11_BIND_RENDER_TARGET) != 0)
 		{
-			// Create the render target view for the texture.
-			D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-			renderTargetViewDesc.Format = m_RenderTargetViewFormat;
-
-			if (m_NumSlices > 1)
-			{
-				if (m_SampleDesc.Count > 1)
-				{
-					renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY;
-					renderTargetViewDesc.Texture2DArray.FirstArraySlice = 0;
-					renderTargetViewDesc.Texture2DArray.ArraySize = m_NumSlices;
-
-				}
-				else
-				{
-					renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DARRAY;
-					renderTargetViewDesc.Texture2DArray.MipSlice = 0;
-					renderTargetViewDesc.Texture2DArray.FirstArraySlice = 0;
-					renderTargetViewDesc.Texture2DArray.ArraySize = m_NumSlices;
-				}
-			}
-			else
-			{
-				if (m_SampleDesc.Count > 1)
-				{
-					renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
-				}
-				else
-				{
-					renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-					renderTargetViewDesc.Texture2D.MipSlice = 0;
-				}
-			}
-
-			if (FAILED(m_pDevice->CreateRenderTargetView(m_pTexture2D, &renderTargetViewDesc, &m_pRenderTargetView)))
-			{
-				//ReportError("Failed to create render target view.");
-			}
+			
 		}
 
 		if ((textureDesc.BindFlags & D3D11_BIND_UNORDERED_ACCESS) != 0)
@@ -1343,28 +1299,22 @@ void TextureDX11::Resize3D(uint16_t width, uint16_t height, uint16_t depth)
 			D3D11_UNORDERED_ACCESS_VIEW_DESC unorderedAccessViewDesc;
 			unorderedAccessViewDesc.Format = m_UnorderedAccessViewFormat;
 
-			if (m_NumSlices > 1)
-			{
-				unorderedAccessViewDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2DARRAY;
-				unorderedAccessViewDesc.Texture2DArray.MipSlice = 0;
-				unorderedAccessViewDesc.Texture2DArray.FirstArraySlice = 0;
-				unorderedAccessViewDesc.Texture2DArray.ArraySize = m_NumSlices;
-			}
-			else
-			{
-				unorderedAccessViewDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
-				unorderedAccessViewDesc.Texture2D.MipSlice = 0;
-			}
 
-			if (FAILED(m_pDevice->CreateUnorderedAccessView(m_pTexture2D, &unorderedAccessViewDesc, &m_pUnorderedAccessView)))
+			unorderedAccessViewDesc.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE3D;
+			unorderedAccessViewDesc.Texture3D.MipSlice = 0;
+			unorderedAccessViewDesc.Texture3D.FirstWSlice = 0;
+			unorderedAccessViewDesc.Texture3D.WSize = width;
+
+
+			if (FAILED(m_pDevice->CreateUnorderedAccessView(m_pTexture3D, &unorderedAccessViewDesc, &m_pUnorderedAccessView)))
 			{
 				//ReportError("Failed to create unordered access view.");
 			}
 		}
 
 		assert(m_BPP > 0 && m_BPP % 8 == 0);
-		m_Buffer.resize(width * height * (m_BPP / 8));
-		*/
+		m_Buffer.resize(width * height * height * (m_BPP / 8));
+		
 	}
 }
 

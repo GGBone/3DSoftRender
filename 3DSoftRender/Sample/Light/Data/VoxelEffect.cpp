@@ -109,9 +109,9 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 		Shader::ShaderMacros(), "main", "latest");
 	allocShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "AllocOrtree.hlsl",
 		Shader::ShaderMacros(), "main", "latest");
-	mipmapShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "MipmapOctree.hlsl",
+	mipmapShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "WriteLeafOctree.hlsl",
 		Shader::ShaderMacros(), "main", "latest");
-	writeLeafNode->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "WriteLeafOctree.hlsl",
+	writeLeafNode->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "MipmapOctree.hlsl",
 		Shader::ShaderMacros(), "main", "latest");
 
 
@@ -119,10 +119,10 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	PipelineState* g_SVOPipeline = renderer->CreatePipelineState();
 	g_SVOPipeline->SetShader(Shader::ShaderType::ComputeShader, flagshader);
 
-	UINT brickInit = 0;
-	UINT nodeInit = 0;
-	RWBuffer* brickIndex = renderer->CreateRWBuffer(&brickIndex, 1, sizeof(UINT));
-	RWBuffer* nodeInedx = renderer->CreateRWBuffer(&nodeInedx, 1, sizeof(UINT));
+	UINT u_brickInit = 0;
+	UINT u_nodeInit = 1;
+	RWBuffer* brickIndex = renderer->CreateRWBuffer(&u_brickInit, 1, sizeof(UINT));
+	RWBuffer* nodeInedx = renderer->CreateRWBuffer(&u_nodeInit, 1, sizeof(UINT));
 	UINT mTotalLevel = std::log2f(128) + 1;
 	UINT mTotalNode = 0;
 	UINT res = 128;
@@ -133,7 +133,7 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	}
 	std::vector<UINT> initNum;
 	initNum.push_back(1);
-	for (UINT i = 0; i < mTotalLevel; ++i)
+	for (UINT i = 1; i < mTotalLevel; ++i)
 	{
 		initNum.push_back(0);
 	}
@@ -153,13 +153,21 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	FlagOctreePass* svoPass = new FlagOctreePass(renderer, scene, g_SVOPipeline);
 	svoPass->SetTotalLevel(mTotalLevel);
 	svoPass->SetTotalNode(mTotalNode);
-	/*svoPass->SetBrickIndex(brickIndex, "");
+	svoPass->SetBrickIndex(brickIndex, "");
 	svoPass->SetNodeIndex(nodeInedx, "");
-	svoPass->SetNumNode(numNode, "");*/
-	svoPass->SetConstantInfo(cbConstantBuffer,"cbInfo");
-	//svoPass->SetConstantBrick(cbBrickConstant, "");
-	svoPass->SetConstantGroup(cbGroupConstant, "cbGroupInfo");
-	svoPass->SetNodeBuffer(nodePool, "nodesPool");
+	svoPass->SetNumNode(numNode, "");
+	svoPass->SetConstantInfo(cbConstantBuffer,"");
+	svoPass->SetConstantGroup(cbGroupConstant, "");
+	svoPass->SetNodeBuffer(nodePool, "");
+	svoPass->SetConstantBrick(cbBrickConstant, "");
+	Shader* shaders[4]
+	{
+		flagshader,
+		allocShader,
+		mipmapShader,
+		writeLeafNode
+	};
+	svoPass->SetComputeShaders(shaders);
 	VisualTechnique* forwardTechnique = new VisualTechnique();
 
 

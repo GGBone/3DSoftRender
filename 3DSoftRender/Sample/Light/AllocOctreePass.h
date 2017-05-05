@@ -69,7 +69,8 @@ namespace Hikari
 		// Set and bind the constant buffer data.
 		UINT m_TotalVoxel = 0;
 		UINT m_TotalNode = 0;
-		UINT m_TotalLevel = 0;
+		
+		UINT m_TotalBrick = 0;
 	public:
 		void SetConstantInfo(ConstantBuffer* buffer, const std::string& name);
 		void SetConstantGroup(ConstantBuffer* buffer, const std::string& name);
@@ -87,7 +88,6 @@ namespace Hikari
 		ConstantBuffer* m_groupInfo;
 		ConstantBuffer* m_BrickInfo;
 
-		void UpdateConstantBuffer();
 		static bool init;
 		StructuredBuffer* m_NodeBuffer;
 		RWBuffer* m_NumNode;
