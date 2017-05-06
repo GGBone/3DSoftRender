@@ -95,6 +95,9 @@
     <ClInclude Include="WriteLeafOctree.h">
       <Filter>资源文件\Data\Pass</Filter>
     </ClInclude>
+    <ClInclude Include="VisualizationPass.h">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Assets\shaders\VoxelizationGS.hlsl">
@@ -163,6 +166,9 @@
       <Filter>资源文件\Data\Pass</Filter>
     </ClCompile>
     <ClCompile Include="Data\FlagOctreePass.cpp">
+      <Filter>资源文件\Data\Pass</Filter>
+    </ClCompile>
+    <ClCompile Include="VisualizationPass.cpp">
       <Filter>资源文件\Data\Pass</Filter>
     </ClCompile>
   </ItemGroup>

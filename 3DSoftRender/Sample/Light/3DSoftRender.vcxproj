@@ -58,6 +58,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="MipmapOctree.h" />
     <ClInclude Include="Sample.h" />
+    <ClInclude Include="VisualizationPass.h" />
     <ClInclude Include="WriteLeafOctree.h" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,7 @@
     <ClCompile Include="Data\VoxelEffect.cpp" />
     <ClCompile Include="Data\VoxelizationPass.cpp" />
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="VisualizationPass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Assets\shaders\CommonInclude.hlsl">

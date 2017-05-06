@@ -112,7 +112,6 @@ void Hikari::FlagOctreePass::PreRender(RenderEventArgs & e)
 		PipelineState* prePipeline = e.PipelineState;
 		m_fragmentList = prePipeline->GetRenderTarget()->GetStructuredBuffer(0);
 		RWBuffer* rBuffer = prePipeline->GetRenderTarget()->GetRWBuffer(0);
-		m_shaders[0]->GetShaderParameterByName("FragmentList").Set(m_fragmentList);
 		m_TotalVoxel = *(UINT*)rBuffer->GetData();
 	}
 	e.PipelineState = m_Pipeline;
@@ -141,6 +140,7 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 			cbGroup.groupInfo[2] = dd[2];
 			m_groupInfo->Set(&cbGroup, sizeof(cbGroup));
 
+			m_shaders[0]->GetShaderParameterByName("FragmentList").Set(m_fragmentList);
 			m_shaders[0]->GetShaderParameterByName("cbInfo").Set(m_cbInfo);
 			m_shaders[0]->GetShaderParameterByName("cbGroupInfo").Set(m_groupInfo);
 			m_shaders[0]->GetShaderParameterByName("nodesPool").Set(m_NodePool);
@@ -153,7 +153,52 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 			
 			m_Pipeline->UnBind();
 
+
+			//Test
+			ID3D11Device* md3dDevice;
+			ID3D11DeviceContext* md3dImmediateContext;
+			md3dDevice = ((DirectRenderer*)m_RenderDevice)->mData->mDevice;
+			md3dImmediateContext = ((DirectRenderer*)m_RenderDevice)->mData->mImmediateContext;
+
+			ID3D11Buffer* nodepooluav = nullptr;
+			((StructuredBufferDX11*)(m_NodePool))->GetUnorderedAccessView()->GetResource((ID3D11Resource**)&nodepooluav);
+
+			ID3D11Buffer* TestBuffer;
+			D3D11_BUFFER_DESC bd;
+			ZeroMemory(&bd, sizeof(bd));
+			bd.ByteWidth = sizeof(Node) * m_TotalNode;
+			bd.MiscFlags = 0;
+			bd.StructureByteStride = 0;
+			bd.Usage = D3D11_USAGE_STAGING;
+			bd.BindFlags = 0;
+			bd.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+			md3dDevice->CreateBuffer(&bd, 0, &TestBuffer);
+			md3dImmediateContext->CopyResource(TestBuffer, nodepooluav);
+
+			D3D11_MAPPED_SUBRESOURCE ms;
+			md3dImmediateContext->Map(TestBuffer, 0, D3D11_MAP_READ, 0, &ms);
+
+			Node* v = (Node*)ms.pData;
+			Node vv = *v;
+			md3dImmediateContext->Unmap(TestBuffer, 0);
+			TestBuffer->Release();
+
+			m_BrickInedx->Copy(nullptr);
+			m_NodeIndex->Copy(nullptr);
+			m_NumNode->Copy(nullptr);
+
+			UINT t_brickIndex = *(UINT*)m_BrickInedx->GetData();
+			
+			UINT t_numnode = ((UINT*)m_NumNode->GetData())[level];
+
+
+			UINT t_nodeIndex = *(UINT*)m_NodeIndex->GetData();
+			
+
+			//endTest
 			//pass Alloc
+			m_Pipeline->SetShader(Shader::ShaderType::ComputeShader, m_shaders[1]);
+
 			m_shaders[1]->GetShaderParameterByName("nodesPool").Set(m_NodePool);
 			m_shaders[1]->GetShaderParameterByName("brickIndex").Set(m_BrickInedx);
 			m_shaders[1]->GetShaderParameterByName("numNode").Set(m_NumNode);
@@ -179,7 +224,6 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 			m_shaders[1]->GetShaderParameterByName("cbInfo").Set(m_cbInfo);
 			m_shaders[1]->GetShaderParameterByName("cbGroupInfo").Set(m_groupInfo);
 
-			m_Pipeline->SetShader(Shader::ShaderType::ComputeShader, m_shaders[1]);
 			m_Pipeline->Bind();
 
 			group = Vector3f(ddd[0], ddd[1], 1);
@@ -334,7 +378,9 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 			Vector3f ppp(ddd[0], ddd[1], 1);
 			m_shaders[3]->Dispatch(ppp);
 		}
-		init = true;
+	
+		
+		//init = true;
 	}
 	e.PipelineState = m_Pipeline;
 }
