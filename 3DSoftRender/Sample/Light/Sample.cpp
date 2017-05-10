@@ -25,8 +25,9 @@ bool Lights::OnInitialize()
 	if (!WindowApplication3::OnInitialize())
 		return false;
 
-	mCamera->LookAt(XMFLOAT3(0.0f, 0.0f, -3.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f));
-	mCamera->SetLens(45.0f, mWidth / (float)mHeight, .1f, 1000.0f);
+	mCamera->LookAt(XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f));
+	mCamera->SetLens(XMConvertToRadians(90.0f),1.33333f, 1.f, 5000.0f);
+	
 	mCamera->UpdateViewMatrix();
 	CreateScene();
 	

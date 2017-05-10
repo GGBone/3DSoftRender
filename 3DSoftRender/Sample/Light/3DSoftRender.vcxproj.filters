@@ -45,6 +45,9 @@
     <Filter Include="资源文件\Voxel\OctTree">
       <UniqueIdentifier>{5a4b49ff-567b-4182-91af-124004b7a484}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Voxel\Visualization">
+      <UniqueIdentifier>{6292a680-b4f8-49a8-b3f6-8d6565b1ebbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry.h">
@@ -132,6 +135,15 @@
     </FxCompile>
     <FxCompile Include="WriteLeafOctree.hlsl">
       <Filter>资源文件\Voxel\OctTree</Filter>
+    </FxCompile>
+    <FxCompile Include="VisualSVOCS.hlsl">
+      <Filter>资源文件\Voxel\Visualization</Filter>
+    </FxCompile>
+    <FxCompile Include="VisualSVOVS.hlsl">
+      <Filter>资源文件\Voxel\Visualization</Filter>
+    </FxCompile>
+    <FxCompile Include="VisualSVOPS.hlsl">
+      <Filter>资源文件\Voxel\Visualization</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

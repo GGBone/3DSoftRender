@@ -9,8 +9,17 @@
 #include "FlagOctreePass.h"
 using namespace Hikari;
 #define PAD16(x) ((x+15) & (~15))
+#define MaxLevelRes 128
+#define BrickRes 2
+#define BricksPoolRes 128
+#define FragmentMultiples 1
+#define CURLEVEL 6
+#define VoxelDispatchUnit 16
+#define NodeDispatchUnit 4
+
 Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 {
+
 	orthoCamera = new Camera;
 
 	Shader* vShader = renderer->CreateShader();
@@ -105,6 +114,10 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	Shader* allocShader = renderer->CreateShader();
 	Shader* mipmapShader = renderer->CreateShader();
 	Shader* writeLeafNode = renderer->CreateShader();
+	Shader* visualSVO = renderer->CreateShader();
+	Shader* visualCubeVS = renderer->CreateShader();
+	Shader* visualCubePS = renderer->CreateShader();
+
 	flagshader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "FlagOctree.hlsl",
 		Shader::ShaderMacros(), "main", "latest");
 	allocShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "AllocOrtree.hlsl",
@@ -114,8 +127,14 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	writeLeafNode->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "MipmapOctree.hlsl",
 		Shader::ShaderMacros(), "main", "latest");
 
+	visualSVO->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "VisualSVOCS.hlsl", 
+		Shader::ShaderMacros(),"main", "latest");
 
+	visualCubeVS->LoadShaderFromFile(Shader::ShaderType::VertexShader, "VisualSVOVS.hlsl",
+		Shader::ShaderMacros(), "main", "latest");
 
+	visualCubePS->LoadShaderFromFile(Shader::ShaderType::PixelShader, "VisualSVOPS.hlsl",
+		Shader::ShaderMacros(), "main", "latest");
 	PipelineState* g_SVOPipeline = renderer->CreatePipelineState();
 	g_SVOPipeline->SetShader(Shader::ShaderType::ComputeShader, flagshader);
 
@@ -150,6 +169,8 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 
 	StructuredBuffer* nodePool = renderer->CreateStructuredBuffer(nullptr, mTotalNode, sizeof(FlagOctreePass::Node), CPUAccess::None, true, true);
 	
+	UINT i[] = { 0 };
+	RWBuffer* visualIndex = renderer->CreateRWBuffer(i,1,sizeof(UINT));
 	FlagOctreePass* svoPass = new FlagOctreePass(renderer, scene, g_SVOPipeline);
 	svoPass->SetTotalLevel(mTotalLevel);
 	svoPass->SetTotalNode(mTotalNode);
@@ -160,12 +181,18 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	svoPass->SetConstantGroup(cbGroupConstant, "");
 	svoPass->SetNodeBuffer(nodePool, "");
 	svoPass->SetConstantBrick(cbBrickConstant, "");
-	Shader* shaders[4]
+	svoPass->SetAttriConstant(cbAttrConstant, "");
+	svoPass->SetVisualIndex(visualIndex,"");
+
+	Shader* shaders[7]
 	{
 		flagshader,
 		allocShader,
 		mipmapShader,
-		writeLeafNode
+		writeLeafNode,
+		visualSVO,
+		visualCubeVS,
+		visualCubePS
 	};
 	svoPass->SetComputeShaders(shaders);
 	VisualTechnique* forwardTechnique = new VisualTechnique();

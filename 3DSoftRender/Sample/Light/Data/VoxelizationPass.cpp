@@ -13,6 +13,7 @@
 #include "Buffer.h"
 #include "RWBuffer.h"
 using namespace Hikari;
+bool VoxelizationPass::init = false;
 Hikari::VoxelizationPass::VoxelizationPass(Renderer * render)
 :m_RenderDevice(render),
 m_pRenderEventArgs(nullptr),
@@ -62,6 +63,8 @@ void Hikari::VoxelizationPass::PreRender(RenderEventArgs & e)
 {
 	e.PipelineState = m_Pipeline;
 	SetRenderEventArgs(e);
+	if (init)
+		return;
 	if (m_Pipeline)
 	{
 		m_Pipeline->GetRasterizerState().SetViewport(Viewport(0, 0, 128, 128));
@@ -72,6 +75,8 @@ void Hikari::VoxelizationPass::PreRender(RenderEventArgs & e)
 
 void Hikari::VoxelizationPass::Render(RenderEventArgs & e)
 {
+	if (init)
+		return;
 	if (m_Scene)
 	{
 		m_Scene->Accept(*this);
@@ -80,12 +85,15 @@ void Hikari::VoxelizationPass::Render(RenderEventArgs & e)
 
 void Hikari::VoxelizationPass::PostRender(RenderEventArgs & e)
 {
+	if (init)
+		return;
 	if (m_Pipeline)
 	{
 		RWBuffer* index = m_Pipeline->GetRenderTarget()->GetRWBuffer(0);
 		
 		index->Copy(nullptr);
 		m_Pipeline->UnBind();
+		init = true;
 	}
 }
 

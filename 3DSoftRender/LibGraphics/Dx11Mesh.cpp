@@ -35,6 +35,11 @@ void Hikari::MeshDx::SetMaterial(Material * material)
 	m_pMaterial = material;
 }
 
+void Hikari::MeshDx::SetInstanceBuffer(Buffer * buffer)
+{
+	m_pInstanceBuffer = buffer;
+}
+
 Material* Hikari::MeshDx::GetMaterial() const
 {
 	return m_pMaterial;
@@ -73,10 +78,16 @@ void Hikari::MeshDx::Render(RenderEventArgs & renderArgs)
 
 	m_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
-	if (m_pIndexBuffer != nullptr)
+	if (m_pIndexBuffer != nullptr && m_VertexBuffers.size() ==0)
 	{
 		m_pIndexBuffer->Bind(0, Shader::VertexShader, ShaderParameter::Type::Buffer);
 		m_pDeviceContext->DrawIndexed(m_pIndexBuffer->GetElementCount(), 0, 0);
+		m_pIndexBuffer->UnBind(0, Shader::VertexShader, ShaderParameter::Type::Buffer);
+	}
+	else if (m_pIndexBuffer != nullptr && m_VertexBuffers.size() != 0)
+	{
+		m_pIndexBuffer->Bind(0, Shader::VertexShader, ShaderParameter::Type::Buffer);
+		m_pDeviceContext->DrawIndexedInstanced(m_pIndexBuffer->GetElementCount(),((BufferDx*)m_VertexBuffers.begin()->second)->GetElementCount(),0,0, 0);
 		m_pIndexBuffer->UnBind(0, Shader::VertexShader, ShaderParameter::Type::Buffer);
 	}
 	else

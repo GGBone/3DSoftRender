@@ -162,6 +162,7 @@ namespace Hikari
 
 		virtual Buffer* CreateFloatVertexBuffer(const float* data, unsigned int count, unsigned int stride) override;
 		virtual Buffer* CreateDoubleVertexBuffer(const double* data, unsigned int count, unsigned int stride) override;
+		virtual Buffer* CreateUINTVertexBuffer(const UINT* data, unsigned int count, unsigned int stride) override;
 		virtual Buffer* CreateUIntIndexBuffer(const unsigned int* data, unsigned int sizeInBytes) override;
 		virtual ConstantBuffer* CreateConstantBuffer(const void* data, size_t size) override;
 		virtual StructuredBuffer* CreateStructuredBuffer(void* data, unsigned int count, unsigned int stride, CPUAccess cpuAccess = CPUAccess::None,

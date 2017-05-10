@@ -56,7 +56,7 @@ void BasePass::BindPerObjectConstantBuffer(Shader* shader)
 void BasePass::PreRender(RenderEventArgs& e)
 {
 	e.PipelineState = m_Pipeline;
-	m_pRenderEventArgs->PipelineState = m_Pipeline;
+
 	SetRenderEventArgs(e);
 
 	if (m_Pipeline)
@@ -79,7 +79,7 @@ void BasePass::PostRender(RenderEventArgs& e)
 {
 	if (m_Pipeline)
 	{
-		m_Pipeline->UnBind();
+		//m_Pipeline->UnBind();
 	}
 }
 

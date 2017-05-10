@@ -70,7 +70,7 @@ namespace Hikari
 			UINT normal;
 			UINT color;
 		};
-
+		static bool init;
 		void SetRenderEventArgs(RenderEventArgs& e);
 
 		void SetPerObjectConstantBufferData(PerObject& perObjectData);

@@ -124,9 +124,20 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 		inputElement.SemanticIndex = parameterSignature.SemanticIndex;
 		inputElement.InputSlot = i;
 		inputElement.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
-		inputElement.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;	//WILL Modify
+		if (parameterSignature.Mask == 1)
+		{
+			inputElement.InputSlotClass = D3D11_INPUT_PER_INSTANCE_DATA;	//WILL Modify
+			inputElement.InstanceDataStepRate = 1;
+
+		}
+		else
+		{
+			inputElement.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;	//WILL Modify
+
+			inputElement.InstanceDataStepRate = 0;
+
+		}
 		inputElement.Format = GetDXGIFormat(parameterSignature);
-		inputElement.InstanceDataStepRate = 0;
 		inputElements.push_back(inputElement);
 		mInputSemantics.insert(SemanticMap::value_type(BufferBinding(inputElement.SemanticName, inputElement.SemanticIndex), i));
 

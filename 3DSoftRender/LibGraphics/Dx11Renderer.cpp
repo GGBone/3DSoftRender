@@ -352,7 +352,7 @@ Scene * Hikari::DirectRenderer::CreateCube(float size)
 	ss << "f 1 1 1 1 0 0 0 0" << std::endl;
 
 	// hex x y z size
-	ss << "hex 0 0 0 " << size;
+	ss << "dec 0 0 0 " << size;
 
 	if (scene->LoadFromString(ss.str(), "nff"))
 	{
@@ -377,13 +377,13 @@ void DirectRenderer::DrawPrimitive(const Visual * visual,VisualEffect* effect)
 
 	} while (index<count);
 	
-	//mData->renderTarget->Bind();
+	mData->renderTarget->Bind();
 
-	/*TextureDX11* colorBuffer = static_cast<TextureDX11*>(mData->renderTarget->GetTexture(RenderTarget::AttachmentPoint::Color0));
+	TextureDX11* colorBuffer = static_cast<TextureDX11*>(mData->renderTarget->GetTexture(RenderTarget::AttachmentPoint::Color0));
 	if (colorBuffer)
 	{
 		mData->mImmediateContext->CopyResource(mData->pBackBuffer, colorBuffer->GetTextureResource());
-	}*/
+	}
 	mData->g_pSwapChain->Present(0, 0);
 }
 
@@ -414,6 +414,13 @@ Buffer * Hikari::DirectRenderer::CreateFloatVertexBuffer(const float * data, uns
 Buffer * Hikari::DirectRenderer::CreateDoubleVertexBuffer(const double * data, unsigned int count, unsigned int stride)
 {
 	Buffer* buffer = new BufferDx(this, D3D11_BIND_VERTEX_BUFFER, data, count, stride);
+	m_Buffer.push_back(buffer);
+	return buffer;
+}
+
+Buffer * Hikari::DirectRenderer::CreateUINTVertexBuffer(const UINT * data, unsigned int count, unsigned int stride)
+{
+	Buffer* buffer = new BufferDx(this, D3D11_BIND_VERTEX_BUFFER, data, count, (UINT)sizeof(unsigned int));
 	m_Buffer.push_back(buffer);
 	return buffer;
 }

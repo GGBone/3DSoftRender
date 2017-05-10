@@ -14,11 +14,11 @@ namespace Hikari
 		void SetSampler(SamplerState* samp,const std::string& name);
 		void SetLight(StructuredBuffer* buffer, const std::string& name);
 
-
 		virtual void Visit(Mesh& mesh) override;
 
 	private:
 		SamplerState* m_SamplerState;
+		std::string m_SamplerStateName;
 		StructuredBuffer* m_LightBuffer;
 
 		// Bind the constant to the shader.

@@ -16,6 +16,7 @@ namespace Hikari
 
 		virtual void Copy(RWBuffer* other) = 0;
 
+		virtual void Clear() = 0;
 		template<typename T>
 		void Set(const std::vector<T>& value);
 

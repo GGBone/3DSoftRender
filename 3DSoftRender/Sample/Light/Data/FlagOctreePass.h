@@ -19,6 +19,8 @@ namespace Hikari
 	class Buffer;
 	class RWBuffer;
 	class Texture;
+	class Renderer;
+	struct BufferBinding;
 	class FlagOctreePass : public AbstractPass
 	{
 	public:
@@ -50,6 +52,13 @@ namespace Hikari
 			UINT curNode;
 		};
 		
+		struct VisualPackage
+		{
+			XMFLOAT4X4 world;
+			Float4  normal;
+			Float4  color;
+		};
+
 		struct Node
 		{
 			UINT brickPtr;
@@ -70,6 +79,12 @@ namespace Hikari
 			~NodesPool() { uav->Release(); srv->Release(); }
 			ID3D11UnorderedAccessView* uav;
 			ID3D11ShaderResourceView* srv;
+		};
+
+		struct cbAttri
+		{
+			Float4 extent;
+			Float4 origin;
 		};
 
 		struct BricksPool
@@ -96,6 +111,10 @@ namespace Hikari
 		void SetConstantInfo(ConstantBuffer* buffer,const std::string& name);
 		void SetConstantGroup(ConstantBuffer* buffer, const std::string& name);
 		void SetConstantBrick(ConstantBuffer* buffer, const std::string& name);
+		void SetAttriConstant(ConstantBuffer* buffer, const std::string& name);
+
+		void SetVisualPool(StructuredBuffer* buffer, const std::string& name);
+		void SetVisualIndex(RWBuffer* buffer, const std::string& name);
 
 		void SetNodeBuffer(StructuredBuffer* buffer, const std::string& name);
 		void SetNumNode(RWBuffer* rwBuffer, const std::string& name);
@@ -103,32 +122,41 @@ namespace Hikari
 		void SetBrickIndex(RWBuffer* rwBuffer, const std::string& name);
 		void SetTotalNode(UINT totalNode);
 		void SetTotalLevel(UINT totalLevel);
-		Buffer* GetStage() const;
+
 		void SetComputeShaders(Shader*[]);
 	private:
 		ConstantBuffer* m_cbInfo;
 		ConstantBuffer* m_groupInfo;
 		ConstantBuffer* m_BrickInfo;
-		Shader* m_shaders[4];
+
+		ConstantBuffer* m_cbAttri;
+		Shader* m_shaders[7];
 		static bool init;
-		StructuredBuffer* m_NodePool;
 		RWBuffer* m_NumNode;
 		RWBuffer* m_BrickInedx;
 		RWBuffer* m_NodeIndex;
+		RWBuffer* m_visualIndex;
 
+		StructuredBuffer* m_NodePool;
 		StructuredBuffer* m_fragmentList;
-
-		Texture* m_BricksPool[3];
-		Buffer* stage;
+		StructuredBuffer* m_visualPool = nullptr;
+		Buffer* m_InstanceBuffer;
+		BufferBinding* instantBind;
+		BufferBinding* positionBind;
+		Texture* m_BricksPool[3] = { nullptr };
+		ID3D11Buffer* mVisualInstanceBuf;
+		ID3D11Buffer* mVisualVB;
+		ID3D11Buffer* mVisualIB;
 		std::vector<UINT>	   mNumNodePerLevel;
 		RenderEventArgs* m_pRenderEventArgs;
 
+		Mesh* mCubeMesh = nullptr;
 		// The pipeline state that should be used to render this pass.
 		PipelineState* m_Pipeline;
 
 		// The scene to render.
 		Scene* m_Scene;
-
+		Scene* m_SceneBox;
 		Renderer* m_RenderDevice;
 	};
 }

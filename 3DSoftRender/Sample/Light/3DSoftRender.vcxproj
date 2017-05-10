@@ -112,6 +112,17 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="VisualSVOCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="VisualSVOPS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="VisualSVOVS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="WriteLeafOctree.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>

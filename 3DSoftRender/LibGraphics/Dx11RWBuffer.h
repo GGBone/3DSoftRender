@@ -22,6 +22,7 @@ namespace Hikari
 
 		virtual void Copy(RWBuffer* other) override;
 
+		virtual void Clear() override;
 		// Used by the RenderTargetDX11 only.
 		ID3D11UnorderedAccessView* GetUnorderedAccessView() const;
 		virtual void* GetData() const override;
@@ -39,7 +40,7 @@ namespace Hikari
 		ID3D11ShaderResourceView* m_pSRV;
 		ID3D11UnorderedAccessView* m_pUAV;
 		
-		typedef std::vector<uint8_t> BufferType;
+		typedef std::vector<UINT> BufferType;
 		BufferType m_Data;
 
 		UINT m_uiStride;
@@ -50,7 +51,7 @@ namespace Hikari
 
 		UINT m_uiSlot;
 
-		bool m_bIsDirty;
+		bool m_bIsDirty = false;
 
 		bool m_bUAV;
 

@@ -18,7 +18,7 @@ Material::Material(Renderer* renderDevice)
 
 	// Initialize the constant buffer.
 	
-	m_pConstantBuffer = m_Renderer->CreateConstantBuffer(*m_pProperties);
+	m_pConstantBuffer = m_Renderer->CreateConstantBuffer<MaterialProperties>(*m_pProperties);
 }
 
 Material::~Material()

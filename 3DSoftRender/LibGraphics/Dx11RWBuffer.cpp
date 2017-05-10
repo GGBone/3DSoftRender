@@ -57,6 +57,11 @@ Hikari::RWBufferDX11::~RWBufferDX11()
 
 bool Hikari::RWBufferDX11::Bind(unsigned int ID, Shader::ShaderType shaderType, ShaderParameter::Type parameterType)
 {
+	if (m_bIsDirty)
+	{
+		Commit();
+		m_bIsDirty = false;
+	}
 	if (parameterType == ShaderParameter::Type::Buffer && m_pSRV)
 	{
 		ID3D11ShaderResourceView* srv[] = { m_pSRV };
@@ -150,6 +155,15 @@ void Hikari::RWBufferDX11::Copy(RWBuffer * other)
 	m_pDeviceContext->Unmap(m_pStage, 0);
 }
 
+void Hikari::RWBufferDX11::Clear()
+{
+	if (m_pUAV)
+	{
+		UINT clearColor[4] = { 0, 0, 0, 0 };
+		m_pDeviceContext->ClearUnorderedAccessViewUint(m_pUAV, clearColor);
+	}
+}
+
 
 ID3D11UnorderedAccessView * Hikari::RWBufferDX11::GetUnorderedAccessView() const
 {
@@ -168,8 +182,8 @@ void Hikari::RWBufferDX11::Copy(Buffer * other)
 
 void Hikari::RWBufferDX11::SetData(void * data, size_t elementSize, size_t offset, size_t numElements)
 {
-	unsigned char* first = (unsigned char*)data + (offset * elementSize);
-	unsigned char* last = first + (numElements * elementSize);
+	UINT* first = (UINT*)data + (offset * elementSize);
+	UINT* last = first + (numElements * elementSize);
 	m_Data.assign(first, last);
 	m_bIsDirty = true;
 }

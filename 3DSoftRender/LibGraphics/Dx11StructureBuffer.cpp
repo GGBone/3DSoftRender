@@ -224,8 +224,8 @@ void Hikari::StructuredBufferDX11::Clear()
 {
 	if (m_pUAV)
 	{
-		FLOAT clearColor[4] = { 0, 0, 0, 0 };
-		m_pDeviceContext->ClearUnorderedAccessViewFloat(m_pUAV, clearColor);
+		UINT clearColor[4] = { 0, 0, 0, 0 };
+		m_pDeviceContext->ClearUnorderedAccessViewUint(m_pUAV, clearColor);
 	}
 }
 

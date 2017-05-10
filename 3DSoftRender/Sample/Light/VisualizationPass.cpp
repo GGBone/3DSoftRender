@@ -1,4 +1,7 @@
 #include "VisualizationPass.h"
+#include "RenderEventArgs.h"
+#include "PipelineState.h"
+#include "Dx11ShaderParameter.h"
 using namespace Hikari;
 
 void Hikari::Visualization::SetRenderEventArgs(RenderEventArgs & e)
@@ -38,6 +41,9 @@ Hikari::Visualization::~Visualization()
 
 void Hikari::Visualization::PreRender(RenderEventArgs & e)
 {
+	PipelineState* prePipeline = e.PipelineState;
+	ShaderParameter* shaderParams = &prePipeline->GetShader(Shader::ShaderType::ComputeShader)->GetShaderParameterByName("nodesPool");
+	
 }
 
 void Hikari::Visualization::Render(RenderEventArgs & e)
