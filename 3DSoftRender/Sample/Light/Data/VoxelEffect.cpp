@@ -8,14 +8,6 @@
 #include "Dx11RWBuffer.h"
 #include "FlagOctreePass.h"
 using namespace Hikari;
-#define PAD16(x) ((x+15) & (~15))
-#define MaxLevelRes 128
-#define BrickRes 2
-#define BricksPoolRes 128
-#define FragmentMultiples 1
-#define CURLEVEL 6
-#define VoxelDispatchUnit 16
-#define NodeDispatchUnit 4
 
 Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 {
@@ -73,7 +65,7 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	ConstantBuffer* cbAttrConstant = renderer->CreateConstantBuffer(&cbAttri, sizeof(cbAttri));
 
 	//fragment
-	uint32_t fragmentSize = sizeof(VoxelizationPass::Voxel) * 128 * 128 * 128;
+	uint32_t fragmentSize = sizeof(VoxelizationPass::Voxel) * MaxLevelRes * MaxLevelRes * MaxLevelRes * FragmentMultiples;
 
 	//bind uav Views
 	StructuredBuffer* voxelUAVBuffer = renderer->CreateStructuredBuffer(nullptr, fragmentSize / sizeof(VoxelizationPass::Voxel),
@@ -122,9 +114,9 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 		Shader::ShaderMacros(), "main", "latest");
 	allocShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "AllocOrtree.hlsl",
 		Shader::ShaderMacros(), "main", "latest");
-	mipmapShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "WriteLeafOctree.hlsl",
+	mipmapShader->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "MipmapOctree.hlsl",
 		Shader::ShaderMacros(), "main", "latest");
-	writeLeafNode->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "MipmapOctree.hlsl",
+	writeLeafNode->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "WriteLeafOctree.hlsl",
 		Shader::ShaderMacros(), "main", "latest");
 
 	visualSVO->LoadShaderFromFile(Shader::ShaderType::ComputeShader, "VisualSVOCS.hlsl", 
@@ -142,9 +134,9 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	UINT u_nodeInit = 1;
 	RWBuffer* brickIndex = renderer->CreateRWBuffer(&u_brickInit, 1, sizeof(UINT));
 	RWBuffer* nodeInedx = renderer->CreateRWBuffer(&u_nodeInit, 1, sizeof(UINT));
-	UINT mTotalLevel = std::log2f(128) + 1;
+	UINT mTotalLevel = std::log2f(MaxLevelRes) + 1;
 	UINT mTotalNode = 0;
-	UINT res = 128;
+	UINT res = MaxLevelRes;
 	while (res)
 	{
 		mTotalNode += (res * res * res);
@@ -188,8 +180,10 @@ Hikari::VoxelEffect::VoxelEffect(DirectRenderer * renderer, Scene * scene)
 	{
 		flagshader,
 		allocShader,
-		mipmapShader,
+		
 		writeLeafNode,
+		mipmapShader,
+
 		visualSVO,
 		visualCubeVS,
 		visualCubePS

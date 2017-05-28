@@ -3,6 +3,7 @@
 #include "VisualEffectInstance.h"
 #include "Dx11Shader.h"
 #include "ConfigurationSetting.h"
+
 namespace Hikari
 {
 	class Camera;
@@ -14,5 +15,6 @@ namespace Hikari
 		virtual ~VoxelEffect();
 		VisualEffectInstance* CreateInstance() const;
 		Camera* orthoCamera;
+	
 	};
 }

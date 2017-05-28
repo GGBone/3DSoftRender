@@ -43,7 +43,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllocOctreePass.h" />
     <ClInclude Include="ControlPoint.h" />
     <ClInclude Include="Data\AbstractPass.h" />
     <ClInclude Include="Data\BasePass.h" />
@@ -56,10 +55,8 @@
     <ClInclude Include="Data\VoxelEffect.h" />
     <ClInclude Include="Data\VoxelizationPass.h" />
     <ClInclude Include="Geometry.h" />
-    <ClInclude Include="MipmapOctree.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="VisualizationPass.h" />
-    <ClInclude Include="WriteLeafOctree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Data\AbstractPass.cpp" />

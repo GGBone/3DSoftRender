@@ -1,4 +1,5 @@
 #pragma once
+#include "VoxelEffect.h"
 #include "Dx11RenderLIB.h"
 
 #include "AbstractPass.h"

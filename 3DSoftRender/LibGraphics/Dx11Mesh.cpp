@@ -78,7 +78,7 @@ void Hikari::MeshDx::Render(RenderEventArgs & renderArgs)
 
 	m_pDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
-	if (m_pIndexBuffer != nullptr && m_VertexBuffers.size() ==0)
+	if (m_pIndexBuffer != nullptr && m_VertexBuffers.size() == 3)
 	{
 		m_pIndexBuffer->Bind(0, Shader::VertexShader, ShaderParameter::Type::Buffer);
 		m_pDeviceContext->DrawIndexed(m_pIndexBuffer->GetElementCount(), 0, 0);

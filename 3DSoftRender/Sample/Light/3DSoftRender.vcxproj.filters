@@ -89,15 +89,6 @@
     <ClInclude Include="Data\FlagOctreePass.h">
       <Filter>资源文件\Data\Pass</Filter>
     </ClInclude>
-    <ClInclude Include="AllocOctreePass.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="MipmapOctree.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="WriteLeafOctree.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
     <ClInclude Include="VisualizationPass.h">
       <Filter>资源文件\Data\Pass</Filter>
     </ClInclude>

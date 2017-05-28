@@ -137,11 +137,12 @@ namespace Hikari
 		RWBuffer* m_NodeIndex;
 		RWBuffer* m_visualIndex;
 
+		ConstantBuffer* cbTrans = nullptr;
 		StructuredBuffer* m_NodePool;
 		StructuredBuffer* m_fragmentList;
 		StructuredBuffer* m_visualPool = nullptr;
-		Buffer* m_InstanceBuffer;
-		BufferBinding* instantBind;
+		Buffer* m_InstanceBuffer = nullptr;
+		BufferBinding* instantBind = nullptr;
 		BufferBinding* positionBind;
 		Texture* m_BricksPool[3] = { nullptr };
 		ID3D11Buffer* mVisualInstanceBuf;
@@ -149,7 +150,8 @@ namespace Hikari
 		ID3D11Buffer* mVisualIB;
 		std::vector<UINT>	   mNumNodePerLevel;
 		RenderEventArgs* m_pRenderEventArgs;
-
+		Buffer* vertexbuffer = nullptr;
+		Buffer* indexbuffer = nullptr;
 		Mesh* mCubeMesh = nullptr;
 		// The pipeline state that should be used to render this pass.
 		PipelineState* m_Pipeline;
