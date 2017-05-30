@@ -301,7 +301,7 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 
 			m_shaders[3]->GetShaderParameterByName("bricksPool_color").Set(m_BricksPool[0]);
 			m_shaders[3]->GetShaderParameterByName("bricksPool_normal").Set(m_BricksPool[1]);
-			m_shaders[3]->GetShaderParameterByName("bricksPool_irrandiance").Set(m_BricksPool[2]);
+			m_shaders[3]->GetShaderParameterByName("bricksPool_irradiance").Set(m_BricksPool[2]);
 
 
 			m_Pipeline->Bind();
@@ -381,7 +381,7 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 
 		cbAttri cbAttri;
 		cbAttri.origin = Float4(-.5f, .5f, -.5f, 1.0f);
-		cbAttri.extent = Float4(3.0f, 3.0f, 3.0f, 0.0f);
+		cbAttri.extent = Float4(1.0f, 1.0f, 1.0f, 0.0f);
 		m_cbAttri = m_RenderDevice->CreateConstantBuffer(&cbAttri, sizeof(cbAttri));
 
 		//constant
@@ -416,21 +416,24 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 
 		mCubeMesh->AddVertexBuffer(*instantBind, m_InstanceBuffer);
 
+	
+
+		e.PipelineState = m_Pipeline;
 		init = true;
 	}
 	m_Pipeline->GetRasterizerState().SetViewport(Viewport(0, 0, 1280, 760, 0.0f, 1.0f));
 	m_Pipeline->SetRenderTarget(((DirectRenderer*)(m_RenderDevice))->mData->renderTarget);
-	m_Pipeline->GetRenderTarget()->Clear(ClearFlags::All,Float4(1,1,1,1));
+	m_Pipeline->GetRenderTarget()->Clear(ClearFlags::All, Float4(1, 1, 1, 1));
 	m_Pipeline->SetShader(Shader::ShaderType::VertexShader, m_shaders[5]);
 	m_Pipeline->SetShader(Shader::ShaderType::PixelShader, m_shaders[6]);
 	Camera* mCamera = e.Camera;
-	if(cbTrans == nullptr)
+	if (cbTrans == nullptr)
 		cbTrans = m_RenderDevice->CreateConstantBuffer(&XMMatrixTranspose(mCamera->ViewProj()), sizeof(XMMATRIX));
 	m_shaders[5]->GetShaderParameterByName("visualPool").Set(m_visualPool);
 	m_shaders[5]->GetShaderParameterByName("cbTrans").Set(cbTrans);
 	m_Pipeline->Bind();
 	Visit(*mCubeMesh);
-	e.PipelineState = m_Pipeline;
+	
 }
 
 void Hikari::FlagOctreePass::PostRender(RenderEventArgs & e)
@@ -452,6 +455,12 @@ void Hikari::FlagOctreePass::Visit(Hikari::Node & node)
 
 void Hikari::FlagOctreePass::Visit(Mesh & mesh)
 {
+	Camera* camera = m_pRenderEventArgs->Camera;
+	if (camera)
+	{
+		XMMATRIX viewProj = XMMatrixTranspose(camera->ViewProj());
+		cbTrans->Set(&viewProj, sizeof(XMMATRIX));
+	}
 	if ( m_pRenderEventArgs)
 	{
 		mesh.Render(*m_pRenderEventArgs);

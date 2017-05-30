@@ -43,7 +43,7 @@ namespace Hikari
 
 		inline virtual bool OnMotion(int button, int x, int y,unsigned int modifiers);
 
-		inline virtual bool OnPassiveMotion(int button, int x, int y, unsigned int modifiers);
+		inline virtual bool OnPassiveMotion(int x,int y);
 
 		inline virtual bool OnMouseWheel(int button, int x, int y, unsigned int modifiers);
 
@@ -57,12 +57,15 @@ namespace Hikari
 		//TO-DO
 		//Font
 
-		int KEY_TERMINATE;
+		// Key identifiers.  These are platform-specific, so classes that
+		// implement the WindowApplication interfaces must define these variables.
+		// They are not defined by WindowApplication.
+		int KEY_TERMINATE;  // default KEY_ESCAPE, redefine as desired
 		static const int KEY_ESCAPE;
-		static const int KEY_RIGHT_AROW;
-		static const int KEY_LEFT_AROW;
-		static const int KEY_UP_AROW;
-		static const int KEY_DOWN_AROW;
+		static const int KEY_LEFT_ARROW;
+		static const int KEY_RIGHT_ARROW;
+		static const int KEY_UP_ARROW;
+		static const int KEY_DOWN_ARROW;
 		static const int KEY_HOME;
 		static const int KEY_END;
 		static const int KEY_PAGE_UP;
@@ -70,6 +73,44 @@ namespace Hikari
 		static const int KEY_INSERT;
 		static const int KEY_DELETE;
 		static const int KEY_F1;
+		static const int KEY_F2;
+		static const int KEY_F3;
+		static const int KEY_F4;
+		static const int KEY_F5;
+		static const int KEY_F6;
+		static const int KEY_F7;
+		static const int KEY_F8;
+		static const int KEY_F9;
+		static const int KEY_F10;
+		static const int KEY_F11;
+		static const int KEY_F12;
+		static const int KEY_BACKSPACE;
+		static const int KEY_TAB;
+		static const int KEY_ENTER;
+		static const int KEY_RETURN;
+
+		// Keyboard modifiers.
+		static const int KEY_SHIFT;
+		static const int KEY_CONTROL;
+		static const int KEY_ALT;
+		static const int KEY_COMMAND;
+
+		// Mouse buttons.
+		static const int MOUSE_LEFT_BUTTON;
+		static const int MOUSE_MIDDLE_BUTTON;
+		static const int MOUSE_RIGHT_BUTTON;
+
+		// Mouse state.
+		static const int MOUSE_UP;
+		static const int MOUSE_DOWN;
+
+		// Mouse modifiers.
+		static const int MODIFIER_CONTROL;
+		static const int MODIFIER_LBUTTON;
+		static const int MODIFIER_MBUTTON;
+		static const int MODIFIER_RBUTTON;
+		static const int MODIFIER_SHIFT;
+
 	protected:
 		static int Run(int numArgument, char** arguments);
 

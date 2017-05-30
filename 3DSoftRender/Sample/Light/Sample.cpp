@@ -25,8 +25,8 @@ bool Lights::OnInitialize()
 	if (!WindowApplication3::OnInitialize())
 		return false;
 
-	mCamera->LookAt(XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f));
-	mCamera->SetLens(XMConvertToRadians(90.0f),1.33333f, 1.f, 5000.0f);
+	mCamera->LookAt(XMFLOAT3(0.0f, 0.0f, -2.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f));
+	mCamera->SetLens(XMConvertToRadians(90.0f),1.33333f, 0.1f, 5000.0f);
 	
 	mCamera->UpdateViewMatrix();
 	CreateScene();
@@ -46,7 +46,39 @@ void Lights::OnIdle()
 
 bool Lights::OnKeyDown(unsigned char key, int x, int y)
 {
-	return false;
+	static float speed = 1.f;
+	if (key == 'w')
+	{
+		mCamera->Walk(speed*0.02f);
+	}
+	if (key == 'a')
+	{
+		mCamera->Strafe(-speed*0.02f);
+	}
+	if (key == 'd')
+	{
+		mCamera->Strafe(speed*0.02f);
+	}
+	if (key == 's')
+	{
+		mCamera->Walk(-speed*0.02f);
+
+	}
+	/*switch (key)
+	{
+	case 'w':
+		break;
+	case 'a':
+		break;
+	case 's':
+		break;
+	case 'd':
+		break;
+	default:
+		break;
+	}*/
+	mCamera->UpdateViewMatrix();
+	return true;
 }
 
 void Lights::CreateScene()

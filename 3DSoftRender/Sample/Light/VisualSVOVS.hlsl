@@ -31,6 +31,6 @@ VertexOut main(VertexIn vin)
     VisualPackage visual = visualPool[vin.index];
     vout.posH = mul(float4(vin.posL, 1.f), mul(visual.world, vp));
 
-    vout.color = float3(vin.posL.r, vin.posL.g, vin.posL.b);
+    vout.color = float3(saturate(-vout.posH.r*vin.index/1000.0f), saturate(vout.posH.g*vin.index / 1000.0f), saturate(vout.posH.b*vin.index / 500.0f));
     return vout;
 }

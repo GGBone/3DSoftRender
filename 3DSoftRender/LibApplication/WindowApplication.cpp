@@ -68,7 +68,7 @@ inline bool Hikari::WindowApplication::OnMotion(int button, int x, int y, unsign
 	return false;
 }
 
-inline bool Hikari::WindowApplication::OnPassiveMotion(int button, int x, int y, unsigned int modifiers)
+inline bool Hikari::WindowApplication::OnPassiveMotion(int,int)
 {
 	return false;
 }
