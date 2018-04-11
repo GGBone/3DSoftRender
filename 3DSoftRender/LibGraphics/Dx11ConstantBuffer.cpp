@@ -1,5 +1,5 @@
-#include "GraphicsPCH.h"
-#include "Dx11ConstantBuffer.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11ConstantBuffer.h"
 using namespace Hikari;
 
 Hikari::ConstantBufferDX11::ConstantBufferDX11(ID3D11Device * pDevice, size_t size)
@@ -84,17 +84,17 @@ void Hikari::ConstantBufferDX11::UnBind(unsigned int id, Shader::ShaderType shad
 	}
 }
 
-void Hikari::ConstantBufferDX11::Copy(ConstantBuffer * other)
+void Hikari::ConstantBufferDX11::Copy(std::shared_ptr<ConstantBuffer> other)
 {
-	ConstantBufferDX11* srcBuffer = (ConstantBufferDX11*)other;
+	std::shared_ptr<ConstantBufferDX11> srcBuffer = std::dynamic_pointer_cast<ConstantBufferDX11>(other);
 	if (!srcBuffer)
 		return;
 	m_pDeviceContext->CopyResource(m_pBuffer, srcBuffer->m_pBuffer);
 }
 
-void Hikari::ConstantBufferDX11::Copy(Buffer * other)
+void Hikari::ConstantBufferDX11::Copy(std::shared_ptr<Buffer> other)
 {
-	Copy((ConstantBuffer*)(other));
+	Copy(std::dynamic_pointer_cast<ConstantBuffer>(other));
 }
 
 void Hikari::ConstantBufferDX11::Set(const void * data, size_t size)

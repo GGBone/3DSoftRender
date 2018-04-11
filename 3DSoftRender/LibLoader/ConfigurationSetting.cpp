@@ -1,4 +1,5 @@
-#include "ConfigurationSetting.h"
+#include "loaderPCH.h"
+
 
 using namespace Hikari;
 using boost::serialization::make_nvp;

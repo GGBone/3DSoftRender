@@ -1,5 +1,5 @@
-#include "GraphicsPCH.h"
-#include "Dx11PipelineState.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11PipelineState.h"
 
 using namespace Hikari;
 PipelineStateDX11::PipelineStateDX11(ID3D11Device* pDevice)
@@ -17,12 +17,12 @@ PipelineStateDX11::~PipelineStateDX11()
 
 }
 
-void PipelineStateDX11::SetShader(Shader::ShaderType type,Shader* pShader)
+void PipelineStateDX11::SetShader(Shader::ShaderType type, std::shared_ptr<Shader> pShader)
 {
 	m_Shaders[type] = pShader;
 }
 
-Shader* PipelineStateDX11::GetShader(Shader::ShaderType type) const
+std::shared_ptr<Shader> PipelineStateDX11::GetShader(Shader::ShaderType type) const
 {
 	ShaderMap::const_iterator iter = m_Shaders.find(type);
 	if (iter != m_Shaders.end())
@@ -68,12 +68,12 @@ DepthStencilState& PipelineStateDX11::GetDepthStencilState()
 	return m_DepthStencilState;
 }
 
-void PipelineStateDX11::SetRenderTarget(RenderTarget* renderTarget)
+void PipelineStateDX11::SetRenderTarget(std::shared_ptr<RenderTarget> renderTarget)
 {
 	m_RenderTarget = renderTarget;
 }
 
-RenderTarget* PipelineStateDX11::GetRenderTarget() const
+std::shared_ptr<RenderTarget> PipelineStateDX11::GetRenderTarget() const
 {
 	return m_RenderTarget;
 }
@@ -91,7 +91,7 @@ void PipelineStateDX11::Bind()
 
 	for (auto shader : m_Shaders)
 	{
-		Shader* pShader = shader.second;
+		std::shared_ptr<Shader> pShader = shader.second;
 		if (pShader)
 		{
 			pShader->Bind();
@@ -108,7 +108,7 @@ void PipelineStateDX11::UnBind()
 
 	for (auto shader : m_Shaders)
 	{
-		Shader* pShader = shader.second;
+		std::shared_ptr<Shader> pShader = shader.second;
 		if (pShader)
 		{
 			pShader->UnBind();

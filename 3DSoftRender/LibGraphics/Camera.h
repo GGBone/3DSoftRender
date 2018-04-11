@@ -1,9 +1,11 @@
 #pragma once
-#include "Object.h"
-#include "Ray.h"
-#include "RasterizerState.h"
-#include "HMatrix.h"
-#include "Float4.h"
+#include "Core\Object.h"
+#include "Graphics\Ray.h"
+#include "Graphics\RasterizerState.h"
+#include "Math\Algebra\hmatrix.h"
+#include "Math\Base\Float4.h"
+#include "Math\Algebra\Vector2.h"
+#include "Core\Event.h"
 namespace Hikari
 {
 	class Camera
@@ -39,8 +41,12 @@ namespace Hikari
 		float GetFarWindowWidth()const;
 		float GetFarWindowHeight()const;
 
-		// Set frustum.
-		void SetLens(float fovY, float aspect, float zn, float zf);
+		// Set perspective frustum.
+		void SetProjectRH(float fovY, float aspect, float zn, float zf);
+		void SetProjectLH(float fovY, float aspect, float zn, float zf);
+
+		//Set orthographic projection using screen space coord
+		void SetOrthoGraphic(float width, float height, float m_fNear, float m_fFar);
 
 		// Define camera space via LookAt parameters.
 		void LookAt(FXMVECTOR pos, FXMVECTOR target, FXMVECTOR worldUp);
@@ -62,6 +68,15 @@ namespace Hikari
 		// After modifying camera position/orientation, call to rebuild the view matrix.
 		void UpdateViewMatrix();
 
+		//Converts a ray from screen space to world space
+		Ray ScreenPointToRay(const Vector2f& screenPoint)const;
+
+		XMVECTOR ProjectOntoUnitSphere(const Vector2f& screenPos);
+		void OnMousePressed(MouseButtonEventArgs& e);
+		void OnMouseMoved(MouseMotionEventArgs& e);
+		void OnMouseReleased(MouseButtonEventArgs& e);
+
+		void OnArcRotate(MouseMotionEventArgs& e);
 	private:
 
 		// Camera coordinate system with coordinates relative to world space.
@@ -81,6 +96,9 @@ namespace Hikari
 		// Cache View/Proj matrices.
 		XMFLOAT4X4 mView;
 		XMFLOAT4X4 mProj;
+
+		//Last 
+		Vector2I lastPosition;
 	};
 
 

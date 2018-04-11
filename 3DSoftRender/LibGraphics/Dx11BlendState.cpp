@@ -1,4 +1,5 @@
-#include "Dx11BlendState.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11BlendState.h"
 
 using namespace Hikari;
 

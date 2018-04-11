@@ -21,7 +21,7 @@ namespace Hikari
 		template <typename T>
 		void Set(const T& data);
 
-		virtual void Copy(ConstantBuffer* other) = 0;
+		virtual void Copy(std::shared_ptr<ConstantBuffer> other) = 0;
 
 		virtual void Set(const void* data, size_t size) = 0;
 

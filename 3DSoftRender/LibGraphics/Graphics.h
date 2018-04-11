@@ -1,17 +1,16 @@
 ﻿#pragma once
-#include "Transform.h"
+#include "Graphics\Transform.h"
 
-#include "VisualEffect.h"
-#include "Renderer.h"
+#include "Graphics\VisualEffect.h"
+#include "Graphics\Renderer.h"
 
-#include "Dx11Shader.h"
-#include "Dx11RenderData.h"
-#include "Dx11Renderer.h"
-#include "Dx11RenderLIB.h"
-#include "Dx11Texture.h"
+#include "Graphics\Dx11Shader.h"
+#include "Graphics\Dx11Renderer.h"
+#include "Graphics\Dx11RenderLIB.h"
+#include "Graphics\Dx11Texture.h"
 #define FREEIMAGE_LIB // Static linking
 #include <FreeImage.h>
-#include "Dx11Buffer.h"
+#include "Graphics\Dx11Buffer.h"
 //
 //#include "SoftFrameBuffer.h"
 //#include "SoftPixelShader.h"
@@ -24,18 +23,18 @@
 
 
 //Resource 
-#include "Buffer.h"
-//#include "RenderTarget.h"
-#include "Texture.h"
+#include "Graphics\Buffer.h"
+//#include "Graphics\RenderTarget.h"
+#include "Graphics\Texture.h"
 //#include "Texture2D.h"
 
-#include "Camera.h"
-#include "Spatial.h"
-#include "Visual.h"
+#include "Graphics\Camera.h"
+#include "Graphics\Spatial.h"
+#include "Graphics\Visual.h"
 
 
-#include "Shader.h"
+#include "Graphics\Shader.h"
 
 
 
-#include "Node.h"
+#include "Graphics\Node.h"

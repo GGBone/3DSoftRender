@@ -1,8 +1,8 @@
 #pragma once
-#include "MathematicsLIB.h"
-#include "HPoint.h"
-#include "Float3.h"
-#include "Vector3.h"
+#include "Math\MathematicsLIB.h"
+#include "Math\Algebra\HPoint.h"
+#include "Math\Base\Float3.h"
+#include "Math\Algebra\Vector3.h"
 namespace Hikari
 {
 	//Affine Point

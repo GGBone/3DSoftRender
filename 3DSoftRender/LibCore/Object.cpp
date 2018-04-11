@@ -1,5 +1,5 @@
-#include "CorePCH.h"
-#include "Object.h"
+#include "Core\CorePCH.h"
+#include "Core\Object.h"
 using namespace Hikari;
 //定义了Object没有父类，即它是所有类的子类
 const Rtti Object::TYPE("Object", NULL);

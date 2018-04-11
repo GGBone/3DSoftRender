@@ -54,22 +54,6 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Core.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Core.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Core.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Core.props" />
-  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../SDK/Library/</OutDir>
@@ -97,7 +81,8 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/;%(AdditionalIncludeDirectories);../External/boost_1_58_0/;../External/FreeImage/;../External/assimp/</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>CorePCH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Core\CorePCH.h</PrecompiledHeaderFile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions);</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -135,6 +120,14 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="CoreLib.h" />
     <ClInclude Include="CorePCH.h" />
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="HKRAssert.h" />
+    <ClInclude Include="HKRMutex.h" />
+    <ClInclude Include="HKRMutexType.h" />
+    <ClInclude Include="HKRScopedCS.h" />
+    <ClInclude Include="HKRThread.h" />
+    <ClInclude Include="HKRThreadType.h" />
+    <ClInclude Include="HKRTime.h" />
     <ClInclude Include="InitTerm.h" />
     <ClInclude Include="Names.h" />
     <ClInclude Include="Object.h" />
@@ -146,7 +139,13 @@
     <ClCompile Include="CorePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Core\CorePCH.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="HKRAssert.cpp" />
+    <ClCompile Include="HKRMutex.cpp" />
+    <ClCompile Include="HKRScopedCS.cpp" />
+    <ClCompile Include="HKRThread.cpp" />
+    <ClCompile Include="HKRTime.cpp" />
     <ClCompile Include="InitTerm.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Rtti.cpp" />

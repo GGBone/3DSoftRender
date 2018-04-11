@@ -14,4 +14,24 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dof.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraBlur.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Bloom.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LightShaft.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageProcess.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LensFlare.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

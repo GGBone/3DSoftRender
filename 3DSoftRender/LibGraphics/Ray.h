@@ -1,7 +1,7 @@
 #pragma once
 // A Ray structure that can be used in raycasting renderers.
-#include "AVector.h"
-#include "APoint.h"
+#include "Math\Algebra\AVector.h"
+#include "Math\Algebra\APoint.h"
 namespace Hikari
 {
 	class Material;

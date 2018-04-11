@@ -1,5 +1,5 @@
-#include "GraphicsPCH.h"
-#include <VisualTechnique.h>
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\VisualTechnique.h"
 using namespace Hikari;
 
 VisualTechnique::VisualTechnique()
@@ -8,14 +8,14 @@ VisualTechnique::VisualTechnique()
 VisualTechnique::~VisualTechnique()
 {}
 
-unsigned int VisualTechnique::AddPass(VisualPass* pass)
+unsigned int VisualTechnique::AddPass(std::shared_ptr<VisualPass> pass)
 {
 	// No check for duplicate passes (it may be intended to render the same pass multiple times?)
 	m_Passes.push_back(pass);
 	return static_cast<unsigned int>(m_Passes.size()) - 1;
 }
 
-VisualPass* VisualTechnique::GetPass(unsigned int ID) const
+std::shared_ptr<VisualPass> VisualTechnique::GetPass(unsigned int ID) const
 {
 	if (ID < m_Passes.size())
 	{
@@ -44,12 +44,12 @@ void VisualTechnique::Render(RenderEventArgs& renderEventArgs)
 	}
 }
 
-void Hikari::VisualTechnique::SetSampler(SamplerState * sampler)
+void Hikari::VisualTechnique::SetSampler(std::shared_ptr<SamplerState> sampler)
 {
 	mSampler = sampler;
 }
 
-SamplerState * Hikari::VisualTechnique::GetSampler() const
+std::shared_ptr<SamplerState> Hikari::VisualTechnique::GetSampler() const
 {
 	return mSampler;
 }

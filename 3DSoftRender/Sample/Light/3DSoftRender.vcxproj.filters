@@ -33,9 +33,6 @@
     <Filter Include="资源文件\Data">
       <UniqueIdentifier>{c065575e-070b-4b03-9cc0-0aa47be2b528}</UniqueIdentifier>
     </Filter>
-    <Filter Include="资源文件\Data\SoftShader">
-      <UniqueIdentifier>{c3bb2654-ee95-4f20-9036-bbaca433a2bf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="资源文件\Data\Dx11ShaderEffect">
       <UniqueIdentifier>{60ebd437-3f1a-4c9e-8616-1b4d238e2085}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,18 @@
     <Filter Include="资源文件\Voxel\Visualization">
       <UniqueIdentifier>{6292a680-b4f8-49a8-b3f6-8d6565b1ebbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="资源文件\Data\SoftShader">
+      <UniqueIdentifier>{c3bb2654-ee95-4f20-9036-bbaca433a2bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Data\Pass\Voxel">
+      <UniqueIdentifier>{96959408-1878-423b-9557-ede1bc897f2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Data\Pass\CommonPass">
+      <UniqueIdentifier>{70d150c5-800b-47d2-9635-417ca1a53652}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\Data\Pass\StandardPass">
+      <UniqueIdentifier>{b53da9aa-248f-48e6-9d64-2080ee11d814}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry.h">
@@ -59,50 +68,56 @@
     <ClInclude Include="Sample.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Data\DefaultEffect.h">
+    <ClInclude Include="Data\VoxelPass\FlagOctreePass.h">
+      <Filter>资源文件\Data\Pass\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\VoxelPass\VisualizationPass.h">
+      <Filter>资源文件\Data\Pass\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\VoxelPass\VoxelDefine.h">
+      <Filter>资源文件\Data\Pass\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\VoxelPass\VoxelizationPass.h">
+      <Filter>资源文件\Data\Pass\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\StandardPass\LightPass.h">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\StandardPass\OpaquePass.h">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\StandardPass\TransparentPass.h">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\CommonPass\AbstractPass.h">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\CommonPass\BasePass.h">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\CommonPass\BeginQueryPass.h">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\CommonPass\ClearRenderTargetPass.h">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\CommonPass\EndQueryPass.h">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderEffect\ClearEffect.h">
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Data\LightEffect.h">
+    <ClInclude Include="ShaderEffect\DefaultEffect.h">
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Data\VoxelEffect.h">
+    <ClInclude Include="ShaderEffect\LightEffect.h">
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Data\AbstractPass.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\BasePass.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\ClearRenderTargetPass.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\LightPass.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\OpaquePass.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\VoxelizationPass.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\FlagOctreePass.h">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClInclude>
-    <ClInclude Include="VisualizationPass.h">
-      <Filter>资源文件\Data\Pass</Filter>
+    <ClInclude Include="ShaderEffect\VoxelEffect.h">
+      <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Assets\shaders\VoxelizationGS.hlsl">
-      <Filter>资源文件\Voxel\Voxelization</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Assets\shaders\VoxelizationPS.hlsl">
-      <Filter>资源文件\Voxel\Voxelization</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Assets\shaders\VoxelizationVS.hlsl">
-      <Filter>资源文件\Voxel\Voxelization</Filter>
-    </FxCompile>
     <FxCompile Include="..\Assets\shaders\CommonInclude.hlsl">
       <Filter>资源文件\Common</Filter>
     </FxCompile>
@@ -115,64 +130,85 @@
     <FxCompile Include="..\Assets\shaders\ForwardPlusRendering.hlsl">
       <Filter>资源文件\ForwardPlus</Filter>
     </FxCompile>
-    <FxCompile Include="AllocOrtree.hlsl">
+    <FxCompile Include="..\Assets\shaders\OctTree\AllocOrtree.hlsl">
       <Filter>资源文件\Voxel\OctTree</Filter>
     </FxCompile>
-    <FxCompile Include="FlagOctree.hlsl">
+    <FxCompile Include="..\Assets\shaders\OctTree\FlagOctree.hlsl">
       <Filter>资源文件\Voxel\OctTree</Filter>
     </FxCompile>
-    <FxCompile Include="MipmapOctree.hlsl">
+    <FxCompile Include="..\Assets\shaders\OctTree\MipmapOctree.hlsl">
       <Filter>资源文件\Voxel\OctTree</Filter>
     </FxCompile>
-    <FxCompile Include="WriteLeafOctree.hlsl">
+    <FxCompile Include="..\Assets\shaders\OctTree\WriteLeafOctree.hlsl">
       <Filter>资源文件\Voxel\OctTree</Filter>
     </FxCompile>
-    <FxCompile Include="VisualSVOCS.hlsl">
+    <FxCompile Include="..\Assets\shaders\Visualization\VisualSVOCS.hlsl">
       <Filter>资源文件\Voxel\Visualization</Filter>
     </FxCompile>
-    <FxCompile Include="VisualSVOVS.hlsl">
+    <FxCompile Include="..\Assets\shaders\Visualization\VisualSVOPS.hlsl">
       <Filter>资源文件\Voxel\Visualization</Filter>
     </FxCompile>
-    <FxCompile Include="VisualSVOPS.hlsl">
+    <FxCompile Include="..\Assets\shaders\Visualization\VisualSVOVS.hlsl">
       <Filter>资源文件\Voxel\Visualization</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\Voxelization\VoxelizationGS.hlsl">
+      <Filter>资源文件\Voxel\Voxelization</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\Voxelization\VoxelizationPS.hlsl">
+      <Filter>资源文件\Voxel\Voxelization</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\Voxelization\VoxelizationVS.hlsl">
+      <Filter>资源文件\Voxel\Voxelization</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Data\DefaultEffect.cpp">
+    <ClCompile Include="Data\VoxelPass\FlagOctreePass.cpp">
+      <Filter>资源文件\Data\Pass\Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\VoxelPass\VisualizationPass.cpp">
+      <Filter>资源文件\Data\Pass\Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\VoxelPass\VoxelizationPass.cpp">
+      <Filter>资源文件\Data\Pass\Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\StandardPass\LightPass.cpp">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\StandardPass\OpaquePass.cpp">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\StandardPass\TransparentPass.cpp">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\CommonPass\AbstractPass.cpp">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\CommonPass\BasePass.cpp">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\CommonPass\BeginQueryPass.cpp">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\CommonPass\ClearRenderTargetPass.cpp">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\CommonPass\EndQueryPass.cpp">
+      <Filter>资源文件\Data\Pass\CommonPass</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderEffect\ClearEffect.cpp">
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Data\LightEffect.cpp">
+    <ClCompile Include="ShaderEffect\DefaultEffect.cpp">
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Data\VoxelEffect.cpp">
+    <ClCompile Include="ShaderEffect\LightEffect.cpp">
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Data\AbstractPass.cpp">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\BasePass.cpp">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\ClearRenderTargetPass.cpp">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\LightPass.cpp">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\OpaquePass.cpp">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\VoxelizationPass.cpp">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\FlagOctreePass.cpp">
-      <Filter>资源文件\Data\Pass</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualizationPass.cpp">
-      <Filter>资源文件\Data\Pass</Filter>
+    <ClCompile Include="ShaderEffect\VoxelEffect.cpp">
+      <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

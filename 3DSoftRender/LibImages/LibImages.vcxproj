@@ -18,6 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bloom.h" />
+    <ClInclude Include="CameraBlur.h" />
+    <ClInclude Include="Dof.h" />
+    <ClInclude Include="ImageProcess.h" />
+    <ClInclude Include="LensFlare.h" />
+    <ClInclude Include="LightShaft.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{033D34D7-91F8-4B05-9500-D86AE8656595}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

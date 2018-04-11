@@ -1,8 +1,9 @@
-#include "GraphicsLib.h"
-#include "Visual.h"
-#include "Buffer.h"
-#include "Culler.h"
-#include "VertexFormat.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\GraphicsLib.h"
+#include "Graphics\Visual.h"
+#include "Graphics\Buffer.h"
+#include "Graphics\Culler.h"
+#include "Graphics\VertexFormat.h"
 using namespace Hikari;
 IMPLEMENT_RTTI(Hikari, Object, Visual);
 IMPLEMENT_DEFAULT_NAMES(Object, Visual);

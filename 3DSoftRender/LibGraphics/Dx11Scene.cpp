@@ -1,12 +1,12 @@
-#include "GraphicsPCH.h"
-#include "Dx11Scene.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11Scene.h"
 
 using namespace Hikari;
-Hikari::SceneDX11::SceneDX11(DirectRenderer * render)
+Hikari::SceneDX11::SceneDX11(std::shared_ptr<DirectRenderer> render)
 {
 	m_Renderer = render;
-	m_pDevice = render->mData->mDevice;
-	m_pContext = render->mData->mImmediateContext;
+	m_pDevice = render->GetDevice();
+	m_pContext = render->GetDeviceContext();
 }
 
 Hikari::SceneDX11::~SceneDX11()
@@ -14,42 +14,42 @@ Hikari::SceneDX11::~SceneDX11()
 	
 }
 
-Buffer * Hikari::SceneDX11::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride) const
+std::shared_ptr<Buffer> Hikari::SceneDX11::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride) const
 {
 	return m_Renderer->CreateFloatVertexBuffer(data, count, stride);
 
 }
 
-Buffer * Hikari::SceneDX11::CreateUIntIndexBuffer(const unsigned int * data, unsigned int count) const
+std::shared_ptr<Buffer> Hikari::SceneDX11::CreateUIntIndexBuffer(const unsigned int * data, unsigned int count) const
 {
 	return m_Renderer->CreateUIntIndexBuffer(data, count);
 
 }
 
-Mesh * Hikari::SceneDX11::CreateMesh() const
+std::shared_ptr<Mesh> Hikari::SceneDX11::CreateMesh() const
 {
 	return m_Renderer->CreateMesh();
 }
 
-Material * Hikari::SceneDX11::CreateMaterial() const
+std::shared_ptr<Material> Hikari::SceneDX11::CreateMaterial() const
 {
 	return m_Renderer->CreateMaterial();
 
 }
 
-Texture * Hikari::SceneDX11::CreateTexture(const std::wstring & fileName) const
+std::shared_ptr<Texture> Hikari::SceneDX11::CreateTexture(const std::wstring & fileName) const
 {
 	return m_Renderer->CreateTexture(fileName);
 
 }
 
-Texture * Hikari::SceneDX11::CreateTexture2D(uint16_t width, uint16_t height)
+std::shared_ptr<Texture> Hikari::SceneDX11::CreateTexture2D(uint16_t width, uint16_t height)
 {
 	return m_Renderer->CreateTexture2D(width, height);
 
 }
 
-Texture * Hikari::SceneDX11::GetDefaultTexture()
+std::shared_ptr<Texture> Hikari::SceneDX11::GetDefaultTexture()
 {
 	return m_Renderer->GetDefaultTexture();
 

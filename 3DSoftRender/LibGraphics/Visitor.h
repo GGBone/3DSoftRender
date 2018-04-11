@@ -2,7 +2,7 @@
 namespace Hikari
 {
 
-#include "Object.h"
+#include "Core\Object.h"
 
 	class Scene;
 	class Node;

@@ -1,6 +1,6 @@
-#include "GraphicsPCH.h"
+#include "Graphics\GraphicsPCH.h"
 
-#include "Dx11RasterizerState.h"
+#include "Graphics\Dx11RasterizerState.h"
 
 using namespace Hikari;
 RasterizerStateDX11::RasterizerStateDX11(ID3D11Device* pDevice)
@@ -9,6 +9,7 @@ RasterizerStateDX11::RasterizerStateDX11(ID3D11Device* pDevice)
 	, m_BackFaceFillMode(FillMode::Solid)
 	, m_CullMode(CullMode::Back)
 	, m_FrontFace(FrontFace::CounterClockwise)
+	, m_PrimitiveMode(PrimitiveMode::TRIANGLE_LIST)
 	, m_DepthBias(0.0f)
 	, m_SlopeBias(0.0f)
 	, m_BiasClamp(0.0f)
@@ -102,12 +103,26 @@ void RasterizerStateDX11::SetFillMode(FillMode frontFace, FillMode backFace)
 {
 	m_FrontFaceFillMode = frontFace;
 	m_BackFaceFillMode = backFace;
+	m_StateDirty = true;
+
 }
 
 void RasterizerStateDX11::GetFillMode(FillMode& frontFace, FillMode& backFace) const
 {
 	frontFace = m_FrontFaceFillMode;
 	backFace = m_BackFaceFillMode;
+}
+
+void Hikari::RasterizerStateDX11::SetPirmitiveMode(PrimitiveMode mode)
+{
+	m_PrimitiveMode = mode;
+	m_StateDirty = true;
+
+}
+
+void Hikari::RasterizerStateDX11::GetPrimitiveMode(PrimitiveMode & primitiveMode) const
+{
+	primitiveMode = m_PrimitiveMode;
 }
 
 void RasterizerStateDX11::SetCullMode(CullMode cullMode)

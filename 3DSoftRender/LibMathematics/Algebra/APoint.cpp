@@ -1,5 +1,5 @@
 #include "MathematicsPCH.h"
-#include "AVector.h"
+#include "Math\Algebra\AVector.h"
 #include "APoint.h"
 using namespace Hikari;
 const APoint APoint::ORIGIN = APoint(0, 0, 0);

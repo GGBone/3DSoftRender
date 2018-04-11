@@ -1,11 +1,11 @@
 #pragma once
 
-#include <PipelineState.h>
+#include "Graphics\PipelineState.h"
 
-#include "Dx11BlendState.h"
-#include "Dx11RasterizerState.h"
-#include "Dx11DepthStencilState.h"
-#include "RenderTarget.h"
+#include "Graphics\Dx11BlendState.h"
+#include "Graphics\Dx11RasterizerState.h"
+#include "Graphics\Dx11DepthStencilState.h"
+#include "Graphics\RenderTarget.h"
 namespace Hikari
 {
 	class PipelineStateDX11 : public PipelineState
@@ -14,8 +14,8 @@ namespace Hikari
 		PipelineStateDX11(ID3D11Device* pDevice);
 		virtual ~PipelineStateDX11();
 
-		virtual void SetShader(Shader::ShaderType type, Shader* pShader) override;
-		virtual Shader* GetShader(Shader::ShaderType type) const override;
+		virtual void SetShader(Shader::ShaderType type, std::shared_ptr<Shader> pShader) override;
+		virtual std::shared_ptr<Shader> GetShader(Shader::ShaderType type) const override;
 		virtual const ShaderMap& GetShaders() const override;
 
 		virtual void SetBlendState(const BlendState& blendState) override;
@@ -27,8 +27,8 @@ namespace Hikari
 		virtual void SetDepthStencilState(const DepthStencilState& depthStencilState) override;
 		virtual DepthStencilState& GetDepthStencilState() override;
 
-		virtual void SetRenderTarget(RenderTarget* renderTarget) override;
-		virtual RenderTarget* GetRenderTarget() const override;
+		virtual void SetRenderTarget(std::shared_ptr<RenderTarget> renderTarget) override;
+		virtual std::shared_ptr<RenderTarget> GetRenderTarget() const override;
 
 		virtual void Bind() override;
 		virtual void UnBind() override;
@@ -43,6 +43,6 @@ namespace Hikari
 		BlendStateDX11 m_BlendState;
 		RasterizerStateDX11 m_RasterizerState;
 		DepthStencilStateDX11 m_DepthStencilState;
-		RenderTarget* m_RenderTarget;
+		std::shared_ptr<RenderTarget> m_RenderTarget;
 	};
 }

@@ -1,16 +1,16 @@
 #pragma once
-#include "Shader.h"
-#include "Buffer.h"
-#include "Dx11ShaderParameter.h"
-#include "Dx11Renderer.h"
-#include "BufferBinding.h"
+#include "Graphics\Shader.h"
+#include "Graphics\Buffer.h"
+#include "Graphics\Dx11ShaderParameter.h"
+#include "Graphics\Dx11Renderer.h"
+#include "Graphics\BufferBinding.h"
 namespace Hikari
 {
 	class DirectRenderer;
 	class ShaderDx : public Shader 
 	{
 	public:
-		ShaderDx(DirectRenderer* renderer);
+		ShaderDx(std::shared_ptr<DirectRenderer> renderer);
 		virtual ShaderType GetType()const override;
 
 		virtual void LoadShaderFromString(ShaderType type, const std::string& source, const std::string& sourceFileName,
@@ -30,15 +30,15 @@ namespace Hikari
 		virtual void Bind();
 		virtual void UnBind();
 
-		virtual void Dispatch(const Vector3f& numGroup);
+		virtual void Dispatch(const Vector3UI& numGroup);
 
 	protected:
 		virtual void Destroy();
 		
 	private:
 		ShaderType mShaderType;
-		ID3D11Device* mDevice;
-		ID3D11DeviceContext* mContext;
+		ID3D11Device2* mDevice;
+		ID3D11DeviceContext2* mContext;
 		ID3D11VertexShader* vShader;
 		ID3D11HullShader* hShader;
 		ID3D11DomainShader* dShader;
@@ -48,8 +48,8 @@ namespace Hikari
 
 		ID3DBlob* mShaderBlob;
 		ID3D11InputLayout* mInputlayout;
-		typedef std::map<std::string, ShaderParameterDx*> ParameterMap;
-		ParameterMap mShaderParameter;
+		typedef std::map<std::string, std::shared_ptr<ShaderParameterDx>> ParameterMap;
+		ParameterMap mShaderParameters;
 
 		typedef std::map<BufferBinding, UINT> SemanticMap;
 		SemanticMap mInputSemantics;
@@ -59,5 +59,10 @@ namespace Hikari
 		std::string mProfile;
 		std::string mShaderFile;
 		
+		Event::ScopedConnections m_Connections;
+		std::atomic<bool> m_bFileChanged;
+		typedef std::unique_lock<std::recursive_mutex> MutexLock;
+		std::recursive_mutex m_Mutex;
+
 	};
 }

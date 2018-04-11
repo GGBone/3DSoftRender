@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object.h"
+#include "Core\Object.h"
 namespace Hikari
 {
 	class Texture;
@@ -24,8 +24,8 @@ namespace Hikari
 			NumAttachmentPoints
 		};
 
-		virtual void AttachTexture(AttachmentPoint attachment, Texture* texture) = 0;
-		virtual Texture* GetTexture(AttachmentPoint attachment) = 0;
+		virtual void AttachTexture(AttachmentPoint attachment, std::shared_ptr<Texture> texture) = 0;
+		virtual std::shared_ptr<Texture> GetTexture(AttachmentPoint attachment) = 0;
 
 	
 		virtual void Clear(AttachmentPoint attachemnt, ClearFlags clearFlags = ClearFlags::All, const Float4& color = Float4(0,0,0,0), float depth = 1.0f, uint8_t stencil = 0) = 0;
@@ -37,11 +37,11 @@ namespace Hikari
 		virtual void GenerateMipMaps() = 0;
 
 	
-		virtual void AttachStructuredBuffer(uint8_t slot, StructuredBuffer* rwBuffer) = 0;
-		virtual StructuredBuffer* GetStructuredBuffer(uint8_t slot) = 0;
+		virtual void AttachStructuredBuffer(uint8_t slot, std::shared_ptr<StructuredBuffer> rwBuffer) = 0;
+		virtual std::shared_ptr<StructuredBuffer> GetStructuredBuffer(uint8_t slot) = 0;
 
-		virtual void AttachRWBuffer(uint8_t slot, RWBuffer* rwBuffer) = 0;
-		virtual RWBuffer* GetRWBuffer(uint8_t slot) = 0;
+		virtual void AttachRWBuffer(uint8_t slot, std::shared_ptr<RWBuffer> rwBuffer) = 0;
+		virtual std::shared_ptr<RWBuffer> GetRWBuffer(uint8_t slot) = 0;
 		virtual void Resize(uint16_t width, uint16_t height) = 0;
 
 		

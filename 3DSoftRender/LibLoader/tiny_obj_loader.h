@@ -1,7 +1,7 @@
 #pragma once
-#include "CoreLib.h"
 #include <cmath>
-#include "Vector3.h"
+#include "Core\CoreLib.h"
+#include "Math\Algebra\Vector3.h"
 namespace Hikari
 {
 	typedef struct

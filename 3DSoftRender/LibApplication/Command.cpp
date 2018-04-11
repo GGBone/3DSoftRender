@@ -1,6 +1,6 @@
-#include "LibApplicationPCH.h"
-#include "Command.h"
+#include "Application\LibApplicationPCH.h"
 
+#include "Application\Command.h"
 using namespace Hikari;
 
 char Command::msOptionNotFound[] = "option not found";

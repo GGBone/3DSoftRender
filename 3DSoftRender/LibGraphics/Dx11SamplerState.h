@@ -1,11 +1,11 @@
 #pragma once
-#include "Dx11RenderLIB.h"
-#include <SamplerState.h>
-#include <ShaderParameter.h>
-#include "Float4.h"
+#include "Graphics\Dx11RenderLIB.h"
+#include "Graphics\SamplerState.h"
+#include "Graphics\ShaderParameter.h"
+#include "Math\Base\Float4.h"
 namespace Hikari
 {
-
+	class Shader;
 	class SamplerStateDX11 : public SamplerState
 	{
 	public:

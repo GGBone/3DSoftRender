@@ -1,7 +1,8 @@
 #include "MathematicsPCH.h"
-#include "AVector.h"
-#include "Float3.h"
-#include "APoint.h"
+#include "Math\Algebra\AVector.h"
+#include "Math\Algebra\APoint.h"
+#include "Math\Base\Float3.h"
+#include "Math\Base\Float4.h"
 using namespace Hikari;
 const AVector AVector::ZERO = AVector(0, 0, 0);
 const AVector AVector::UP = AVector(0, 1, 0);
@@ -36,6 +37,16 @@ Hikari::AVector::AVector(const Float3 & tuple)
 	M[3] = 0;
 }
 
+Hikari::AVector::AVector(const Float4& tuple)
+{
+
+	M[0] = tuple[0];
+	M[1] = tuple[1];
+	M[2] = tuple[2];
+	M[3] = 0;
+}
+
+
 Hikari::AVector::AVector(const Vector3f & vec)
 {
 	M[0] = vec[0];
@@ -48,7 +59,7 @@ Hikari::AVector::~AVector()
 {
 }
 
-AVector& Hikari::AVector::operator=(const AVector & vec)
+AVector Hikari::AVector::operator=(const AVector & vec)
 {
 	// TODO: insert return statement here
 	M[0] = vec[0];
@@ -109,7 +120,7 @@ void Hikari::AVector::GenerateComplementBasis(AVector & vec0, AVector & vec1, co
 	}
 }
 
-AVector & Hikari::AVector::operator+=(const AVector & vec)
+AVector Hikari::AVector::operator+=(const AVector & vec)
 {
 
 	return AVector
@@ -120,9 +131,30 @@ AVector & Hikari::AVector::operator+=(const AVector & vec)
 	);
 }
 
+AVector Hikari::AVector::operator-=(const AVector & vec)
+{
+	return AVector();
+}
+
 AVector AVector::operator+(const APoint& vec)const
 {
 	return AVector(M[0] + vec.X(), M[1] + vec.Y(), M[2] + vec.Z());
+}
+AVector Hikari::AVector::operator+(const AVector & vec) const
+{
+	return AVector();
+}
+AVector Hikari::AVector::operator-(const AVector & vec) const
+{
+	return AVector();
+}
+AVector Hikari::AVector::operator*(float scalar) const
+{
+	return AVector(M[0]*scalar,M[1]*scalar,M[2]*scalar);
+}
+AVector Hikari::AVector::operator/(float scalar) const
+{
+	return AVector();
 }
 float Hikari::AVector::Dot(const AVector & vec) const
 {

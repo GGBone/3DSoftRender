@@ -1,7 +1,7 @@
 #pragma once
-#include "Object.h"
-#include "Float2.h"
-#include "Float4.h"
+#include "Core\Object.h"
+#include "Math\Base\Float2.h"
+#include "Math\Base\Float4.h"
 namespace Hikari
 {
 	class Light

@@ -1,8 +1,8 @@
 #pragma once
-#include"Object.h"
+#include "Core\Object.h"
 #include <string>
 #include <vector>
-#include "CoreLib.h"
+#include "Core\CoreLib.h"
 #define DECLARE_NAMES \
 public: \
 	virtual Object* GetObjectByName(const std::string& Name); \

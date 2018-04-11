@@ -49,9 +49,6 @@
     <ClInclude Include="GraphicsPCH.h">
       <Filter>_PrecompiledHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="Dx11RenderData.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
     <ClInclude Include="Visual.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
@@ -63,9 +60,6 @@
     </ClInclude>
     <ClInclude Include="Dx11Renderer.h">
       <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderData.h">
-      <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="VertexFormat.h">
       <Filter>Resource</Filter>
@@ -250,26 +244,32 @@
     <ClInclude Include="Dx11RWBuffer.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
+    <ClInclude Include="SoftRenderData.h">
+      <Filter>Renderer\SoftRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11RenderWindow.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderWindow.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressWindow.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsLib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsLib.h" />
     <ClCompile Include="GraphicsPCH.cpp">
       <Filter>_PrecompiledHeaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11RenderData.cpp">
-      <Filter>Renderer\DXRender</Filter>
     </ClCompile>
     <ClCompile Include="Dx11Renderer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
     <ClCompile Include="Visual.cpp">
       <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderData.cpp">
-      <Filter>Renderer</Filter>
     </ClCompile>
     <ClCompile Include="VertexFormat.cpp">
       <Filter>Resource</Filter>
@@ -382,10 +382,17 @@
     <ClCompile Include="Dx11RWBuffer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Node.inl">
+    <ClCompile Include="RenderWindow.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11RenderWindow.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressWindow.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
       <Filter>SceneGraph</Filter>
-    </None>
+    </ClCompile>
   </ItemGroup>
 </Project>

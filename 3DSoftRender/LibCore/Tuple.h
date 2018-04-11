@@ -1,5 +1,5 @@
 #pragma once
-#include "CoreLib.h"
+#include "Core\CoreLib.h"
 namespace Hikari
 {
 	template<int Dimension,typename Type>

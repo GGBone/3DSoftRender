@@ -1,18 +1,18 @@
-#include "GraphicsPCH.h"
+#include "Graphics\GraphicsPCH.h"
 
-#include <Shader.h>
-#include <ShaderParameter.h>
-#include <Texture.h>
-#include <ConstantBuffer.h>
+#include <Graphics\Shader.h>
+#include <Graphics\ShaderParameter.h>
+#include <Graphics\Texture.h>
+#include <Graphics\ConstantBuffer.h>
 
-#include <Material.h>
-#include "Dx11RenderLIB.h"
+#include <Graphics\Material.h>
+#include "Graphics\Dx11RenderLIB.h"
 using namespace Hikari;
 Material::Material(Renderer* renderDevice)
 	:m_Renderer(renderDevice),
 	m_Dirty(false)
 {
-	m_pProperties = (MaterialProperties*)_aligned_malloc(sizeof(MaterialProperties), 16);
+	m_pProperties = std::shared_ptr<MaterialProperties>((MaterialProperties*)_aligned_malloc(sizeof(MaterialProperties), 16));
 	// Construct default material properties.
 	*m_pProperties = MaterialProperties();
 
@@ -31,14 +31,13 @@ Material::~Material()
 
 	if (m_pProperties)
 	{
-		_aligned_free(m_pProperties);
 		m_pProperties = nullptr;
 	}
 }
 
-void Material::Bind(Shader* wpShader) const
+void Material::Bind(std::shared_ptr<Shader> wpShader) const
 {
-	Shader* pShader = wpShader;
+	Shader* pShader = wpShader.get();
 	if (!pShader) return;
 
 	if (m_Dirty)
@@ -50,7 +49,7 @@ void Material::Bind(Shader* wpShader) const
 	}
 	for (auto texture : m_Textures)
 	{
-		Texture* pTexture = texture.second;
+		std::shared_ptr<Texture>  pTexture = texture.second;
 		pTexture->Bind((uint32_t)texture.first, pShader->GetType(), ShaderParameter::Type::Texture);
 	}
 
@@ -171,7 +170,7 @@ void Material::SetBumpIntensity(float bumpIntensity)
 	m_pProperties->m_BumpIntensity = bumpIntensity;
 }
 
-Texture* Material::GetTexture(TextureType type) const
+std::shared_ptr<Texture> Material::GetTexture(TextureType type) const
 {
 	TextureMap::const_iterator itr = m_Textures.find(type);
 	if (itr != m_Textures.end())
@@ -182,7 +181,7 @@ Texture* Material::GetTexture(TextureType type) const
 	return nullptr;
 }
 
-void Material::SetTexture(TextureType type, Texture* texture)
+void Material::SetTexture(TextureType type, std::shared_ptr<Texture> texture)
 {
 	m_Textures[type] = texture;
 

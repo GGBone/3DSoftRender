@@ -1,7 +1,7 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Camera.h"
-#include "Spatial.h"
+#include "Graphics\GraphicsLib.h"
+#include "Graphics\Camera.h"
+#include "Graphics\Spatial.h"
 
 
 namespace Hikari

@@ -1,10 +1,10 @@
 #pragma once
-#include "GraphicsLib.h"
+#include "Graphics\GraphicsLib.h"
 #include "Visual.h"
-#include "Float2.h"
-#include "APoint.h"
+#include "Math\Base\Float2.h"
+#include "Math\Algebra\APoint.h"
 #include "VertexBufferAccessor.h"
-#include "Vector2.h"
+#include "Math\Algebra\Vector2.h"
 namespace Hikari
 {
 	class Triangles : public Visual

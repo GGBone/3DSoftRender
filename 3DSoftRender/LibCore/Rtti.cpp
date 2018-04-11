@@ -1,5 +1,5 @@
-#include "CorePCH.h"
-#include "Rtti.h"
+#include "Core\CorePCH.h"
+#include "Core\Rtti.h"
 using namespace Hikari;
 
 Rtti::Rtti(const char* _name, const Rtti* _baseType)

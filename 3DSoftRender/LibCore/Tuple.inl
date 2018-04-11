@@ -1,4 +1,4 @@
-#include "Tuple.h"
+#include "Core\Tuple.h"
 template<int Dimension, typename Type>
 Hikari::Tuple<Dimension, Type>::Tuple()
 {

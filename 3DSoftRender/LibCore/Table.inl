@@ -1,4 +1,4 @@
-#include "Table.h"
+#include "Core\Table.h"
 #pragma once
 template<int NUMROWS, int NUMCOLS, typename TYPE>
 inline Hikari::Table<NUMROWS, NUMCOLS, TYPE>::Table()

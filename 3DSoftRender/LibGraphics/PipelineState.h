@@ -1,6 +1,6 @@
 #pragma once
-#include "Object.h"
-#include "Shader.h"
+#include "Core\Object.h"
+#include "Graphics\Shader.h"
 
 namespace Hikari
 {
@@ -12,10 +12,10 @@ namespace Hikari
 	class PipelineState : Object
 	{
 	public:
-		typedef std::map<Shader::ShaderType, Shader* > ShaderMap;
+		typedef std::map<Shader::ShaderType, std::shared_ptr<Shader>> ShaderMap;
 
-		virtual void SetShader(Shader::ShaderType type, Shader* pShader) = 0;
-		virtual Shader* GetShader(Shader::ShaderType type) const = 0;
+		virtual void SetShader(Shader::ShaderType type, std::shared_ptr< Shader> pShader) = 0;
+		virtual std::shared_ptr<Shader> GetShader(Shader::ShaderType type) const = 0;
 		virtual const ShaderMap& GetShaders() const = 0;
 
 		virtual void SetBlendState(const BlendState& blendState) = 0;
@@ -27,8 +27,8 @@ namespace Hikari
 		virtual void SetDepthStencilState(const DepthStencilState& depthStencilState) = 0;
 		virtual DepthStencilState& GetDepthStencilState() = 0;
 
-		virtual void SetRenderTarget(RenderTarget* renderTarget) = 0;
-		virtual RenderTarget* GetRenderTarget() const = 0;
+		virtual void SetRenderTarget(std::shared_ptr<RenderTarget> renderTarget) = 0;
+		virtual std::shared_ptr<RenderTarget> GetRenderTarget() const = 0;
 
 		// Bind this pipeline state for rendering.
 		virtual void Bind() = 0;

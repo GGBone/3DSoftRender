@@ -1,4 +1,4 @@
-#include "GraphicsPCH.h"
+#include "Graphics\GraphicsPCH.h"
 #include "StandardMesh.h"
 using namespace Hikari;
 Hikari::StandardMesh::StandardMesh(VertexFormat * vformat, bool isStatic, bool inside, const Transform * transform)

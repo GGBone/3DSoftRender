@@ -1,7 +1,6 @@
 #pragma once
-#include "MathematicsLIB.h"
-#include "Tuple.h"
-#include "Test.h"
+#include "Math\MathematicsLIB.h"
+#include "Core\Tuple.h"
 namespace Hikari
 {
 	class Float3 : public Tuple<3, float>
@@ -14,13 +13,6 @@ namespace Hikari
 
 		inline Float3& operator=(const Float3& tuple);
 
-		inline Float3& operator=(const Test3& tuple)
-		{
-			mTuple[0] = tuple.X;
-			mTuple[1] = tuple.Y;
-			mTuple[2] = tuple.Z;
-			return *this;
-		}
 	};
 	inline Hikari::Float3::Float3()
 	{

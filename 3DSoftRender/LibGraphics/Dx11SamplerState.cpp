@@ -1,5 +1,5 @@
-#include "GraphicsPCH.h"
-#include "Dx11SamplerState.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11SamplerState.h"
 
 using namespace Hikari;
 SamplerStateDX11::SamplerStateDX11(ID3D11Device* pDevice)

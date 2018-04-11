@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="_PrecompiledHeaders">
+      <UniqueIdentifier>{a1d4667d-e594-408c-b7eb-16580b7bffac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tiny_obj_loader.h">
@@ -24,6 +27,23 @@
     <ClInclude Include="DependencyTracker.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Serialization.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadSafeQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadDirectoryChanges.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadDirectoryChangesPrivate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LoaderPCH.h">
+      <Filter>_PrecompiledHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader.h" />
+    <ClInclude Include="LoaderLib.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tiny_obj_loader.cpp">
@@ -31,6 +51,18 @@
     </ClCompile>
     <ClCompile Include="ConfigurationSetting.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DependencyTracker.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadDirectoryChanges.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadDirectoryChangesPrivate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LoaderPCH.cpp">
+      <Filter>_PrecompiledHeaders</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

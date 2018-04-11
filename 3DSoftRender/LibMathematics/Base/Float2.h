@@ -1,6 +1,6 @@
 #pragma once
-#include "MathematicsLIB.h"
-#include "Tuple.h"
+#include "Math\MathematicsLIB.h"
+#include "Core\Tuple.h"
 namespace Hikari
 {
 	class Float2 : public Tuple<2,float>

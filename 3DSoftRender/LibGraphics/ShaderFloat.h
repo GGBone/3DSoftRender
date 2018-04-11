@@ -1,7 +1,7 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Visual.h"
-#include "Camera.h"
+#include "Graphics\GraphicsLib.h"
+#include "Graphics\Visual.h"
+#include "Graphics\Camera.h"
 namespace Hikari
 {
 	class Visual;

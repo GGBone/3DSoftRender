@@ -1,8 +1,9 @@
 #pragma once
-#include "ShaderParameter.h"
-#include "ConstantBuffer.h"
-#include "Shader.h"
-#include "StructBuffer.h"
+#include "Graphics\ShaderParameter.h"
+#include "Graphics\ConstantBuffer.h"
+#include "Graphics\Shader.h"
+#include "Graphics\StructBuffer.h"
+#include "Graphics\RWBuffer.h"
 namespace Hikari
 {
 	class ShaderParameterDx : public ShaderParameter
@@ -16,18 +17,18 @@ namespace Hikari
 		virtual void UnBind() override;
 
 	protected:
-		virtual void SetConstantBuffer(ConstantBuffer* constantBuffer) override;
-		virtual void SetTexture(Texture* texture) override;
-		virtual void SetSampler(SamplerState* sampler) override;
-		virtual void SetStructuredBuffer(StructuredBuffer* rwBuffer) override;
-		virtual void SetRWBuffer(RWBuffer* rwBuffer) override;
+		virtual void SetConstantBuffer(std::shared_ptr<ConstantBuffer> constantBuffer) override;
+		virtual void SetTexture(std::shared_ptr<Texture> texture) override;
+		virtual void SetSampler(std::shared_ptr<SamplerState> sampler) override;
+		virtual void SetStructuredBuffer(std::shared_ptr<StructuredBuffer> rwBuffer) override;
+		virtual void SetRWBuffer(std::shared_ptr<RWBuffer> rwBuffer) override;
 	private:
 		std::string mName;
-		Texture* mTexture;
-		SamplerState* mSamplerState;
-		ConstantBuffer* mConstantBuffer;
-		StructuredBuffer* mStructuredBuffer;
-		RWBuffer* mRWBuffer;
+		std::shared_ptr<Texture> mTexture;
+		std::shared_ptr<SamplerState> mSamplerState;
+		std::shared_ptr<ConstantBuffer> mConstantBuffer;
+		std::shared_ptr<StructuredBuffer> mStructuredBuffer;
+		std::shared_ptr<RWBuffer> mRWBuffer;
 		UINT m_uiSlot;
 		Shader::ShaderType m_ShaderType;
 		Type m_ParameterType;

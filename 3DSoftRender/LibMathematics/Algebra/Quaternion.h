@@ -1,6 +1,6 @@
 #pragma once
 #include "MathematicsLib.h"
-#include "Vector3.h"
+#include "Math\Algebra\Vector3.h"
 
 namespace Hikari
 {

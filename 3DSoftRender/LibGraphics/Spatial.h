@@ -1,7 +1,7 @@
 #pragma once
-#include "GraphicsLIB.h"
-#include "Object.h"
-#include "Transform.h"
+#include "Graphics\GraphicsLIB.h"
+#include "Core\Object.h"
+#include "Graphics\Transform.h"
 
 namespace Hikari
 {

@@ -1,11 +1,11 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Object.h"
-#include "Spatial.h"
+#include "Graphics\GraphicsLib.h"
+#include "Core\Object.h"
+#include "Graphics\Spatial.h"
 namespace Hikari
 {
 	class VisualEffectInstance;
-	class BufferBinding;
+	struct BufferBinding;
 	class VertexFormat;
 	class Buffer;
 	class Visual : public Spatial

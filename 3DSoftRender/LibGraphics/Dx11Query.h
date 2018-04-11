@@ -1,6 +1,6 @@
 #pragma once
-#include <Dx11RenderLIB.h>
-#include <Query.h>
+#include "Graphics\Dx11RenderLIB.h"
+#include "Graphics\Query.h"
 namespace Hikari
 {
 
@@ -11,11 +11,11 @@ namespace Hikari
 		QueryDX11(ID3D11Device* pDevice, QueryType queryType, uint8_t numBuffers);
 		virtual ~QueryDX11();
 
-		virtual void Begin(int64_t frame = 0L);
-		virtual void End(int64_t frame = 0L);
-		virtual bool QueryResultAvailable(int64_t frame = 0L);
-		virtual QueryResult GetQueryResult(int64_t frame = 0L);
-		virtual uint8_t GetBufferCount() const;
+		virtual void Begin(int64_t frame = 0L) override;
+		virtual void End(int64_t frame = 0L) override;
+		virtual bool QueryResultAvailable(int64_t frame = 0L) override;
+		virtual QueryResult GetQueryResult(int64_t frame = 0L) override;
+		virtual uint8_t GetBufferCount() const override;
 
 	protected:
 

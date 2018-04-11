@@ -1,5 +1,5 @@
 #pragma once
-#include "GraphicsLib.h"
+#include "Graphics\GraphicsLib.h"
 #include "APoint.h"
 #include "VertexFormat.h"
 

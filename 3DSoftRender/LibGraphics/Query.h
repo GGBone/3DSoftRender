@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Object.h"
+#include "Core\Object.h"
 namespace Hikari
 {
 	class Query : public Object

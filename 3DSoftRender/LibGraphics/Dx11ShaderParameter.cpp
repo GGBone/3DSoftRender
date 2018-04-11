@@ -1,9 +1,9 @@
-#include "GraphicsPCH.h"
-#include "Dx11ShaderParameter.h"
-#include "Dx11ConstantBuffer.h"
-#include "Dx11StructureBuffer.h"
-#include "Dx11SamplerState.h"
-#include "RWBuffer.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11ShaderParameter.h"
+#include "Graphics\Dx11ConstantBuffer.h"
+#include "Graphics\Dx11StructureBuffer.h"
+#include "Graphics\Dx11SamplerState.h"
+#include "Graphics\RWBuffer.h"
 using namespace Hikari;
 
 Hikari::ShaderParameterDx::ShaderParameterDx()
@@ -76,27 +76,27 @@ void Hikari::ShaderParameterDx::UnBind()
 	mRWBuffer = nullptr;
 }
 
-void Hikari::ShaderParameterDx::SetConstantBuffer(ConstantBuffer * constantBuffer)
+void Hikari::ShaderParameterDx::SetConstantBuffer(std::shared_ptr<ConstantBuffer> constantBuffer)
 {
 	mConstantBuffer = constantBuffer;
 }
 
-void Hikari::ShaderParameterDx::SetTexture(Texture * texture)
+void Hikari::ShaderParameterDx::SetTexture(std::shared_ptr<Texture> texture)
 {
 	mTexture = texture;
 }
 
-void Hikari::ShaderParameterDx::SetSampler(SamplerState * sampler)
+void Hikari::ShaderParameterDx::SetSampler(std::shared_ptr<SamplerState> sampler)
 {
 	mSamplerState = sampler;
 }
 
-void Hikari::ShaderParameterDx::SetStructuredBuffer(StructuredBuffer * rwBuffer)
+void Hikari::ShaderParameterDx::SetStructuredBuffer(std::shared_ptr<StructuredBuffer> rwBuffer)
 {
 	mStructuredBuffer = rwBuffer;
 }
 
-void Hikari::ShaderParameterDx::SetRWBuffer(RWBuffer * rwBuffer)
+void Hikari::ShaderParameterDx::SetRWBuffer(std::shared_ptr<RWBuffer> rwBuffer)
 {
 	mRWBuffer = rwBuffer;
 }

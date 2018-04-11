@@ -1,8 +1,8 @@
 #pragma once
-#include "Rtti.h"
-#include "CoreLib.h"
-#include "Names.h"
-
+#include "Core\Rtti.h"
+#include "Core\CoreLib.h"
+#include "Core\Names.h"
+#include <boost\uuid\uuid.hpp>
 namespace Hikari
 {
 	class Object
@@ -17,6 +17,10 @@ namespace Hikari
 		static const Rtti TYPE;
 
 		//Names for Object
+		virtual bool operator==(const Object& rhs)
+		{
+			return m_UUID == rhs.m_UUID;
+		}
 	public:
 		void SetName(const std::string& _name);
 		const std::string& GetName()const;
@@ -26,8 +30,22 @@ namespace Hikari
 		std::string name;
 
 	protected:
-		Object() {};
+		Object():m_UUID(boost::uuids::random_generator()()) {};
 		virtual ~Object() {};
+		enum ConstructorType
+		{
+			NoUUID
+		};
+		Object(ConstructorType type);
+
+		boost::uuids::uuid GetUUID()const { return m_UUID; }
+
+	private:
+		Object(const Object& copy);
+		Object(Object&& copy);
+		Object& operator=(const Object& other);
+
+		boost::uuids::uuid m_UUID;
 	};
 #include "Object.inl"
 }

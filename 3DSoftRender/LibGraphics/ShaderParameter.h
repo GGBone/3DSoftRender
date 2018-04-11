@@ -1,7 +1,6 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Object.h"
-
+#include "Graphics\GraphicsLib.h"
+#include "Core\Object.h"
 namespace Hikari
 {
 	class Visual;
@@ -25,10 +24,10 @@ namespace Hikari
 		};
 
 		template <typename T>
-		void Set(T* value);
+		void Set(std::shared_ptr<T> value);
 
 		template <typename T>
-		T* GetType() const;
+		std::shared_ptr<T> GetType() const;
 
 		virtual Type GetType() const = 0;
 
@@ -39,31 +38,31 @@ namespace Hikari
 
 		friend class Buffer;
 	protected:
-		virtual void SetConstantBuffer(ConstantBuffer* constantBuffer) = 0;
-		virtual void SetTexture(Texture* texture) = 0;
-		virtual void SetSampler(SamplerState* sampler) = 0;
-		virtual void SetStructuredBuffer(StructuredBuffer* rwBuffer) = 0;
-		virtual void SetRWBuffer(RWBuffer* rwBuffer) = 0;
+		virtual void SetConstantBuffer(std::shared_ptr<ConstantBuffer> constantBuffer) = 0;
+		virtual void SetTexture(std::shared_ptr<Texture> texture) = 0;
+		virtual void SetSampler(std::shared_ptr<SamplerState> sampler) = 0;
+		virtual void SetStructuredBuffer(std::shared_ptr<StructuredBuffer> rwBuffer) = 0;
+		virtual void SetRWBuffer(std::shared_ptr<RWBuffer> rwBuffer) = 0;
 	};
 
 	template<>
-	void ShaderParameter::Set<ConstantBuffer>(ConstantBuffer* value);
+	void ShaderParameter::Set<ConstantBuffer>(std::shared_ptr<ConstantBuffer> value);
 
 	template<>
-	void ShaderParameter::Set<Texture>(Texture* value);
+	void ShaderParameter::Set<Texture>(std::shared_ptr<Texture> value);
 
 	template<>
-	void ShaderParameter::Set<SamplerState>(SamplerState* value);
+	void ShaderParameter::Set<SamplerState>(std::shared_ptr<SamplerState> value);
 
 	template<>
-	void ShaderParameter::Set<StructuredBuffer>(StructuredBuffer* value);
+	void ShaderParameter::Set<StructuredBuffer>(std::shared_ptr<StructuredBuffer> value);
 
 	template<>
-	void ShaderParameter::Set<RWBuffer>(RWBuffer* value);
+	void ShaderParameter::Set<RWBuffer>(std::shared_ptr<RWBuffer> value);
 
 	template<typename T>
-	void ShaderParameter::Set(T* value)
+	void ShaderParameter::Set(std::shared_ptr<T> value)
 	{
-		//BOOST_STATIC_ASSERT_MSG(false, "This function must be specialized.");
+		BOOST_STATIC_ASSERT_MSG(false, "This function must be specialized.");
 	}
 }

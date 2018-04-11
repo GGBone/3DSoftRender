@@ -1,7 +1,7 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Apoint.h"
-#include "AVector.h"
+#include "Graphics\GraphicsLib.h"
+#include "Math\Algebra\Apoint.h"
+#include "Math\Algebra\AVector.h"
 namespace Hikari
 {
 	class APoint;

@@ -1,7 +1,7 @@
 #pragma once
-#include "MathematicsLIB.h"
-#include "HMath.h"
-#include "Tuple.h"
+#include "Math\MathematicsLIB.h"
+#include "Math\Algebra\HMath.h"
+#include "Core\Tuple.h"
 namespace Hikari
 {
 	template <typename Real>
@@ -105,6 +105,8 @@ namespace Hikari
 #include "Vector3.inl"
 	typedef Vector3<float> Vector3f;
 	typedef Vector3<double> Vector3d;
+	typedef Vector3<int> Vector3I;
+	typedef Vector3<unsigned int> Vector3UI;
 
 	
 }

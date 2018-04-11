@@ -1,5 +1,5 @@
-#include "GraphicsPCH.h"
-#include "Dx11StructureBuffer.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11StructureBuffer.h"
 
 using namespace Hikari;
 Hikari::StructuredBufferDX11::StructuredBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const void * data, size_t count, UINT stride, CPUAccess cpuAccess,bool bSRV, bool bUAV,bool AppendFlag)
@@ -135,7 +135,17 @@ bool Hikari::StructuredBufferDX11::Bind(unsigned int ID, Shader::ShaderType shad
 			m_pDeviceContext->PSSetShaderResources(ID, 1, srv);
 			break;
 		case Shader::ComputeShader:
+		{
+			ID3D11UnorderedAccessView* p[8];
+			ID3D11ShaderResourceView* b[8];
+			ID3D11RenderTargetView* c[8];
+			m_pDeviceContext->CSGetUnorderedAccessViews(0, 8, p);
+			m_pDeviceContext->CSGetShaderResources(0, 8, b);
+			//m_pDeviceContext->CSSetShaderResources(ID, 1, nullptr);
+			m_pDeviceContext->OMGetRenderTargetsAndUnorderedAccessViews(0, nullptr, nullptr, 0, 8, p);
 			m_pDeviceContext->CSSetShaderResources(ID, 1, srv);
+			
+		}
 			break;
 		}
 	}
@@ -202,9 +212,9 @@ unsigned int Hikari::StructuredBufferDX11::GetElementCount() const
 	return m_uiCount;
 }
 
-void Hikari::StructuredBufferDX11::Copy(StructuredBuffer * other)
+void Hikari::StructuredBufferDX11::Copy(std::shared_ptr<StructuredBuffer> other)
 {
-	StructuredBufferDX11* srcBuffer = (StructuredBufferDX11*) other;
+	std::shared_ptr<StructuredBufferDX11> srcBuffer = std::dynamic_pointer_cast<StructuredBufferDX11>( other);
 	if (srcBuffer->m_bIsDirty)
 	{
 		srcBuffer->Commit();
@@ -239,9 +249,9 @@ ID3D11UnorderedAccessView * Hikari::StructuredBufferDX11::GetUnorderedAccessView
 	return m_pUAV;
 }
 
-void Hikari::StructuredBufferDX11::Copy(Buffer * other)
+void Hikari::StructuredBufferDX11::Copy(std::shared_ptr<Buffer> other)
 {
-	Copy((StructuredBuffer*)(other));
+	Copy( std::dynamic_pointer_cast<StructuredBuffer>(other));
 }
 
 void Hikari::StructuredBufferDX11::SetData(void * data, size_t elementSize, size_t offset, size_t numElements)

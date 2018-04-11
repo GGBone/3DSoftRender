@@ -1,3 +1,2 @@
 ﻿#pragma once
-
-#include "MathematicsLIB.h"
+#include "Math\MathematicsLIB.h"

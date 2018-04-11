@@ -1,6 +1,6 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "ShaderFloat.h"
+#include "Graphics\GraphicsLib.h"
+#include "Graphics\ShaderFloat.h"
 namespace Hikari
 {
 	class PMatrixParam :public ShaderFloat

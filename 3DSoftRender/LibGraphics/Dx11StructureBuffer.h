@@ -1,6 +1,6 @@
-#include "Dx11RenderLIB.h"
-#include "StructuredBuffer.h"
-#include "CPUAccess.h"
+#include "Graphics\Dx11RenderLIB.h"
+#include "Graphics\StructuredBuffer.h"
+#include "Graphics\CPUAccess.h"
 namespace Hikari
 {
 	class StructuredBufferDX11 : public StructuredBuffer
@@ -22,7 +22,7 @@ namespace Hikari
 		// How many elements does this buffer contain?
 		virtual unsigned int GetElementCount() const;
 
-		virtual void Copy(StructuredBuffer* other);
+		virtual void Copy(std::shared_ptr<StructuredBuffer> other);
 
 		// Clear the contents of the buffer.
 		virtual void Clear();
@@ -33,7 +33,7 @@ namespace Hikari
 
 		
 	protected:
-		virtual void Copy(Buffer* other);
+		virtual void Copy(std::shared_ptr<Buffer> other);
 		virtual void SetData(void* data, size_t elementSize, size_t offset, size_t numElements);
 		// Commit the data from system memory to device memory.
 		void Commit();

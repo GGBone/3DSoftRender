@@ -1,14 +1,14 @@
 #pragma once
-#include "Dx11RenderLIB.h"
-
-#include <Texture.h>
-#include <CPUAccess.h>
-#include "Float4.h"
+#include "Graphics\Dx11RenderLIB.h"
+#include "Loader\DependencyTracker.h"
+#include "Graphics\Texture.h"
+#include "Graphics\CPUAccess.h"
+#include "Math\Base\Float4.h"
 
 namespace Hikari
 {
 
-	class TextureDX11 : public Texture
+	class TextureDX11 : public Texture,public std::enable_shared_from_this<TextureDX11>
 	{
 	public:
 		typedef Texture base;
@@ -45,7 +45,7 @@ namespace Hikari
 
 		virtual void GenerateMipmaps() override;
 
-		virtual Texture* GetFace(CubeFace face) const override;
+		virtual std::shared_ptr<Texture> GetFace(CubeFace face) const override;
 
 		/**
 		* 3D textures store several slices of 2D textures.
@@ -54,7 +54,7 @@ namespace Hikari
 		* For 1D and 2D textures, this function will always return the texture
 		* itself.
 		*/
-		virtual Texture* GetSlice(unsigned int slice) const;
+		virtual std::shared_ptr<Texture> GetSlice(unsigned int slice) const;
 
 		// Get the width of the textures in texels.
 		virtual uint16_t GetWidth() const;
@@ -208,6 +208,12 @@ namespace Hikari
 
 		std::wstring m_TextureFileName;
 	
+		DependencyTracker m_DependencyTracker;
+		Event::ScopedConnections m_Connections;
+
+		typedef std::unique_lock<std::recursive_mutex> MutexLock;
+		std::recursive_mutex m_Mutex;
+		std::atomic<bool> m_bFileChanged;
 		bool m_bIsDirty;
 	};
 }

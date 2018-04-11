@@ -1,5 +1,5 @@
 #pragma once
-#include "Object.h"
+#include "Core\Object.h"
 
 namespace Hikari
 {
@@ -62,9 +62,19 @@ namespace Hikari
 			CounterClockwise
 		};
 
+		enum class PrimitiveMode
+		{
+			TRIANGLE_LIST,
+			TRIANGLE_STRIP,
 
+			LINE_LIST,
+			LINE_STRIP
+		};
 		virtual void SetFillMode(FillMode frontFace = FillMode::Solid, FillMode backFace = FillMode::Solid) = 0;
 		virtual void GetFillMode(FillMode& frontFace, FillMode& backFace) const = 0;
+
+		virtual void SetPirmitiveMode(PrimitiveMode mode = PrimitiveMode::TRIANGLE_LIST) = 0;
+		virtual void GetPrimitiveMode(PrimitiveMode& primitiveMode) const = 0;
 
 		virtual void SetCullMode(CullMode cullMode = CullMode::Back) = 0;
 		virtual CullMode GetCullMode() const = 0;

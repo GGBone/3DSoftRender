@@ -1,6 +1,6 @@
 #pragma once
 
-#include <RenderTarget.h>
+#include "Graphics\RenderTarget.h"
 
 namespace Hikari
 {
@@ -14,15 +14,15 @@ namespace Hikari
 		RenderTargetDX11(ID3D11Device* pDevice);
 		virtual ~RenderTargetDX11();
 
-		virtual void AttachTexture(AttachmentPoint attachment,Texture* texture);
-		virtual Texture* GetTexture(AttachmentPoint attachment);
+		virtual void AttachTexture(AttachmentPoint attachment,std::shared_ptr<Texture> texture);
+		virtual std::shared_ptr<Texture> GetTexture(AttachmentPoint attachment);
 		virtual void Clear(AttachmentPoint attachemnt, ClearFlags clearFlags = ClearFlags::All, const Float4& color = Float4(0, 0, 0, 0), float depth = 1.0f, uint8_t stencil = 0);
 		virtual void Clear(ClearFlags clearFlags = ClearFlags::All, const Float4& color = Float4(0,0,0,0), float depth = 1.0f, uint8_t stencil = 0);
 		virtual void GenerateMipMaps();
-		virtual void AttachStructuredBuffer(uint8_t slot, StructuredBuffer* rwBuffer);
-		virtual StructuredBuffer* GetStructuredBuffer(uint8_t slot);
-		virtual void AttachRWBuffer(uint8_t slot, RWBuffer* rwBuffer) override;
-		virtual RWBuffer* GetRWBuffer(uint8_t) override;
+		virtual void AttachStructuredBuffer(uint8_t slot,std::shared_ptr<StructuredBuffer> rwBuffer);
+		virtual std::shared_ptr<StructuredBuffer> GetStructuredBuffer(uint8_t slot);
+		virtual void AttachRWBuffer(uint8_t slot, std::shared_ptr<RWBuffer>  rwBuffer) override;
+		virtual std::shared_ptr<RWBuffer> GetRWBuffer(uint8_t) override;
 		virtual void Resize(uint16_t width, uint16_t height);
 		virtual void Bind();
 		virtual void UnBind();
@@ -35,13 +35,13 @@ namespace Hikari
 		ID3D11Device* m_pDevice;
 		ID3D11DeviceContext* m_pDeviceContext;
 
-		typedef std::vector< TextureDX11*> TextureList;
+		typedef std::vector< std::shared_ptr<TextureDX11>> TextureList;
 		TextureList m_Textures;
 
-		typedef std::vector<StructuredBufferDX11*> StructuredBufferList;
+		typedef std::vector<std::shared_ptr<StructuredBufferDX11>> StructuredBufferList;
 		StructuredBufferList m_StructuredBuffers;
 
-		typedef std::vector<RWBufferDX11*> RWBufferList;
+		typedef std::vector<std::shared_ptr<RWBufferDX11>> RWBufferList;
 		RWBufferList m_RWBuffers;
 		// The width in pixels of textures associated to this render target.
 		uint16_t m_Width;

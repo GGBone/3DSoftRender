@@ -1,4 +1,4 @@
-#include "GraphicsPCH.h"
+#include "Graphics\GraphicsPCH.h"
 #include "Triangle.h"
 using namespace Hikari;
 IMPLEMENT_DEFAULT_NAMES(Visual, Triangles);

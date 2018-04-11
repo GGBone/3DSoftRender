@@ -1,6 +1,22 @@
 #ifndef CORELIB_H
 #define CORELIB_H
 
+#pragma warning(disable : 4996)
+
+#pragma warning(disable : 4251)
+
+#ifdef _DEBUG
+#define HKR_USE_ASSERT
+#define HKR_USE_ASSERT_WRITE_TO_OUTPUT_WINDOW
+#define HKR_USE_ASSERT_WRITE_TO_MESSAGE_BOX
+
+#endif
+
+#ifdef _DEBUG
+#define WM5_FILEIO_VALIDATE_OPERATION
+#define WM5_BUFFERIO_VALIDATE_OPERATION
+#endif
+
 #include <climits>
 #include <stdint.h>
 
@@ -19,7 +35,7 @@
 #include <iostream>
 #include <fstream>
 
-
+#include <atomic>
 // Common STL headers.
 #include <algorithm>
 #include <deque>
@@ -35,23 +51,32 @@
 #include <vector>
 
 #include <Windows.h>
+
+#include <process.h>
+#include <Shlwapi.h>
+#pragma comment(lib, "Shlwapi.lib")
+#include <comdef.h>
+#include <CommCtrl.h> // For windows controls (progress bar)
+#include <mmsystem.h> // For joystick controls
+#pragma comment(lib,"winmm.lib")
+
 #define UNUSED(variable) (void)variable
-//
-//#include <boost/uuid/uuid.hpp>
-//#include <boost/uuid/uuid_generators.hpp>
-//
-//#include <boost/foreach.hpp>
-//#define foreach BOOST_FOREACH
-//#include <boost/math/special_functions/round.hpp>
-//
+
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
+
+#include <boost/foreach.hpp>
+#define foreach BOOST_FOREACH
+#include <boost/math/special_functions/round.hpp>
+
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 namespace fs = boost::filesystem;
-//
-//#include <boost/bind.hpp>
-//#include <boost/function.hpp>
-//#include <boost/signals2.hpp>
-//#include <boost/any.hpp>
+
+#include <boost/bind.hpp>
+#include <boost/function.hpp>
+#include <boost/signals2.hpp>
+#include <boost/any.hpp>
 
 #include <boost/archive/xml_iarchive.hpp>
 #include <boost/archive/xml_oarchive.hpp>

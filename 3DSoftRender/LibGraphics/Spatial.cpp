@@ -1,5 +1,5 @@
-#include "GraphicsPCH.h"
-#include "Spatial.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Spatial.h"
 using namespace Hikari;
 Hikari::Spatial::Spatial()
 {

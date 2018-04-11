@@ -1,5 +1,5 @@
 #pragma once
-#include "GraphicsLib.h"
+#include "Graphics\GraphicsLib.h"
 #include "Buffer.h"
 namespace Hikari
 {
@@ -14,8 +14,9 @@ namespace Hikari
 
 		virtual unsigned int GetElementCount() const = 0;
 
-		virtual void Copy(RWBuffer* other) = 0;
+		virtual void Copy(std::shared_ptr<RWBuffer> other) = 0;
 
+		virtual void CopyBufferData() = 0;
 		virtual void Clear() = 0;
 		template<typename T>
 		void Set(const std::vector<T>& value);

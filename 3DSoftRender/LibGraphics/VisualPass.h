@@ -1,7 +1,7 @@
 #pragma once
-#include "Object.h"
-#include "Dx11RenderLIB.h"
-#include "Visitor.h"
+#include "Core\Object.h"
+#include "Graphics\Dx11RenderLIB.h"
+#include "Graphics\Visitor.h"
 namespace Hikari
 {
 	class RenderEventArgs;

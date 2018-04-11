@@ -1,8 +1,8 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Object.h"
-#include "Float4.h"
-#include "Float2.h"
+#include "Graphics\GraphicsLib.h"
+#include "Core\Object.h"
+#include "Math\Base\Float4.h"
+#include "Math\Base\Float2.h"
 namespace Hikari
 {
 	class Float4;
@@ -30,7 +30,7 @@ namespace Hikari
 		Material(Renderer* Renderer);
 		virtual ~Material();
 
-		virtual void Bind(Shader* pShader) const;
+		virtual void Bind(std::shared_ptr<Shader> pShader) const;
 
 		const Float4& GetDiffuseColor() const;
 		void SetDiffuseColor(const Float4& diffuse);
@@ -65,8 +65,8 @@ namespace Hikari
 		float GetBumpIntensity() const;
 		void SetBumpIntensity(float bumpIntensity);
 
-		Texture* GetTexture(TextureType ID) const;
-		void SetTexture(TextureType type, Texture* texture);
+		std::shared_ptr<Texture> GetTexture(TextureType ID) const;
+		void SetTexture(TextureType type, std::shared_ptr<Texture> texture);
 
 		// This material defines a transparent material 
 		// if the opacity value is < 1, or there is an opacity map, or the diffuse texture has an alpha channel.
@@ -141,18 +141,18 @@ namespace Hikari
 			// Material properties have to be 16 byte aligned.
 			// To guarantee alignment, we'll use _aligned_malloc to allocate memory
 			// for the material properties.
-		MaterialProperties* m_pProperties;
+		std::shared_ptr<MaterialProperties> m_pProperties;
 
-		Renderer* m_Renderer;
+		std::shared_ptr<Renderer> m_Renderer;
 
 		// Constant buffer that stores material properties.
 		// This material owns this constant buffer and will delete it 
 		// when the material is destroyed.
-		ConstantBuffer* m_pConstantBuffer;
+		std::shared_ptr<ConstantBuffer> m_pConstantBuffer;
 
 		// Textures are stored by which texture unit (or texture register)
 		// they are bound to.
-		typedef std::map<TextureType, Texture*> TextureMap;
+		typedef std::map<TextureType, std::shared_ptr<Texture>> TextureMap;
 		TextureMap m_Textures;
 
 		// Set to true if the contents of the constant buffer needs to be updated.

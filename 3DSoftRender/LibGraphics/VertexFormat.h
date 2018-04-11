@@ -1,6 +1,6 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Object.h"
+#include "Graphics\GraphicsLib.h"
+#include "Core\Object.h"
 #include "SoftRendererLIB.h"
 
 namespace Hikari

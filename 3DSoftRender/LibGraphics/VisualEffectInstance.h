@@ -1,22 +1,22 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "VisualEffect.h"
-#include "ShaderParameter.h"
+#include "Graphics\GraphicsLib.h"
+#include "Graphics\VisualEffect.h"
+#include "Graphics\ShaderParameter.h"
 namespace Hikari
 {
 	class ShaderParameter;
 	class ShaderFloat;
-	class VisualEffectInstance
+	class VisualEffectInstance 
 	{
 	public:
-		VisualEffectInstance(const VisualEffect* effect, int techniqueIndex);
+		VisualEffectInstance(std::shared_ptr<VisualEffect>  effect, int techniqueIndex);
 		~VisualEffectInstance();
-		const VisualEffect* GetEffect() const;
-
+		const std::shared_ptr<VisualEffect> GetEffect() const;
+		void Render(RenderEventArgs& e);
 	private:
-		VisualEffect* mEffect;
+		std::shared_ptr<VisualEffect> mEffect;
 		int mTechniqueIndex;
 	
 	};
-	typedef VisualEffectInstance* VisualEffectInstancePtr;
+	typedef std::shared_ptr<VisualEffectInstance> VisualEffectInstancePtr;
 }

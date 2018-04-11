@@ -1,7 +1,7 @@
 #pragma once
-#include "Dx11RenderLIB.h"
-#include "RWBuffer.h"
-#include "CPUAccess.h"
+#include "Graphics\Dx11RenderLIB.h"
+#include "Graphics\RWBuffer.h"
+#include "Graphics\CPUAccess.h"
 namespace Hikari
 {
 	class RWBufferDX11 : public RWBuffer
@@ -9,7 +9,7 @@ namespace Hikari
 	public:
 		typedef RWBuffer base;
 
-		RWBufferDX11(ID3D11Device* pDevice, UINT bindFlags, const void* data, size_t count, UINT stride);
+		RWBufferDX11(ID3D11Device* pDevice, UINT bindFlags, const void* data, UINT count, UINT stride);
 		virtual ~RWBufferDX11();
 
 		// Bind the buffer for rendering.
@@ -20,14 +20,14 @@ namespace Hikari
 		// How many elements does this buffer contain?
 		virtual unsigned int GetElementCount() const;
 
-		virtual void Copy(RWBuffer* other) override;
-
+		virtual void Copy(std::shared_ptr<RWBuffer> other) override;
+		virtual void CopyBufferData() override;
 		virtual void Clear() override;
 		// Used by the RenderTargetDX11 only.
 		ID3D11UnorderedAccessView* GetUnorderedAccessView() const;
 		virtual void* GetData() const override;
 	protected:
-		virtual void Copy(Buffer* other);
+		virtual void Copy(std::shared_ptr<Buffer> other);
 		virtual void SetData(void* data, size_t elementSize, size_t offset, size_t numElements);
 		// Commit the data from system memory to device memory.
 		void Commit();
@@ -36,6 +36,8 @@ namespace Hikari
 		ID3D11Device* m_pDevice;
 		ID3D11DeviceContext* m_pDeviceContext;
 		ID3D11Buffer* m_pBuffer;
+
+		//Copy from a buffer<GPU write> to another buffer<CPU read> 
 		ID3D11Buffer* m_pStage;
 		ID3D11ShaderResourceView* m_pSRV;
 		ID3D11UnorderedAccessView* m_pUAV;

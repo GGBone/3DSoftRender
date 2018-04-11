@@ -1,6 +1,7 @@
-#include "Dx11RWBuffer.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11RWBuffer.h"
 using namespace Hikari;
-Hikari::RWBufferDX11::RWBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const void * data, size_t count, UINT stride)
+Hikari::RWBufferDX11::RWBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const void * data, UINT count, UINT stride)
 	:m_pDevice(pDevice),
 	m_uiStride(stride),
 	m_uiCount(count),
@@ -40,6 +41,7 @@ Hikari::RWBufferDX11::RWBufferDX11(ID3D11Device * pDevice, UINT bindFlags, const
 	uavd.Buffer.Flags = 0;
 	hr = m_pDevice->CreateUnorderedAccessView(m_pBuffer, &uavd, &m_pUAV);
 	
+	//set CPUAccess for copying data from m_pBuffer
 	bd.Usage = D3D11_USAGE_STAGING;
 	bd.BindFlags = 0;
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
@@ -146,7 +148,14 @@ unsigned int Hikari::RWBufferDX11::GetElementCount() const
 	return m_uiCount;
 }
 
-void Hikari::RWBufferDX11::Copy(RWBuffer * other)
+void Hikari::RWBufferDX11::Copy(std::shared_ptr<RWBuffer> other)
+{
+	if (!other)
+	{
+		assert("error: other is null");
+	}
+}
+void Hikari::RWBufferDX11::CopyBufferData()
 {
 	m_pDeviceContext->CopyResource(m_pStage, m_pBuffer);
 	D3D11_MAPPED_SUBRESOURCE ms;
@@ -175,9 +184,9 @@ void * Hikari::RWBufferDX11::GetData() const
 	return m_data;
 }
 
-void Hikari::RWBufferDX11::Copy(Buffer * other)
+void Hikari::RWBufferDX11::Copy(std::shared_ptr<Buffer> other)
 {
-	Copy((RWBufferDX11*)(other));
+	Copy(std::dynamic_pointer_cast<RWBuffer>(other));
 }
 
 void Hikari::RWBufferDX11::SetData(void * data, size_t elementSize, size_t offset, size_t numElements)

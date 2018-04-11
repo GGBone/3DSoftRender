@@ -1,11 +1,11 @@
-#include "GraphicsPCH.h"
-#include "Dx11Shader.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11Shader.h"
 using namespace Hikari;
 static ShaderParameterDx g_InvalidShaderParameter;
 
 
 DXGI_FORMAT GetDXGIFormat(const D3D11_SIGNATURE_PARAMETER_DESC& paramDesc);
-Hikari::ShaderDx::ShaderDx(DirectRenderer * renderer)
+Hikari::ShaderDx::ShaderDx(std::shared_ptr<DirectRenderer> renderer)
 	:mShaderType(UnKnownShaderType),
 	mDevice(nullptr),
 	mContext(nullptr),
@@ -16,11 +16,12 @@ Hikari::ShaderDx::ShaderDx(DirectRenderer * renderer)
 	gShader(nullptr),
 	cShader(nullptr),
 	mShaderBlob(nullptr),
-	mInputlayout(nullptr)
+	mInputlayout(nullptr),
+	m_bFileChanged(false)
 {
-	mDevice = renderer->mData->mDevice;
-	mDevice->GetImmediateContext(&mContext);
-
+	mDevice = renderer->GetDevice();
+	mDevice->GetImmediateContext2(&mContext);
+	
 }
 
 Shader::ShaderType Hikari::ShaderDx::GetType() const
@@ -76,7 +77,7 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 		mShaderBlob = pShaderBlob;
 	}
 
-	ParameterMap ShaderParameter = mShaderParameter;
+	ParameterMap ShaderParameter = mShaderParameters;
 	Destroy();
 	mShaderType = type;
 	switch (mShaderType)
@@ -114,7 +115,7 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 	UINT numInputParameters = shaderDescription.InputParameters;
 	std::vector<D3D11_INPUT_ELEMENT_DESC> inputElements;
 
-	for (int i = 0; i < numInputParameters; ++i)
+	for (UINT i = 0; i < numInputParameters; ++i)
 	{
 		D3D11_INPUT_ELEMENT_DESC inputElement;
 		D3D11_SIGNATURE_PARAMETER_DESC parameterSignature;
@@ -149,7 +150,7 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 
 	}
 
-	for (size_t i = 0; i < shaderDescription.BoundResources; i++)
+	for (UINT i = 0; i < shaderDescription.BoundResources; i++)
 	{
 		D3D11_SHADER_INPUT_BIND_DESC bindDesc;
 		pReflector->GetResourceBindingDesc(i, &bindDesc);
@@ -177,13 +178,13 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 			parameterType = ShaderParameter::Type::RWTexture;
 			break;
 		}
-		ShaderParameterDx* shaderParameter = new ShaderParameterDx(resourceName, bindDesc.BindPoint, type, parameterType);
-		mShaderParameter.insert(ParameterMap::value_type(resourceName, shaderParameter));
+		std::shared_ptr<ShaderParameterDx> shaderParameter = std::make_shared<ShaderParameterDx>(resourceName, bindDesc.BindPoint, type, parameterType);
+		mShaderParameters.insert(ParameterMap::value_type(resourceName, shaderParameter));
 	}
 	for (auto shaderParameter : ShaderParameter)
 	{
-		ParameterMap::iterator iter = mShaderParameter.find(shaderParameter.first);
-		if (iter != mShaderParameter.end())
+		ParameterMap::iterator iter = mShaderParameters.find(shaderParameter.first);
+		if (iter != mShaderParameters.end())
 		{
 			iter->second = shaderParameter.second;
 		}
@@ -192,7 +193,6 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 
 bool Hikari::ShaderDx::LoadShaderFromFile(ShaderType shaderType, const std::string & fileName, const ShaderMacros & shaderMacros, const std::string & entryPoint, const std::string & profile)
 {
-	HRESULT hr;
 	std::ifstream inputFile(fileName);
 	std::string source((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
 
@@ -203,8 +203,8 @@ bool Hikari::ShaderDx::LoadShaderFromFile(ShaderType shaderType, const std::stri
 ShaderParameter& Hikari::ShaderDx::GetShaderParameterByName(const std::string & name) const
 {
 
-	ParameterMap::const_iterator iter = mShaderParameter.find(name);
-	if (iter != mShaderParameter.end())
+	ParameterMap::const_iterator iter = mShaderParameters.find(name);
+	if (iter != mShaderParameters.end())
 	{
 		return *(iter->second);
 	}
@@ -344,7 +344,7 @@ UINT Hikari::ShaderDx::GeetSlotIDBySemantic(const BufferBinding & binding)
 void Hikari::ShaderDx::Bind()
 {
 
-	for (ParameterMap::value_type value : mShaderParameter)
+	for (ParameterMap::value_type value : mShaderParameters)
 	{
 		value.second->Bind();
 	}
@@ -378,7 +378,7 @@ void Hikari::ShaderDx::Bind()
 
 void Hikari::ShaderDx::UnBind()
 {
-	for (ParameterMap::value_type value : mShaderParameter)
+	for (ParameterMap::value_type value : mShaderParameters)
 	{
 		value.second->UnBind();
 	}
@@ -410,7 +410,7 @@ void Hikari::ShaderDx::UnBind()
 	}
 }
 
-void Hikari::ShaderDx::Dispatch(const Vector3f & numGroup)
+void Hikari::ShaderDx::Dispatch(const Vector3UI & numGroup)
 {
 	if (mContext && cShader)
 	{

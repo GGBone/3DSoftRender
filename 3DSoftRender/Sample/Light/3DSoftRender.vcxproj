@@ -44,86 +44,96 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControlPoint.h" />
-    <ClInclude Include="Data\AbstractPass.h" />
-    <ClInclude Include="Data\BasePass.h" />
-    <ClInclude Include="Data\ClearRenderTargetPass.h" />
-    <ClInclude Include="Data\DefaultEffect.h" />
-    <ClInclude Include="Data\LightEffect.h" />
-    <ClInclude Include="Data\LightPass.h" />
-    <ClInclude Include="Data\OpaquePass.h" />
-    <ClInclude Include="Data\FlagOctreePass.h" />
-    <ClInclude Include="Data\VoxelEffect.h" />
-    <ClInclude Include="Data\VoxelizationPass.h" />
+    <ClInclude Include="Data\CommonPass\AbstractPass.h" />
+    <ClInclude Include="Data\CommonPass\BasePass.h" />
+    <ClInclude Include="Data\CommonPass\BeginQueryPass.h" />
+    <ClInclude Include="Data\CommonPass\ClearRenderTargetPass.h" />
+    <ClInclude Include="Data\CommonPass\EndQueryPass.h" />
+    <ClInclude Include="Data\StandardPass\LightPass.h" />
+    <ClInclude Include="Data\StandardPass\OpaquePass.h" />
+    <ClInclude Include="Data\StandardPass\TransparentPass.h" />
+    <ClInclude Include="Data\VoxelPass\FlagOctreePass.h" />
+    <ClInclude Include="Data\VoxelPass\VisualizationPass.h" />
+    <ClInclude Include="Data\VoxelPass\VoxelDefine.h" />
+    <ClInclude Include="Data\VoxelPass\VoxelizationPass.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Sample.h" />
-    <ClInclude Include="VisualizationPass.h" />
+    <ClInclude Include="ShaderEffect\ClearEffect.h" />
+    <ClInclude Include="ShaderEffect\DefaultEffect.h" />
+    <ClInclude Include="ShaderEffect\LightEffect.h" />
+    <ClInclude Include="ShaderEffect\VoxelEffect.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Data\AbstractPass.cpp" />
-    <ClCompile Include="Data\BasePass.cpp" />
-    <ClCompile Include="Data\ClearRenderTargetPass.cpp" />
-    <ClCompile Include="Data\DefaultEffect.cpp" />
-    <ClCompile Include="Data\LightEffect.cpp" />
-    <ClCompile Include="Data\LightPass.cpp" />
-    <ClCompile Include="Data\OpaquePass.cpp" />
-    <ClCompile Include="Data\FlagOctreePass.cpp" />
-    <ClCompile Include="Data\VoxelEffect.cpp" />
-    <ClCompile Include="Data\VoxelizationPass.cpp" />
+    <ClCompile Include="Data\CommonPass\AbstractPass.cpp" />
+    <ClCompile Include="Data\CommonPass\BasePass.cpp" />
+    <ClCompile Include="Data\CommonPass\BeginQueryPass.cpp" />
+    <ClCompile Include="Data\CommonPass\ClearRenderTargetPass.cpp" />
+    <ClCompile Include="Data\CommonPass\EndQueryPass.cpp" />
+    <ClCompile Include="Data\StandardPass\LightPass.cpp" />
+    <ClCompile Include="Data\StandardPass\OpaquePass.cpp" />
+    <ClCompile Include="Data\StandardPass\TransparentPass.cpp" />
+    <ClCompile Include="Data\VoxelPass\FlagOctreePass.cpp" />
+    <ClCompile Include="Data\VoxelPass\VisualizationPass.cpp" />
+    <ClCompile Include="Data\VoxelPass\VoxelizationPass.cpp" />
     <ClCompile Include="Sample.cpp" />
-    <ClCompile Include="VisualizationPass.cpp" />
+    <ClCompile Include="ShaderEffect\ClearEffect.cpp" />
+    <ClCompile Include="ShaderEffect\DefaultEffect.cpp" />
+    <ClCompile Include="ShaderEffect\LightEffect.cpp" />
+    <ClCompile Include="ShaderEffect\VoxelEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Assets\shaders\CommonInclude.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\DeferredRendering.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\ForwardPlusRendering.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\ForwardRendering.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_NoLight</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\Assets\shaders\VoxelizationGS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
+    <FxCompile Include="..\Assets\shaders\OctTree\AllocOrtree.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Assets\shaders\VoxelizationPS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\OctTree\FlagOctree.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="..\Assets\shaders\VoxelizationVS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\OctTree\MipmapOctree.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="AllocOrtree.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\OctTree\WriteLeafOctree.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="FlagOctree.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\Visualization\VisualSVOCS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="MipmapOctree.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\Visualization\VisualSVOPS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="VisualSVOCS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\Visualization\VisualSVOVS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="VisualSVOPS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\Voxelization\VoxelizationGS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="VisualSVOVS.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\Voxelization\VoxelizationPS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="WriteLeafOctree.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">5.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_SoftWare|x64'">true</ExcludedFromBuild>
+    <FxCompile Include="..\Assets\shaders\Voxelization\VoxelizationVS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -265,12 +275,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../SDK/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../SDK/Include;../../External/FreeImage/;../../External/;../../External/boost_1_58_0/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>freeglut.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freeglut.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;assimp.lib;LibApplication.lib;LibCore.lib;LibGraphics.lib;LibLoader.lib;LibMathematics.lib;FreeImageLib.lib;libboost_filesystem-vc140-mt-gd-1_58.lib;libboost_serialization-vc140-mt-gd-1_58.lib;libboost_system-vc140-mt-gd-1_58.lib;libboost_wserialization-vc140-mt-gd-1_58.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\External\ExternalLibrary\;..\..\SDK\Library\</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -281,12 +292,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../SDK/Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../SDK/Include;../../External/boost_1_58_0;../../External/;../../External/FreeImage;./Data/CommonPass/;./Data/StandardPass/;./Data/VoxelPass/;./</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>freeglut.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;LibCore.lib;LibGraphics.lib;LibApplication.lib;LibLoader.lib;LibMathematics.lib;assimp.lib;assimp-vc140-mt.lib;FreeImageLib.lib;libboost_filesystem-vc140-mt-gd-1_58.lib;libboost_serialization-vc140-mt-gd-1_58.lib;libboost_system-vc140-mt-gd-1_58.lib;libboost_wserialization-vc140-mt-gd-1_58.lib;d3d11.lib;D3DCompiler.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\External\ExternalLibrary\;..\..\SDK\Library\</AdditionalLibraryDirectories>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DX|Win32'">

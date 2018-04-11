@@ -1,6 +1,6 @@
-#include "GraphicsPCH.h"
-#include "Dx11Texture.h"
-#include "Float2.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11Texture.h"
+#include "Math\Base\Float2.h"
 #include <sstream>
 using namespace Hikari;
 static void ReportAndThrowTextureFormatError(const Texture::TextureFormat& format, const std::string& file, int line, const std::string& function, const std::string& message)
@@ -734,14 +734,15 @@ void TextureDX11::GenerateMipmaps()
 	}
 }
 
-Texture* TextureDX11::GetFace(CubeFace face) const
+std::shared_ptr<Texture> TextureDX11::GetFace(CubeFace face) const
 {
-	return static_cast<Texture*>(const_cast<TextureDX11*>(this));
+	return std::static_pointer_cast<Texture>(std::const_pointer_cast<TextureDX11>(shared_from_this()));
 }
 
-Texture* TextureDX11::GetSlice(unsigned int slice) const
+std::shared_ptr<Texture> TextureDX11::GetSlice(unsigned int slice) const
 {
-	return static_cast<Texture*>(const_cast<TextureDX11*>(this));
+	return std::static_pointer_cast<Texture>(std::const_pointer_cast<TextureDX11>(shared_from_this()));
+
 }
 
 uint16_t TextureDX11::GetWidth() const

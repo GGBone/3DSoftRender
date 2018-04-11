@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CoreLib.h"
+#include "Core\CoreLib.h"
 namespace Hikari
 {
 	class InitTerm

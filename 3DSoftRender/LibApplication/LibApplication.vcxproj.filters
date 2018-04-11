@@ -27,13 +27,13 @@
     <ClCompile Include="..\LibApplication\ConsoleApplication.cpp">
       <Filter>PlatformIndependent</Filter>
     </ClCompile>
-    <ClCompile Include="..\LibApplication\WindowApplication.cpp">
+    <ClCompile Include="WindowApplicationSoft.cpp">
       <Filter>PlatformIndependent</Filter>
     </ClCompile>
-    <ClCompile Include="..\LibApplication\WindowApplication2.cpp">
+    <ClCompile Include="WindowApplicationBase.cpp">
       <Filter>PlatformIndependent</Filter>
     </ClCompile>
-    <ClCompile Include="..\LibApplication\WindowApplication3.cpp">
+    <ClCompile Include="WindowApplicationEngine.cpp">
       <Filter>PlatformIndependent</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,19 +50,17 @@
     <ClInclude Include="..\LibApplication\ConsoleApplication.h">
       <Filter>PlatformIndependent</Filter>
     </ClInclude>
-    <ClInclude Include="..\LibApplication\WindowApplication.h">
+    <ClInclude Include="KeyCodes.h">
       <Filter>PlatformIndependent</Filter>
     </ClInclude>
-    <ClInclude Include="..\LibApplication\WindowApplication2.h">
+    <ClInclude Include="WindowApplicationSoft.h">
       <Filter>PlatformIndependent</Filter>
     </ClInclude>
-    <ClInclude Include="..\LibApplication\WindowApplication3.h">
+    <ClInclude Include="WindowApplicationBase.h">
       <Filter>PlatformIndependent</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\LibApplication\WindowApplication.inl">
+    <ClInclude Include="WindowApplicationEngine.h">
       <Filter>PlatformIndependent</Filter>
-    </None>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,9 +1,10 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Object.h"
-#include "Shader.h"
-#include "ShaderParameter.h"
-#include "ClearFlag.h"
+#include "Graphics\GraphicsLib.h"
+#include "Core\Object.h"
+#include "Graphics\Shader.h"
+#include "Graphics\ShaderParameter.h"
+#include "Graphics\ClearFlag.h"
+#include "Math\Base\Float4.h"
 namespace Hikari
 {
 	class Float2;
@@ -95,9 +96,9 @@ namespace Hikari
 
 		virtual void GenerateMipmaps() = 0;
 
-		virtual Texture* GetFace(CubeFace face) const = 0;
+		virtual std::shared_ptr<Texture> GetFace(CubeFace face) const = 0;
 
-		virtual Texture* GetSlice(unsigned int slice) const = 0;
+		virtual std::shared_ptr<Texture> GetSlice(unsigned int slice) const = 0;
 
 		virtual uint16_t GetWidth() const = 0;
 
@@ -130,7 +131,6 @@ namespace Hikari
 		virtual void FetchPixel(Float2& coord, uint8_t*& pixel, size_t size) = 0;
 
 	};
-	typedef Texture* TexturePtr;
 
 	template< typename T >
 	void Texture::Plot(Float2& coord, const T& color)

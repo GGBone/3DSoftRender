@@ -1,5 +1,5 @@
 #pragma once
-#include "GraphicsLib.h"
+#include "Graphics\GraphicsLib.h"
 namespace Hikari
 {
 	enum class ClearFlags : uint8_t

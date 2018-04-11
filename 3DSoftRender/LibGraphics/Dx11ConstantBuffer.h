@@ -1,11 +1,12 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Dx11Renderer.h"
-#include "ConstantBuffer.h"
-#include "Shader.h"
+#include "Graphics\GraphicsLib.h"
+#include "Graphics\Dx11Renderer.h"
+#include "Graphics\ConstantBuffer.h"
+#include "Graphics\Shader.h"
 
 namespace Hikari
 {
+	class Shader;
 	class ConstantBufferDX11 : public ConstantBuffer
 	{
 	public:
@@ -15,10 +16,10 @@ namespace Hikari
 		virtual bool Bind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType) override;
 		virtual void UnBind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType) override;
 
-		virtual void Copy(ConstantBuffer* other);
+		virtual void Copy(std::shared_ptr<ConstantBuffer> other) override;
 
 	protected:
-		virtual void Copy(Buffer* other);
+		virtual void Copy(std::shared_ptr<Buffer> other) override;
 		void Set(const void* data, size_t size);
 
 	private:

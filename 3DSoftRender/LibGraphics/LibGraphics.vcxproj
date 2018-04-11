@@ -56,22 +56,6 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Graphics.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Graphics.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Graphics.props" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="Graphics.props" />
-  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../SDK/Library/</OutDir>
@@ -97,12 +81,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>./;../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>Graphics\GraphicsPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,8 +145,8 @@
     <ClInclude Include="Dx11RasterizerState.h" />
     <ClInclude Include="Dx11Renderer.h" />
     <ClInclude Include="Dx11RenderLIB.h" />
-    <ClInclude Include="Dx11RenderData.h" />
     <ClInclude Include="Dx11RenderTarget.h" />
+    <ClInclude Include="Dx11RenderWindow.h" />
     <ClInclude Include="Dx11RWBuffer.h" />
     <ClInclude Include="Dx11SamplerState.h" />
     <ClInclude Include="Dx11Scene.h" />
@@ -179,12 +163,14 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="PipelineState.h" />
     <ClInclude Include="Pixel.h" />
+    <ClInclude Include="ProgressWindow.h" />
     <ClInclude Include="Query.h" />
     <ClInclude Include="RasterizerState.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RayCast.h" />
     <ClInclude Include="RenderEventArgs.h" />
     <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="RenderWindow.h" />
     <ClInclude Include="RWBuffer.h" />
     <ClInclude Include="SamplerState.h" />
     <ClInclude Include="Scene.h" />
@@ -192,11 +178,11 @@
     <ClInclude Include="ShaderMMatrix.h" />
     <ClInclude Include="ShaderPMatrix.h" />
     <ClInclude Include="ShaderVMatrix.h" />
-    <ClInclude Include="RenderData.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderFloat.h" />
     <ClInclude Include="ShaderParameter.h" />
+    <ClInclude Include="SoftRenderData.h" />
     <ClInclude Include="Spatial.h" />
     <ClInclude Include="StandardMesh.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -240,9 +226,9 @@
     <ClCompile Include="Dx11PipelineState.cpp" />
     <ClCompile Include="Dx11Query.cpp" />
     <ClCompile Include="Dx11RasterizerState.cpp" />
-    <ClCompile Include="Dx11RenderData.cpp" />
     <ClCompile Include="Dx11Renderer.cpp" />
     <ClCompile Include="Dx11RenderTarget.cpp" />
+    <ClCompile Include="Dx11RenderWindow.cpp" />
     <ClCompile Include="Dx11RWBuffer.cpp" />
     <ClCompile Include="Dx11SamplerState.cpp" />
     <ClCompile Include="Dx11Scene.cpp" />
@@ -250,13 +236,18 @@
     <ClCompile Include="Dx11ShaderParameter.cpp" />
     <ClCompile Include="Dx11StructureBuffer.cpp" />
     <ClCompile Include="Dx11Texture.cpp" />
-    <ClCompile Include="GraphicsLib.h" />
-    <ClCompile Include="GraphicsPCH.cpp" />
+    <ClInclude Include="GraphicsLib.h" />
+    <ClCompile Include="GraphicsPCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Graphics\GraphicsPCH.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="ProgressWindow.cpp" />
     <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="RenderData.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RenderWindow.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneBase.cpp" />
     <ClCompile Include="ShaderFloat.cpp" />
     <ClCompile Include="ShaderMMatrix.cpp" />
@@ -289,9 +280,6 @@
     <ClCompile Include="VisualEffectInstance.cpp" />
     <ClCompile Include="ShaderVMatrix.cpp" />
     <ClCompile Include="VisualTechnique.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Node.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

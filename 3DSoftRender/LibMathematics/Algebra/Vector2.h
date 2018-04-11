@@ -1,6 +1,6 @@
 #pragma once
-#include "MathematicsLIB.h"
-#include "Tuple.h"
+#include "Math\MathematicsLIB.h"
+#include "Core\Tuple.h"
 namespace Hikari
 {
 	template <typename Real>
@@ -31,6 +31,15 @@ namespace Hikari
 		mTuple[0] = vec[0];
 		mTuple[1] = vec[1];
 	}
+
+	template<typename Real>
+	inline Hikari::Vector2<Real>::Vector2()
+	{
+		mTuple[0] = Real(0);
+		mTuple[1] = Real(0);
+	}
+
 	typedef Vector2<float> Vector2f;
 	typedef Vector2<double> Vector2d;
+	typedef Vector2<int> Vector2I;
 }

@@ -31,6 +31,12 @@
     <Filter Include="Core\SFX">
       <UniqueIdentifier>{f5f100ff-a7c6-4af8-8419-a9f4a55be806}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Threading">
+      <UniqueIdentifier>{8b121bae-ce09-4281-915f-a56e086e89ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{bda17c4f-da8c-4109-827b-f1671d4bfcfa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreLib.h" />
@@ -56,6 +62,30 @@
     <ClInclude Include="Table.h">
       <Filter>DataTypes</Filter>
     </ClInclude>
+    <ClInclude Include="HKRThreadType.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="HKRThread.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="HKRMutexType.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="HKRMutex.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="HKRScopedCS.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="HKRAssert.h">
+      <Filter>Assert</Filter>
+    </ClInclude>
+    <ClInclude Include="HKRTime.h">
+      <Filter>Core\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorePCH.cpp">
@@ -69,6 +99,21 @@
     </ClCompile>
     <ClCompile Include="Rtti.cpp">
       <Filter>Core\ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="HKRMutex.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="HKRScopedCS.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="HKRThread.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="HKRAssert.cpp">
+      <Filter>Assert</Filter>
+    </ClCompile>
+    <ClCompile Include="HKRTime.cpp">
+      <Filter>Core\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

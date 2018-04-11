@@ -1,8 +1,8 @@
 #pragma once
-#include "GraphicsLib.h"
+#include "Graphics\GraphicsLib.h"
 #include <BlendState.h>
 #include "Dx11RenderLIB.h"
-#include "Float4.h"
+#include "Math\Base\Float4.h"
 namespace Hikari
 {
 

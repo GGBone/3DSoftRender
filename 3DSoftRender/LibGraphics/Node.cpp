@@ -1,7 +1,7 @@
-#include "GraphicsPCH.h"
-#include "Node.h"
-#include "Mesh.h"
-#include "Visitor.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Node.h"
+#include "Graphics\Mesh.h"
+#include "Graphics\Visitor.h"
 using namespace Hikari;
 IMPLEMENT_DEFAULT_NAMES(Spatial, Node);
 IMPLEMENT_RTTI(Hikari, Spatial, Node);
@@ -52,7 +52,7 @@ const HMatrix Hikari::Node::GetInverseWorldTranform() const
 	return GetParentWorldTransform().Inverse();
 }
 
-void Hikari::Node::AttachChild(Node * child)
+void Hikari::Node::AttachChild(std::shared_ptr<Node> child)
 {
 	if (child)
 	{
@@ -60,7 +60,8 @@ void Hikari::Node::AttachChild(Node * child)
 		if (iter == m_Children.end())
 		{
 			HMatrix worldTransform= child->GetWorldTransform();
-			child->m_pParent = this;
+
+			child->m_pParent = shared_from_this();
 			HMatrix localTransform = GetInverseWorldTranform();
 			child->SetLocalTransform(localTransform);
 			m_Children.push_back(child);
@@ -72,7 +73,7 @@ void Hikari::Node::AttachChild(Node * child)
 	}
 }
 
-void Hikari::Node::DetachChild(Node * pNode)
+void Hikari::Node::DetachChild(std::shared_ptr<Node> pNode)
 {
 	if (pNode)
 	{
@@ -101,30 +102,30 @@ void Hikari::Node::DetachChild(Node * pNode)
 	}
 }
 
-void Hikari::Node::SetParent(Node * pNode)
+void Hikari::Node::SetParent(std::shared_ptr<Node> pNode)
 {
 
 	if (pNode != nullptr)
-		pNode->AttachChild(this);
+		pNode->AttachChild(shared_from_this());
 	else if (m_pParent != nullptr)
 	{
 		m_pParent = pNode;
 		HMatrix worldTransform = GetWorldTransform();
-		((Node*)m_pParent)->DetachChild(this);
+		m_pParent->DetachChild(shared_from_this());
 		m_pParent = nullptr;
 		SetLocalTransform(worldTransform);
 	}
 
 }
 
-void Hikari::Node::AddMesh(Mesh * mesh)
+void Hikari::Node::AddMesh(std::shared_ptr<Mesh> mesh)
 {
 	MeshList::iterator iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
 	if (iter == m_Meshes.end())
 		m_Meshes.push_back(mesh);
 }
 
-void Hikari::Node::RemoveMesh(Mesh * mesh)
+void Hikari::Node::RemoveMesh(std::shared_ptr<Mesh> mesh)
 {
 	MeshList::iterator iter = std::find(m_Meshes.begin(), m_Meshes.end(), mesh);
 	if (iter != m_Meshes.end())

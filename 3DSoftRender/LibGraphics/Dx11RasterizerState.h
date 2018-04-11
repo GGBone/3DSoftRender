@@ -1,6 +1,6 @@
 #pragma once
-#include "Dx11RenderLIB.h"
-#include <RasterizerState.h>
+#include "Graphics\Dx11RenderLIB.h"
+#include "Graphics\RasterizerState.h"
 
 namespace Hikari
 {
@@ -15,10 +15,14 @@ namespace Hikari
 
 		const RasterizerStateDX11& operator=(const RasterizerStateDX11& other);
 
-		virtual void SetFillMode(FillMode frontFace = FillMode::Solid, FillMode backFace = FillMode::Solid);
-		virtual void GetFillMode(FillMode& frontFace, FillMode& backFace) const;
+		virtual void SetFillMode(FillMode frontFace = FillMode::Solid, FillMode backFace = FillMode::Solid) override;
+		virtual void GetFillMode(FillMode& frontFace, FillMode& backFace) const override;
 
-		virtual void SetCullMode(CullMode cullMode = CullMode::Back);
+		virtual void SetPirmitiveMode(PrimitiveMode mode = PrimitiveMode::TRIANGLE_LIST) override;
+
+		virtual void GetPrimitiveMode(PrimitiveMode& primitiveMode) const override;
+
+		virtual void SetCullMode(CullMode cullMode = CullMode::Back) override;
 		virtual CullMode GetCullMode() const;
 
 		virtual void SetFrontFacing(FrontFace frontFace = FrontFace::CounterClockwise);
@@ -74,7 +78,7 @@ namespace Hikari
 
 		FillMode m_FrontFaceFillMode;
 		FillMode m_BackFaceFillMode;
-
+		PrimitiveMode m_PrimitiveMode;
 		CullMode m_CullMode;
 
 		FrontFace m_FrontFace;

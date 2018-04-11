@@ -1,4 +1,5 @@
-#include <Ray.h>
+#include "Graphics\GraphicsPCH.h"
+#include <Graphics\Ray.h>
 
 using namespace Hikari;
 

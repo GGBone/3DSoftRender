@@ -1,5 +1,5 @@
-#include "CorePCH.h"
-#include "InitTerm.h"
+#include "Core\CorePCH.h"
+#include "Core\InitTerm.h"
 using namespace Hikari;
 
 int InitTerm::msNumInitializers = 0;

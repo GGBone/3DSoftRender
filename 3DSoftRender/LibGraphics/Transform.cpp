@@ -1,5 +1,5 @@
-#include "GraphicsPCH.h"
-#include "Transform.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Transform.h"
 using namespace Hikari;
 Hikari::Transform::Transform()
 	:
@@ -59,7 +59,7 @@ void Hikari::Transform::SetRotate(const HMatrix & rotate)
 
 void Hikari::Transform::SetMatrix(const HMatrix & matrix)
 {
-	mHMatrix = matrix;
+	mHMatrix = mMatrix = matrix;
 	mIsIdentity = false;
 	mIsRSMatrix = false;
 	mIsUniformScale = false;
@@ -271,46 +271,49 @@ inline int Hikari::Transform::GetStreamingsize()
 
 void Hikari::Transform::UpdateMatrix()
 {
+	/*
 	if (mIsIdentity)
 	{
-		mHMatrix = HMatrix::IDENTITY;
+	mHMatrix = HMatrix::IDENTITY;
 	}
 	else
 	{
-		if (mIsRSMatrix)
-		{
-			mHMatrix[0][0] = mMatrix[0][0] * mScale[0];
-			mHMatrix[0][1] = mMatrix[0][1] * mScale[1];
-			mHMatrix[0][2] = mMatrix[0][2] * mScale[2];
-			mHMatrix[1][0] = mMatrix[1][0] * mScale[0];
-			mHMatrix[1][1] = mMatrix[1][1] * mScale[1];
-			mHMatrix[1][2] = mMatrix[1][2] * mScale[2];
-			mHMatrix[2][0] = mMatrix[2][0] * mScale[0];
-			mHMatrix[2][1] = mMatrix[2][1] * mScale[1];
-			mHMatrix[2][2] = mMatrix[2][2] * mScale[2];
-		}
-		else
-		{
-			mHMatrix[0][0] = mMatrix[0][0];
-			mHMatrix[0][1] = mMatrix[0][1];
-			mHMatrix[0][2] = mMatrix[0][2];
-			mHMatrix[1][0] = mMatrix[1][0];
-			mHMatrix[1][1] = mMatrix[1][1];
-			mHMatrix[1][2] = mMatrix[1][2];
-			mHMatrix[2][0] = mMatrix[2][0];
-			mHMatrix[2][1] = mMatrix[2][1];
-			mHMatrix[2][2] = mMatrix[2][2];
-		}
-
-		mHMatrix[0][3] = mTranslate[0];
-		mHMatrix[1][3] = mTranslate[1];
-		mHMatrix[2][3] = mTranslate[2];
-
-		// The last row of mHMatrix is always (0,0,0,1) for an affine
-		// transformation, so it is set once in the constructor.  It is not
-		// necessary to reset it here.
+	if (mIsRSMatrix)
+	{
+	mHMatrix[0][0] = mMatrix[0][0] * mScale[0];
+	mHMatrix[0][1] = mMatrix[0][1] * mScale[1];
+	mHMatrix[0][2] = mMatrix[0][2] * mScale[2];
+	mHMatrix[1][0] = mMatrix[1][0] * mScale[0];
+	mHMatrix[1][1] = mMatrix[1][1] * mScale[1];
+	mHMatrix[1][2] = mMatrix[1][2] * mScale[2];
+	mHMatrix[2][0] = mMatrix[2][0] * mScale[0];
+	mHMatrix[2][1] = mMatrix[2][1] * mScale[1];
+	mHMatrix[2][2] = mMatrix[2][2] * mScale[2];
+	}
+	else
+	{
+	mHMatrix[0][0] = mMatrix[0][0];
+	mHMatrix[0][1] = mMatrix[0][1];
+	mHMatrix[0][2] = mMatrix[0][2];
+	mHMatrix[1][0] = mMatrix[1][0];
+	mHMatrix[1][1] = mMatrix[1][1];
+	mHMatrix[1][2] = mMatrix[1][2];
+	mHMatrix[2][0] = mMatrix[2][0];
+	mHMatrix[2][1] = mMatrix[2][1];
+	mHMatrix[2][2] = mMatrix[2][2];
 	}
 
+	mHMatrix[0][3] = mTranslate[0];
+	mHMatrix[1][3] = mTranslate[1];
+	mHMatrix[2][3] = mTranslate[2];
+
+	// The last row of mHMatrix is always (0,0,0,1) for an affine
+	// transformation, so it is set once in the constructor.  It is not
+	// necessary to reset it here.
+	}
+
+	*/
+	
 	mInverseNeedsUpdate = true;
 }
 

@@ -1,8 +1,8 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Object.h"
-#include "Shader.h"
-#include "ShaderParameter.h"
+#include "Graphics\GraphicsLib.h"
+#include "Core\Object.h"
+#include "Graphics\Shader.h"
+#include "Graphics\ShaderParameter.h"
 namespace Hikari
 {
 	class Float4;

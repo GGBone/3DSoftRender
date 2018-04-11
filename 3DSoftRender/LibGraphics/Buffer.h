@@ -1,12 +1,11 @@
 #pragma once
-#include "Object.h"
-#include "ShaderParameter.h"
-#include "Shader.h"
+#include "Core\Object.h"
+#include "Graphics\ShaderParameter.h"
+#include "Graphics\Shader.h"
 // A buffer is an index buffer or vertex buffer to 
 // geometry that should be stored on the GPU.
 namespace Hikari
 {
-	class Shader;
 	class ShaderParameter;
 	class Buffer : public Object
 	{
@@ -32,7 +31,7 @@ namespace Hikari
 
 		// Copy the contents of another buffer to this one.
 		// Buffers must be the same size in bytes.
-		virtual void Copy(Buffer* other) = 0;
+		virtual void Copy(std::shared_ptr<Buffer> other) = 0;
 
 		// Is this an index buffer or an attribute/vertex buffer?
 		virtual BufferType GetType() const = 0;

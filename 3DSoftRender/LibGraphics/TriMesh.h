@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicsLib.h"
+#include "Graphics\GraphicsLib.h"
 #include "Triangle.h"
 
 namespace Hikari

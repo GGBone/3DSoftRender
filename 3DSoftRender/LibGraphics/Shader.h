@@ -1,7 +1,7 @@
 #pragma once
-#include "GraphicsLib.h"
-#include "Object.h"
-#include "Vector3.h"
+
+#include "Core\Object.h"
+#include "Math\Algebra\Vector3.h"
 namespace Hikari
 {
 	class ShaderParameter;
@@ -9,7 +9,7 @@ namespace Hikari
 	class Shader : public Object
 	{
 	public:
-		enum  ShaderType
+		enum ShaderType
 		{
 			UnKnownShaderType = 0,
 			VertexShader,
@@ -43,7 +43,7 @@ namespace Hikari
 
 		virtual void UnBind() = 0;
 
-		virtual void Dispatch(const Vector3f& numGroups) = 0;
+		virtual void Dispatch(const Vector3UI& numGroups) = 0;
 
 		friend class Buffer;
 };

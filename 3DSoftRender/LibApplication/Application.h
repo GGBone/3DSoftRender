@@ -1,12 +1,11 @@
 #pragma once
-
-#include "Core.h"
-#include "Command.h"
-#include "Mathematics.h"
-#include "Graphics.h"
+#include "Core\Core.h"
+#include "Core\Event.h"
+#include "Loader\ReadDirectoryChanges.h"
+#include "Application\Command.h"
 namespace Hikari
 {
-	class Application
+	class Application : public Object
 	{
 	protected:
 		Application();

@@ -1,16 +1,17 @@
-#include "GraphicsPCH.h"
-#include "Dx11Buffer.h"
-#include "Dx11Renderer.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11Buffer.h"
+#include "Graphics\Dx11Renderer.h"
+#include "Graphics\Shader.h"
 using namespace Hikari;
 
-Hikari::BufferDx::BufferDx(DirectRenderer * render, UINT bindFlags, const void * data, size_t count, UINT stride)
+Hikari::BufferDx::BufferDx(std::shared_ptr<DirectRenderer> render, UINT bindFlags, const void * data, size_t count, UINT stride)
 	:m_pBuffer(nullptr),
 	m_uiStride(stride),
 	m_BindFlags(bindFlags),
 	m_uiCount((UINT)count),
 	m_bIsBound(false)
 {
-	m_pDevice = render->mData->mDevice;
+	m_pDevice = (render->GetDevice());
 	
 	D3D11_BUFFER_DESC bufferDesc;
 	D3D11_SUBRESOURCE_DATA resourceData;
@@ -27,7 +28,7 @@ Hikari::BufferDx::BufferDx(DirectRenderer * render, UINT bindFlags, const void *
 	resourceData.SysMemSlicePitch = 0;
 
 	m_pDevice->CreateBuffer(&bufferDesc, &resourceData, &m_pBuffer);
-	m_pDevice->GetImmediateContext(&m_pDeviceContext);
+	m_pDevice->GetImmediateContext2(&m_pDeviceContext);
 }
 
 Hikari::BufferDx::~BufferDx()
@@ -75,9 +76,9 @@ void Hikari::BufferDx::UnBind(unsigned int id, Shader::ShaderType shaderType, Sh
 	}
 }
 
-void Hikari::BufferDx::Copy(Buffer * other)
+void Hikari::BufferDx::Copy(std::shared_ptr<Buffer> other)
 {
-	BufferDx* srcBuffer = (BufferDx*)other;
+	std::shared_ptr<BufferDx> srcBuffer = std::dynamic_pointer_cast<BufferDx>(other);
 
 	if (m_uiCount * m_uiStride == srcBuffer->m_uiCount * srcBuffer->m_uiStride)
 	{

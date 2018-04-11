@@ -1,5 +1,5 @@
-#include <GraphicsPCH.h>
-#include "Dx11Query.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Dx11Query.h"
 using namespace Hikari;
 QueryDX11::QueryDX11(ID3D11Device* pDevice, QueryType queryType, uint8_t numBuffers)
 	: m_pDevice(pDevice)

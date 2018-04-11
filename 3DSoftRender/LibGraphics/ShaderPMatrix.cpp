@@ -1,3 +1,4 @@
+#include "Graphics\GraphicsPCH.h"
 #include "ShaderPMatrix.h"
 using namespace Hikari;
 Hikari::PMatrixParam::PMatrixParam()

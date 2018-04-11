@@ -165,5 +165,6 @@ $RECYCLE.BIN/
 *.idb
 **/Library/*
 **/External/*
-**/Assets/*
+**/Assets/models/crytek-sponza/*
 **/SDK/*
+*.opendb

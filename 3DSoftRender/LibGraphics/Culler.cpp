@@ -1,4 +1,5 @@
-#include "Culler.h"
+#include "Graphics\GraphicsPCH.h"
+#include "Graphics\Culler.h"
 
 Hikari::Culler::Culler(const Camera * camera)
 {
