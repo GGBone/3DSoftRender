@@ -10,7 +10,8 @@ namespace Hikari
 	class ShaderDx : public Shader 
 	{
 	public:
-		ShaderDx(std::shared_ptr<DirectRenderer> renderer);
+		//Need hide only can be created by Renderer
+		ShaderDx(std::shared_ptr<DirectRenderer>& renderer);
 		virtual ShaderType GetType()const override;
 
 		virtual void LoadShaderFromString(ShaderType type, const std::string& source, const std::string& sourceFileName,

@@ -7,10 +7,11 @@
 #include "Graphics\Dx11Renderer.h"
 namespace Hikari
 {
-	class DefaultEffect:public VisualEffect
+	class Scene;
+	class DefaultEffect:public VisualEffect,public enable_shared_from_this<DefaultEffect>
 	{
 	public:
-		DefaultEffect(DirectRenderer* renderer);
+		DefaultEffect(shared_ptr<Renderer> renderer,shared_ptr<Scene> scene);
 		virtual ~DefaultEffect();
 
 		std::shared_ptr<VisualEffectInstance> CreateInstance() override;

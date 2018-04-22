@@ -8,7 +8,7 @@
 #include "Graphics\Material.h"
 using namespace Hikari;
 
-Hikari::MeshDx::MeshDx(std::shared_ptr<DirectRenderer> render)
+Hikari::MeshDx::MeshDx(std::shared_ptr<DirectRenderer>& render)
 	:m_pIndexBuffer(nullptr),
 	m_pMaterial(nullptr)
 {

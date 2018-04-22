@@ -83,7 +83,7 @@ void BasePass::PostRender(RenderEventArgs& e)
 // Inherited from Visitor
 void BasePass::Visit(Scene& scene)
 {
-
+	//Check the scene file if it has beed modify or delete to avoid crash.
 }
 
 void BasePass::Visit(Node& node)

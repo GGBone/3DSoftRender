@@ -17,7 +17,9 @@ protected:
 	void CreateScene();
 	void CreatePlane();
 	void CreateSphere();
-
+	void CreateLightShape();
+	void CreateAxis();
+	void CreateTransparentSlice();
 private:
 	Float4 g_ClearColor;
 

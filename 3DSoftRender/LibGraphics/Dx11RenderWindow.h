@@ -8,7 +8,7 @@ namespace Hikari
 	{
 	public:
 		typedef RenderWindow base;
-		Dx11RenderWindow(WindowApplicationBase& app, HWND hwnd, std::shared_ptr<DirectRenderer> device, const std::string& windowName, int iWindowWidth,
+		Dx11RenderWindow(WindowApplicationBase& app, HWND hwnd, std::shared_ptr<DirectRenderer>& device, const std::string& windowName, int iWindowWidth,
 			int iWindowHeight,bool vSync=false);
 		virtual ~Dx11RenderWindow();
 		virtual void ShowWindow() override;
@@ -37,7 +37,7 @@ namespace Hikari
 	private:
 		bool m_IsMouseTracking;
 		HWND m_hWnd;
-		DirectRenderer& m_Device;
+		std::shared_ptr<DirectRenderer> m_Device;
 		
 		IDXGISwapChain2* m_pSwapChain;
 		ID3D11Texture2D* m_pBackBuffer;

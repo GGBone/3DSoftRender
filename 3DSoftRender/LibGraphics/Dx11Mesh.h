@@ -7,7 +7,7 @@ namespace Hikari
 	class MeshDx : public Mesh
 	{
 	public:
-		MeshDx(std::shared_ptr<DirectRenderer> render);
+		MeshDx(std::shared_ptr<DirectRenderer>& render);
 		virtual ~MeshDx();
 
 		virtual void AddVertexBuffer(const BufferBinding& binding, std::shared_ptr<Buffer> buffer) override;

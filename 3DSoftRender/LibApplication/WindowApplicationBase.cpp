@@ -39,7 +39,7 @@ void Hikari::WindowApplicationBase::OnTerminate(EventArgs& e)
 {
 	
 	mTerminate(e);
-
+	m_pRenderDevice.reset();
 	m_bTerminateDirectoryChangeThread = true;
 	if (m_DirectoryChangeListenerThread.joinable())
 	{
@@ -47,7 +47,7 @@ void Hikari::WindowApplicationBase::OnTerminate(EventArgs& e)
 	}
 	for (auto window : m_Windows)
 	{
-		window.second = 0;
+		window.second.reset();
 	}
 	m_Windows.clear();
 }

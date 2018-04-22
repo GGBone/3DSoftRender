@@ -9,8 +9,18 @@ Hikari::VisualEffect::VisualEffect()
 
 Hikari::VisualEffect::~VisualEffect()
 {
+	ClearTechiniques();
 }
 
+void Hikari::VisualEffect::ClearTechiniques()
+{
+	auto iter = mTechniques.begin();
+	for (; iter != mTechniques.end(); ++iter)
+	{
+		(*iter).reset();
+	}
+	mTechniques.clear();
+}
 void Hikari::VisualEffect::InsertTechnique(std::shared_ptr<VisualTechnique> technique)
 {
 	if (technique != nullptr)
@@ -22,18 +32,6 @@ void Hikari::VisualEffect::InsertTechnique(std::shared_ptr<VisualTechnique> tech
 size_t Hikari::VisualEffect::GetTechniqueSize() const
 {
 	return mTechniques.size();
-}
-
-void Hikari::VisualEffect::PreRender()
-{
-	/*std::vector<std::shared_ptr<VisualTechnique>>::const_iterator iter;
-	for (iter = mTechniques.begin(); iter != mTechniques.end(); ++iter)
-	{
-		for (int i = 0; i < (*iter)->GetNumPass(); ++i)
-		{
-			(*iter)->GetPass(i);
-		}
-	}*/
 }
 
 std::shared_ptr<VisualTechnique> Hikari::VisualEffect::GetTechnique(int techIndex)

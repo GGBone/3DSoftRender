@@ -2,16 +2,14 @@
 #include "Graphics\Dx11Scene.h"
 
 using namespace Hikari;
-Hikari::SceneDX11::SceneDX11(std::shared_ptr<DirectRenderer> render)
+Hikari::SceneDX11::SceneDX11(std::shared_ptr<DirectRenderer>& render)
 {
 	m_Renderer = render;
-	m_pDevice = render->GetDevice();
-	m_pContext = render->GetDeviceContext();
 }
 
 Hikari::SceneDX11::~SceneDX11()
 {
-	
+	m_Renderer.reset();
 }
 
 std::shared_ptr<Buffer> Hikari::SceneDX11::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride) const

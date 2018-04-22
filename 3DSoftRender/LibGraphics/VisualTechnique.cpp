@@ -6,7 +6,15 @@ VisualTechnique::VisualTechnique()
 {}
 
 VisualTechnique::~VisualTechnique()
-{}
+{
+	auto iter = m_Passes.begin();
+	for (; iter != m_Passes.end(); ++iter)
+	{
+		(*iter).reset();
+	}
+	m_Passes.clear();
+	mSampler.reset();
+}
 
 unsigned int VisualTechnique::AddPass(std::shared_ptr<VisualPass> pass)
 {

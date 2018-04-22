@@ -11,22 +11,14 @@
 #include "Loader\Loader.h"
 using namespace Hikari;
 
-Hikari::LightsPass::LightsPass(std::shared_ptr<Renderer> renderer,std::vector<Light>& lights, 
-	std::shared_ptr<Scene> pointLight, std::shared_ptr<Scene> spotLight, std::shared_ptr<Scene> directionalLight,
-	std::shared_ptr<PipelineState> pipeline)
-	:BasePass(renderer,nullptr,pipeline),
-	m_Lights(lights),
-	m_pCurrentLight(nullptr),
-	m_uiLightIndex(-1),
-	m_RenderDevice(renderer),
-	m_Pipeline(pipeline),
-	m_pSpotLightScene(spotLight),
-	m_PointLightScene(pointLight),
-	m_pDirectionalLightScene(directionalLight)
+
+
+Hikari::LightsPass::LightsPass(std::shared_ptr<Renderer> renderer, std::shared_ptr<Scene> pointLight, shared_ptr<PipelineState> pipeline)
+	:BasePass(renderer, pointLight, pipeline)
+	,m_Lights(WindowApplicationEngine::g_Setting.Lights)
 {
 	m_LightMaterial = renderer->CreateMaterial();
-	g_pLightStructuredBuffer = renderer->CreateStructuredBuffer(lights, CPUAccess::Write);
-
+	g_pLightStructuredBuffer = renderer->CreateStructuredBuffer(m_Lights, CPUAccess::Write);
 }
 
 Hikari::LightsPass::~LightsPass()
@@ -66,7 +58,9 @@ void Hikari::LightsPass::Render(RenderEventArgs & e)
 		a = light.m_Selected ? 0.9f : a;
 		m_LightMaterial->SetDiffuseColor(light.m_Color);
 		m_LightMaterial->SetOpacity(a);
-
+		m_PointLightScene = m_Scene;
+		m_pSpotLightScene = m_Scene;
+		m_pDirectionalLightScene = m_Scene;
 		switch (light.m_Type)
 		{
 		case Light::LightType::Point:
@@ -84,21 +78,6 @@ void Hikari::LightsPass::Render(RenderEventArgs & e)
 	}
 }
 
-void Hikari::LightsPass::Visit(Scene & scene)
-{
-}
-
-void Hikari::LightsPass::Visit(Node & node)
-{
-	Camera* camera = GetRenderEventArgs().Camera;
-	PerObject perObject;
-	HMatrix nodeTransform = node.GetWorldTransform();
- 	XMMATRIX translate =XMMatrixTranslation( m_pCurrentLight->m_PositionWS[0], m_pCurrentLight->m_PositionWS[1], m_pCurrentLight->m_PositionWS[2]);
-	//XMMATRIX rotation = 
-	perObject.ModelView = camera->View();
-	perObject.ModelViewProjection = camera->Proj() * perObject.ModelView;
-	SetPerObjectConstantBufferData(perObject);
-}
 
 void Hikari::LightsPass::Visit(Mesh & mesh)
 {
@@ -116,4 +95,31 @@ const Light* Hikari::LightsPass::GetCurrentLight()
 const uint32_t Hikari::LightsPass::GetCurrentLightIndex()
 {
 	return m_uiLightIndex;
+}
+
+void Hikari::LightsPass::BindSamplerState(const std::string& paramName)
+{
+	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(paramName).Set(m_SamplerState);
+}
+
+void Hikari::LightsPass::BindMaterialBuffer(const std::string & paramName)
+{
+}
+
+void Hikari::LightsPass::SetSampler(std::shared_ptr<SamplerState> samp,const std::string& name)
+{
+	m_SamplerState = samp;
+	BindSamplerState(name);
+}
+
+void Hikari::LightsPass::SetLight(std::shared_ptr<StructuredBuffer> buffer, const std::string & name)
+{
+	m_LightBuffer = buffer;
+	BindLightBuffer(name);
+}
+
+void Hikari::LightsPass::BindLightBuffer(const std::string & paramName)
+{
+	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(paramName).Set(m_LightBuffer);
+
 }

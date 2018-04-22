@@ -4,7 +4,7 @@
 #include "Graphics\Shader.h"
 using namespace Hikari;
 
-Hikari::BufferDx::BufferDx(std::shared_ptr<DirectRenderer> render, UINT bindFlags, const void * data, size_t count, UINT stride)
+Hikari::BufferDx::BufferDx(std::shared_ptr<DirectRenderer>& render, UINT bindFlags, const void * data, size_t count, UINT stride)
 	:m_pBuffer(nullptr),
 	m_uiStride(stride),
 	m_BindFlags(bindFlags),

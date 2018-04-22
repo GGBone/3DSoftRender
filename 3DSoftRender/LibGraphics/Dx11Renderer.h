@@ -17,7 +17,7 @@ namespace Hikari
 		virtual void OnLoadingProgress(ProgressEventArgs& e);
 	public:
 		DirectRenderer(WindowApplicationBase& application);
-		~DirectRenderer();
+		~DirectRenderer() override;
 
 
 

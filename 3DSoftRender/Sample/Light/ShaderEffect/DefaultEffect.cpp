@@ -1,33 +1,38 @@
 #include "Graphics\GraphicsPCH.h"
+#include "OpaquePass.h"
 #include "DefaultEffect.h"
 #include "Graphics\Dx11Shader.h"
+#include "Graphics\PipelineState.h"
 using namespace Hikari;
 
-Hikari::DefaultEffect::DefaultEffect(DirectRenderer* renderer)
+Hikari::DefaultEffect::DefaultEffect(shared_ptr<Renderer> renderer, shared_ptr<Scene> scene)
 {
-	/*Shader* vshader = new Shader("DefaultShader.fx", 1, 1, 3, 0, false);
-	vshader->SetInput(0, "VS", Shader::VT_FLOAT4, Shader::VS_POSITION);
-	vshader->SetOutput(0, "", Shader::VT_FLOAT4, Shader::VS_POSITION);
-	vshader->SetConstant(0, "mvp", 4);
+#ifdef SOFT_RENDER
+	shader* vshader = new shader("defaultshader.fx", 1, 1, 3, 0, false);
+	vshader->setinput(0, "vs", shader::vt_float4, shader::vs_position);
+	vshader->setoutput(0, "", shader::vt_float4, shader::vs_position);
+	vshader->setconstant(0, "mvp", 4);
 	
-	PixelShader* pshader = new PixelShader("DefaultShader.fx", 1, 1, 0, 0, false);
-	pshader->SetInput(0, "PS", Shader::VT_FLOAT4, Shader::VS_POSITION);
-	pshader->SetOutput(0, "", Shader::VT_FLOAT4, Shader::VS_COLOR0);*/
+	pixelshader* pshader = new pixelshader("defaultshader.fx", 1, 1, 0, 0, false);
+	pshader->setinput(0, "ps", shader::vt_float4, shader::vs_position);
+	pshader->setoutput(0, "", shader::vt_float4, shader::vs_color0);
+#else
+	auto vshader = renderer->CreateShader();
+	vshader->LoadShaderFromFile(Shader::VertexShader, "../Assets/shaders/DefaultShader.hlsl", Shader::ShaderMacros(), "VS_main", "latest");
 
-	//ShaderDx* vshader = new ShaderDx(renderer);
-	//vshader->LoadShaderFromFile(Shader::VertexShader, "DefaultShader.fx", Shader::ShaderMacros(), "VS_main", "latest");
+	auto pshader = renderer->CreateShader();
+	pshader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/DefaultShader.hlsl", Shader::ShaderMacros(), "PS_main", "latest");
 
-	//ShaderDx* pshader = new ShaderDx(renderer);
-	//pshader->LoadShaderFromFile(Shader::VertexShader, "DefaultShader.fx", Shader::ShaderMacros(), "PS_main", "latest");
+	auto mPipeline = renderer->CreatePipelineState();
+	mPipeline->SetShader(Shader::VertexShader, vshader);
+	mPipeline->SetShader(Shader::PixelShader, pshader);
 
+	auto  pass = make_shared<OpaquePass>(renderer,scene, mPipeline);
 
-	//VisualPass* pass = new VisualPass();
-	//pass->SetVertexShader(vshader);
-	//pass->SetPixelShader(pshader);
-
-	//VisualTechnique* technique = new VisualTechnique();
-	//technique->InsertPass(pass);
-	//InsertTechnique(technique);
+	auto technique = make_shared<VisualTechnique>();
+	technique->AddPass(pass);
+	InsertTechnique(technique);
+#endif
 }
 
 Hikari::DefaultEffect::~DefaultEffect()
@@ -36,12 +41,17 @@ Hikari::DefaultEffect::~DefaultEffect()
 
 std::shared_ptr<VisualEffectInstance> Hikari::DefaultEffect::CreateInstance()
 {
-	/*VisualEffectInstance* instance = new VisualEffectInstance(this, 0);
+#ifdef SOFT_RENDER
+	VisualEffectInstance* instance = new VisualEffectInstance(this, 0);
 
 	instance->SetVertexConstant(0, 0, new MMatrixParam());
 	instance->SetVertexConstant(0, 1, new VMatrixParam());
 
 	instance->SetVertexConstant(0, 2, new PMatrixParam());
-	return instance;*/
+	return instance;
+#else
+	auto instance = make_shared<VisualEffectInstance>(shared_from_this(),0);
+	return instance;
+#endif
 	return nullptr;
 }

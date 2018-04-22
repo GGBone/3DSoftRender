@@ -9,7 +9,7 @@ namespace Hikari
 	{
 	public:
 
-		BufferDx(std::shared_ptr<DirectRenderer> render, UINT bindFlags, const void* data, size_t count, UINT stride);
+		BufferDx(std::shared_ptr<DirectRenderer>& render, UINT bindFlags, const void* data, size_t count, UINT stride);
 		~BufferDx();
 		
 		virtual void Copy(std::shared_ptr<Buffer> other) override;

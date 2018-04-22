@@ -50,21 +50,22 @@ static DXGI_RATIONAL  QueryRefreshRate(UINT screenWidth, UINT screenHeight, BOOL
 	}
 	return refreshRate;
 }
-Hikari::Dx11RenderWindow::Dx11RenderWindow(WindowApplicationBase & app, HWND hwnd, std::shared_ptr<DirectRenderer> device, const std::string & windowName, int iWindowWidth, int iWindowHeight, bool vSync)
+Hikari::Dx11RenderWindow::Dx11RenderWindow(WindowApplicationBase & app, HWND hwnd, std::shared_ptr<DirectRenderer>& device, const std::string & windowName, int iWindowWidth, int iWindowHeight, bool vSync)
 	: base(app, windowName, iWindowWidth, iWindowHeight)
 	,m_IsMouseTracking(false)
 	,m_hWnd(hwnd) 
-	, m_Device(*device)
-	, m_pDeviceContext(m_Device.GetDeviceContext())
+	, m_Device(device)
+	, m_pDeviceContext(m_Device->GetDeviceContext())
 	, m_bResizePending(true)
 {
 	m_SampleDesc = { 1,0 };
-	m_RenderTarget = std::dynamic_pointer_cast<RenderTargetDX11>(m_Device.CreateRenderTarget());
+	m_RenderTarget = std::dynamic_pointer_cast<RenderTargetDX11>(m_Device->CreateRenderTarget());
 	CreateSwapChain();
 }
 
 Hikari::Dx11RenderWindow::~Dx11RenderWindow()
 {
+	m_Device.reset();
 }
 
 void Hikari::Dx11RenderWindow::ShowWindow()
@@ -113,7 +114,7 @@ void Hikari::Dx11RenderWindow::CreateSwapChain()
 	swapChainFullScreenDesc.Windowed = true;
 	IDXGISwapChain1* pSwapChain;
 
-	if (FAILED(factory->CreateSwapChainForHwnd(m_Device.GetDevice(), m_hWnd, &swapChainDesc, &swapChainFullScreenDesc, nullptr, &pSwapChain)))
+	if (FAILED(factory->CreateSwapChainForHwnd(m_Device->GetDevice(), m_hWnd, &swapChainDesc, &swapChainFullScreenDesc, nullptr, &pSwapChain)))
 	{
 
 	}
@@ -127,7 +128,7 @@ void Hikari::Dx11RenderWindow::CreateSwapChain()
 		m_SampleDesc.Count,
 		0,0,0,0,24,8);
 
-	std::shared_ptr<Texture> depthStencilTexture = m_Device.CreateTexture2D(windowWidth,
+	std::shared_ptr<Texture> depthStencilTexture = m_Device->CreateTexture2D(windowWidth,
 		windowHeight, 1, depthStencilTextureFormat);
 
 	Texture::TextureFormat colorTextureFormat(
@@ -135,7 +136,7 @@ void Hikari::Dx11RenderWindow::CreateSwapChain()
 		Texture::Type::UnsignedNormalized,
 		m_SampleDesc.Count,
 		8, 8, 8, 8, 0, 0);
-	std::shared_ptr<Texture> colorTexture = m_Device.CreateTexture2D(windowWidth, windowHeight,
+	std::shared_ptr<Texture> colorTexture = m_Device->CreateTexture2D(windowWidth, windowHeight,
 		1, colorTextureFormat);
 
 	m_RenderTarget->AttachTexture(RenderTarget::AttachmentPoint::Color0, colorTexture);

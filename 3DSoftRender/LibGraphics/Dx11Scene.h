@@ -8,7 +8,7 @@ namespace Hikari
 	class SceneDX11 : public SceneBase
 	{
 	public:
-		SceneDX11(std::shared_ptr<DirectRenderer> pDevice);
+		SceneDX11(std::shared_ptr<DirectRenderer>& pDevice);
 		virtual ~SceneDX11();
 	protected:
 		virtual std::shared_ptr<Buffer> CreateFloatVertexBuffer(const float* data, unsigned int count, unsigned int stride) const;
@@ -22,8 +22,5 @@ namespace Hikari
 
 	private:
 		std::shared_ptr<DirectRenderer> m_Renderer;
-		ID3D11Device2* m_pDevice;
-		ID3D11DeviceContext2* m_pContext;
-
 	};
 }

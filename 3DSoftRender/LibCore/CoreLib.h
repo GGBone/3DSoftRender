@@ -34,6 +34,7 @@
 #include <ctime>
 #include <iostream>
 #include <fstream>
+using namespace std;
 
 #include <atomic>
 // Common STL headers.

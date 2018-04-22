@@ -16,70 +16,7 @@ VertexShaderOutput VS_main(AppData IN)
 	return OUT;
 }
 
-[earlydepthstencil]
-float4 PS_NoLight(VertexShaderOutput IN):SV_TARGET
-{
-    Material mat = Mat;
-    float4 diffuse = mat.DiffuseColor;
-    if (mat.HasDiffuseTexture)
-    {
-        float4 diffuseTexColor = DiffuseTexture.Sample(LinearRepeatSampler, IN.texCoord);
-        if (any(diffuseTexColor))
-		{
-            diffuse *= diffuseTexColor;
-        }
-        else
-            diffuse = diffuseTexColor;
-    }
-    float alpha = diffuse.a;
 
-    float3 N = normalize(IN.normalVS);
-    float4 DiffuseColor = (0.0f);
-    if(Lights[0].Type == 0)
-    {
-    //0 point
-        float3 L = Lights[0].PositionVS.xyz - IN.positionVS;
-        float distance = length(L);
-        L = L / distance;
-
-        float attenuation = DoAttenuation(Lights[0], distance);
-        float NdotL = max(dot(N, L), 0);
-        DiffuseColor = (Lights[0].Color * NdotL) * attenuation;
-    }
-    else if (Lights[0].Type ==1 )
-    {
-    //1 spot
-        
-    }
-    else if (Lights[0].Type == 2)
-    {
-        //2 directional
-        float3 L = -normalize(Lights[0].DirectionVS);
-        float NdotL = min(max(dot(N, L), 0.0f), 1.0f);
-        if(NdotL > .0001F)
-            DiffuseColor = (Lights[0].Color * NdotL);
-            //DiffuseColor = float4(NdotL, 0.0f, 0.0f, 1.0f);
-
-    }
-
-    //Light Diffuse
-      
-
-    //Light Spec
-
-        //float3 R = normalize(reflect(-L, IN.normalVS));
-        //float RDov = max(dot(R, -IN.positionVS), 0.0f);
-
-        //float4 spec = (Lights[0].Color) * pow(RDov, mat.SpecularPower) * attenuation * Lights[0].Intensity;
-
-        float4 specColor = 0;
-        if (mat.SpecularPower > 1.0f)
-        {
-            specColor = mat.SpecularColor;
-            //specColor *= spec;
-        }
-        return diffuse * DiffuseColor + float4(0.32, 0.32, 0.32, 1.0);
-    }
 [earlydepthstencil]
 float4 PS_main(VertexShaderOutput IN) : SV_TARGET
 {
@@ -202,9 +139,66 @@ if (mat.SpecularPower > 1.0f) // If specular power is too low, don't use it.
 // Pixel shader for rendering lights (debug) for forward renderer.
 float4 PS_light(VertexShaderOutput IN) : SV_TARGET
 {
-	float4 N = normalize(float4(IN.normalVS, 0));
+    Material mat = Mat;
+    float4 diffuse = mat.DiffuseColor;
+    if (mat.HasDiffuseTexture)
+    {
+        float4 diffuseTexColor = DiffuseTexture.Sample(LinearRepeatSampler, IN.texCoord);
+        if (any(diffuseTexColor))
+        {
+            diffuse *= diffuseTexColor;
+        }
+        else
+            diffuse = diffuseTexColor;
+    }
+    float alpha = diffuse.a;
 
-	return float4((Mat.DiffuseColor * saturate(N.z)).rgb, Mat.Opacity);
+    float3 N = normalize(IN.normalVS);
+    float4 DiffuseColor = (0.0f);
+    if (Lights[0].Type == 0)
+    {
+    //0 point
+        float3 L = Lights[0].PositionVS.xyz - IN.positionVS;
+        float distance = length(L);
+        L = L / distance;
+
+        float attenuation = DoAttenuation(Lights[0], distance);
+        float NdotL = max(dot(N, L), 0);
+        DiffuseColor = (Lights[0].Color * NdotL) * attenuation;
+    }
+    else if (Lights[0].Type == 1)
+    {
+    //1 spot
+        
+    }
+    else if (Lights[0].Type == 2)
+    {
+        //2 directional
+        float3 L = -normalize(Lights[0].DirectionVS);
+        float NdotL = min(max(dot(N, L), 0.0f), 1.0f);
+        if (NdotL > .0001F)
+            DiffuseColor = (Lights[0].Color * NdotL);
+            //DiffuseColor = float4(NdotL, 0.0f, 0.0f, 1.0f);
+
+    }
+
+    //Light Diffuse
+      
+
+    //Light Spec
+
+        //float3 R = normalize(reflect(-L, IN.normalVS));
+        //float RDov = max(dot(R, -IN.positionVS), 0.0f);
+
+        //float4 spec = (Lights[0].Color) * pow(RDov, mat.SpecularPower) * attenuation * Lights[0].Intensity;
+
+    float4 specColor = 0;
+    if (mat.SpecularPower > 1.0f)
+    {
+        specColor = mat.SpecularColor;
+            //specColor *= spec;
+    }
+    return diffuse * DiffuseColor + float4(0.32, 0.32, 0.32, 1.0);
 }
 
 // Used for rendering unlit materials.

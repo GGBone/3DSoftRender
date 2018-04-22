@@ -16,14 +16,16 @@
 
 
 using namespace Hikari;
-Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<Renderer> renderer,std::shared_ptr<Scene> scene,std::vector<Light>& lights)
+Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<Renderer> renderer, 
+	vector<std::shared_ptr<Scene>> scene, vector<shared_ptr<Scene>> transScene)
 {
 	std::shared_ptr<Shader> vertexShader = renderer->CreateShader();
 	std::shared_ptr<Shader> pixelShader = renderer->CreateShader();
 	std::shared_ptr<Shader> lightPixelShaser = renderer->CreateShader();
+	std::shared_ptr<VisualTechnique> forwardTechnique = std::make_shared<VisualTechnique>();
 
-	std::shared_ptr<OpaquePass> opaquePass;
-	//std::shared_ptr<ClearRenderTargetPass> clearPass;
+	//std::shared_ptr<OpaquePass> opaquePass;
+	std::shared_ptr<LightsPass> lightPass;
 	std::shared_ptr<TransparentPass> transparentPass;
 	std::shared_ptr<LightsPass> lightPassFont;
 
@@ -34,19 +36,15 @@ Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::sha
 	DepthStencilState::DepthMode disableDepthTesting(false);
 
 	vertexShader->LoadShaderFromFile(Shader::VertexShader, "../Assets/shaders/ForwardRendering.hlsl", Shader::ShaderMacros(), "VS_main", "latest");
-	pixelShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/ForwardRendering.hlsl", Shader::ShaderMacros(), "PS_NoLight", "latest");
+	//pixelShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/ForwardRendering.hlsl", Shader::ShaderMacros(), "PS_NoLight", "latest");
 	lightPixelShaser->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/ForwardRendering.hlsl", Shader::ShaderMacros(), "PS_light", "latest");
-
-	std::shared_ptr<StructuredBuffer> lightBuffer = renderer->CreateStructuredBuffer(lights, CPUAccess::Write);
-
-	pixelShader->GetShaderParameterByName("Lights").Set(lightBuffer);
 
 	//Opaque Pass
 	{
 		std::shared_ptr<PipelineState> g_OpaquePipeline = renderer->CreatePipelineState();
 		g_OpaquePipeline->SetShader(Shader::VertexShader, vertexShader);
-		g_OpaquePipeline->SetShader(Shader::PixelShader, pixelShader);
-
+		g_OpaquePipeline->SetShader(Shader::PixelShader, lightPixelShaser);
+		
 		g_OpaquePipeline->SetRenderTarget(rWindow->GetRenderTarget());
 		g_OpaquePipeline->GetRasterizerState().SetCullMode(RasterizerState::CullMode::Front);
 
@@ -54,9 +52,16 @@ Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::sha
 		sampler->SetFilter(SamplerState::MinFilter::MinLinear, SamplerState::MagFilter::MagLinear, SamplerState::MipFilter::MipLinear);
 		sampler->SetWrapMode(SamplerState::WrapMode::Repeat, SamplerState::WrapMode::Repeat, SamplerState::WrapMode::Repeat);
 
-		opaquePass = std::make_shared<OpaquePass>(renderer, scene, g_OpaquePipeline);
-		opaquePass->SetSampler(sampler, "LinearRepeatSampler");
-
+		auto iter = scene.begin();
+		for (; iter != scene.end(); iter++)
+		{
+			lightPass = std::make_shared<LightsPass>(renderer, *iter, g_OpaquePipeline);
+			lightPass->SetSampler(sampler, "LinearRepeatSampler");
+			forwardTechnique->AddPass(lightPass);
+			lightPass.reset();
+		}
+		sampler.reset();
+		g_OpaquePipeline.reset();
 	}
 
 	//Transparent Pass
@@ -69,8 +74,14 @@ Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::sha
 		transparentPipeline->GetDepthStencilState().SetDepthMode(disableDepthWrites);
 		transparentPipeline->GetRasterizerState().SetCullMode(RasterizerState::CullMode::None);
 		transparentPipeline->SetRenderTarget(rWindow->GetRenderTarget());
-		transparentPass = std::make_shared<TransparentPass>(renderer, scene, transparentPipeline);
 
+		auto iter = transScene.begin();
+		for (; iter != transScene.end(); iter++)
+		{
+			transparentPass = std::make_shared<TransparentPass>(renderer, *iter, transparentPipeline);
+			forwardTechnique->AddPass(transparentPass);
+			transparentPass.reset();
+		}
 	}
 
 	//LightFontPass
@@ -86,22 +97,23 @@ Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::sha
 		lightFontPipeline->GetDepthStencilState().SetDepthMode(disableDepthWrites);
 		lightFontPipeline->GetBlendState().SetBlendMode(alphaBlending);
 
-		lightPassFont = std::make_shared<LightsPass>(renderer,lights,scene,cone,arrow,lightFontPipeline);
+		//lightPassFont = std::make_shared<LightsPass>(renderer,scene,lightFontPipeline);
 	}
 
 
-
-	std::shared_ptr<VisualTechnique> forwardTechnique = std::make_shared<VisualTechnique>();
-
-	forwardTechnique->AddPass(opaquePass);
-	/*forwardTechnique->AddPass(transparentPass);
-	forwardTechnique->AddPass(lightPassFont);*/
 	InsertTechnique(forwardTechnique);
 
+	vertexShader.reset();
+	pixelShader.reset();
+	lightPixelShaser.reset();
+	lightPass.reset();
+	transparentPass.reset();
+	lightPassFont.reset();
 }
 
 Hikari::LightEffect::~LightEffect()
 {
+	
 }
 
 std::shared_ptr<VisualEffectInstance> Hikari::LightEffect::CreateInstance()

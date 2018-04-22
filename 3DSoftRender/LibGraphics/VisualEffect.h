@@ -11,13 +11,13 @@ namespace Hikari
 	class VisualEffect
 	{
 	public:
-		VisualEffect::VisualEffect();
-		VisualEffect::~VisualEffect();
-		VisualEffect::VisualEffect(const std::string & name, int mode);
-		void VisualEffect::InsertTechnique(std::shared_ptr<VisualTechnique> technique);
+		VisualEffect();
+		virtual ~VisualEffect();
+		VisualEffect(const std::string & name, int mode);
+		void InsertTechnique(std::shared_ptr<VisualTechnique> technique);
 		std::shared_ptr<VisualTechnique> VisualEffect::GetTechnique(int techIndex);
 		size_t GetTechniqueSize() const;
-		void PreRender();
+		void ClearTechiniques();
 	protected:
 		virtual std::shared_ptr<VisualEffectInstance> CreateInstance() = 0;
 

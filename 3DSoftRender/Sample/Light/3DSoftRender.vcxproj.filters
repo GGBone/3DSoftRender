@@ -160,6 +160,9 @@
     <FxCompile Include="..\Assets\shaders\Voxelization\VoxelizationVS.hlsl">
       <Filter>资源文件\Voxel\Voxelization</Filter>
     </FxCompile>
+    <FxCompile Include="..\Assets\shaders\DefaultShader.hlsl">
+      <Filter>资源文件\Forward</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp">

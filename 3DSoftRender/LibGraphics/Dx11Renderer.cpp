@@ -246,10 +246,17 @@ std::shared_ptr<Scene> Hikari::DirectRenderer::CreatePlane(float size, const AVe
 	// Rotate the plane vertices in the direction of the surface normal.
 	Float4 rot = RotationFromTwoVectors(Float3(0, 1, 0), N);
 
-	for (int i = 0; i < 4; i++)
+	if (N[0] == 0.0f && N[1] == 0.0f&& N[2] == 1.0f)
 	{
-		//p[i] = rot * p[i];
+		p[0] = Float3(halfSize, halfSize,0);
+		p[1] = Float3(-halfSize, halfSize,0);
+		p[2] = Float3(-halfSize, -halfSize,0);
+		p[3] = Float3(halfSize, -halfSize,0);
 	}
+	/*for (int i = 0; i < 4; i++)
+	{
+		p[i] = rot * p[i];
+	}*/
 
 	// Now create the plane polygon from the transformed vertices.
 	std::shared_ptr<Scene> scene = CreateScene();
@@ -286,7 +293,7 @@ std::shared_ptr<Scene> Hikari::DirectRenderer::CreateSphere(float radius, float 
 {
 	std::shared_ptr<Scene> scene = CreateScene();
 	std::stringstream ss;
-	ss << "f 1 1 1 1 0 0 0 0" << std::endl;
+	ss << "f 1 1 1 1 0 0 0.5 0" << std::endl;
 	ss << "tess" << tesselation << std::endl;
 
 	ss << "s 0 0 0" << radius << std::endl;

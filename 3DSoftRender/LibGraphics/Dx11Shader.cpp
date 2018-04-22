@@ -5,7 +5,7 @@ static ShaderParameterDx g_InvalidShaderParameter;
 
 
 DXGI_FORMAT GetDXGIFormat(const D3D11_SIGNATURE_PARAMETER_DESC& paramDesc);
-Hikari::ShaderDx::ShaderDx(std::shared_ptr<DirectRenderer> renderer)
+Hikari::ShaderDx::ShaderDx(std::shared_ptr<DirectRenderer>& renderer)
 	:mShaderType(UnKnownShaderType),
 	mDevice(nullptr),
 	mContext(nullptr),

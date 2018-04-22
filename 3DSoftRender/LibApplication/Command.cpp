@@ -42,7 +42,7 @@ Hikari::Command::Command(char * commandLine)
 	char* token = strtok(mCommandLine, " \t");
 	Argument* argList = 0;
 
-	while (tolower)
+	while (token)
 	{
 		mNumArguments++;
 		Argument* curr = new Argument(token, argList);

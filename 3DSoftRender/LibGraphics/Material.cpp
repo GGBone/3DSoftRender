@@ -1,4 +1,5 @@
-#include "Graphics\GraphicsPCH.h"
+#include <Graphics\GraphicsPCH.h>
+#include <Graphics\Dx11RenderLIB.h>
 
 #include <Graphics\Shader.h>
 #include <Graphics\ShaderParameter.h>
@@ -6,7 +7,6 @@
 #include <Graphics\ConstantBuffer.h>
 
 #include <Graphics\Material.h>
-#include "Graphics\Dx11RenderLIB.h"
 using namespace Hikari;
 Material::Material(Renderer* renderDevice)
 	:m_Renderer(renderDevice),
