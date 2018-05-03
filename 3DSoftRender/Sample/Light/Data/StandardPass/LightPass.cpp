@@ -17,7 +17,6 @@ Hikari::LightsPass::LightsPass(std::shared_ptr<Renderer> renderer, std::shared_p
 	:BasePass(renderer, pointLight, pipeline)
 	,m_Lights(WindowApplicationEngine::g_Setting.Lights)
 {
-	m_LightMaterial = renderer->CreateMaterial();
 	g_pLightStructuredBuffer = renderer->CreateStructuredBuffer(m_Lights, CPUAccess::Write);
 }
 
@@ -27,23 +26,20 @@ Hikari::LightsPass::~LightsPass()
 
 void Hikari::LightsPass::PreRender(RenderEventArgs & e)
 {
-	XMMATRIX viewMatrix = e.Camera->View();
+	//XMMATRIX viewMatrix = e.Camera->View();
 
-	// Update the viewspace vectors of the light.
-	for (unsigned int i = 0; i < WindowApplicationEngine::g_Setting.Lights.size(); i++)
-	{
-		// Update the lights so that their position and direction are in view space.
-		Light& light = WindowApplicationEngine::g_Setting.Lights[i];
-		XMVECTOR lightWS = XMVectorSet(light.m_PositionWS[0], light.m_PositionWS[1], light.m_PositionWS[2], light.m_PositionWS[3]);
-		XMVECTOR lightVS = XMVector3TransformCoord(lightWS, viewMatrix);
-		XMFLOAT4 temp;
-		XMStoreFloat4(&temp, lightVS);
+	//// Update the viewspace vectors of the light.
+	//for (unsigned int i = 0; i < WindowApplicationEngine::g_Setting.Lights.size(); i++)
+	//{
+	//	// Update the lights so that their position and direction are in view space.
+	//	Light& light = WindowApplicationEngine::g_Setting.Lights[i];
+	//	XMVECTOR lightPosWS = XMVectorSet(light.m_PositionWS[0], light.m_PositionWS[1], light.m_PositionWS[2], light.m_PositionWS[3]);
+	//	XMVECTOR lightPosVS = XMVector3TransformCoord(lightPosWS, viewMatrix);
 
-		light.m_DirectionVS = Float4(temp.x, temp.y, temp.z, temp.w);
-
-	}
+	//}
 	g_pLightStructuredBuffer->Set(WindowApplicationEngine::g_Setting.Lights);
 	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName("Lights").Set(g_pLightStructuredBuffer);
+	BindPerObjectConstantBuffer(m_Pipeline->GetShader(Shader::PixelShader));
 	BasePass::PreRender(e);
 }
 
@@ -54,10 +50,7 @@ void Hikari::LightsPass::Render(RenderEventArgs & e)
 	{
 		m_pCurrentLight = &light;
 		m_pCurrentLight->m_Selected = true;
-		float a = light.m_Enabled ? 0.5f: 0.1f;
-		a = light.m_Selected ? 0.9f : a;
-		m_LightMaterial->SetDiffuseColor(light.m_Color);
-		m_LightMaterial->SetOpacity(a);
+	
 		m_PointLightScene = m_Scene;
 		m_pSpotLightScene = m_Scene;
 		m_pDirectionalLightScene = m_Scene;
@@ -81,10 +74,7 @@ void Hikari::LightsPass::Render(RenderEventArgs & e)
 
 void Hikari::LightsPass::Visit(Mesh & mesh)
 {
-	std::shared_ptr<Material> temp = mesh.GetMaterial();
-	mesh.SetMaterial(m_LightMaterial);
 	mesh.Render(GetRenderEventArgs());
-	mesh.SetMaterial(temp);
 }
 
 const Light* Hikari::LightsPass::GetCurrentLight()

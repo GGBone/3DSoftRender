@@ -51,6 +51,7 @@
     <ClInclude Include="Data\CommonPass\EndQueryPass.h" />
     <ClInclude Include="Data\StandardPass\LightPass.h" />
     <ClInclude Include="Data\StandardPass\OpaquePass.h" />
+    <ClInclude Include="Data\StandardPass\ShadowPass.h" />
     <ClInclude Include="Data\StandardPass\TransparentPass.h" />
     <ClInclude Include="Data\VoxelPass\FlagOctreePass.h" />
     <ClInclude Include="Data\VoxelPass\VisualizationPass.h" />
@@ -71,6 +72,7 @@
     <ClCompile Include="Data\CommonPass\EndQueryPass.cpp" />
     <ClCompile Include="Data\StandardPass\LightPass.cpp" />
     <ClCompile Include="Data\StandardPass\OpaquePass.cpp" />
+    <ClCompile Include="Data\StandardPass\ShadowPass.cpp" />
     <ClCompile Include="Data\StandardPass\TransparentPass.cpp" />
     <ClCompile Include="Data\VoxelPass\FlagOctreePass.cpp" />
     <ClCompile Include="Data\VoxelPass\VisualizationPass.cpp" />
@@ -125,6 +127,11 @@
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\OctTree\WriteLeafOctree.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\OIT\oit.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\Visualization\VisualSVOCS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

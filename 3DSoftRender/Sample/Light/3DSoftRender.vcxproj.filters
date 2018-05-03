@@ -116,6 +116,9 @@
     <ClInclude Include="ShaderEffect\VoxelEffect.h">
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Data\StandardPass\ShadowPass.h">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Assets\shaders\CommonInclude.hlsl">
@@ -161,6 +164,9 @@
       <Filter>资源文件\Voxel\Voxelization</Filter>
     </FxCompile>
     <FxCompile Include="..\Assets\shaders\DefaultShader.hlsl">
+      <Filter>资源文件\Forward</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Assets\shaders\OIT\oit.hlsl">
       <Filter>资源文件\Forward</Filter>
     </FxCompile>
   </ItemGroup>
@@ -212,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="ShaderEffect\VoxelEffect.cpp">
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\StandardPass\ShadowPass.cpp">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

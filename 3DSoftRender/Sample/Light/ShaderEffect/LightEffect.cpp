@@ -69,7 +69,7 @@ Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::sha
 
 		std::shared_ptr<PipelineState> transparentPipeline = renderer->CreatePipelineState();
 		transparentPipeline->SetShader(Shader::VertexShader, vertexShader);
-		transparentPipeline->SetShader(Shader::PixelShader, pixelShader);
+		transparentPipeline->SetShader(Shader::PixelShader, lightPixelShaser);
 		transparentPipeline->GetBlendState().SetBlendMode(alphaBlending);
 		transparentPipeline->GetDepthStencilState().SetDepthMode(disableDepthWrites);
 		transparentPipeline->GetRasterizerState().SetCullMode(RasterizerState::CullMode::None);

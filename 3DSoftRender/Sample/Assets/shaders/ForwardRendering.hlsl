@@ -7,9 +7,9 @@ VertexShaderOutput VS_main(AppData IN)
 	OUT.position = mul(ModelViewProjection, float4(IN.position, 1.0f));
 
 	OUT.positionVS = mul(ModelView, float4(IN.position, 1.0f)).xyz;
-	OUT.tangentVS = mul((float3x3)ModelView, IN.tangent);
-	OUT.binormalVS = mul((float3x3)ModelView, IN.binormal);
-	OUT.normalVS = mul((float3x3)ModelView, IN.normal);
+    OUT.tangentVS = mul(IN.tangent, (float3x3) ModelView);
+    OUT.binormalVS = mul(IN.binormal, (float3x3) ModelView);
+    OUT.normalVS = mul(IN.normal, (float3x3) ModelView);
 
 	OUT.texCoord = IN.texCoord;
 
@@ -154,11 +154,15 @@ float4 PS_light(VertexShaderOutput IN) : SV_TARGET
     float alpha = diffuse.a;
 
     float3 N = normalize(IN.normalVS);
-    float4 DiffuseColor = (0.0f);
+    float4 DiffuseColor = 0.0f;
+    float4 LightDirectionVS = float4(mul(Lights[0].DirectionWS, ModelView).xyz, 0.0f);
+
+    float3 L = 0.0f;
+    float4 spec = 0.0f;
     if (Lights[0].Type == 0)
     {
     //0 point
-        float3 L = Lights[0].PositionVS.xyz - IN.positionVS;
+        L = Lights[0].PositionVS.xyz - IN.positionVS;
         float distance = length(L);
         L = L / distance;
 
@@ -174,31 +178,26 @@ float4 PS_light(VertexShaderOutput IN) : SV_TARGET
     else if (Lights[0].Type == 2)
     {
         //2 directional
-        float3 L = -normalize(Lights[0].DirectionVS);
-        float NdotL = min(max(dot(N, L), 0.0f), 1.0f);
-        if (NdotL > .0001F)
-            DiffuseColor = (Lights[0].Color * NdotL);
-            //DiffuseColor = float4(NdotL, 0.0f, 0.0f, 1.0f);
 
+        L = -normalize(LightDirectionVS);
+        float NdotL = min(max(dot(N, L), 0.0f), 1.0f);
+        if (NdotL > .000000f)
+            DiffuseColor = (Lights[0].Color * NdotL);
+
+         //Light Spec
+        float3 R = normalize(reflect(-L, N));
+        float RDov = max(dot(R, normalize(-IN.positionVS)), 0.0f);
+        spec = (Lights[0].Color) * pow(RDov, mat.SpecularPower) * Lights[0].Intensity;
     }
 
-    //Light Diffuse
-      
-
-    //Light Spec
-
-        //float3 R = normalize(reflect(-L, IN.normalVS));
-        //float RDov = max(dot(R, -IN.positionVS), 0.0f);
-
-        //float4 spec = (Lights[0].Color) * pow(RDov, mat.SpecularPower) * attenuation * Lights[0].Intensity;
 
     float4 specColor = 0;
     if (mat.SpecularPower > 1.0f)
     {
         specColor = mat.SpecularColor;
-            //specColor *= spec;
+        specColor *= spec;
     }
-    return diffuse * DiffuseColor + float4(0.32, 0.32, 0.32, 1.0);
+    return diffuse * DiffuseColor + specColor;
 }
 
 // Used for rendering unlit materials.

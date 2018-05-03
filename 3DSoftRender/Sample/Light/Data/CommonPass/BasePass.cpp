@@ -99,7 +99,7 @@ void BasePass::Visit(Node& node)
 			temp[1][0], temp[1][1], temp[1][2], temp[1][3],
 			temp[2][0], temp[2][1], temp[2][2], temp[2][3],
 			temp[3][0], temp[3][1], temp[3][2], temp[3][3]);
-		perObjectData.ModelView = XMMatrixMultiply(viewMatrix, worldTransform);
+		perObjectData.ModelView = XMMatrixMultiply(worldTransform,viewMatrix);
 
 		perObjectData.ModelViewProjection = XMMatrixMultiply(perObjectData.ModelView, camera->Proj());
 

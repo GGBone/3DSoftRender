@@ -44,7 +44,6 @@ namespace Hikari
 		std::string m_SamplerStateName;
 		std::shared_ptr<StructuredBuffer> m_LightBuffer;
 		std::vector<Light>& m_Lights;
-		std::shared_ptr<Material> m_LightMaterial;
 
 		std::shared_ptr<StructuredBuffer> g_pLightStructuredBuffer;
 
