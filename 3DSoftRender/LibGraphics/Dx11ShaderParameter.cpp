@@ -3,7 +3,7 @@
 #include "Graphics\Dx11ConstantBuffer.h"
 #include "Graphics\Dx11StructureBuffer.h"
 #include "Graphics\Dx11SamplerState.h"
-#include "Graphics\RWBuffer.h"
+#include "Graphics\Buffer.h"
 using namespace Hikari;
 
 Hikari::ShaderParameterDx::ShaderParameterDx()
@@ -12,22 +12,25 @@ Hikari::ShaderParameterDx::ShaderParameterDx()
 	mTexture(nullptr),
 	mSamplerState(nullptr),
 	mConstantBuffer(nullptr),
-	mStructuredBuffer(nullptr)
+	mStructuredBuffer(nullptr),
+	mBuffer(nullptr),
+	m_GpuAccess(GPURW::Read)
 {
 
 }
 
-Hikari::ShaderParameterDx::ShaderParameterDx(const std::string & name, UINT slotID, Shader::ShaderType shaderType, Type parameterType)
+Hikari::ShaderParameterDx::ShaderParameterDx(const std::string & name, UINT slotID, Shader::ShaderType shaderType, Type parameterType,GPURW gpuAccess)
 	:
 	mName(name),
 	m_uiSlot(slotID),
 	m_ShaderType(shaderType),
 	m_ParameterType(parameterType),
+	m_GpuAccess(gpuAccess),
 	mTexture(nullptr),
 	mSamplerState(nullptr),
 	mConstantBuffer(nullptr),
 	mStructuredBuffer(nullptr),
-	mRWBuffer(nullptr)
+	mBuffer(nullptr)
 {
 }
 
@@ -42,6 +45,11 @@ ShaderParameter::Type Hikari::ShaderParameterDx::GetType() const
 	return m_ParameterType;
 }
 
+ShaderParameter::GPURW Hikari::ShaderParameterDx::GetRW() const
+{
+	return m_GpuAccess;
+}
+
 void Hikari::ShaderParameterDx::Bind()
 {
 	
@@ -52,9 +60,9 @@ void Hikari::ShaderParameterDx::Bind()
 	if(mSamplerState)
 		mSamplerState->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
 	if(mStructuredBuffer)
-		mStructuredBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
-	if (mRWBuffer)
-		mRWBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType);
+		mStructuredBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType,m_GpuAccess);
+	if (mBuffer)
+		mBuffer->Bind(m_uiSlot, m_ShaderType, m_ParameterType, m_GpuAccess);
 }
 
 void Hikari::ShaderParameterDx::UnBind()
@@ -67,13 +75,13 @@ void Hikari::ShaderParameterDx::UnBind()
 		mSamplerState->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
 	if (mStructuredBuffer)
 		mStructuredBuffer->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
-	if (mRWBuffer)
-		mRWBuffer->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
+	if (mBuffer)
+		mBuffer->UnBind(m_uiSlot, m_ShaderType, m_ParameterType);
 	mConstantBuffer = nullptr;
 	mTexture = nullptr;
 	mSamplerState = nullptr;
 	mStructuredBuffer = nullptr;
-	mRWBuffer = nullptr;
+	mBuffer = nullptr;
 }
 
 void Hikari::ShaderParameterDx::SetConstantBuffer(std::shared_ptr<ConstantBuffer> constantBuffer)
@@ -96,7 +104,7 @@ void Hikari::ShaderParameterDx::SetStructuredBuffer(std::shared_ptr<StructuredBu
 	mStructuredBuffer = rwBuffer;
 }
 
-void Hikari::ShaderParameterDx::SetRWBuffer(std::shared_ptr<RWBuffer> rwBuffer)
+void Hikari::ShaderParameterDx::SetBuffer(std::shared_ptr<Buffer> rwBuffer)
 {
-	mRWBuffer = rwBuffer;
+	mBuffer = rwBuffer;
 }

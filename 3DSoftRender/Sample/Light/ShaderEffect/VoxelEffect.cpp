@@ -6,7 +6,7 @@
 #include "Graphics\Camera.h"
 #include "Graphics\RenderTarget.h"
 #include "Graphics\SamplerState.h"
-#include "Graphics\Dx11RWBuffer.h"
+#include "Graphics\Dx11Buffer.h"
 #include "FlagOctreePass.h"
 using namespace Hikari;
 
@@ -66,17 +66,17 @@ Hikari::VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow,std::shar
 	uint32_t fragmentSize = sizeof(VoxelizationPass::Voxel) * MaxLevelRes * MaxLevelRes * MaxLevelRes * FragmentMultiples;
 
 	//bind uav Views
-	std::shared_ptr<StructuredBuffer> voxelUAVBuffer = renderer->CreateStructuredBuffer(nullptr, fragmentSize / sizeof(VoxelizationPass::Voxel),
+	auto voxelUAVBuffer = renderer->CreateStructuredBuffer(nullptr, fragmentSize / sizeof(VoxelizationPass::Voxel),
 		sizeof(VoxelizationPass::Voxel), CPUAccess::None, true, true,true);
 	
 	//bind uav Views
-	std::shared_ptr<RWBuffer> indexUAVBuffer = renderer->CreateRWBuffer(nullptr,1,sizeof(int));
+	auto indexUAVBuffer = renderer->CreateBuffer(nullptr,1,sizeof(int));
 
 
 	//RenderTarget
 	std::shared_ptr<RenderTarget> renderTarget = renderer->CreateRenderTarget();
 	renderTarget->AttachStructuredBuffer(0, voxelUAVBuffer);
-	renderTarget->AttachRWBuffer(0, indexUAVBuffer);
+	renderTarget->AttachBuffer(0, indexUAVBuffer);
 
 	g_VoxelPipeline->SetRenderTarget(renderTarget);
 
@@ -145,8 +145,8 @@ Hikari::VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow,std::shar
 	std::vector<UINT> u_nodeInit;
 	u_nodeInit.push_back(1);
 
-	//std::shared_ptr<RWBuffer> brickIndex = renderer->CreateRWBuffer(&u_brickInit, 1, sizeof(UINT));
-	//std::shared_ptr<RWBuffer> nodeInedx = renderer->CreateRWBuffer(&u_nodeInit, 1, sizeof(UINT));
+	//std::shared_ptr<Buffer> brickIndex = renderer->CreateRWBuffer(&u_brickInit, 1, sizeof(UINT));
+	//std::shared_ptr<Buffer> nodeInedx = renderer->CreateRWBuffer(&u_nodeInit, 1, sizeof(UINT));
 	UINT mTotalLevel = (UINT)std::log2f(MaxLevelRes) + 1;
 	UINT mTotalNode = 0;
 	UINT res = MaxLevelRes;
@@ -161,7 +161,7 @@ Hikari::VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow,std::shar
 	{
 		initNum.push_back(0);
 	}
-	//std::shared_ptr<RWBuffer> numNode = renderer->CreateRWBuffer(initNum.data(), (UINT)initNum.size(), sizeof(UINT));
+	//std::shared_ptr<Buffer> numNode = renderer->CreateRWBuffer(initNum.data(), (UINT)initNum.size(), sizeof(UINT));
 
 	FlagOctreePass::CBInfo cbInfo;
 
@@ -177,7 +177,7 @@ Hikari::VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow,std::shar
 	
 	std::vector<UINT> visualIndex;
 	visualIndex.push_back(0);
-	//std::shared_ptr<RWBuffer> visualIndex = renderer->CreateRWBuffer(i,1,sizeof(UINT));
+	//std::shared_ptr<Buffer> visualIndex = renderer->CreateRWBuffer(i,1,sizeof(UINT));
 	std::shared_ptr<FlagOctreePass> svoPass = std::make_shared<FlagOctreePass>(renderer, scene, g_SVOPipeline);
 	svoPass->SetTotalLevel(mTotalLevel);
 	svoPass->SetTotalNode(mTotalNode);

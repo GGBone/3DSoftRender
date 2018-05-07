@@ -6,9 +6,9 @@
 //    float4 color;
 //    float2 deepthAndPrev;
 //};
-//RWBuffer<int> HeaderPointer;
+//Buffer<int> HeaderPointer;
 //AppendStructuredBuffer<NodeStructure> nodeBuffer;
-//RWBuffer<int> nodeCount;
+//Buffer<int> nodeCount;
 //cbuffer ScreenSize : register(b5)
 //{
 //    uint width;
@@ -25,7 +25,7 @@
 //    nodeBuffer.Addend(currNode);
 //    InterIockedAdd(nodeCount[0], 1);
 //}
-cbuffer ScreenSize
+cbuffer ScreenSize : register(b4)
 {
     float width;
     float height;

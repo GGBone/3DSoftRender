@@ -11,8 +11,8 @@ namespace Hikari
 		SceneDX11(std::shared_ptr<DirectRenderer>& pDevice);
 		virtual ~SceneDX11();
 	protected:
-		virtual std::shared_ptr<Buffer> CreateFloatVertexBuffer(const float* data, unsigned int count, unsigned int stride) const;
-		virtual std::shared_ptr<Buffer> CreateUIntIndexBuffer(const unsigned int* data, unsigned int count) const;
+		virtual std::shared_ptr<BufferBase> CreateFloatVertexBuffer(const float* data, unsigned int count, unsigned int stride) const;
+		virtual std::shared_ptr<BufferBase> CreateUIntIndexBuffer(const unsigned int* data, unsigned int count) const;
 
 		virtual std::shared_ptr<Mesh> CreateMesh() const;
 		virtual std::shared_ptr<Material> CreateMaterial() const;

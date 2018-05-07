@@ -1,5 +1,4 @@
 #include "Graphics\GraphicsPCH.h"
-#include "Application\LibApplicationPCH.h"
 #include "Application\WindowApplicationBase.h"
 #include "Graphics\Dx11Renderer.h"
 #include "Loader\ConfigurationSetting.h"
@@ -9,11 +8,12 @@
 #include "Graphics\Dx11Scene.h"
 #include "Graphics\Dx11PipelineState.h"
 #include "Graphics\Dx11ConstantBuffer.h"
-#include "Graphics\Dx11RWBuffer.h"
+#include "Graphics\Dx11Buffer.h"
 #include "Graphics\Dx11Mesh.h"
 #include "Graphics\Dx11RenderTarget.h"
 #include "Graphics\Material.h"
 #include "Graphics\Dx11Query.h"
+#include "Graphics\Dx11VertexIndexBuffer.h"
 #include <sstream>
 
 namespace Hikari
@@ -188,12 +188,12 @@ ID3D11DeviceContext2 * Hikari::DirectRenderer::GetDeviceContext() const
 	return m_pDeviceContext;
 }
 
-void Hikari::DirectRenderer::DestroyVertexBuffer(std::shared_ptr<Buffer> buffer)
+void Hikari::DirectRenderer::DestroyVertexBuffer(std::shared_ptr<BufferBase> buffer)
 {
 	DestroyBuffer(buffer);
 }
 
-void Hikari::DirectRenderer::DestroyBuffer(std::shared_ptr<Buffer> buffer)
+void Hikari::DirectRenderer::DestroyBuffer(std::shared_ptr<BufferBase> buffer)
 {
 	BufferList::iterator iter = std::find(m_Buffers.begin(), m_Buffers.end(), buffer);
 	if (iter != m_Buffers.end())
@@ -202,7 +202,7 @@ void Hikari::DirectRenderer::DestroyBuffer(std::shared_ptr<Buffer> buffer)
 	}
 }
 
-void Hikari::DirectRenderer::DestroyIndexBuffer(std::shared_ptr<Buffer> buffer)
+void Hikari::DirectRenderer::DestroyIndexBuffer(std::shared_ptr<BufferBase> buffer)
 {
 	DestroyBuffer(buffer);
 }
@@ -217,7 +217,7 @@ void Hikari::DirectRenderer::DestroyStructuredBuffer(std::shared_ptr<StructuredB
 	DestroyBuffer(buffer);
 }
 
-void Hikari::DirectRenderer::DestroyRWBuffer(std::shared_ptr<RWBuffer> buffer)
+void Hikari::DirectRenderer::DestroyBuffer(std::shared_ptr<Buffer> buffer)
 {
 	DestroyBuffer(buffer);
 }
@@ -346,30 +346,30 @@ void Hikari::DirectRenderer::DestoryPipelineState(std::shared_ptr<PipelineState>
 }
 
 
-std::shared_ptr<Buffer> Hikari::DirectRenderer::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride)
+std::shared_ptr<BufferBase> Hikari::DirectRenderer::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride)
 {
-	std::shared_ptr<Buffer> buffer = std::make_shared<BufferDx>(shared_from_this(), D3D11_BIND_VERTEX_BUFFER, data, count, stride);
+	std::shared_ptr<BufferBase> buffer = std::make_shared<VertexIndexBufferDx11>(shared_from_this(), D3D11_BIND_VERTEX_BUFFER, data, count, stride);
 	m_Buffers.push_back(buffer);
 	return buffer;
 }
 
-std::shared_ptr<Buffer> Hikari::DirectRenderer::CreateDoubleVertexBuffer(const double * data, unsigned int count, unsigned int stride)
+std::shared_ptr<BufferBase> Hikari::DirectRenderer::CreateDoubleVertexBuffer(const double * data, unsigned int count, unsigned int stride)
 {
-	std::shared_ptr<Buffer> buffer = std::make_shared<BufferDx>(shared_from_this(), D3D11_BIND_VERTEX_BUFFER, data, count, stride);
+	std::shared_ptr<BufferBase> buffer = std::make_shared<VertexIndexBufferDx11>(shared_from_this(), D3D11_BIND_VERTEX_BUFFER, data, count, stride);
 	m_Buffers.push_back(buffer);
 	return buffer;
 }
 
-std::shared_ptr<Buffer> Hikari::DirectRenderer::CreateUINTVertexBuffer(const UINT * data, unsigned int count, unsigned int stride)
+std::shared_ptr<BufferBase> Hikari::DirectRenderer::CreateUINTVertexBuffer(const UINT * data, unsigned int count, unsigned int stride)
 {
-	std::shared_ptr<Buffer> buffer = std::make_shared<BufferDx>(shared_from_this(), D3D11_BIND_VERTEX_BUFFER, data, count, (UINT)sizeof(unsigned int));
+	std::shared_ptr<BufferBase> buffer = std::make_shared<VertexIndexBufferDx11>(shared_from_this(), D3D11_BIND_VERTEX_BUFFER, data, count, (UINT)sizeof(unsigned int));
 	m_Buffers.push_back(buffer);
 	return buffer;
 }
 
-std::shared_ptr<Buffer> Hikari::DirectRenderer::CreateUIntIndexBuffer(const unsigned int * data, unsigned int sizeInBytes)
+std::shared_ptr<BufferBase> Hikari::DirectRenderer::CreateUIntIndexBuffer(const unsigned int * data, unsigned int sizeInBytes)
 {
-	std::shared_ptr<Buffer> buffer =  std::make_shared<BufferDx>(shared_from_this(), D3D11_BIND_INDEX_BUFFER, data, sizeInBytes, (UINT)sizeof(unsigned int));
+	std::shared_ptr<BufferBase> buffer =  std::make_shared<VertexIndexBufferDx11>(shared_from_this(), D3D11_BIND_INDEX_BUFFER, data, sizeInBytes, (UINT)sizeof(unsigned int));
 	m_Buffers.push_back(buffer);
 	return buffer;
 }
@@ -391,9 +391,9 @@ std::shared_ptr<StructuredBuffer>  Hikari::DirectRenderer::CreateStructuredBuffe
 	return buffer;
 }
 
-std::shared_ptr<RWBuffer>  Hikari::DirectRenderer::CreateRWBuffer(void * data, unsigned int count, unsigned int stride, CPUAccess cpuAccess)
+std::shared_ptr<Buffer>  Hikari::DirectRenderer::CreateBuffer(void * data, unsigned int count, unsigned int stride, CPUAccess cpuAccess)
 {
-	std::shared_ptr<RWBuffer> buffer = std::make_shared<RWBufferDX11>(m_pDevice, 0, data, count, stride);
+	std::shared_ptr<Buffer> buffer = std::make_shared<BufferDX11>(m_pDevice, 0, data, count, stride);
 	m_Buffers.push_back(buffer);
 
 	return buffer;

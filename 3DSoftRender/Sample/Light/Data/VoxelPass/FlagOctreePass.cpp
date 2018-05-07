@@ -5,8 +5,8 @@
 #include "Graphics\Dx11Renderer.h"
 #include "Graphics\PipelineState.h"
 #include "Graphics\RenderTarget.h"
-#include "Graphics\RWBuffer.h"
-#include "Graphics\Dx11RWBuffer.h"
+#include "Graphics\Buffer.h"
+#include "Graphics\Dx11Buffer.h"
 #include "Graphics\Dx11StructureBuffer.h"
 #include "Graphics\Dx11Texture.h"
 #include "Graphics\Dx11ConstantBuffer.h"
@@ -51,7 +51,7 @@ Hikari::FlagOctreePass::FlagOctreePass(std::shared_ptr<Renderer> render, std::sh
 	m_cbTrans = m_RenderDevice->CreateConstantBuffer(matrix);
 
 	UINT i[] = { 0 };
-	m_visualIndex = m_RenderDevice->CreateRWBuffer(i, 1, sizeof(UINT));
+	m_visualIndex = m_RenderDevice->CreateBuffer(i, 1, sizeof(UINT));
 
 
 	UINT mTotalLevel = (UINT)std::log2f(MaxLevelRes) + 1;
@@ -61,13 +61,13 @@ Hikari::FlagOctreePass::FlagOctreePass(std::shared_ptr<Renderer> render, std::sh
 	{
 		initNum.push_back(0);
 	}
-	m_NumNode = m_RenderDevice->CreateRWBuffer(initNum.data(), (UINT)initNum.size(), sizeof(UINT));
+	m_NumNode = m_RenderDevice->CreateBuffer(initNum.data(), (UINT)initNum.size(), sizeof(UINT));
 
 	UINT u_nodeInit = 1;
-	m_NodeIndex = m_RenderDevice->CreateRWBuffer(&u_nodeInit, 1, sizeof(UINT));
+	m_NodeIndex = m_RenderDevice->CreateBuffer(&u_nodeInit, 1, sizeof(UINT));
 
 	UINT u_brickInit = 0;
-	m_BrickInedx = m_RenderDevice->CreateRWBuffer(&u_brickInit, 1, sizeof(UINT));
+	m_BrickInedx = m_RenderDevice->CreateBuffer(&u_brickInit, 1, sizeof(UINT));
 }
 
 Hikari::FlagOctreePass::~FlagOctreePass()
@@ -226,7 +226,7 @@ void Hikari::FlagOctreePass::PreRender(RenderEventArgs & e)
 
 		PipelineState* prePipeline = e.PipelineState;
 		m_fragmentList = prePipeline->GetRenderTarget()->GetStructuredBuffer(0);
-		std::shared_ptr<RWBuffer> rBuffer = prePipeline->GetRenderTarget()->GetRWBuffer(0);
+		auto rBuffer = prePipeline->GetRenderTarget()->GetBuffer(0);
 		m_TotalVoxel = *(UINT*)rBuffer->GetData();
 		prePipeline->UnBind();
 	}
@@ -440,7 +440,7 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 			tempV[i+2] = v[i / 3].z;
 
 		}
-		std::shared_ptr<Buffer> vertexbuffer = m_RenderDevice->CreateFloatVertexBuffer(tempV, 8, sizeof(XMFLOAT3));
+		auto vertexbuffer = m_RenderDevice->CreateFloatVertexBuffer(tempV, 8, sizeof(XMFLOAT3));
 
 		UINT indices[36];
 
@@ -468,7 +468,7 @@ void Hikari::FlagOctreePass::Render(RenderEventArgs & e)
 		indices[30] = 7; indices[31] = 6; indices[32] = 5;
 		indices[33] = 5; indices[34] = 4; indices[35] = 7;
 
-		std::shared_ptr<Buffer> indexbuffer = m_RenderDevice->CreateUIntIndexBuffer(indices, 36);
+		auto indexbuffer = m_RenderDevice->CreateUIntIndexBuffer(indices, 36);
 		
 		mCubeMesh->SetIndexBuffer(indexbuffer);
 		positionBind = std::make_shared<BufferBinding>("POSITION", 0);

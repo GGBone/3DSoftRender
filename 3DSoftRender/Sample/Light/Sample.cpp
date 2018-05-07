@@ -171,7 +171,7 @@ void Lights::CreateScene()
 
 	auto lightEffect = std::make_shared<LightEffect>(mRenderWindow, m_pRenderDevice, opaqueScene, transScene);
 	mInstance.push_back(lightEffect->CreateInstance());
-#if defined(VOXEL)
+#if !defined(VOXEL)
 	std::shared_ptr<VoxelEffect> voxelEffect = std::make_shared<VoxelEffect>(mRenderWindow, m_pRenderDevice, mainScene);
 	mInstance.push_back(voxelEffect->CreateInstance());
 #endif

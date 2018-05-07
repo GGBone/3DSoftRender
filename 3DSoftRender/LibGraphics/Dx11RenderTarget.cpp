@@ -1,7 +1,7 @@
 #include "Graphics\GraphicsPCH.h"
 #include "Graphics\Dx11Texture.h"
 #include "Graphics\Dx11StructureBuffer.h"
-#include "Graphics\Dx11RWBuffer.h"
+#include "Graphics\Dx11Buffer.h"
 #include "Graphics\Dx11RenderTarget.h"
 using namespace Hikari;
 
@@ -14,7 +14,7 @@ RenderTargetDX11::RenderTargetDX11(ID3D11Device* pDevice)
 	m_pDevice->GetImmediateContext(&m_pDeviceContext);
 	m_Textures.resize((size_t)RenderTarget::AttachmentPoint::NumAttachmentPoints + 1);
 	m_StructuredBuffers.resize(8);
-	m_RWBuffers.resize(8);
+	m_Buffers.resize(8);
 }
 
 RenderTargetDX11::~RenderTargetDX11()
@@ -83,18 +83,18 @@ std::shared_ptr<StructuredBuffer> RenderTargetDX11::GetStructuredBuffer(uint8_t 
 	return nullptr;
 }
 
-void Hikari::RenderTargetDX11::AttachRWBuffer(uint8_t slot, std::shared_ptr<RWBuffer> rwBuffer)
+void Hikari::RenderTargetDX11::AttachBuffer(uint8_t slot, std::shared_ptr<Buffer> rwBuffer)
 {
-	std::shared_ptr<RWBufferDX11> trwBuffer = std::dynamic_pointer_cast<RWBufferDX11>(rwBuffer);
-	m_RWBuffers[slot] = trwBuffer;
+	std::shared_ptr<BufferDX11> trwBuffer = std::dynamic_pointer_cast<BufferDX11>(rwBuffer);
+	m_Buffers[slot] = trwBuffer;
 	m_bCheckValidity = true;
 }
 
-std::shared_ptr<RWBuffer> Hikari::RenderTargetDX11::GetRWBuffer(uint8_t slot)
+std::shared_ptr<Buffer> Hikari::RenderTargetDX11::GetBuffer(uint8_t slot)
 {
-	if (slot < m_RWBuffers.size())
+	if (slot < m_Buffers.size())
 	{
-		return m_RWBuffers[slot];
+		return m_Buffers[slot];
 	}
 	return nullptr;
 }
@@ -156,7 +156,7 @@ void RenderTargetDX11::Bind()
 	}
 	for (uint8_t i = 0; i < 8 && numUAVs < 8; i++)
 	{
-		std::shared_ptr<RWBufferDX11> rwBuffer = m_RWBuffers[i];
+		std::shared_ptr<BufferDX11> rwBuffer = m_Buffers[i];
 		if (rwBuffer)
 		{
 			uavViews[numUAVs++] = rwBuffer->GetUnorderedAccessView();

@@ -43,9 +43,6 @@
     <ClInclude Include="Dx11RenderLIB.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="Buffer.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsPCH.h">
       <Filter>_PrecompiledHeaders</Filter>
     </ClInclude>
@@ -163,9 +160,6 @@
     <ClInclude Include="CPUAccess.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Dx11Buffer.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
     <ClInclude Include="Dx11DepthStencilState.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
@@ -232,18 +226,6 @@
     <ClInclude Include="ClearFlag.h">
       <Filter>SceneGraph</Filter>
     </ClInclude>
-    <ClInclude Include="RWBuffer.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="ByteAddressBuffer.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="UnorderedAccessBuffer.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11RWBuffer.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
     <ClInclude Include="SoftRenderData.h">
       <Filter>Renderer\SoftRender</Filter>
     </ClInclude>
@@ -257,6 +239,27 @@
       <Filter>Renderer</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsLib.h" />
+    <ClInclude Include="RawResource\ByteAddressBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="BufferBase.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="UnorderedAccessBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11UnorderedAccessBuffer.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11VertexIndexBuffer.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11Buffer.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -331,9 +334,6 @@
     <ClCompile Include="Dx11StructureBuffer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11Buffer.cpp">
-      <Filter>Renderer\DXRender</Filter>
-    </ClCompile>
     <ClCompile Include="Dx11ShaderParameter.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
@@ -379,9 +379,6 @@
     <ClCompile Include="Dx11Query.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11RWBuffer.cpp">
-      <Filter>Renderer\DXRender</Filter>
-    </ClCompile>
     <ClCompile Include="RenderWindow.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
@@ -393,6 +390,15 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\DxRenderer\Dx11UnorderedAccessBuffer.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11VertexIndexBuffer.cpp">
+      <Filter>Renderer\DXRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx11Buffer.cpp">
+      <Filter>Renderer\DXRender</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -29,18 +29,18 @@ namespace Hikari
 
 		// Create an vertex buffer.
 
-		virtual void DestroyVertexBuffer(std::shared_ptr<Buffer> buffer) override;
+		virtual void DestroyVertexBuffer(std::shared_ptr<BufferBase> buffer) override;
 
-		virtual void DestroyBuffer(std::shared_ptr<Buffer> buffer);
+		virtual void DestroyBuffer(std::shared_ptr<BufferBase> buffer);
 		// Create an index buffer.
 
-		virtual void DestroyIndexBuffer(std::shared_ptr<Buffer> buffer) override;
+		virtual void DestroyIndexBuffer(std::shared_ptr<BufferBase> buffer) override;
 
 		virtual void DestroyConstantBuffer(std::shared_ptr<ConstantBuffer> buffer) override;
 
 		virtual void DestroyStructuredBuffer(std::shared_ptr<StructuredBuffer> buffer) override;
 
-		virtual void DestroyRWBuffer(std::shared_ptr<RWBuffer> buffer) override;
+		virtual void DestroyBuffer(std::shared_ptr<Buffer> buffer) override;
 
 		virtual std::shared_ptr<Scene> CreateScene() override;
 
@@ -131,14 +131,14 @@ namespace Hikari
 		virtual  std::shared_ptr<PipelineState> CreatePipelineState() override;
 		virtual void DestoryPipelineState(std::shared_ptr<PipelineState> pipeline) override;
 
-		virtual  std::shared_ptr<Buffer> CreateFloatVertexBuffer(const float* data, unsigned int count, unsigned int stride) override;
-		virtual  std::shared_ptr<Buffer> CreateDoubleVertexBuffer(const double* data, unsigned int count, unsigned int stride) override;
-		virtual  std::shared_ptr<Buffer> CreateUINTVertexBuffer(const UINT* data, unsigned int count, unsigned int stride) override;
-		virtual  std::shared_ptr<Buffer> CreateUIntIndexBuffer(const unsigned int* data, unsigned int sizeInBytes) override;
+		virtual  std::shared_ptr<BufferBase> CreateFloatVertexBuffer(const float* data, unsigned int count, unsigned int stride) override;
+		virtual  std::shared_ptr<BufferBase> CreateDoubleVertexBuffer(const double* data, unsigned int count, unsigned int stride) override;
+		virtual  std::shared_ptr<BufferBase> CreateUINTVertexBuffer(const UINT* data, unsigned int count, unsigned int stride) override;
+		virtual  std::shared_ptr<BufferBase> CreateUIntIndexBuffer(const unsigned int* data, unsigned int sizeInBytes) override;
 		virtual  std::shared_ptr<ConstantBuffer> CreateConstantBuffer(const void* data, size_t size) override;
 		virtual  std::shared_ptr<StructuredBuffer> CreateStructuredBuffer(void* data, unsigned int count, unsigned int stride, CPUAccess cpuAccess = CPUAccess::None,
 			bool bSRV = true,bool bUAV = false,bool appendFlag = false) override;
-		virtual  std::shared_ptr<RWBuffer> CreateRWBuffer(void* data, unsigned int count, unsigned int stride,CPUAccess cpuAccess = CPUAccess::None) override;
+		virtual  std::shared_ptr<Buffer> CreateBuffer(void* data, unsigned int count, unsigned int stride,CPUAccess cpuAccess = CPUAccess::None) override;
 		virtual std::shared_ptr<Query> CreateQuery(Query::QueryType queryType = Query::QueryType::Timer, uint8_t numBuffers = 3) override;
 
 	private:
@@ -151,7 +151,7 @@ namespace Hikari
 		typedef std::vector<std::shared_ptr<Scene>> SceneList;
 		SceneList m_Scenes;
 
-		typedef std::vector<std::shared_ptr<Buffer>> BufferList;
+		typedef std::vector<std::shared_ptr<BufferBase>> BufferList;
 		BufferList m_Buffers;
 
 		typedef std::vector<std::shared_ptr<Mesh>> MeshList;

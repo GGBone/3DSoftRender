@@ -32,52 +32,52 @@ Shader::ShaderType Hikari::ShaderDx::GetType() const
 void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string & source, const std::string & sourceFileName, const ShaderMacros & shaderMacros, const std::string & entryPoint, const std::string & profile)
 {
 	HRESULT hr;
+
+	ID3DBlob* pShaderBlob;
+	ID3DBlob* pErrorBlob;
+	std::string _profile = profile;
+	if (profile == "latest")
 	{
-		ID3DBlob* pShaderBlob;
-		ID3DBlob* pErrorBlob;
-		std::string _profile = profile;
-		if (profile == "latest")
-		{
-			_profile = GetLatestProfile(type);
-			if (_profile.empty())
-				return;
-		}
-
-		std::vector<D3D_SHADER_MACRO> macros;
-		for (auto macro : shaderMacros)
-		{
-			std::string name = macro.first;
-			std::string definition = macro.second;
-
-			char* c_name = new char[name.size() + 1];
-			char* c_definition = new char[definition.size() + 1];
-
-			strncpy_s(c_name, name.size() + 1, name.c_str(), name.size());
-			strncpy_s(c_definition, definition.size() + 1, definition.c_str(), definition.size());
-
-			macros.push_back({ c_name, c_definition });
-		}
-		macros.push_back({ 0,0 });
-
-		UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
-#if defined (_DEBUG)
-		flags |= D3DCOMPILE_DEBUG;
-#endif
-
-		hr = D3DCompile((LPCVOID)source.c_str(), source.size(), sourceFileName.c_str(), macros.data(),
-			D3D_COMPILE_STANDARD_FILE_INCLUDE, entryPoint.c_str(), _profile.c_str(),
-			flags, 0, &pShaderBlob, &pErrorBlob);
-
-		for (D3D_SHADER_MACRO macro : macros)
-		{
-			delete[] macro.Name;
-			delete[] macro.Definition;
-		}
-		macros.clear();
-		mShaderBlob = pShaderBlob;
+		_profile = GetLatestProfile(type);
+		if (_profile.empty())
+			return;
 	}
 
-	ParameterMap ShaderParameter = mShaderParameters;
+	std::vector<D3D_SHADER_MACRO> macros;
+	for (auto macro : shaderMacros)
+	{
+		std::string name = macro.first;
+		std::string definition = macro.second;
+
+		char* c_name = new char[name.size() + 1];
+		char* c_definition = new char[definition.size() + 1];
+
+		strncpy_s(c_name, name.size() + 1, name.c_str(), name.size());
+		strncpy_s(c_definition, definition.size() + 1, definition.c_str(), definition.size());
+
+		macros.push_back({ c_name, c_definition });
+	}
+	macros.push_back({ 0,0 });
+
+	UINT flags = D3DCOMPILE_ENABLE_STRICTNESS;
+#if defined (_DEBUG)
+	flags |= D3DCOMPILE_DEBUG;
+#endif
+
+	hr = D3DCompile((LPCVOID)source.c_str(), source.size(), sourceFileName.c_str(), macros.data(),
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, entryPoint.c_str(), _profile.c_str(),
+		flags, 0, &pShaderBlob, &pErrorBlob);
+
+	for (D3D_SHADER_MACRO macro : macros)
+	{
+		delete[] macro.Name;
+		delete[] macro.Definition;
+	}
+	macros.clear();
+	mShaderBlob = pShaderBlob;
+
+
+	ParameterMap& ShaderParameter = mShaderParameters;
 	Destroy();
 	mShaderType = type;
 	switch (mShaderType)
@@ -158,6 +158,7 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 		std::string resourceName = bindDesc.Name;
 
 		ShaderParameter::Type parameterType = ShaderParameter::Type::Invalid;
+		ShaderParameter::GPURW paramGpuAccess = ShaderParameter::GPURW::Read;
 		switch (bindDesc.Type)
 		{
 		case D3D_SIT_TEXTURE:
@@ -167,18 +168,35 @@ void Hikari::ShaderDx::LoadShaderFromString(ShaderType type, const std::string &
 			parameterType = ShaderParameter::Type::Sampler;
 			break;
 		case D3D_SIT_CBUFFER:
+			parameterType = ShaderParameter::Type::ConstantBuffer;
+			break;
 		case D3D_SIT_STRUCTURED:
-			parameterType = ShaderParameter::Type::Buffer;
+			parameterType = ShaderParameter::Type::StructuredBuffer;
 			break;
 		case D3D_SIT_UAV_RWSTRUCTURED:
 		case D3D_SIT_UAV_APPEND_STRUCTURED:
-			parameterType = ShaderParameter::Type::RWBuffer;
-			break;
+		{
+			parameterType = ShaderParameter::Type::StructuredBuffer;
+			paramGpuAccess = ShaderParameter::GPURW::Write;
+		}
+		break;
 		case D3D_SIT_UAV_RWTYPED:
-			parameterType = ShaderParameter::Type::RWTexture;
+		{
+			if (bindDesc.Dimension == D3D11_UAV_DIMENSION_BUFFER)
+			{
+				parameterType = ShaderParameter::Type::Buffer;
+				paramGpuAccess = ShaderParameter::GPURW::Write;
+			}
+			else
+			{
+				parameterType = ShaderParameter::Type::Texture;
+				paramGpuAccess = ShaderParameter::GPURW::Write;
+			}
+			
+		}
 			break;
 		}
-		std::shared_ptr<ShaderParameterDx> shaderParameter = std::make_shared<ShaderParameterDx>(resourceName, bindDesc.BindPoint, type, parameterType);
+		std::shared_ptr<ShaderParameterDx> shaderParameter = std::make_shared<ShaderParameterDx>(resourceName, bindDesc.BindPoint, type, parameterType, paramGpuAccess);
 		mShaderParameters.insert(ParameterMap::value_type(resourceName, shaderParameter));
 	}
 	for (auto shaderParameter : ShaderParameter)

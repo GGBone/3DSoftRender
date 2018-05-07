@@ -19,10 +19,12 @@ using namespace Hikari;
 Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<Renderer> renderer, 
 	vector<std::shared_ptr<Scene>> scene, vector<shared_ptr<Scene>> transScene)
 {
-	std::shared_ptr<Shader> vertexShader = renderer->CreateShader();
-	std::shared_ptr<Shader> pixelShader = renderer->CreateShader();
-	std::shared_ptr<Shader> lightPixelShaser = renderer->CreateShader();
-	std::shared_ptr<VisualTechnique> forwardTechnique = std::make_shared<VisualTechnique>();
+	auto vertexShader = renderer->CreateShader();
+	auto pixelShader = renderer->CreateShader();
+	auto lightPixelShaser = renderer->CreateShader();
+	auto oitPixelShader = renderer->CreateShader();
+
+	auto forwardTechnique = std::make_shared<VisualTechnique>();
 
 	//std::shared_ptr<OpaquePass> opaquePass;
 	std::shared_ptr<LightsPass> lightPass;
@@ -36,9 +38,9 @@ Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::sha
 	DepthStencilState::DepthMode disableDepthTesting(false);
 
 	vertexShader->LoadShaderFromFile(Shader::VertexShader, "../Assets/shaders/ForwardRendering.hlsl", Shader::ShaderMacros(), "VS_main", "latest");
-	//pixelShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/ForwardRendering.hlsl", Shader::ShaderMacros(), "PS_NoLight", "latest");
+	pixelShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/ForwardRendering.hlsl", Shader::ShaderMacros(), "PS_main", "latest");
 	lightPixelShaser->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/ForwardRendering.hlsl", Shader::ShaderMacros(), "PS_light", "latest");
-
+	oitPixelShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/OIT/oit.hlsl", Shader::ShaderMacros(), "PS_main", "latest");
 	//Opaque Pass
 	{
 		std::shared_ptr<PipelineState> g_OpaquePipeline = renderer->CreatePipelineState();
@@ -62,6 +64,12 @@ Hikari::LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::sha
 		}
 		sampler.reset();
 		g_OpaquePipeline.reset();
+	}
+
+	//OIT Pass
+	{
+		auto oitPipeline = renderer->CreatePipelineState();
+
 	}
 
 	//Transparent Pass

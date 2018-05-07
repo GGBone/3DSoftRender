@@ -12,13 +12,13 @@ Hikari::SceneDX11::~SceneDX11()
 	m_Renderer.reset();
 }
 
-std::shared_ptr<Buffer> Hikari::SceneDX11::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride) const
+std::shared_ptr<BufferBase> Hikari::SceneDX11::CreateFloatVertexBuffer(const float * data, unsigned int count, unsigned int stride) const
 {
 	return m_Renderer->CreateFloatVertexBuffer(data, count, stride);
 
 }
 
-std::shared_ptr<Buffer> Hikari::SceneDX11::CreateUIntIndexBuffer(const unsigned int * data, unsigned int count) const
+std::shared_ptr<BufferBase> Hikari::SceneDX11::CreateUIntIndexBuffer(const unsigned int * data, unsigned int count) const
 {
 	return m_Renderer->CreateUIntIndexBuffer(data, count);
 

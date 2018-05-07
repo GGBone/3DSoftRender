@@ -1444,6 +1444,7 @@ void TextureDX11::Clear(ClearFlags clearFlags, const Float4& color, float depth,
 
 void TextureDX11::Bind(uint32_t ID, Shader::ShaderType shaderType, ShaderParameter::Type parameterType)
 {
+	assert(parameterType == ShaderParameter::Type::Texture);
 	if (m_bIsDirty)
 	{
 		if (m_bDynamic && m_pTexture2D)
@@ -1472,7 +1473,7 @@ void TextureDX11::Bind(uint32_t ID, Shader::ShaderType shaderType, ShaderParamet
 	ID3D11ShaderResourceView* srv[] = { m_pShaderResourceView };
 	ID3D11UnorderedAccessView* uav[] = { m_pUnorderedAccessView };
 
-	if (parameterType == ShaderParameter::Type::Texture && m_pShaderResourceView)
+	if (m_pShaderResourceView)
 	{
 		switch (shaderType)
 		{
@@ -1496,7 +1497,7 @@ void TextureDX11::Bind(uint32_t ID, Shader::ShaderType shaderType, ShaderParamet
 			break;
 		}
 	}
-	else if (parameterType == ShaderParameter::Type::RWTexture && m_pUnorderedAccessView)
+	else if (m_pUnorderedAccessView)
 	{
 		switch (shaderType)
 		{
@@ -1575,39 +1576,32 @@ void TextureDX11::UnBind(uint32_t ID, Shader::ShaderType shaderType, ShaderParam
 	ID3D11ShaderResourceView* srv[] = { nullptr };
 	ID3D11UnorderedAccessView* uav[] = { nullptr };
 
-	if (parameterType == ShaderParameter::Type::Texture)
+
+	switch (shaderType)
 	{
-		switch (shaderType)
-		{
-		case Shader::VertexShader:
-			m_pDeviceContext->VSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::TessellationControlShader:
-			m_pDeviceContext->HSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::TessellationEvaluationShader:
-			m_pDeviceContext->DSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::GeometryShader:
-			m_pDeviceContext->GSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::PixelShader:
-			m_pDeviceContext->PSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::ComputeShader:
-			m_pDeviceContext->CSSetShaderResources(ID, 1, srv);
-			break;
-		}
-	}
-	else if (parameterType == ShaderParameter::Type::RWTexture)
+	case Shader::VertexShader:
+		m_pDeviceContext->VSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::TessellationControlShader:
+		m_pDeviceContext->HSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::TessellationEvaluationShader:
+		m_pDeviceContext->DSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::GeometryShader:
+		m_pDeviceContext->GSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::PixelShader:
+		m_pDeviceContext->PSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::ComputeShader:
 	{
-		switch (shaderType)
-		{
-		case Shader::ComputeShader:
-			m_pDeviceContext->CSSetUnorderedAccessViews(ID, 1, uav, nullptr);
-			break;
-		}
+		m_pDeviceContext->CSSetShaderResources(ID, 1, srv);
+		m_pDeviceContext->CSSetUnorderedAccessViews(ID, 1, uav, nullptr);
 	}
+		break;
+	}
+
 }
 
 DXGI_FORMAT TextureDX11::TranslateFormat(const TextureFormat& format)

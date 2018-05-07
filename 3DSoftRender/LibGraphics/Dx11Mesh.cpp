@@ -1,7 +1,7 @@
 #include "Graphics\GraphicsPCH.h"
 #include "Graphics\Dx11Mesh.h"
 #include "Graphics\Visitor.h"
-#include "Graphics\Dx11Buffer.h"
+#include "Graphics\Dx11VertexIndexBuffer.h"
 #include "Graphics\Dx11Shader.h"
 #include "Graphics\Dx11PipelineState.h"
 #include "Graphics\RenderEventArgs.h"
@@ -20,12 +20,12 @@ Hikari::MeshDx::~MeshDx()
 {
 }
 
-void Hikari::MeshDx::AddVertexBuffer(const BufferBinding & binding, std::shared_ptr<Buffer> buffer)
+void Hikari::MeshDx::AddVertexBuffer(const BufferBinding & binding, std::shared_ptr<BufferBase> buffer)
 {
 	m_VertexBuffers[binding] = buffer;
 }
 
-void Hikari::MeshDx::SetIndexBuffer(std::shared_ptr<Buffer> buffer)
+void Hikari::MeshDx::SetIndexBuffer(std::shared_ptr<BufferBase> buffer)
 {
 	m_pIndexBuffer = buffer;
 }
@@ -35,7 +35,7 @@ void Hikari::MeshDx::SetMaterial(std::shared_ptr<Material> material)
 	m_pMaterial = material;
 }
 
-void Hikari::MeshDx::SetInstanceBuffer(std::shared_ptr<Buffer> buffer)
+void Hikari::MeshDx::SetInstanceBuffer(std::shared_ptr<BufferBase> buffer)
 {
 	m_pInstanceBuffer = buffer;
 }

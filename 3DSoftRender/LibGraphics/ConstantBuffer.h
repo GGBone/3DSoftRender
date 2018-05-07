@@ -1,13 +1,11 @@
 #pragma once
-#include "Buffer.h"
+#include "BufferBase.h"
 
 namespace Hikari
 {
-	class ConstantBuffer : public Buffer
+	class ConstantBuffer : public BufferBase
 	{
 	public:
-		
-
 		virtual BufferType GetType() const
 		{
 			return BufferType::ConstantBuffer;

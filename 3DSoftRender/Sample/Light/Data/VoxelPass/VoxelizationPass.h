@@ -17,7 +17,7 @@ namespace Hikari
 	class StructuredBuffer;
 	class SamplerState;
 	class Buffer;
-	class RWBuffer;
+	class Buffer;
 	class VoxelizationPass : public AbstractPass
 	{
 	public:
@@ -96,7 +96,7 @@ namespace Hikari
 		std::shared_ptr<ConstantBuffer> m_PerGeometryConstantBuffer;
 		std::shared_ptr<ConstantBuffer> m_AttriConstantBuffer;
 		std::shared_ptr<StructuredBuffer> m_VoxelBuffer;
-		std::shared_ptr<RWBuffer> m_VoxelIndexBuffer;
+		std::shared_ptr<Buffer> m_VoxelIndexBuffer;
 
 		std::shared_ptr<Buffer> stage;
 		std::shared_ptr<SamplerState> m_Sampler;

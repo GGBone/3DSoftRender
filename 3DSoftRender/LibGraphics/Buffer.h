@@ -1,42 +1,35 @@
 #pragma once
-#include "Core\Object.h"
-#include "Graphics\ShaderParameter.h"
-#include "Graphics\Shader.h"
-// A buffer is an index buffer or vertex buffer to 
-// geometry that should be stored on the GPU.
+#include "Graphics\GraphicsLib.h"
+#include "BufferBase.h"
 namespace Hikari
 {
-	class ShaderParameter;
-	class Buffer : public Object
+	class Buffer : public BufferBase
 	{
 	public:
-		typedef Object base;
 
-		enum BufferType
+		virtual BufferType GetType() const override
 		{
-			Unknown = 0,
-			VertexBuffer,
-			IndexBuffer,
-			StructuredBuffer,
-			ConstantBuffer,
-			RWBuffers,
-			ByteAddressBuffer,
-			UnoderedAccessBuffer
-		};
+			return BufferType::Buffer;
+		}
 
-		// Bind the buffer for rendering.
-		virtual bool Bind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType) = 0;
-		// Unbind the buffer for rendering.
-		virtual void UnBind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType) = 0;
-
-		// Copy the contents of another buffer to this one.
-		// Buffers must be the same size in bytes.
-		virtual void Copy(std::shared_ptr<Buffer> other) = 0;
-
-		// Is this an index buffer or an attribute/vertex buffer?
-		virtual BufferType GetType() const = 0;
-		// How many elements does this buffer contain?
 		virtual unsigned int GetElementCount() const = 0;
 
+		virtual void Copy(std::shared_ptr<Buffer> other) = 0;
+
+		virtual void CopyBufferData() = 0;
+		virtual void Clear() = 0;
+		template<typename T>
+		void Set(const std::vector<T>& value);
+
+		virtual void* GetData() const = 0;
+	protected:
+		virtual void SetData(void* data, size_t elementSize, size_t offset, size_t numElements) = 0;
+		void* m_data;
 	};
+	template<typename T>
+	void Buffer::Set(const std::vector<T>& values)
+	{
+		SetData((void*)values.data(), sizeof(T), 0, values.size());
+	}
+
 }

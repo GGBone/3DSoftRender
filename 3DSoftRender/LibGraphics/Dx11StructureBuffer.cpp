@@ -106,14 +106,27 @@ Hikari::StructuredBufferDX11::~StructuredBufferDX11()
 {
 }
 
-bool Hikari::StructuredBufferDX11::Bind(unsigned int ID, Shader::ShaderType shaderType, ShaderParameter::Type parameterType)
+bool Hikari::StructuredBufferDX11::Bind(unsigned int ID, Shader::ShaderType shaderType, ShaderParameter::Type parameterType,...)
 {
+	ShaderParameter::GPURW gpuRW;
+	va_list arguments;
+
+	/* Initializing arguments to store all values after num */
+	va_start(arguments, 2);
+	/* Sum all the inputs; we still rely on the function caller to tell us how
+	* many there are */
+	for (int x = 0; x < 2; x++)
+	{
+		gpuRW = va_arg(arguments, ShaderParameter::GPURW);
+	}
+	va_end(arguments);
 	if (m_bIsDirty)
 	{
 		Commit();
 		m_bIsDirty = false;
 	}
-	if (parameterType == ShaderParameter::Type::Buffer && m_pSRV)
+	assert(parameterType == ShaderParameter::Type::StructuredBuffer);
+	if (((int)ShaderParameter::GPURW::Read & (int)gpuRW)!=0 && m_pSRV)
 	{
 		ID3D11ShaderResourceView* srv[] = { m_pSRV };
 
@@ -149,13 +162,16 @@ bool Hikari::StructuredBufferDX11::Bind(unsigned int ID, Shader::ShaderType shad
 			break;
 		}
 	}
-	else if (parameterType == ShaderParameter::Type::RWBuffer && m_pUAV)
+	if (((int)ShaderParameter::GPURW::Write & (int)gpuRW) != 0 && m_pUAV)
 	{
 		ID3D11UnorderedAccessView* uav[] = { m_pUAV };
 		switch (shaderType)
 		{
 		case Shader::ComputeShader:
 			m_pDeviceContext->CSSetUnorderedAccessViews(ID, 1, uav, nullptr);
+			break;
+		default:
+			assert(0);
 			break;
 		}
 	}
@@ -166,45 +182,38 @@ void Hikari::StructuredBufferDX11::UnBind(unsigned int ID, Shader::ShaderType sh
 {
 	ID3D11UnorderedAccessView* uav[] = { nullptr };
 	ID3D11ShaderResourceView* srv[] = { nullptr };
+	assert(parameterType == ShaderParameter::Type::StructuredBuffer);
 
-	if (parameterType == ShaderParameter::Type::Buffer)
+	switch (shaderType)
 	{
-		switch (shaderType)
-		{
-		case Shader::VertexShader:
-			m_pDeviceContext->VSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::TessellationControlShader:
-			m_pDeviceContext->HSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::TessellationEvaluationShader:
-			m_pDeviceContext->DSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::GeometryShader:
-			m_pDeviceContext->GSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::PixelShader:
-			m_pDeviceContext->PSSetShaderResources(ID, 1, srv);
-			break;
-		case Shader::ComputeShader:
-			m_pDeviceContext->CSSetShaderResources(ID, 1, srv);
-			break;
-		}
+	case Shader::VertexShader:
+		m_pDeviceContext->VSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::TessellationControlShader:
+		m_pDeviceContext->HSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::TessellationEvaluationShader:
+		m_pDeviceContext->DSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::GeometryShader:
+		m_pDeviceContext->GSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::PixelShader:
+		m_pDeviceContext->PSSetShaderResources(ID, 1, srv);
+		break;
+	case Shader::ComputeShader:
+		m_pDeviceContext->CSSetShaderResources(ID, 1, srv);
+		break;
 	}
-	else if (parameterType == ShaderParameter::Type::RWBuffer)
-	{
-		switch (shaderType)
-		{
-		case Shader::ComputeShader:
-			m_pDeviceContext->CSSetUnorderedAccessViews(ID, 1, uav, nullptr);
-			break;
-		}
-	}
-}
 
-Buffer::BufferType StructuredBufferDX11::GetType() const
-{
-	return Buffer::BufferType::StructuredBuffer;
+
+	switch (shaderType)
+	{
+	case Shader::ComputeShader:
+		m_pDeviceContext->CSSetUnorderedAccessViews(ID, 1, uav, nullptr);
+		break;
+	}
+
 }
 
 unsigned int Hikari::StructuredBufferDX11::GetElementCount() const
@@ -249,7 +258,7 @@ ID3D11UnorderedAccessView * Hikari::StructuredBufferDX11::GetUnorderedAccessView
 	return m_pUAV;
 }
 
-void Hikari::StructuredBufferDX11::Copy(std::shared_ptr<Buffer> other)
+void Hikari::StructuredBufferDX11::Copy(std::shared_ptr<BufferBase> other)
 {
 	Copy( std::dynamic_pointer_cast<StructuredBuffer>(other));
 }

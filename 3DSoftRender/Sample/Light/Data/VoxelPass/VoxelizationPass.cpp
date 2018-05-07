@@ -11,7 +11,7 @@
 #include "Graphics\Dx11Renderer.h"
 #include "Graphics\RenderTarget.h"
 #include "Graphics\Buffer.h"
-#include "Graphics\RWBuffer.h"
+#include "Graphics\Buffer.h"
 using namespace Hikari;
 bool VoxelizationPass::init = false;
 Hikari::VoxelizationPass::VoxelizationPass(std::shared_ptr<Renderer> render)
@@ -97,7 +97,7 @@ void Hikari::VoxelizationPass::PostRender(RenderEventArgs & e)
 		return;
 	if (m_Pipeline)
 	{
-		std::shared_ptr<RWBuffer> index = m_Pipeline->GetRenderTarget()->GetRWBuffer(0);
+		auto index = m_Pipeline->GetRenderTarget()->GetBuffer(0);
 		
 		index->CopyBufferData();
 		//m_Pipeline->UnBind();

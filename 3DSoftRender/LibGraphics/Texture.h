@@ -20,6 +20,8 @@ namespace Hikari
 			Texture2DArray,
 			Texture3D,
 			TextureCube,
+			UnorderedAccessTexture,
+			UnorderedAccessTextureArray,
 		};
 
 		// The number of components used to create the texture.

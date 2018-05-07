@@ -23,8 +23,20 @@ Hikari::ConstantBufferDX11::~ConstantBufferDX11()
 {
 }
 
-bool Hikari::ConstantBufferDX11::Bind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType)
+bool Hikari::ConstantBufferDX11::Bind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType,...)
 {
+	ShaderParameter::GPURW gpuRW;
+	va_list arguments;
+
+	/* Initializing arguments to store all values after num */
+	va_start(arguments, 1);
+	/* Sum all the inputs; we still rely on the function caller to tell us how
+	* many there are */
+	for (int x = 0; x < 1; x++)
+	{
+		gpuRW = va_arg(arguments, ShaderParameter::GPURW);
+	}
+	va_end(arguments);
 	bool result = true;
 	ID3D11Buffer* pBuffers[] = { m_pBuffer };
 
@@ -92,7 +104,7 @@ void Hikari::ConstantBufferDX11::Copy(std::shared_ptr<ConstantBuffer> other)
 	m_pDeviceContext->CopyResource(m_pBuffer, srcBuffer->m_pBuffer);
 }
 
-void Hikari::ConstantBufferDX11::Copy(std::shared_ptr<Buffer> other)
+void Hikari::ConstantBufferDX11::Copy(std::shared_ptr<BufferBase> other)
 {
 	Copy(std::dynamic_pointer_cast<ConstantBuffer>(other));
 }

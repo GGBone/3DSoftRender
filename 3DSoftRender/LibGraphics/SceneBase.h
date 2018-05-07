@@ -4,7 +4,7 @@
 namespace Hikari
 {
 	class Material;
-	class Buffer;
+	class BufferBase;
 	class Mesh;
 	class Texture;
 	class Camera;
@@ -30,8 +30,8 @@ namespace Hikari
 		virtual ~SceneBase();
 
 
-		virtual std::shared_ptr<Buffer> CreateFloatVertexBuffer(const float* data, unsigned int count, unsigned int stride) const = 0;
-		virtual std::shared_ptr<Buffer> CreateUIntIndexBuffer(const unsigned int* data, unsigned int sizeInBytes) const = 0;
+		virtual std::shared_ptr<BufferBase> CreateFloatVertexBuffer(const float* data, unsigned int count, unsigned int stride) const = 0;
+		virtual std::shared_ptr<BufferBase> CreateUIntIndexBuffer(const unsigned int* data, unsigned int sizeInBytes) const = 0;
 
 		virtual std::shared_ptr<Mesh> CreateMesh() const = 0;
 		virtual std::shared_ptr<Material> CreateMaterial() const = 0;

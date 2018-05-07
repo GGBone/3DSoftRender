@@ -127,7 +127,6 @@
   <ItemGroup>
     <ClInclude Include="BlendState.h" />
     <ClInclude Include="BufferBinding.h" />
-    <ClInclude Include="ByteAddressBuffer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ClearFlag.h" />
     <ClInclude Include="ColorRGBA.h" />
@@ -136,7 +135,7 @@
     <ClInclude Include="Culler.h" />
     <ClInclude Include="DepthStencilState.h" />
     <ClInclude Include="Dx11BlendState.h" />
-    <ClInclude Include="Dx11Buffer.h" />
+    <ClInclude Include="Dx11VertexIndexBuffer.h" />
     <ClInclude Include="Dx11ConstantBuffer.h" />
     <ClInclude Include="Dx11DepthStencilState.h" />
     <ClInclude Include="Dx11Mesh.h" />
@@ -147,7 +146,7 @@
     <ClInclude Include="Dx11RenderLIB.h" />
     <ClInclude Include="Dx11RenderTarget.h" />
     <ClInclude Include="Dx11RenderWindow.h" />
-    <ClInclude Include="Dx11RWBuffer.h" />
+    <ClInclude Include="Dx11Buffer.h" />
     <ClInclude Include="Dx11SamplerState.h" />
     <ClInclude Include="Dx11Scene.h" />
     <ClInclude Include="Dx11Shader.h" />
@@ -155,7 +154,7 @@
     <ClInclude Include="Dx11StructureBuffer.h" />
     <ClInclude Include="Dx11Texture.h" />
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Buffer.h" />
+    <ClInclude Include="BufferBase.h" />
     <ClInclude Include="GraphicsPCH.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
@@ -166,12 +165,14 @@
     <ClInclude Include="ProgressWindow.h" />
     <ClInclude Include="Query.h" />
     <ClInclude Include="RasterizerState.h" />
+    <ClInclude Include="RawResource\ByteAddressBuffer.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RayCast.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11UnorderedAccessBuffer.h" />
     <ClInclude Include="RenderEventArgs.h" />
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="RenderWindow.h" />
-    <ClInclude Include="RWBuffer.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="SamplerState.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneBase.h" />
@@ -219,7 +220,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Culler.cpp" />
     <ClCompile Include="Dx11BlendState.cpp" />
-    <ClCompile Include="Dx11Buffer.cpp" />
+    <ClCompile Include="Dx11VertexIndexBuffer.cpp" />
     <ClCompile Include="Dx11ConstantBuffer.cpp" />
     <ClCompile Include="Dx11DepthStencilState.cpp" />
     <ClCompile Include="Dx11Mesh.cpp" />
@@ -229,7 +230,7 @@
     <ClCompile Include="Dx11Renderer.cpp" />
     <ClCompile Include="Dx11RenderTarget.cpp" />
     <ClCompile Include="Dx11RenderWindow.cpp" />
-    <ClCompile Include="Dx11RWBuffer.cpp" />
+    <ClCompile Include="Dx11Buffer.cpp" />
     <ClCompile Include="Dx11SamplerState.cpp" />
     <ClCompile Include="Dx11Scene.cpp" />
     <ClCompile Include="Dx11Shader.cpp" />
@@ -246,6 +247,7 @@
     <ClCompile Include="ProgressWindow.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11UnorderedAccessBuffer.cpp" />
     <ClCompile Include="RenderWindow.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneBase.cpp" />

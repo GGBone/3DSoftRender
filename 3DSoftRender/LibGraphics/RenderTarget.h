@@ -40,8 +40,8 @@ namespace Hikari
 		virtual void AttachStructuredBuffer(uint8_t slot, std::shared_ptr<StructuredBuffer> rwBuffer) = 0;
 		virtual std::shared_ptr<StructuredBuffer> GetStructuredBuffer(uint8_t slot) = 0;
 
-		virtual void AttachRWBuffer(uint8_t slot, std::shared_ptr<RWBuffer> rwBuffer) = 0;
-		virtual std::shared_ptr<RWBuffer> GetRWBuffer(uint8_t slot) = 0;
+		virtual void AttachBuffer(uint8_t slot, std::shared_ptr<Buffer> rwBuffer) = 0;
+		virtual std::shared_ptr<Buffer> GetBuffer(uint8_t slot) = 0;
 		virtual void Resize(uint16_t width, uint16_t height) = 0;
 
 		

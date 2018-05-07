@@ -119,6 +119,9 @@
     <ClInclude Include="Data\StandardPass\ShadowPass.h">
       <Filter>资源文件\Data\Pass\StandardPass</Filter>
     </ClInclude>
+    <ClInclude Include="Data\StandardPass\OITPass.h">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Assets\shaders\CommonInclude.hlsl">
@@ -220,6 +223,9 @@
       <Filter>资源文件\Data\Dx11ShaderEffect</Filter>
     </ClCompile>
     <ClCompile Include="Data\StandardPass\ShadowPass.cpp">
+      <Filter>资源文件\Data\Pass\StandardPass</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\StandardPass\OITPass.cpp">
       <Filter>资源文件\Data\Pass\StandardPass</Filter>
     </ClCompile>
   </ItemGroup>

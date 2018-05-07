@@ -17,8 +17,8 @@ namespace Hikari
 	class Renderer;
 	class StructuredBuffer;
 	class SamplerState;
+	class BufferBase;
 	class Buffer;
-	class RWBuffer;
 	class Texture;
 	class Renderer;
 	struct BufferBinding;
@@ -144,17 +144,17 @@ namespace Hikari
 
 		std::vector<std::shared_ptr<Shader>> m_shaders;
 		
-		std::shared_ptr<RWBuffer> m_NumNode;
-		std::shared_ptr<RWBuffer> m_BrickInedx;
-		std::shared_ptr<RWBuffer> m_NodeIndex;
-		std::shared_ptr<RWBuffer> m_visualIndex;
+		std::shared_ptr<Buffer> m_NumNode;
+		std::shared_ptr<Buffer> m_BrickInedx;
+		std::shared_ptr<Buffer> m_NodeIndex;
+		std::shared_ptr<Buffer> m_visualIndex;
 
 		std::shared_ptr<ConstantBuffer> m_cbTrans = nullptr;
 		std::shared_ptr<StructuredBuffer> m_NodePool = nullptr;;
 		std::shared_ptr<StructuredBuffer> m_fragmentList = nullptr;
 		std::shared_ptr<StructuredBuffer> m_visualPool = nullptr;
 
-		std::shared_ptr<Buffer> m_InstanceBuffer = nullptr;
+		std::shared_ptr<BufferBase> m_InstanceBuffer = nullptr;
 		std::shared_ptr<BufferBinding> instantBind = nullptr;
 		std::shared_ptr<BufferBinding> positionBind = nullptr;
 		std::shared_ptr<Texture> m_BricksPool[3] = { nullptr };
@@ -163,8 +163,8 @@ namespace Hikari
 		ID3D11Buffer* mVisualIB = nullptr;
 		std::vector<UINT>  mNumNodePerLevel;
 		std::shared_ptr<RenderEventArgs> m_pRenderEventArgs = nullptr;
-		std::shared_ptr<Buffer> vertexbuffer = nullptr;
-		std::shared_ptr<Buffer> indexbuffer = nullptr;
+		std::shared_ptr<BufferBase> vertexbuffer = nullptr;
+		std::shared_ptr<BufferBase> indexbuffer = nullptr;
 		std::shared_ptr<Mesh> mCubeMesh = nullptr;
 		// The pipeline state that should be used to render this pass.
 		std::shared_ptr<PipelineState> m_Pipeline = nullptr;

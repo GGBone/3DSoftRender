@@ -16,10 +16,6 @@ namespace Hikari
 		virtual ~OpaquePass();
 
 		virtual void Visit(Mesh& mesh) override;
-
-	protected:
-		/*const Light* GetCurrentLight();
-		const uint32_t GetCurrentLightIndex();*/
 	private:
 	};
 }

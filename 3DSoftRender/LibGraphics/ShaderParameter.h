@@ -8,7 +8,7 @@ namespace Hikari
 	class SamplerState;
 	class StructuredBuffer;
 	class Texture;
-	class RWBuffer;
+	class Buffer;
 	class ShaderParameter : public Object
 	{
 		
@@ -18,9 +18,16 @@ namespace Hikari
 			Invalid,
 			Texture,
 			Sampler,
-			Buffer,
-			RWTexture,
-			RWBuffer
+			StructuredBuffer,
+			ConstantBuffer,
+			UnorderedBuffer,
+			Buffer
+		};
+		enum class GPURW
+		{
+			Read = 1 << 0,
+			Write = 1 <<1,
+			ReadWrite = Read|Write
 		};
 
 		template <typename T>
@@ -30,7 +37,7 @@ namespace Hikari
 		std::shared_ptr<T> GetType() const;
 
 		virtual Type GetType() const = 0;
-
+		virtual GPURW GetRW()const { return GPURW::Read; };
 		virtual void Bind() = 0;
 		virtual void UnBind() = 0;
 
@@ -42,7 +49,7 @@ namespace Hikari
 		virtual void SetTexture(std::shared_ptr<Texture> texture) = 0;
 		virtual void SetSampler(std::shared_ptr<SamplerState> sampler) = 0;
 		virtual void SetStructuredBuffer(std::shared_ptr<StructuredBuffer> rwBuffer) = 0;
-		virtual void SetRWBuffer(std::shared_ptr<RWBuffer> rwBuffer) = 0;
+		virtual void SetBuffer(std::shared_ptr<Buffer> rwBuffer) = 0;
 	};
 
 	template<>
@@ -58,7 +65,7 @@ namespace Hikari
 	void ShaderParameter::Set<StructuredBuffer>(std::shared_ptr<StructuredBuffer> value);
 
 	template<>
-	void ShaderParameter::Set<RWBuffer>(std::shared_ptr<RWBuffer> value);
+	void ShaderParameter::Set<Buffer>(std::shared_ptr<Buffer> value);
 
 	template<typename T>
 	void ShaderParameter::Set(std::shared_ptr<T> value)

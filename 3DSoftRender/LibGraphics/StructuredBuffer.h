@@ -1,13 +1,13 @@
 #pragma once
 #include "Graphics\GraphicsLib.h"
-#include "Buffer.h"
+#include "BufferBase.h"
 namespace Hikari
 {
-	class StructuredBuffer : public Buffer
+	class StructuredBuffer : public BufferBase
 	{
 	public:
 
-		virtual BufferType GetType() const = 0;
+		virtual BufferType GetType() const override { return BufferType::StructuredBuffer; };
 		
 		virtual unsigned int GetElementCount() const = 0;
 

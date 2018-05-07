@@ -31,7 +31,7 @@ void ShaderParameter::Set<StructuredBuffer>(std::shared_ptr<StructuredBuffer> va
 }
 
 template<>
-void ShaderParameter::Set<RWBuffer>(std::shared_ptr<RWBuffer> value)
+void ShaderParameter::Set<Buffer>(std::shared_ptr<Buffer> value)
 {
-	SetRWBuffer(value);
+	SetBuffer(value);
 }
