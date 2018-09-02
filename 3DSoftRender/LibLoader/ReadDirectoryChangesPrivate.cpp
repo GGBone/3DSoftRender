@@ -1,13 +1,15 @@
 #include "loaderPCH.h"
 #include "LoaderLib.h"
 
-ReadDirectoryChangesPrivate::CReadChangesRequest::CReadChangesRequest(CReadChangesServer * pServer, const std::wstring & sz, bool b, DWORD dw, DWORD size)
+ReadDirectoryChangesPrivate::CReadChangesRequest::CReadChangesRequest(CReadChangesServer* pServer,
+                                                                      const std::wstring& sz, bool b, DWORD dw,
+                                                                      DWORD size)
 {
 	m_pServer = pServer;
 	m_dwFlags = dw;
 	m_bChildren = b;
 	m_DirectoryPath = sz;
-	m_hDirectory = 0;
+	m_hDirectory = nullptr;
 
 	::ZeroMemory(&m_Overlapped, sizeof(OVERLAPPED));
 
@@ -21,30 +23,30 @@ ReadDirectoryChangesPrivate::CReadChangesRequest::~CReadChangesRequest()
 	assert(m_hDirectory == NULL);
 }
 
-bool ReadDirectoryChangesPrivate::CReadChangesRequest::operator==(const CReadChangesRequest & other) const
+bool ReadDirectoryChangesPrivate::CReadChangesRequest::operator==(const CReadChangesRequest& other) const
 {
 	return (
 		m_DirectoryPath == other.m_DirectoryPath &&
 		m_bChildren == other.m_bChildren &&
 		m_dwFlags == other.m_dwFlags
-		);
+	);
 }
 
 bool ReadDirectoryChangesPrivate::CReadChangesRequest::OpenDirectory()
 {
 	if (m_hDirectory)
 		return true;
-	m_hDirectory = ::CreateFileW(
+	m_hDirectory = CreateFileW(
 		m_DirectoryPath.c_str(),
-		FILE_LIST_DIRECTORY,	//file name 
-		FILE_SHARE_READ |		//access mode
-		FILE_SHARE_WRITE |		//share mode
+		FILE_LIST_DIRECTORY, //file name 
+		FILE_SHARE_READ | //access mode
+		FILE_SHARE_WRITE | //share mode
 		FILE_SHARE_DELETE,
-		NULL,
-		OPEN_EXISTING,			//security descriptor
-		FILE_FLAG_BACKUP_SEMANTICS |	//file attributes
+		nullptr,
+		OPEN_EXISTING, //security descriptor
+		FILE_FLAG_BACKUP_SEMANTICS | //file attributes
 		FILE_FLAG_OVERLAPPED,
-		NULL					//file with attribute to copy
+		nullptr //file with attribute to copy
 	);
 	if (m_hDirectory == INVALID_HANDLE_VALUE)
 		return false;
@@ -54,7 +56,7 @@ bool ReadDirectoryChangesPrivate::CReadChangesRequest::OpenDirectory()
 void ReadDirectoryChangesPrivate::CReadChangesRequest::BeginRead()
 {
 	DWORD dwBytes = 0;
-	BOOL sucess = ::ReadDirectoryChangesW(
+	BOOL sucess = ReadDirectoryChangesW(
 		m_hDirectory,
 		&m_Buffer[0],
 		(DWORD)m_Buffer.size(),
@@ -81,12 +83,12 @@ void ReadDirectoryChangesPrivate::CReadChangesRequest::ProcessNotification()
 		if (len <= 12 && wcschr(wszFilename, L'~'))
 		{
 			wchar_t wbuf[MAX_PATH];
-			if (::GetLongPathNameW(wstrFilename.c_str(), wbuf, _countof(wbuf)) > 0)
+			if (GetLongPathNameW(wstrFilename.c_str(), wbuf, _countof(wbuf)) > 0)
 			{
 				filepath = wbuf;
 			}
-			m_pServer->m_pBase->Push(fni.Action,filepath.c_str());
-			
+			m_pServer->m_pBase->Push(fni.Action, filepath.c_str());
+
 			if (!fni.NextEntryOffset)
 				break;
 			pBase += fni.NextEntryOffset;
@@ -94,7 +96,8 @@ void ReadDirectoryChangesPrivate::CReadChangesRequest::ProcessNotification()
 	}
 }
 
-VOID ReadDirectoryChangesPrivate::CReadChangesRequest::NotificationCompletion(DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpoverLapped)
+VOID ReadDirectoryChangesPrivate::CReadChangesRequest::NotificationCompletion(
+	DWORD dwErrorCode, DWORD dwNumberOfBytesTransfered, LPOVERLAPPED lpoverLapped)
 {
 	CReadChangesRequest* pBlock = (CReadChangesRequest*)lpoverLapped;
 	if (dwErrorCode == ERROR_OPERATION_ABORTED)

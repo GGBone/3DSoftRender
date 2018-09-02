@@ -1,8 +1,8 @@
 #pragma once
-#include "Core\Core.h"
-#include "Core\Event.h"
-#include "Loader\ReadDirectoryChanges.h"
-#include "Application\Command.h"
+#include "Core.h"
+#include "ReadDirectoryChanges.h"
+#include "Command.h"
+
 namespace Hikari
 {
 	class Application : public Object
@@ -12,12 +12,12 @@ namespace Hikari
 	public:
 		virtual ~Application();
 		static Application* TheApplication;
-		
+
 		static Command* TheCommand;
 		static std::string Installpath;
 		static std::string ProjectPath;
 
-		typedef int(*EntryPoint)(int, char**);
+		typedef int (*EntryPoint)(int, char**);
 		static EntryPoint Run;
 	};
 }

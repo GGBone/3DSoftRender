@@ -1,5 +1,5 @@
 #pragma once
-#include "Core\HKRThreadType.h"
+#include "HKRThreadType.h"
 
 namespace Hikari
 {
@@ -7,7 +7,7 @@ namespace Hikari
 	{
 	public:
 		Thread(void* function, void* userData, unsigned int processorNumber = 0,
-			unsigned int stackSize = 0);
+		       unsigned int stackSize = 0);
 		~Thread();
 
 		void Resume();
@@ -15,7 +15,7 @@ namespace Hikari
 
 	private:
 		ThreadType mThread;
-		unsigned int mThreadID;
+		unsigned int mThreadID{};
 		void* mFunction;
 		void* mUserData;
 		unsigned int mProcessorNumber;

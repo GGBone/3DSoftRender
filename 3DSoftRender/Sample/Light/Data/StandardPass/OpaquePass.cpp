@@ -1,36 +1,26 @@
-#include "Graphics\GraphicsPCH.h"
-#include "Application\WindowApplicationEngine.h"
+#include "GraphicsPCH.h"
+#include "WindowApplicationEngine.h"
 #include "OpaquePass.h"
-#include "Graphics\Mesh.h"
-#include "Graphics\Material.h"
-#include "Graphics\PipelineState.h"
-#include "Graphics\Scene.h"
-#include "Graphics\Renderer.h"
-#include "Graphics\Material.h"
-#include "Graphics\Node.h"
-#include "Graphics\PipelineState.h"
-#include "Graphics\StructuredBuffer.h"
+#include "SceneGraph/Mesh.h"
+#include "SceneGraph/Material.h"
+
 using namespace Hikari;
-Hikari::OpaquePass::OpaquePass(std::shared_ptr<Renderer> renderer,std::shared_ptr<Scene> scene, std::shared_ptr<PipelineState> pipeline)
-	:BasePass(renderer,scene,pipeline)
-{
 
+OpaquePass::OpaquePass(std::shared_ptr<Renderer> renderer, std::shared_ptr<Scene> scene,
+                       std::shared_ptr<PipelineState> pipeline)
+	: BasePass(renderer, scene, pipeline)
+{
 }
 
-Hikari::OpaquePass::~OpaquePass()
+OpaquePass::~OpaquePass()
+= default;
+
+
+void OpaquePass::Visit(Mesh& mesh)
 {
-
-}
-
-
-
-void Hikari::OpaquePass::Visit(Mesh & mesh)
-{
-
-	std::shared_ptr<Material> pMaterial = mesh.GetMaterial();
+	const auto pMaterial = mesh.GetMaterial();
 	if (pMaterial && !pMaterial->IsTransparent())
 	{
 		mesh.Render(GetRenderEventArgs());
 	}
-
 }

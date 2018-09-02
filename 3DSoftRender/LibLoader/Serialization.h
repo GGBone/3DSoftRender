@@ -4,7 +4,7 @@ namespace boost
 {
 	namespace serialization
 	{
-		template<class Archive>
+		template <class Archive>
 		void serialize(Archive& ar, Hikari::Float3& d, const unsigned int version)
 		{
 			/*float X, Y, Z;
@@ -17,9 +17,9 @@ namespace boost
 			ar & make_nvp("X", d[0]);
 			ar & make_nvp("Y", d[1]);
 			ar & make_nvp("Z", d[2]);
-
 		}
-		template<class Archive>
+
+		template <class Archive>
 		void serialize(Archive& ar, Hikari::Float4& d, const unsigned int version)
 		{
 			ar & make_nvp("X", d[0]);
@@ -27,25 +27,25 @@ namespace boost
 			ar & make_nvp("Z", d[2]);
 			ar & make_nvp("W", d[3]);
 		}
-		template<class Archive>
+
+		template <class Archive>
 		void serialize(Archive& ar, Hikari::APoint& d, const unsigned int version)
 		{
-
 			ar & make_nvp("X", d[0]);
 			ar & make_nvp("Y", d[1]);
 			ar & make_nvp("Z", d[2]);
 		}
 
-		template<class Archive>
+		template <class Archive>
 		void serialize(Archive& ar, Hikari::AVector& d, const unsigned int version)
 		{
 			ar & make_nvp("X", d[0]);
 			ar & make_nvp("Y", d[1]);
 			ar & make_nvp("Z", d[2]);
 			ar & make_nvp("W", d[3]);
-
 		}
-		template<class Archive>
+
+		template <class Archive>
 		void serialize(Archive& ar, Hikari::Light& light, const unsigned int version)
 		{
 			ar & make_nvp("Position", light.m_PositionWS);
@@ -60,6 +60,5 @@ namespace boost
 			}
 			ar & make_nvp("Type", light.m_Type);
 		}
-
 	}
 };

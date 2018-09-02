@@ -1,17 +1,17 @@
-#include "Core\Table.h"
+#include "Table.h"
 #pragma once
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline Hikari::Table<NUMROWS, NUMCOLS, TYPE>::Table()
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+Table<NUMROWS, NUMCOLS, TYPE>::Table()
 {
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline Hikari::Table<NUMROWS, NUMCOLS, TYPE>::~Table()
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+Table<NUMROWS, NUMCOLS, TYPE>::~Table()
 {
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline Hikari::Table<NUMROWS, NUMCOLS, TYPE>::Table(const Table & table)
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+Table<NUMROWS, NUMCOLS, TYPE>::Table(const Table& table)
 {
 	for (int i = 0; i < NUMENTRIES; ++i)
 	{
@@ -19,38 +19,38 @@ inline Hikari::Table<NUMROWS, NUMCOLS, TYPE>::Table(const Table & table)
 	}
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline Hikari::Table<NUMROWS, NUMCOLS, TYPE>::operator const TYPE*() const
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+Table<NUMROWS, NUMCOLS, TYPE>::operator const TYPE*() const
 {
 	return mEntry;
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline Hikari::Table<NUMROWS, NUMCOLS, TYPE>::operator TYPE*()
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+Table<NUMROWS, NUMCOLS, TYPE>::operator TYPE*()
 {
 	return mEntry;
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline const TYPE * Hikari::Table<NUMROWS, NUMCOLS, TYPE>::operator[](int row) const
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+const TYPE* Table<NUMROWS, NUMCOLS, TYPE>::operator[](int row) const
 {
 	return &mEntry[NUMCOLS * row];
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline TYPE * Hikari::Table<NUMROWS, NUMCOLS, TYPE>::operator[](int row)
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+TYPE* Table<NUMROWS, NUMCOLS, TYPE>::operator[](int row)
 {
 	return &mEntry[NUMCOLS * row];
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline const TYPE & Hikari::Table<NUMROWS, NUMCOLS, TYPE>::operator()(int row, int col) const
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+const TYPE& Table<NUMROWS, NUMCOLS, TYPE>::operator()(int row, int col) const
 {
 	return mEntry[col + NUMCOLS * row];
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline void Hikari::Table<NUMROWS, NUMCOLS, TYPE>::SetRow(int row, const Tuple<NUMCOLS, TYPE>& tuple)
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+void Table<NUMROWS, NUMCOLS, TYPE>::SetRow(int row, const Tuple<NUMCOLS, TYPE>& tuple)
 {
 	for (int c = 0, i = NUMCOLS * row; c < NUMCOLS; ++c, ++i)
 	{
@@ -59,9 +59,8 @@ inline void Hikari::Table<NUMROWS, NUMCOLS, TYPE>::SetRow(int row, const Tuple<N
 }
 
 
-
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline Tuple<NUMROWS, TYPE> Hikari::Table<NUMROWS, NUMCOLS, TYPE>::GetRow(int row) const
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+Tuple<NUMROWS, TYPE> Table<NUMROWS, NUMCOLS, TYPE>::GetRow(int row) const
 {
 	Tuple<NUMROWS, TYPE> result;
 	for (int c = 0, i = NUMCOLS * row; c < NUMCOLS; ++c, ++i)
@@ -71,19 +70,18 @@ inline Tuple<NUMROWS, TYPE> Hikari::Table<NUMROWS, NUMCOLS, TYPE>::GetRow(int ro
 	return result;
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline void Hikari::Table<NUMROWS, NUMCOLS, TYPE>::SetColum(int col, const Tuple<NUMROWS, TYPE>& tuple)
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+void Table<NUMROWS, NUMCOLS, TYPE>::SetColum(int col, const Tuple<NUMROWS, TYPE>& tuple)
 {
-	for (int r = 0, i = col; r < NUMROWS; ++r, i+= NUMCOLS)
+	for (int r = 0, i = col; r < NUMROWS; ++r, i += NUMCOLS)
 	{
 		mEntry[i] = tuple[r];
 	}
 }
 
 
-
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline Tuple<NUMROWS, TYPE> Hikari::Table<NUMROWS, NUMCOLS, TYPE>::GetColum(int col) const
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+Tuple<NUMROWS, TYPE> Table<NUMROWS, NUMCOLS, TYPE>::GetColum(int col) const
 {
 	Tuple<NUMROWS, TYPE> result;
 	for (int r = 0, i = col; r < NUMROWS; ++r, i += NUMCOLS)
@@ -93,8 +91,8 @@ inline Tuple<NUMROWS, TYPE> Hikari::Table<NUMROWS, NUMCOLS, TYPE>::GetColum(int 
 	return result;
 }
 
-template<int NUMROWS, int NUMCOLS, typename TYPE>
-inline Table<NUMROWS,NUMCOLS,TYPE>& Hikari::Table<NUMROWS, NUMCOLS, TYPE>::operator=(const Table & table)
+template <int NUMROWS, int NUMCOLS, typename TYPE>
+Table<NUMROWS, NUMCOLS, TYPE>& Table<NUMROWS, NUMCOLS, TYPE>::operator=(const Table& table)
 {
 	for (int i = 0; i < NUMENTRIES; i++)
 	{
@@ -102,5 +100,3 @@ inline Table<NUMROWS,NUMCOLS,TYPE>& Hikari::Table<NUMROWS, NUMCOLS, TYPE>::opera
 	}
 	return *this;
 }
-
-

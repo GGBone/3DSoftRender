@@ -1,32 +1,38 @@
 #pragma once
-#include "Application\WindowApplicationEngine.h"
+#include "../../LibApplication/WindowApplicationEngine.h"
+#include "../../LibCore/InitTerm.h"
+#include "../../LibMathematics/Base/Float4.h"
+
+namespace Hikari
+{
+	class EventArgs;
+}
 
 using namespace Hikari;
+
 class Lights : public WindowApplicationEngine
 {
-	DECLARE_INITIALIZE;
-	DECLEAR_TERMINATE;
+DECLARE_INITIALIZE;
+DECLEAR_TERMINATE;
 	typedef WindowApplicationEngine base;
 public:
 	Lights();
-	virtual bool OnInitialize(EventArgs& e) override;
+	bool OnInitialize(EventArgs& e) override;
 	virtual ~Lights();
 public:
-	
+
 protected:
 	void CreateScene();
-	void CreatePlane();
-	void CreateSphere();
+	static void CreatePlane();
+	static void CreateSphere();
 	void CreateLightShape();
 	void CreateAxis();
-	void CreateTransparentSlice();
+	static void CreateTransparentSlice();
 private:
 	Float4 g_ClearColor;
 
-	uint32_t g_NumLightToGenerate;
-
-
-
+	uint32_t g_NumLightToGenerate{};
 };
+
 REGISTER_INITIALIZE(Lights);
 REGISTER_TERMINATE(Lights);

@@ -1,50 +1,52 @@
-#include <Graphics\GraphicsPCH.h>
-#include <Graphics\Scene.h>
-#include <Graphics\Node.h>
-#include <Graphics\Mesh.h>
-#include <Graphics\Material.h>
-#include <Graphics\PipelineState.h>
-#include <Graphics\Shader.h>
-#include <Graphics\ShaderParameter.h>
-#include <Graphics\Camera.h>
-#include <Graphics\ConstantBuffer.h>
 #include "BasePass.h"
+#include "Resource/RasterizerState.h"
+#include "Resource/ConstantBuffer.h"
+#include "Shader/Shader.h"
+#include "Resource/PipelineState.h"
+#include "SceneGraph/Scene.h"
+#include "Algebra/HMatrix.h"
+#include "SceneGraph/Camera.h"
+#include "SceneGraph/Mesh.h"
+#include "SceneGraph/Node.h"
+#include "Shader/ShaderParameter.h"
+#include "Renderer/Renderer.h"
 
 using namespace Hikari;
-BasePass::BasePass(std::shared_ptr<Renderer> render)
+
+BasePass::BasePass(const std::shared_ptr<Renderer>& render)
 	: m_pRenderEventArgs(nullptr),
-	m_RenderDevice(render)
+	  m_RenderDevice(render)
 {
 	m_PerObjectConstantBuffer = m_RenderDevice->CreateConstantBuffer(PerObject());
 }
 
-BasePass::BasePass(std::shared_ptr<Renderer> render, std::shared_ptr<Scene> scene, std::shared_ptr<PipelineState> pipeline)
+BasePass::BasePass(const std::shared_ptr<Renderer>& render, const std::shared_ptr<Scene>& scene,
+                   const std::shared_ptr<PipelineState>& pipeline)
 	: m_pRenderEventArgs(nullptr)
-	, m_Scene(scene)
-	, m_Pipeline(pipeline)
-	, m_RenderDevice(render)
+	  , m_Pipeline(pipeline)
+	  , m_Scene(scene)
+	  , m_RenderDevice(render)
 {
 	m_PerObjectConstantBuffer = m_RenderDevice->CreateConstantBuffer(PerObject());
 }
 
 BasePass::~BasePass()
 {
-	m_RenderDevice->DestroyConstantBuffer(m_PerObjectConstantBuffer);
+	m_RenderDevice->destroy_constant_buffer(m_PerObjectConstantBuffer);
 }
 
 void BasePass::SetPerObjectConstantBufferData(PerObject& perObjectData)
 {
-	m_PerObjectConstantBuffer.get()->Set(perObjectData);
+	m_PerObjectConstantBuffer.get()->set(perObjectData);
 }
 
 void BasePass::BindPerObjectConstantBuffer(std::shared_ptr<Shader> shader)
 {
 	if (shader)
 	{
-		shader->GetShaderParameterByName("PerObject").Set(m_PerObjectConstantBuffer);
+		shader->GetShaderParameterByName("PerObject").set(m_PerObjectConstantBuffer);
 	}
 }
-
 
 
 void BasePass::PreRender(RenderEventArgs& e)
@@ -54,10 +56,10 @@ void BasePass::PreRender(RenderEventArgs& e)
 	SetRenderEventArgs(e);
 	std::vector<Viewport> vport = e.PipelineState->GetRasterizerState().GetViewports();
 	if (m_Pipeline)
-	{	
-		m_Pipeline->GetRasterizerState().SetViewport(Viewport(0,0,1280,760,0.0f,1.0f));
+	{
+		m_Pipeline->GetRasterizerState().SetViewport(Viewport(0, 0, 1280, 760, 0.0f, 1.0f));
 		BindPerObjectConstantBuffer(m_Pipeline->GetShader(Shader::VertexShader));
-		m_Pipeline->Bind();
+		m_Pipeline->bind();
 	}
 }
 
@@ -75,7 +77,7 @@ void BasePass::PostRender(RenderEventArgs& e)
 	{
 #if defined(VOXEL)
 #else
-		//m_Pipeline->UnBind();
+		//m_Pipeline->unbind();
 #endif
 	}
 }
@@ -96,10 +98,10 @@ void BasePass::Visit(Node& node)
 		XMMATRIX viewMatrix = camera->View();
 		HMatrix temp = node.GetWorldTransform();
 		XMMATRIX worldTransform = XMMatrixSet(temp[0][0], temp[0][1], temp[0][2], temp[0][3],
-			temp[1][0], temp[1][1], temp[1][2], temp[1][3],
-			temp[2][0], temp[2][1], temp[2][2], temp[2][3],
-			temp[3][0], temp[3][1], temp[3][2], temp[3][3]);
-		perObjectData.ModelView = XMMatrixMultiply(worldTransform,viewMatrix);
+		                                      temp[1][0], temp[1][1], temp[1][2], temp[1][3],
+		                                      temp[2][0], temp[2][1], temp[2][2], temp[2][3],
+		                                      temp[3][0], temp[3][1], temp[3][2], temp[3][3]);
+		perObjectData.ModelView = XMMatrixMultiply(worldTransform, viewMatrix);
 
 		perObjectData.ModelViewProjection = XMMatrixMultiply(perObjectData.ModelView, camera->Proj());
 
@@ -128,8 +130,7 @@ RenderEventArgs& BasePass::GetRenderEventArgs() const
 	return *m_pRenderEventArgs;
 }
 
-std::shared_ptr<Renderer> Hikari::BasePass::GetRenderDevice() const
+std::shared_ptr<Renderer> BasePass::GetRenderDevice() const
 {
 	return m_RenderDevice;
 }
-

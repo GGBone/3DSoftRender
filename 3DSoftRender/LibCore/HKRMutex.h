@@ -1,6 +1,5 @@
 #pragma once
-#include "Core\CoreLib.h"
-#include "Core\HKRMutexType.h"
+#include "HKRMutexType.h"
 
 namespace Hikari
 {
@@ -13,6 +12,5 @@ namespace Hikari
 		void Leave();
 	private:
 		MutexType mMutex;
-
 	};
 }

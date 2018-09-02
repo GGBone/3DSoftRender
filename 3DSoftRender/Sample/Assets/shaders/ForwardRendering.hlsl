@@ -7,12 +7,12 @@ VertexShaderOutput VS_main(AppData IN)
 	OUT.position = mul(ModelViewProjection, float4(IN.position, 1.0f));
 
 	OUT.positionVS = mul(ModelView, float4(IN.position, 1.0f)).xyz;
-    OUT.tangentVS = mul(IN.tangent, (float3x3) ModelView);
-    OUT.binormalVS = mul(IN.binormal, (float3x3) ModelView);
-    OUT.normalVS = mul(IN.normal, (float3x3) ModelView);
+    OUT.tangentVS = mul((float3x3) ModelView,IN.tangent);
+    OUT.binormalVS = mul((float3x3) ModelView,IN.binormal);
+    OUT.normalVS = mul((float3x3) ModelView,IN.normal);
 
 	OUT.texCoord = IN.texCoord;
-
+    OUT.positionSS = OUT.position;
 	return OUT;
 }
 

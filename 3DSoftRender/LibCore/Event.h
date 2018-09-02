@@ -1,11 +1,14 @@
 #pragma once
-#include "Core\CoreLib.h"
-#include "Core\Object.h"
-#include "Application\KeyCodes.h"
+
+#include "CoreLib.h"
+#include "KeyCodes.h"
+#include "HKRAssert.h"
+
 namespace Hikari
 {
 	class Camera;
 	class PipelineState;
+
 	template <class ArgumentType>
 	class Delegate
 	{
@@ -16,20 +19,20 @@ namespace Hikari
 		//Control the connection lifetime
 		typedef std::vector<boost::signals2::scoped_connection> ScopedConnections;
 
-		ConnectionType operator += (typename const FunctionType& callback)const
+		ConnectionType operator +=(typename const FunctionType& callback) const
 		{
 			return m_Callbacks.connect(callback);
 		}
 
-		void operator-=(typename const FunctionType& callback)const
+		void operator-=(typename const FunctionType& callback) const
 		{
-			assertion(false);
-			m_Callbacks.disconnect<FunctionType>(callback);
+			assert(false);
+			m_Callbacks.template disconnect<FunctionType>(callback);
 		}
 
 		void operator-=(ConnectionType& con)
 		{
-			assertion(false);
+			assert(false);
 			m_Callbacks.disconnect(con);
 			if (con.connected())
 			{
@@ -37,10 +40,11 @@ namespace Hikari
 			}
 		}
 
-		void operator()(typename ArgumentType& argument)
+		void operator()(ArgumentType& argument)
 		{
 			m_Callbacks(argument);
 		}
+
 	private:
 		typedef boost::signals2::signal<void(ArgumentType&)> Callbacks;
 		mutable Callbacks m_Callbacks;
@@ -50,8 +54,10 @@ namespace Hikari
 	{
 	public:
 		EventArgs(const Object& caller)
-			:Caller(caller)
-		{}
+			: Caller(caller)
+		{
+		}
+
 		const Object& Caller;
 	};
 
@@ -61,12 +67,13 @@ namespace Hikari
 	{
 	public:
 		typedef EventArgs base;
-		WindowCloseEventArgs(const Object& caller)
-			:base(caller)
-			, ConfirmClose(true)
-		{
 
+		WindowCloseEventArgs(const Object& caller)
+			: base(caller)
+			  , ConfirmClose(true)
+		{
 		}
+
 		bool ConfirmClose;
 	};
 
@@ -83,23 +90,28 @@ namespace Hikari
 		};
 
 		typedef EventArgs base;
-		KeyEventArgs(const Object& caller, KeyCode key, unsigned int c, KeyState state, bool control, bool shift, bool alt)
-			: base(caller)
-			, Key(key)
-			, Char(c)
-			, State(state)
-			, Control(control)
-			, Shift(shift)
-			, Alt(alt)
-		{}
 
-		KeyCode         Key;    // The Key Code that was pressed or released.
-		unsigned int    Char;   // The 32-bit character code that was pressed. This value will be 0 if it is a non-printable character.
-		KeyState        State;  // Was the key pressed or released?
-		bool            Control;// Is the Control modifier pressed
-		bool            Shift;  // Is the Shift modifier pressed
-		bool            Alt;    // Is the Alt modifier pressed
+		KeyEventArgs(const Object& caller, KeyCode key, unsigned int c, KeyState state, bool control, bool shift,
+		             bool alt)
+			: base(caller)
+			  , Key(key)
+			  , Char(c)
+			  , State(state)
+			  , Control(control)
+			  , Shift(shift)
+			  , Alt(alt)
+		{
+		}
+
+		KeyCode Key; // The Key Code that was pressed or released.
+		unsigned int Char;
+		// The 32-bit character code that was pressed. This value will be 0 if it is a non-printable character.
+		KeyState State; // Was the key pressed or released?
+		bool Control; // Is the Control modifier pressed
+		bool Shift; // Is the Shift modifier pressed
+		bool Alt; // Is the Alt modifier pressed
 	};
+
 	typedef Delegate<KeyEventArgs> KeyboardEvent;
 
 
@@ -107,29 +119,32 @@ namespace Hikari
 	{
 	public:
 		typedef EventArgs base;
-		MouseMotionEventArgs(const Object& caller, bool leftButton, bool middleButton, bool rightButton, bool control, bool shift, int x, int y)
+
+		MouseMotionEventArgs(const Object& caller, bool leftButton, bool middleButton, bool rightButton, bool control,
+		                     bool shift, int x, int y)
 			: base(caller)
-			, LeftButton(leftButton)
-			, MiddleButton(middleButton)
-			, RightButton(rightButton)
-			, Control(control)
-			, Shift(shift)
-			, X(x)
-			, Y(y)
-		{}
+			  , LeftButton(leftButton)
+			  , MiddleButton(middleButton)
+			  , RightButton(rightButton)
+			  , Control(control)
+			  , Shift(shift)
+			  , X(x)
+			  , Y(y)
+		{
+		}
 
-		bool LeftButton;    // Is the left mouse button down?
-		bool MiddleButton;  // Is the middle mouse button down?
-		bool RightButton;   // Is the right mouse button down?
-		bool Control;       // Is the CTRL key down?
-		bool Shift;         // Is the Shift key down?
+		bool LeftButton; // Is the left mouse button down?
+		bool MiddleButton; // Is the middle mouse button down?
+		bool RightButton; // Is the right mouse button down?
+		bool Control; // Is the CTRL key down?
+		bool Shift; // Is the Shift key down?
 
-		int X;              // The X-position of the cursor relative to the upper-left corner of the client area.
-		int Y;              // The Y-position of the cursor relative to the upper-left corner of the client area.
-		int RelX;			// How far the mouse moved since the last event.
-		int RelY;			// How far the mouse moved since the last event.
-
+		int X; // The X-position of the cursor relative to the upper-left corner of the client area.
+		int Y; // The Y-position of the cursor relative to the upper-left corner of the client area.
+		int RelX; // How far the mouse moved since the last event.
+		int RelY; // How far the mouse moved since the last event.
 	};
+
 	typedef Delegate<MouseMotionEventArgs> MouseMotionEvent;
 
 	class MouseButtonEventArgs : public EventArgs
@@ -142,6 +157,7 @@ namespace Hikari
 			Right = 2,
 			Middel = 3
 		};
+
 		enum ButtonState
 		{
 			Released = 0,
@@ -149,79 +165,89 @@ namespace Hikari
 		};
 
 		typedef EventArgs base;
-		MouseButtonEventArgs(const Object& caller, HWND tHwnd,MouseButton buttonID, ButtonState state, bool leftButton, bool middleButton, bool rightButton, bool control, bool shift, int x, int y)
+
+		MouseButtonEventArgs(const Object& caller, HWND tHwnd, MouseButton buttonID, ButtonState state, bool leftButton,
+		                     bool middleButton, bool rightButton, bool control, bool shift, int x, int y)
 			: base(caller)
-			, hwnd(tHwnd)
-			, Button(buttonID)
-			, State(state)
-			, LeftButton(leftButton)
-			, MiddleButton(middleButton)
-			, RightButton(rightButton)
-			, Control(control)
-			, Shift(shift)
-			, X(x)
-			, Y(y)
-		{}
+			  , Button(buttonID)
+			  , State(state)
+			  , LeftButton(leftButton)
+			  , MiddleButton(middleButton)
+			  , RightButton(rightButton)
+			  , Control(control)
+			  , Shift(shift)
+			  , X(x)
+			  , Y(y)
+			  , hwnd(tHwnd)
+		{
+		}
 
 		MouseButton Button; // The mouse button that was pressed or released.
-		ButtonState State;  // Was the button pressed or released?
-		bool LeftButton;    // Is the left mouse button down?
-		bool MiddleButton;  // Is the middle mouse button down?
-		bool RightButton;   // Is the right mouse button down?
-		bool Control;       // Is the CTRL key down?
-		bool Shift;         // Is the Shift key down?
+		ButtonState State; // Was the button pressed or released?
+		bool LeftButton; // Is the left mouse button down?
+		bool MiddleButton; // Is the middle mouse button down?
+		bool RightButton; // Is the right mouse button down?
+		bool Control; // Is the CTRL key down?
+		bool Shift; // Is the Shift key down?
 
-		int X;              // The X-position of the cursor relative to the upper-left corner of the client area.
-		int Y;              // The Y-position of the cursor relative to the upper-left corner of the client area.
+		int X; // The X-position of the cursor relative to the upper-left corner of the client area.
+		int Y; // The Y-position of the cursor relative to the upper-left corner of the client area.
 		HWND hwnd;
 		static MouseButton DecodeMouseButton(UINT messageID);
 	};
+
 	typedef Delegate<MouseButtonEventArgs> MouseButtonEvent;
 
 	class MouseWheelEventArgs : public EventArgs
 	{
 	public:
 		typedef EventArgs base;
-		MouseWheelEventArgs(const Object& caller, float wheelDelta, bool leftButton, bool middleButton, bool rightButton, bool control, bool shift, int x, int y)
+
+		MouseWheelEventArgs(const Object& caller, float wheelDelta, bool leftButton, bool middleButton,
+		                    bool rightButton, bool control, bool shift, int x, int y)
 			: base(caller)
-			, WheelDelta(wheelDelta)
-			, LeftButton(leftButton)
-			, MiddleButton(middleButton)
-			, RightButton(rightButton)
-			, Control(control)
-			, Shift(shift)
-			, X(x)
-			, Y(y)
-		{}
+			  , WheelDelta(wheelDelta)
+			  , LeftButton(leftButton)
+			  , MiddleButton(middleButton)
+			  , RightButton(rightButton)
+			  , Control(control)
+			  , Shift(shift)
+			  , X(x)
+			  , Y(y)
+		{
+		}
 
-		float WheelDelta;   // How much the mouse wheel has moved. A positive value indicates that the wheel was moved to the right. A negative value indicates the wheel was moved to the left.
-		bool LeftButton;    // Is the left mouse button down?
-		bool MiddleButton;  // Is the middle mouse button down?
-		bool RightButton;   // Is the right mouse button down?
-		bool Control;       // Is the CTRL key down?
-		bool Shift;         // Is the Shift key down?
+		float WheelDelta;
+		// How much the mouse wheel has moved. A positive value indicates that the wheel was moved to the right. A negative value indicates the wheel was moved to the left.
+		bool LeftButton; // Is the left mouse button down?
+		bool MiddleButton; // Is the middle mouse button down?
+		bool RightButton; // Is the right mouse button down?
+		bool Control; // Is the CTRL key down?
+		bool Shift; // Is the Shift key down?
 
-		int X;              // The X-position of the cursor relative to the upper-left corner of the client area.
-		int Y;              // The Y-position of the cursor relative to the upper-left corner of the client area.
-
+		int X; // The X-position of the cursor relative to the upper-left corner of the client area.
+		int Y; // The Y-position of the cursor relative to the upper-left corner of the client area.
 	};
+
 	typedef Delegate<MouseWheelEventArgs> MouseWheelEvent;
 
 	class JoystickButtonEventArgs : public EventArgs
 	{
 	public:
 		typedef EventArgs base;
+
 		enum ButtonState
 		{
 			Released = 0,
 			Pressed = 1,
 		};
 
-		JoystickButtonEventArgs(const Object& caller, unsigned int joystickID, ButtonState state, unsigned int buttonID, bool buttonStates[32])
+		JoystickButtonEventArgs(const Object& caller, unsigned int joystickID, ButtonState state, unsigned int buttonID,
+		                        bool buttonStates[32])
 			: base(caller)
-			, JoystickID(joystickID)
-			, State(state)
-			, ButtonID(buttonID)
+			  , JoystickID(joystickID)
+			  , State(state)
+			  , ButtonID(buttonID)
 		{
 			memcpy_s(ButtonStates, sizeof(ButtonStates), buttonStates, sizeof(buttonStates));
 		}
@@ -238,6 +264,7 @@ namespace Hikari
 		// The state of the joystick buttons when this event was invoked.
 		bool ButtonStates[32];
 	};
+
 	typedef Delegate<JoystickButtonEventArgs> JoystickButtonEvent;
 
 	class JoystickPOVEventArgs : public EventArgs
@@ -258,11 +285,12 @@ namespace Hikari
 			UpLeft = 315,
 		};
 
-		JoystickPOVEventArgs(const Object& caller, unsigned int joystickID, float povAngle, POVDirection povDirection, bool buttonStates[32])
+		JoystickPOVEventArgs(const Object& caller, unsigned int joystickID, float povAngle, POVDirection povDirection,
+		                     bool buttonStates[32])
 			: base(caller)
-			, JoystickID(joystickID)
-			, Angle(povAngle)
-			, Direction(povDirection)
+			  , JoystickID(joystickID)
+			  , Angle(povAngle)
+			  , Direction(povDirection)
 		{
 			memcpy_s(ButtonStates, sizeof(ButtonStates), buttonStates, sizeof(buttonStates));
 		}
@@ -284,6 +312,7 @@ namespace Hikari
 		// The state of the joystick buttons when this event was invoked.
 		bool ButtonStates[32];
 	};
+
 	typedef Delegate<JoystickPOVEventArgs> JoystickPOVEvent;
 
 	class JoystickAxisEventArgs : public EventArgs
@@ -301,11 +330,12 @@ namespace Hikari
 			ZAxis,
 		};
 
-		JoystickAxisEventArgs(Object& caller, unsigned int joystickID, JoystickAxis changedAxis, float axis, bool buttonStates[32])
+		JoystickAxisEventArgs(Object& caller, unsigned int joystickID, JoystickAxis changedAxis, float axis,
+		                      bool buttonStates[32])
 			: base(caller)
-			, JoystickID(joystickID)
-			, ChangedAxis(changedAxis)
-			, Axis(axis)
+			  , JoystickID(joystickID)
+			  , ChangedAxis(changedAxis)
+			  , Axis(axis)
 		{
 			memcpy_s(ButtonStates, sizeof(ButtonStates), buttonStates, sizeof(buttonStates));
 		}
@@ -324,53 +354,62 @@ namespace Hikari
 		// The buttons states when this event was fired.
 		bool ButtonStates[32];
 	};
+
 	typedef Delegate<JoystickAxisEventArgs> JoystickAxisEvent;
 
 	class ResizeEventArgs : public EventArgs
 	{
 	public:
 		typedef EventArgs base;
+
 		ResizeEventArgs(const Object& caller, int width, int height)
 			: base(caller)
-			, Width(width)
-			, Height(height)
-		{}
+			  , Width(width)
+			  , Height(height)
+		{
+		}
 
 		// The new width of the window
 		int Width;
 		// The new height of the window.
 		int Height;
-
 	};
+
 	typedef Delegate<ResizeEventArgs> ResizeEvent;
 
 	class UpdateEventArgs : public EventArgs
 	{
 	public:
 		typedef EventArgs base;
+
 		UpdateEventArgs(const Object& caller, float fDeltaTime, float fTotalTime)
 			: base(caller)
-			, ElapsedTime(fDeltaTime)
-			, TotalTime(fTotalTime)
-		{}
+			  , ElapsedTime(fDeltaTime)
+			  , TotalTime(fTotalTime)
+		{
+		}
 
 		float ElapsedTime;
 		float TotalTime;
 	};
+
 	typedef Delegate<UpdateEventArgs> UpdateEvent;
 
 	class RenderEventArgs : public EventArgs
 	{
 	public:
 		typedef EventArgs base;
-		RenderEventArgs(const Object& caller, float fDeltaTime, float fTotalTime, uint64_t frameCounter, Camera* camera = nullptr, PipelineState* pipelineState = nullptr)
+
+		RenderEventArgs(const Object& caller, float fDeltaTime, float fTotalTime, uint64_t frameCounter,
+		                Camera* camera = nullptr, PipelineState* pipelineState = nullptr)
 			: base(caller)
-			, ElapsedTime(fDeltaTime)
-			, TotalTime(fTotalTime)
-			, FrameCounter(frameCounter)
-			, Camera(camera)
-			, PipelineState(pipelineState)
-		{}
+			  , ElapsedTime(fDeltaTime)
+			  , TotalTime(fTotalTime)
+			  , FrameCounter(frameCounter)
+			  , Camera(camera)
+			  , PipelineState(pipelineState)
+		{
+		}
 
 		float ElapsedTime;
 		float TotalTime;
@@ -378,23 +417,27 @@ namespace Hikari
 		Camera* Camera;
 		PipelineState* PipelineState;
 	};
+
 	typedef Delegate<RenderEventArgs> RenderEvent;
 
 	class UserEventArgs : public EventArgs
 	{
 	public:
 		typedef EventArgs base;
+
 		UserEventArgs(const Object& caller, int code, void* data1, void* data2)
 			: base(caller)
-			, Code(code)
-			, Data1(data1)
-			, Data2(data2)
-		{}
+			  , Code(code)
+			  , Data1(data1)
+			  , Data2(data2)
+		{
+		}
 
-		int     Code;
-		void*   Data1;
-		void*   Data2;
+		int Code;
+		void* Data1;
+		void* Data2;
 	};
+
 	typedef Delegate<UserEventArgs> UserEvent;
 
 	class RuntimeErrorEventArgs : public EventArgs
@@ -404,13 +447,15 @@ namespace Hikari
 
 		RuntimeErrorEventArgs(const Object& caller, const std::string& errorString, const std::string& compilerError)
 			: base(caller)
-			, ErrorString(errorString)
-			, CompilerError(compilerError)
-		{}
+			  , ErrorString(errorString)
+			  , CompilerError(compilerError)
+		{
+		}
 
 		std::string ErrorString;
 		std::string CompilerError;
 	};
+
 	typedef Delegate<RuntimeErrorEventArgs> RuntimeErrorEvent;
 
 	class ProgressEventArgs : public EventArgs
@@ -420,18 +465,20 @@ namespace Hikari
 
 		ProgressEventArgs(const Object& caller, const std::wstring& fileName, float progress, bool cancel = false)
 			: base(caller)
-			, FileName(fileName)
-			, Progress(progress)
-			, Cancel(cancel)
-		{}
+			  , FileName(fileName)
+			  , Progress(progress)
+			  , Cancel(cancel)
+		{
+		}
 
 		// The file that is being loaded.
 		std::wstring FileName;
 		// The progress of the loading process.
 		float Progress;
-		// Set to TRUE to cancel loading.
+		// set to TRUE to cancel loading.
 		bool Cancel;
 	};
+
 	typedef Delegate<ProgressEventArgs> ProgressEvent;
 
 	class FileChangeEventArgs : EventArgs
@@ -442,23 +489,31 @@ namespace Hikari
 		// What action was performed to trigger this event?
 		enum class FileAction
 		{
-			Unknown,        // An unknown action triggered this event. (Should not happen, but I guess its possible)
-			Added,          // A file was added to a directory.
-			Removed,        // A file was removed from a directory.
-			Modified,       // A file was modified. This might indicate the file's timestamp was modified or another attribute was modified.
-			RenameOld,      // The file was renamed and this event stores the previous name.
-			RenameNew,      // The file was renamed and this event stores the new name.
+			Unknown,
+			// An unknown action triggered this event. (Should not happen, but I guess its possible)
+			Added,
+			// A file was added to a directory.
+			Removed,
+			// A file was removed from a directory.
+			Modified,
+			// A file was modified. This might indicate the file's timestamp was modified or another attribute was modified.
+			RenameOld,
+			// The file was renamed and this event stores the previous name.
+			RenameNew,
+			// The file was renamed and this event stores the new name.
 		};
 
 		FileChangeEventArgs(const Object& caller, FileAction action, const std::wstring& path)
 			: base(caller)
-			, Action(action)
-			, Path(path)
-		{}
+			  , Action(action)
+			  , Path(path)
+		{
+		}
 
 		FileAction Action; // The action that triggered this event.
-						   // The file or directory path that was modified.
+		// The file or directory path that was modified.
 		std::wstring Path;
 	};
+
 	typedef Delegate<FileChangeEventArgs> FileChangeEvent;
 }

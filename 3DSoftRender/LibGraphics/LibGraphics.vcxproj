@@ -85,8 +85,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile>Graphics\GraphicsPCH.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>./;../External/FreeImage/;../External/;../External/boost_1_58_0/;$(SolutionDir)LibMathematics;$(SolutionDir)LibCore;$(SolutionDir)LibApplication;$(SolutionDir)LibLoader</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>GraphicsPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -125,163 +125,175 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BlendState.h" />
-    <ClInclude Include="BufferBinding.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="ClearFlag.h" />
-    <ClInclude Include="ColorRGBA.h" />
-    <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="CPUAccess.h" />
-    <ClInclude Include="Culler.h" />
-    <ClInclude Include="DepthStencilState.h" />
-    <ClInclude Include="Dx11BlendState.h" />
-    <ClInclude Include="Dx11VertexIndexBuffer.h" />
-    <ClInclude Include="Dx11ConstantBuffer.h" />
-    <ClInclude Include="Dx11DepthStencilState.h" />
-    <ClInclude Include="Dx11Mesh.h" />
-    <ClInclude Include="Dx11PipelineState.h" />
-    <ClInclude Include="Dx11Query.h" />
-    <ClInclude Include="Dx11RasterizerState.h" />
-    <ClInclude Include="Dx11Renderer.h" />
-    <ClInclude Include="Dx11RenderLIB.h" />
-    <ClInclude Include="Dx11RenderTarget.h" />
-    <ClInclude Include="Dx11RenderWindow.h" />
-    <ClInclude Include="Dx11Buffer.h" />
-    <ClInclude Include="Dx11SamplerState.h" />
-    <ClInclude Include="Dx11Scene.h" />
-    <ClInclude Include="Dx11Shader.h" />
-    <ClInclude Include="Dx11ShaderParameter.h" />
-    <ClInclude Include="Dx11StructureBuffer.h" />
-    <ClInclude Include="Dx11Texture.h" />
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="BufferBase.h" />
     <ClInclude Include="GraphicsPCH.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="PipelineState.h" />
-    <ClInclude Include="Pixel.h" />
-    <ClInclude Include="ProgressWindow.h" />
-    <ClInclude Include="Query.h" />
-    <ClInclude Include="RasterizerState.h" />
-    <ClInclude Include="RawResource\ByteAddressBuffer.h" />
-    <ClInclude Include="Ray.h" />
-    <ClInclude Include="RayCast.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11BlendState.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11Buffer.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11ConstantBuffer.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11DepthStencilState.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11Mesh.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11PipelineState.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11Query.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11RasterizerState.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11Renderer.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11RenderLIB.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11RenderTarget.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11RenderWindow.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11SamplerState.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11Scene.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11Shader.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11ShaderParameter.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11StructureBuffer.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11Texture.h" />
     <ClInclude Include="Renderer\DxRenderer\Dx11UnorderedAccessBuffer.h" />
-    <ClInclude Include="RenderEventArgs.h" />
-    <ClInclude Include="RenderTarget.h" />
-    <ClInclude Include="RenderWindow.h" />
-    <ClInclude Include="Buffer.h" />
-    <ClInclude Include="SamplerState.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneBase.h" />
-    <ClInclude Include="ShaderMMatrix.h" />
-    <ClInclude Include="ShaderPMatrix.h" />
-    <ClInclude Include="ShaderVMatrix.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderFloat.h" />
-    <ClInclude Include="ShaderParameter.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11VertexIndexBuffer.h" />
+    <ClInclude Include="Renderer\ProgressWindow.h" />
+    <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="Renderer\RenderWindow.h" />
+    <ClInclude Include="Resource\BlendState.h" />
+    <ClInclude Include="Resource\Buffer.h" />
+    <ClInclude Include="Resource\BufferBase.h" />
+    <ClInclude Include="Resource\BufferBinding.h" />
+    <ClInclude Include="Resource\ColorRGBA.h" />
+    <ClInclude Include="Resource\ConstantBuffer.h" />
+    <ClInclude Include="Resource\CPUAccess.h" />
+    <ClInclude Include="Resource\DepthStencilState.h" />
+    <ClInclude Include="Resource\PipelineState.h" />
+    <ClInclude Include="Resource\Pixel.h" />
+    <ClInclude Include="Resource\Query.h" />
+    <ClInclude Include="Resource\RasterizerState.h" />
+    <ClInclude Include="Resource\Ray.h" />
+    <ClInclude Include="Resource\RayCast.h" />
+    <ClInclude Include="Resource\RenderEventArgs.h" />
+    <ClInclude Include="Resource\RenderTarget.h" />
+    <ClInclude Include="Resource\SamplerState.h" />
+    <ClInclude Include="Resource\StructBuffer.h" />
+    <ClInclude Include="Resource\StructuredBuffer.h" />
+    <ClInclude Include="Resource\Texture.h" />
+    <ClInclude Include="Resource\Transform.h" />
+    <ClInclude Include="Resource\UnorderedAccessBuffer.h" />
+    <ClInclude Include="Resource\VertexBufferAccessor.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Resource\VertexFormat.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Resource\VertexIndexBuffer.h" />
+    <ClInclude Include="SceneGraph\Camera.h" />
+    <ClInclude Include="SceneGraph\ClearFlag.h" />
+    <ClInclude Include="SceneGraph\Culler.h" />
+    <ClInclude Include="SceneGraph\Light.h" />
+    <ClInclude Include="SceneGraph\Material.h" />
+    <ClInclude Include="SceneGraph\Mesh.h" />
+    <ClInclude Include="SceneGraph\Node.h" />
+    <ClInclude Include="SceneGraph\Scene.h" />
+    <ClInclude Include="SceneGraph\SceneBase.h" />
+    <ClInclude Include="SceneGraph\Spatial.h" />
+    <ClInclude Include="SceneGraph\StandardMesh.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Yes</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Triangle.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Yes</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\TriMesh.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Yes</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Visitor.h" />
+    <ClInclude Include="SceneGraph\Visual.h" />
+    <ClInclude Include="SceneGraph\VisualEffect.h" />
+    <ClInclude Include="SceneGraph\VisualEffectInstance.h" />
+    <ClInclude Include="SceneGraph\VisualPass.h" />
+    <ClInclude Include="SceneGraph\VisualTechnique.h" />
+    <ClInclude Include="ShaderStream\ShaderFloat.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="ShaderStream\ShaderMMatrix.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="ShaderStream\ShaderPMatrix.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="ShaderStream\ShaderVMatrix.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Shader\DefaultShader.h" />
+    <ClInclude Include="Shader\Shader.h" />
+    <ClInclude Include="Shader\ShaderParameter.h" />
     <ClInclude Include="SoftRenderData.h" />
-    <ClInclude Include="Spatial.h" />
-    <ClInclude Include="StandardMesh.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="StructuredBuffer.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Triangle.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="TriMesh.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="UnorderedAccessBuffer.h" />
-    <ClInclude Include="VertexBufferAccessor.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="VertexFormat.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Visitor.h" />
-    <ClInclude Include="Visual.h" />
-    <ClInclude Include="VisualEffect.h" />
-    <ClInclude Include="VisualEffectInstance.h" />
-    <ClInclude Include="VisualPass.h" />
-    <ClInclude Include="VisualTechnique.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Culler.cpp" />
-    <ClCompile Include="Dx11BlendState.cpp" />
-    <ClCompile Include="Dx11VertexIndexBuffer.cpp" />
-    <ClCompile Include="Dx11ConstantBuffer.cpp" />
-    <ClCompile Include="Dx11DepthStencilState.cpp" />
-    <ClCompile Include="Dx11Mesh.cpp" />
-    <ClCompile Include="Dx11PipelineState.cpp" />
-    <ClCompile Include="Dx11Query.cpp" />
-    <ClCompile Include="Dx11RasterizerState.cpp" />
-    <ClCompile Include="Dx11Renderer.cpp" />
-    <ClCompile Include="Dx11RenderTarget.cpp" />
-    <ClCompile Include="Dx11RenderWindow.cpp" />
-    <ClCompile Include="Dx11Buffer.cpp" />
-    <ClCompile Include="Dx11SamplerState.cpp" />
-    <ClCompile Include="Dx11Scene.cpp" />
-    <ClCompile Include="Dx11Shader.cpp" />
-    <ClCompile Include="Dx11ShaderParameter.cpp" />
-    <ClCompile Include="Dx11StructureBuffer.cpp" />
-    <ClCompile Include="Dx11Texture.cpp" />
+    <ClCompile Include="SceneGraph\Mesh.cpp" />
+    <ClCompile Include="SceneGraph\Spatial.cpp" />
+    <ClCompile Include="SceneGraph\StandardMesh.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Yes</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ShaderStream\ShaderFloat.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ShaderStream\ShaderMMatrix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ShaderStream\ShaderPMatrix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ShaderStream\ShaderVMatrix.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Shader\DefaultShader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Shader\ShaderParameter.cpp" />
     <ClInclude Include="GraphicsLib.h" />
     <ClCompile Include="GraphicsPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Graphics\GraphicsPCH.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GraphicsPCH.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Node.cpp" />
-    <ClCompile Include="ProgressWindow.cpp" />
-    <ClCompile Include="Ray.cpp" />
-    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11BlendState.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11Buffer.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11ConstantBuffer.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11DepthStencilState.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11Mesh.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11PipelineState.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11Query.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11RasterizerState.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11Renderer.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11RenderTarget.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11RenderWindow.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11SamplerState.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11Scene.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11Shader.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11ShaderParameter.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11StructureBuffer.cpp" />
+    <ClCompile Include="Renderer\DxRenderer\Dx11Texture.cpp" />
     <ClCompile Include="Renderer\DxRenderer\Dx11UnorderedAccessBuffer.cpp" />
-    <ClCompile Include="RenderWindow.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneBase.cpp" />
-    <ClCompile Include="ShaderFloat.cpp" />
-    <ClCompile Include="ShaderMMatrix.cpp" />
-    <ClCompile Include="ShaderParameter.cpp" />
-    <ClCompile Include="ShaderPMatrix.cpp" />
-    <ClCompile Include="Spatial.cpp" />
-    <ClCompile Include="StandardMesh.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClCompile Include="Renderer\DxRenderer\Dx11VertexIndexBuffer.cpp" />
+    <ClCompile Include="Renderer\ProgressWindow.cpp" />
+    <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Renderer\RenderWindow.cpp" />
+    <ClCompile Include="Resource\Ray.cpp" />
+    <ClCompile Include="Resource\Transform.cpp" />
+    <ClCompile Include="Resource\VertexBufferAccessor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="Triangle.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClCompile Include="Resource\VertexFormat.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="TriMesh.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    <ClCompile Include="SceneGraph\Camera.cpp" />
+    <ClCompile Include="SceneGraph\Culler.cpp" />
+    <ClCompile Include="SceneGraph\Material.cpp" />
+    <ClCompile Include="SceneGraph\Node.cpp" />
+    <ClCompile Include="SceneGraph\Scene.cpp" />
+    <ClCompile Include="SceneGraph\SceneBase.cpp" />
+    <ClCompile Include="SceneGraph\Triangle.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Yes</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="VertexBufferAccessor.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    <ClCompile Include="SceneGraph\TriMesh.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Yes</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="VertexFormat.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Visual.cpp" />
-    <ClCompile Include="VisualEffect.cpp" />
-    <ClCompile Include="VisualEffectInstance.cpp" />
-    <ClCompile Include="ShaderVMatrix.cpp" />
-    <ClCompile Include="VisualTechnique.cpp" />
+    <ClCompile Include="SceneGraph\Visual.cpp" />
+    <ClCompile Include="SceneGraph\VisualEffect.cpp" />
+    <ClCompile Include="SceneGraph\VisualEffectInstance.cpp" />
+    <ClCompile Include="SceneGraph\VisualTechnique.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

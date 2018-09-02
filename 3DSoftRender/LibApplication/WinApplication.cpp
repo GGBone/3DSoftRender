@@ -1,13 +1,15 @@
-#include "Application\LibApplicationPCH.h"
-#include "Application\WindowApplicationBase.h"
-#include "Graphics\Dx11Renderer.h"
-#include "Graphics\Dx11RenderWindow.h"
-#include "Graphics\ProgressWindow.h"
+#include "LibApplicationPCH.h"
+#include "WindowApplicationBase.h"
+#include "Renderer/DxRenderer/Dx11Renderer.h"
+#include "Renderer/DxRenderer/Dx11RenderWindow.h"
+#include "Renderer/ProgressWindow.h"
 #define WINDOW_RENDER "Main"
 #define WINDOS_ROCESS "Processing"
+
+
 using namespace Hikari;
 
-BOOL StringToWString(const std::string &str, std::wstring &wstr)
+BOOL StringToWString(const std::string& str, std::wstring& wstr)
 {
 	int nLen = (int)str.length();
 	wstr.resize(nLen, L' ');
@@ -22,12 +24,13 @@ BOOL StringToWString(const std::string &str, std::wstring &wstr)
 	return TRUE;
 }
 
-BOOL WStringToString(const std::wstring &wstr, std::string &str)
+BOOL WStringToString(const std::wstring& wstr, std::string& str)
 {
 	int nLen = (int)wstr.length();
 	str.resize(nLen, ' ');
 
-	int nResult = WideCharToMultiByte(CP_ACP, 0, (LPCWSTR)wstr.c_str(), nLen, (LPSTR)str.c_str(), nLen, NULL, NULL);
+	int nResult = WideCharToMultiByte(CP_ACP, 0, (LPCWSTR)wstr.c_str(), nLen, (LPSTR)str.c_str(), nLen, nullptr,
+	                                  nullptr);
 
 	if (nResult == 0)
 	{
@@ -49,7 +52,7 @@ void ReportErrorAndThrow(const std::string& file, int line, const std::string& f
 	DWORD errorCode = GetLastError();
 	LPSTR errorMessage = nullptr;
 	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS,
-		nullptr, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), errorMessage, 0, nullptr);
+	               nullptr, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), errorMessage, 0, nullptr);
 	if (errorMessage)
 	{
 		ss << file << "(" << line << "): " << "error " << errorCode << ": " << errorMessage << std::endl;
@@ -79,24 +82,24 @@ static MouseButtonEventArgs::MouseButton DecodeMouseButton(UINT messageID)
 	case WM_LBUTTONDOWN:
 	case WM_LBUTTONUP:
 	case WM_LBUTTONDBLCLK:
-	{
-		mouseButton = MouseButtonEventArgs::Left;
-	}
-	break;
+		{
+			mouseButton = MouseButtonEventArgs::Left;
+		}
+		break;
 	case WM_RBUTTONDOWN:
 	case WM_RBUTTONUP:
 	case WM_RBUTTONDBLCLK:
-	{
-		mouseButton = MouseButtonEventArgs::Right;
-	}
-	break;
+		{
+			mouseButton = MouseButtonEventArgs::Right;
+		}
+		break;
 	case WM_MBUTTONDOWN:
 	case WM_MBUTTONUP:
 	case WM_MBUTTONDBLCLK:
-	{
-		mouseButton = MouseButtonEventArgs::Middel;
-	}
-	break;
+		{
+			mouseButton = MouseButtonEventArgs::Middel;
+		}
+		break;
 	}
 
 	return mouseButton;
@@ -111,7 +114,7 @@ void WindowApplicationBase::SetMousePosition(int x, int y)
 	SetCursorPos(point.x, point.x);
 }
 
-void Hikari::WindowApplicationBase::GetMousePosition(int & x, int & y) const
+void WindowApplicationBase::GetMousePosition(int& x, int& y) const
 {
 	HWND handle = (HWND)IntToPtr(mWindowID);
 	POINT point;
@@ -123,7 +126,6 @@ void Hikari::WindowApplicationBase::GetMousePosition(int & x, int & y) const
 
 namespace Hikari
 {
-
 	static LRESULT CALLBACK WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		std::shared_ptr<RenderWindow> pWindow = nullptr;
@@ -137,158 +139,159 @@ namespace Hikari
 			switch (msg)
 			{
 			case WM_PAINT:
-			{
-				PAINTSTRUCT ps;
-				BeginPaint(hWnd, &ps);
+				{
+					PAINTSTRUCT ps;
+					BeginPaint(hWnd, &ps);
 
-				EndPaint(hWnd, &ps);
-			}
-			break;
+					EndPaint(hWnd, &ps);
+				}
+				break;
 
 			case WM_SIZE:
-			{
-				int width = (int)(LOWORD(lParam));
-				int height = (int)(HIWORD(lParam));
-				ResizeEventArgs resizeEventArgs(*pWindow, width, height);
-				pWindow->OnResize(resizeEventArgs);
-			}
-			break;
-			case WM_CHAR:
-			{
-				unsigned char key = (unsigned char)(char)wParam;
-
-				POINT point;
-				GetCursorPos(&point);
-				ScreenToClient(hWnd, &point);
-				int xPos = (int)point.x;
-				int yPos = (int)point.y;
-				return 0;
-			}
-			case WM_KEYDOWN:
-			{
-				MSG charMsg;
-				unsigned int c = 0;
-				if (PeekMessage(&charMsg, hWnd, 0, 0, PM_NOREMOVE) && charMsg.message == WM_CHAR)
 				{
-					GetMessage(&charMsg, hWnd, 0, 0);
-					c = static_cast<UINT>(charMsg.wParam);
+					int width = (int)(LOWORD(lParam));
+					int height = (int)(HIWORD(lParam));
+					ResizeEventArgs resizeEventArgs(*pWindow, width, height);
+					pWindow->OnResize(resizeEventArgs);
 				}
-				bool shift = (GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
-				bool control = (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
+				break;
+			case WM_CHAR:
+				{
+					unsigned char key = (unsigned char)(char)wParam;
 
-				bool alt = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
+					POINT point;
+					GetCursorPos(&point);
+					ScreenToClient(hWnd, &point);
+					int xPos = (int)point.x;
+					int yPos = (int)point.y;
+					return 0;
+				}
+			case WM_KEYDOWN:
+				{
+					MSG charMsg;
+					unsigned int c = 0;
+					if (PeekMessage(&charMsg, hWnd, 0, 0, PM_NOREMOVE) && charMsg.message == WM_CHAR)
+					{
+						GetMessage(&charMsg, hWnd, 0, 0);
+						c = static_cast<UINT>(charMsg.wParam);
+					}
+					bool shift = (GetAsyncKeyState(VK_SHIFT) & 0x8000) != 0;
+					bool control = (GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0;
 
-				KeyCode key = (KeyCode)wParam;
+					bool alt = (GetAsyncKeyState(VK_MENU) & 0x8000) != 0;
 
-				unsigned int scanCode = (lParam & 0x00FF0000) >> 16;
-				KeyEventArgs keyEvents(*pWindow, key, c, KeyEventArgs::Pressed, control, shift, alt);
-				pWindow->OnKeyPressed(keyEvents);
+					KeyCode key = (KeyCode)wParam;
 
-			}
-			break;
+					unsigned int scanCode = (lParam & 0x00FF0000) >> 16;
+					KeyEventArgs keyEvents(*pWindow, key, c, KeyEventArgs::Pressed, control, shift, alt);
+					pWindow->OnKeyPressed(keyEvents);
+				}
+				break;
 			case WM_KEYUP:
-			{
-
-			}
-			break;
+				{
+				}
+				break;
 			case WM_LBUTTONDOWN:
 			case WM_RBUTTONDOWN:
 			case WM_MBUTTONDOWN:
-			{
-				bool lButton = (wParam & MK_LBUTTON) != 0;
-				bool mButton = (wParam & MK_MBUTTON) != 0;
-				bool rButton = (wParam & MK_RBUTTON) != 0;
-				bool shift = (wParam & MK_SHIFT) != 0;
-				bool control = (wParam & MK_CONTROL) != 0;
-				int xPos = (int)(LOWORD(lParam));
-				int yPos = (int)(HIWORD(lParam));
-				MouseButtonEventArgs mouseButtonEventArgs(*pWindow, hWnd, DecodeMouseButton(msg),
-					MouseButtonEventArgs::Pressed, lButton, mButton, rButton, control, shift, xPos, yPos);
-				pWindow->OnMouseButtonPressed(mouseButtonEventArgs);
-				return 0;
-			}
+				{
+					bool lButton = (wParam & MK_LBUTTON) != 0;
+					bool mButton = (wParam & MK_MBUTTON) != 0;
+					bool rButton = (wParam & MK_RBUTTON) != 0;
+					bool shift = (wParam & MK_SHIFT) != 0;
+					bool control = (wParam & MK_CONTROL) != 0;
+					int xPos = (int)(LOWORD(lParam));
+					int yPos = (int)(HIWORD(lParam));
+					MouseButtonEventArgs mouseButtonEventArgs(*pWindow, hWnd, DecodeMouseButton(msg),
+					                                          MouseButtonEventArgs::Pressed, lButton, mButton, rButton,
+					                                          control, shift, xPos, yPos);
+					pWindow->OnMouseButtonPressed(mouseButtonEventArgs);
+					return 0;
+				}
 			case WM_LBUTTONUP:
 			case WM_MBUTTONUP:
 			case WM_RBUTTONUP:
-			{
-				bool lButton = (wParam & MK_LBUTTON) != 0;
-				bool mButton = (wParam & MK_MBUTTON) != 0;
-				bool rButton = (wParam & MK_RBUTTON) != 0;
-				bool shift = (wParam & MK_SHIFT) != 0;
-				bool control = (wParam & MK_CONTROL) != 0;
-				int xPos = (int)(LOWORD(lParam));
-				int yPos = (int)(HIWORD(lParam));
-				MouseButtonEventArgs mouseButtonEventArgs(*pWindow,hWnd, DecodeMouseButton(msg),
-					MouseButtonEventArgs::Released, lButton, mButton, rButton, control, shift, xPos, yPos);
-				pWindow->OnMouseButtonReleased(mouseButtonEventArgs);
+				{
+					bool lButton = (wParam & MK_LBUTTON) != 0;
+					bool mButton = (wParam & MK_MBUTTON) != 0;
+					bool rButton = (wParam & MK_RBUTTON) != 0;
+					bool shift = (wParam & MK_SHIFT) != 0;
+					bool control = (wParam & MK_CONTROL) != 0;
+					int xPos = (int)(LOWORD(lParam));
+					int yPos = (int)(HIWORD(lParam));
+					MouseButtonEventArgs mouseButtonEventArgs(*pWindow, hWnd, DecodeMouseButton(msg),
+					                                          MouseButtonEventArgs::Released, lButton, mButton, rButton,
+					                                          control, shift, xPos, yPos);
+					pWindow->OnMouseButtonReleased(mouseButtonEventArgs);
 
 
-				return 0;
-			}
-			
+					return 0;
+				}
+
 			case WM_MOUSEMOVE:
-			{
-				bool lButton = (wParam & MK_LBUTTON) != 0;
-				bool rButton = (wParam & MK_RBUTTON) != 0;
-				bool mButtom = (wParam & MK_MBUTTON) != 0;
-				bool shift = (wParam & MK_SHIFT) != 0;
-				bool control = (wParam & MK_CONTROL) != 0;
+				{
+					bool lButton = (wParam & MK_LBUTTON) != 0;
+					bool rButton = (wParam & MK_RBUTTON) != 0;
+					bool mButtom = (wParam & MK_MBUTTON) != 0;
+					bool shift = (wParam & MK_SHIFT) != 0;
+					bool control = (wParam & MK_CONTROL) != 0;
 
-				int xPos = (int)(LOWORD(lParam));
-				int yPos = (int)(HIWORD(lParam));
+					int xPos = (int)(LOWORD(lParam));
+					int yPos = (int)(HIWORD(lParam));
 
-				MouseMotionEventArgs mouseMotionEventArgs(*pWindow, lButton, mButtom, rButton, control, shift, xPos, yPos);
-				pWindow->OnMouseMoved(mouseMotionEventArgs);
+					MouseMotionEventArgs mouseMotionEventArgs(*pWindow, lButton, mButtom, rButton, control, shift, xPos,
+					                                          yPos);
+					pWindow->OnMouseMoved(mouseMotionEventArgs);
 
-				return 0;
-			}
+					return 0;
+				}
 			case WM_MOUSEWHEEL:
-			{
-				short sWParam = (short)(HIWORD(wParam));
-				float delta = ((int)sWParam) / (float)WHEEL_DELTA;
-				
-				short keyStates = (short)(LOWORD(wParam));
+				{
+					short sWParam = (short)(HIWORD(wParam));
+					float delta = ((int)sWParam) / (float)WHEEL_DELTA;
 
-				bool lButton = (keyStates & MK_LBUTTON) != 0;
-				bool rButton = (keyStates & MK_RBUTTON) != 0;
-				bool mButton = (keyStates & MK_MBUTTON) != 0;
-				bool shift = (keyStates & MK_SHIFT) != 0;
-				bool control = (keyStates & MK_CONTROL) != 0;
+					short keyStates = (short)(LOWORD(wParam));
 
-				int xPos = (int)(LOWORD(lParam));
-				int yPos = (int)(HIWORD(lParam));
+					bool lButton = (keyStates & MK_LBUTTON) != 0;
+					bool rButton = (keyStates & MK_RBUTTON) != 0;
+					bool mButton = (keyStates & MK_MBUTTON) != 0;
+					bool shift = (keyStates & MK_SHIFT) != 0;
+					bool control = (keyStates & MK_CONTROL) != 0;
 
-				POINT clientToScreenPoint;
-				clientToScreenPoint.x = xPos;
-				clientToScreenPoint.y = yPos;
-				ScreenToClient(hWnd, &clientToScreenPoint);
-				MouseWheelEventArgs mouseWheelEventArgs(*pWindow, delta, lButton, mButton, rButton, control, shift,
-					(int)clientToScreenPoint.x, (int)clientToScreenPoint.y);
+					int xPos = (int)(LOWORD(lParam));
+					int yPos = (int)(HIWORD(lParam));
 
-				pWindow->OnMouseWheel(mouseWheelEventArgs);
-				return 0;
-			}
-			break;
+					POINT clientToScreenPoint;
+					clientToScreenPoint.x = xPos;
+					clientToScreenPoint.y = yPos;
+					ScreenToClient(hWnd, &clientToScreenPoint);
+					MouseWheelEventArgs mouseWheelEventArgs(*pWindow, delta, lButton, mButton, rButton, control, shift,
+					                                        (int)clientToScreenPoint.x, (int)clientToScreenPoint.y);
+
+					pWindow->OnMouseWheel(mouseWheelEventArgs);
+					return 0;
+				}
+				break;
 			case WM_CLOSE:
-			{
-				WindowCloseEventArgs windowCloseEvent(*pWindow);
-				pWindow->OnClose(windowCloseEvent);
-				if (windowCloseEvent.ConfirmClose)
+				{
+					WindowCloseEventArgs windowCloseEvent(*pWindow);
+					pWindow->OnClose(windowCloseEvent);
+					if (windowCloseEvent.ConfirmClose)
 
-				{
-					ShowWindow(hWnd, SW_HIDE);
+					{
+						ShowWindow(hWnd, SW_HIDE);
+					}
 				}
-			}
-			break;
+				break;
 			case WM_DESTROY:
-			{
-				WindowHandleMap::iterator iter = gs_WindowHandleMap.find(hWnd);
-				if (iter != gs_WindowHandleMap.end())
 				{
-					gs_WindowHandleMap.erase(iter);
+					WindowHandleMap::iterator iter = gs_WindowHandleMap.find(hWnd);
+					if (iter != gs_WindowHandleMap.end())
+					{
+						gs_WindowHandleMap.erase(iter);
+					}
 				}
-			}
-			break;
+				break;
 			default:
 				return DefWindowProc(hWnd, msg, wParam, lParam);
 				break;
@@ -301,10 +304,10 @@ namespace Hikari
 			case WM_CREATE:
 				break;
 			default:
-			{
-				return DefWindowProc(hWnd, msg, wParam, lParam);
-			}
-			break;
+				{
+					return DefWindowProc(hWnd, msg, wParam, lParam);
+				}
+				break;
 			}
 		}
 		return 0;
@@ -330,10 +333,10 @@ int WindowApplicationBase::Main(int, char**)
 	FreeImage_Initialise();
 	FreeImage_SetOutputMessage(FreeImageErrorHandle);
 
-	m_hInstance = ::GetModuleHandle(NULL);
+	m_hInstance = ::GetModuleHandle(nullptr);
 
-	WNDCLASSEX WndCls = { 0 };
-	
+	WNDCLASSEX WndCls = {0};
+
 	WndCls.cbSize = sizeof(WndCls);
 	WndCls.style = CS_VREDRAW | CS_HREDRAW;
 	WndCls.lpfnWndProc = WinProc;
@@ -347,14 +350,14 @@ int WindowApplicationBase::Main(int, char**)
 	WndCls.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	WndCls.hIconSm = LoadIcon(m_hInstance, IDI_APPLICATION);
 	WndCls.lpszClassName = TEXT(WINDOW_RENDER);
-	WndCls.lpszMenuName = NULL;
+	WndCls.lpszMenuName = nullptr;
 	if (!RegisterClassEx(&WndCls))
 	{
 		ReportError("Failed to register main render windows");
 		return -1;
 	}
 
-	WNDCLASSEX proceWnd = { 0 };
+	WNDCLASSEX proceWnd = {0};
 
 	proceWnd.cbSize = sizeof(WndCls);
 	proceWnd.style = CS_VREDRAW | CS_HREDRAW;
@@ -369,7 +372,7 @@ int WindowApplicationBase::Main(int, char**)
 	proceWnd.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	proceWnd.hIconSm = LoadIcon(m_hInstance, IDI_APPLICATION);
 	proceWnd.lpszClassName = TEXT(WINDOS_ROCESS);
-	proceWnd.lpszMenuName = NULL;
+	proceWnd.lpszMenuName = nullptr;
 	if (!RegisterClassEx(&proceWnd))
 	{
 		ReportError("Failed to register process render windows");
@@ -379,8 +382,8 @@ int WindowApplicationBase::Main(int, char**)
 	m_pRenderDevice = std::make_shared<DirectRenderer>(*this);
 	//m_DirectoryChangeListenerThread = std::thread(&WindowApplicationBase::CheckFileChange,this);
 
-	CreateRenderWindow("Render",mWidth,mHeight);
-	CreateProgressWindow("Progress",256,40);
+	CreateRenderWindow("Render", mWidth, mHeight);
+	CreateProgressWindow("Progress", 256, 40);
 	mProgressWindow.get()->SetTotalProgress(2.f);
 	mProgressWindow.get()->ShowWindow();
 
@@ -391,7 +394,7 @@ int WindowApplicationBase::Main(int, char**)
 	MSG msg;
 	while (m_bIsRunning)
 	{
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
 			if (msg.message == WM_QUIT)
 			{
@@ -415,22 +418,22 @@ int WindowApplicationBase::Main(int, char**)
 	return static_cast<int>(msg.wParam);
 }
 
-void Hikari::WindowApplicationBase::CreateRenderWindow(const std::string& title, int width, int height)
+void WindowApplicationBase::CreateRenderWindow(const std::string& title, int width, int height)
 {
 	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	int screenHeight = GetSystemMetrics(SM_CXSCREEN);
-	RECT rect = { 0,0,screenWidth,screenHeight };
+	RECT rect = {0, 0, screenWidth, screenHeight};
 
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 	width = rect.right - rect.left;
 	height = rect.bottom - rect.top;
-	
+
 	int windowX = (screenWidth - mWidth) / 2;
 	int windowY = (screenHeight - mHeight) / 2;
 
 	HWND hWnd = CreateWindowExA(NULL, (WINDOW_RENDER), title.c_str(),
-		WS_OVERLAPPEDWINDOW | WS_VISIBLE, windowX, windowY, mWidth,
-		mHeight, NULL, NULL, m_hInstance, NULL);
+	                            WS_OVERLAPPEDWINDOW | WS_VISIBLE, windowX, windowY, mWidth,
+	                            mHeight, nullptr, nullptr, m_hInstance, nullptr);
 	if (!hWnd)
 	{
 		ReportError("Failed to create render window");
@@ -438,7 +441,10 @@ void Hikari::WindowApplicationBase::CreateRenderWindow(const std::string& title,
 
 	//Create RenderWindows
 	m_windowName = "Render Window";
-	mRenderWindow = std::make_shared<Dx11RenderWindow>(*this, hWnd, std::dynamic_pointer_cast<DirectRenderer>(std::shared_ptr<Renderer>(m_pRenderDevice)), m_windowName, mWidth, mHeight);
+	mRenderWindow = std::make_shared<Dx11RenderWindow>(*this, hWnd,
+	                                                   std::dynamic_pointer_cast<DirectRenderer>(
+		                                                   std::shared_ptr<Renderer>(m_pRenderDevice)), m_windowName,
+	                                                   mWidth, mHeight);
 
 
 	m_Windows.insert(WindowMap::value_type(m_windowName, mRenderWindow));
@@ -452,11 +458,11 @@ void Hikari::WindowApplicationBase::CreateRenderWindow(const std::string& title,
 	UpdateWindow(hWnd);
 }
 
-void Hikari::WindowApplicationBase::CreateProgressWindow(const std::string& title, int width, int height)
+void WindowApplicationBase::CreateProgressWindow(const std::string& title, int width, int height)
 {
 	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	int screenHeight = GetSystemMetrics(SM_CXSCREEN);
-	RECT rect = { 0,0,width,height };
+	RECT rect = {0, 0, width, height};
 
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 	width = rect.right - rect.left;
@@ -466,14 +472,14 @@ void Hikari::WindowApplicationBase::CreateProgressWindow(const std::string& titl
 	int windowY = (screenHeight - height) / 2;
 
 	HWND hWnd = CreateWindowExA(NULL, (WINDOS_ROCESS), title.c_str(),
-		WS_OVERLAPPEDWINDOW | WS_VISIBLE, windowX, windowY, width,
-		height, NULL, NULL, m_hInstance, NULL);
+	                            WS_OVERLAPPEDWINDOW | WS_VISIBLE, windowX, windowY, width,
+	                            height, nullptr, nullptr, m_hInstance, nullptr);
 	if (!hWnd)
 	{
 		ReportError("Failed to create process window");
 	}
-	
-	mProgressWindow = std::make_shared<ProgressWindow>(*this,title, hWnd, width, height);
+
+	mProgressWindow = std::make_shared<ProgressWindow>(*this, title, hWnd, width, height);
 
 	m_Windows.insert(WindowMap::value_type(title, mProgressWindow));
 	gs_WindowHandleMap.insert(WindowHandleMap::value_type(hWnd, mProgressWindow));

@@ -1,14 +1,14 @@
-#include "Graphics\GraphicsPCH.h"
+#include "Graphics.h"
 #include "OpaquePass.h"
 #include "DefaultEffect.h"
-#include "Graphics\Dx11Shader.h"
-#include "Graphics\PipelineState.h"
+#include "SceneGraph/VisualEffectInstance.h"
+
 using namespace Hikari;
 
-Hikari::DefaultEffect::DefaultEffect(shared_ptr<Renderer> renderer, shared_ptr<Scene> scene)
+DefaultEffect::DefaultEffect(shared_ptr<Renderer> renderer, shared_ptr<Scene> scene)
 {
 #ifdef SOFT_RENDER
-	shader* vshader = new shader("defaultshader.fx", 1, 1, 3, 0, false);
+	auto vshader = new shader("defaultshader.fx", 1, 1, 3, 0, false);
 	vshader->setinput(0, "vs", shader::vt_float4, shader::vs_position);
 	vshader->setoutput(0, "", shader::vt_float4, shader::vs_position);
 	vshader->setconstant(0, "mvp", 4);
@@ -18,16 +18,18 @@ Hikari::DefaultEffect::DefaultEffect(shared_ptr<Renderer> renderer, shared_ptr<S
 	pshader->setoutput(0, "", shader::vt_float4, shader::vs_color0);
 #else
 	auto vshader = renderer->CreateShader();
-	vshader->LoadShaderFromFile(Shader::VertexShader, "../Assets/shaders/DefaultShader.hlsl", Shader::ShaderMacros(), "VS_main", "latest");
+	vshader->LoadShaderFromFile(Shader::VertexShader, "../Assets/shaders/DefaultShader.hlsl", Shader::ShaderMacros(),
+	                            "VS_main", "latest");
 
 	auto pshader = renderer->CreateShader();
-	pshader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/DefaultShader.hlsl", Shader::ShaderMacros(), "PS_main", "latest");
+	pshader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/DefaultShader.hlsl", Shader::ShaderMacros(),
+	                            "PS_main", "latest");
 
 	auto mPipeline = renderer->CreatePipelineState();
 	mPipeline->SetShader(Shader::VertexShader, vshader);
 	mPipeline->SetShader(Shader::PixelShader, pshader);
 
-	auto  pass = make_shared<OpaquePass>(renderer,scene, mPipeline);
+	const auto pass = make_shared<OpaquePass>(renderer, scene, mPipeline);
 
 	auto technique = make_shared<VisualTechnique>();
 	technique->AddPass(pass);
@@ -35,11 +37,10 @@ Hikari::DefaultEffect::DefaultEffect(shared_ptr<Renderer> renderer, shared_ptr<S
 #endif
 }
 
-Hikari::DefaultEffect::~DefaultEffect()
-{
-}
+DefaultEffect::~DefaultEffect()
+= default;
 
-std::shared_ptr<VisualEffectInstance> Hikari::DefaultEffect::CreateInstance()
+std::shared_ptr<VisualEffectInstance> DefaultEffect::CreateInstance()
 {
 #ifdef SOFT_RENDER
 	VisualEffectInstance* instance = new VisualEffectInstance(this, 0);
@@ -50,7 +51,7 @@ std::shared_ptr<VisualEffectInstance> Hikari::DefaultEffect::CreateInstance()
 	instance->SetVertexConstant(0, 2, new PMatrixParam());
 	return instance;
 #else
-	auto instance = make_shared<VisualEffectInstance>(shared_from_this(),0);
+	auto instance = make_shared<VisualEffectInstance>(shared_from_this(), 0);
 	return instance;
 #endif
 	return nullptr;

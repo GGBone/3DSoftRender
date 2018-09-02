@@ -187,6 +187,7 @@ struct VertexShaderOutput
     float3 binormalVS   : BINORMAL;     // View space binormal.
     float3 normalVS     : NORMAL;       // View space normal.
     float4 position     : SV_POSITION;  // Clip space position.
+    float4 positionSS   : TEXCOORD2;
 };
 
 // Convert clip space coordinates to view space

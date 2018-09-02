@@ -1,10 +1,12 @@
-#include "Core\CorePCH.h"
-#include "Core\HKRMutex.h"
-#include "Core\HKRAssert.h"
+#include "CorePCH.h"
+#include "HKRMutex.h"
+#include "HKRAssert.h"
 
 #define HKR_USE_CRITICAL_SECTIONS
 
 #include <windows.h>
+#include "CoreLib.h"
+
 Hikari::Mutex::Mutex()
 {
 #ifdef HKR_USE_CRITICAL_SECTIONS

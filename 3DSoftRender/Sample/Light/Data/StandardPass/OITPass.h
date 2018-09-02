@@ -1,6 +1,5 @@
 #pragma once
 #include "BasePass.h"
-#include <Graphics\Light.h>
 
 namespace Hikari
 {
@@ -8,14 +7,16 @@ namespace Hikari
 	class Renderer;
 	class Material;
 	class StructuredBuffer;
+
 	class OITPass : public BasePass
 	{
 	public:
-		OITPass(std::shared_ptr<Renderer> render, shared_ptr<Scene> scene, std::shared_ptr<PipelineState> pipeline);
+		OITPass(std::shared_ptr<Renderer> render, vector<shared_ptr<Scene>> scene,
+		        std::shared_ptr<PipelineState> pipeline);
 
 		virtual ~OITPass();
 
-		virtual void Visit(Mesh& mesh) override;
+		void Visit(Mesh& mesh) override;
 
 
 		struct ScreenSize
@@ -23,6 +24,7 @@ namespace Hikari
 			float width;
 			float height;
 		};
+
 		struct FragmentData_STRUCT
 		{
 			Float4 color;
@@ -34,8 +36,9 @@ namespace Hikari
 			FragmentData_STRUCT FragmentData;
 			uint32_t nNext;
 		};
+
 	private:
-		shared_ptr<StructuredBuffer> mPixelList;
-		
+		shared_ptr<StructuredBuffer> mPixelList{};
+		shared_ptr<Buffer> mStartOffset{};
 	};
 }

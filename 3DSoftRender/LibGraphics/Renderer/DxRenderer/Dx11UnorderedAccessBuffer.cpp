@@ -1,14 +1,15 @@
-#include "Graphics\GraphicsPCH.h"
+#include "GraphicsPCH.h"
 #include "Dx11UnorderedAccessBuffer.h"
 
-Hikari::UnorderedAccessBufferDX11::UnorderedAccessBufferDX11(ID3D11Device * pDevice, uint8_t bindFlags, const void * data, uint32_t count, uint16_t stride, bool AppendFlag)
+Hikari::UnorderedAccessBufferDX11::UnorderedAccessBufferDX11(ID3D11Device* pDevice, const void* data, uint32_t count,
+                                                             uint16_t stride,
+                                                             ShaderParameter::ShaderInputParameter shader_param)
 	: m_pDevice(pDevice),
-	m_uiStride(stride),
-	m_uiCount(count),
-	m_BindFlags(bindFlags),
-	m_bIsDirty(false)
+	  m_shader_input_param_(shader_param),
+	  m_uiStride(stride),
+	  m_uiCount(count),
+	  m_bIsDirty(false)
 {
-
 	//Dynamic buffer cannot be uav
 
 	uint32_t numBytes = m_uiCount * m_uiStride;
@@ -81,44 +82,46 @@ Hikari::UnorderedAccessBufferDX11::~UnorderedAccessBufferDX11()
 	m_Data.erase(m_Data.begin(), m_Data.end());
 }
 
-bool Hikari::UnorderedAccessBufferDX11::Bind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType,...)
+bool Hikari::UnorderedAccessBufferDX11::bind(unsigned int id, Shader::ShaderType shaderType)
 {
-	ShaderParameter::GPURW gpuRW;
-	va_list arguments;
+	//va_list arguments;
 
-	/* Initializing arguments to store all values after num */
-	va_start(arguments, 1);
-	/* Sum all the inputs; we still rely on the function caller to tell us how
-	* many there are */
-	for (int x = 0; x < 1; x++)
-	{
-		gpuRW = va_arg(arguments, ShaderParameter::GPURW);
-	}
-	va_end(arguments);
-
+	///* Initializing arguments to store all values after num */
+	//va_start(arguments, 1);
+	///* Sum all the inputs; we still rely on the function caller to tell us how
+	//* many there are */
+	//for (int x = 0; x < 1; x++)
+	//{
+	//	gpuRW = va_arg(arguments, ShaderParameter::GPURW);
+	//}
+	//va_end(arguments);
 
 
 	return false;
 }
 
-void Hikari::UnorderedAccessBufferDX11::UnBind(unsigned int id, Shader::ShaderType shaderType, ShaderParameter::Type parameterType)
+void Hikari::UnorderedAccessBufferDX11::unbind(unsigned int id, Shader::ShaderType shaderType)
 {
 }
 
-unsigned int Hikari::UnorderedAccessBufferDX11::GetElementCount() const
+unsigned int Hikari::UnorderedAccessBufferDX11::get_element_count() const
 {
 	return m_uiCount;
 }
 
-void Hikari::UnorderedAccessBufferDX11::Copy(std::shared_ptr<UnorderedAccessBufferDX11> other)
+void Hikari::UnorderedAccessBufferDX11::copy(std::shared_ptr<BufferBase> other)
+{
+	assert(0);
+}
+
+void Hikari::UnorderedAccessBufferDX11::set_data(void* data, size_t elementSize, size_t offset, size_t numElements)
 {
 }
-void Hikari::UnorderedAccessBufferDX11::SetData(void * data, size_t elementSize, size_t offset, size_t numElements)
-{
-}
+
 void Hikari::UnorderedAccessBufferDX11::Commit()
 {
 }
+
 void Hikari::UnorderedAccessBufferDX11::Clear()
 {
 }
@@ -128,12 +131,12 @@ UINT Hikari::UnorderedAccessBufferDX11::GetStride() const
 	return m_uiStride;
 }
 
-ID3D11UnorderedAccessView * Hikari::UnorderedAccessBufferDX11::GetUnorderedAccessView() const
+ID3D11UnorderedAccessView* Hikari::UnorderedAccessBufferDX11::GetUnorderedAccessView() const
 {
 	return m_pUAV;
 }
 
-ID3D11ShaderResourceView * Hikari::UnorderedAccessBufferDX11::GetShaderResourceView() const
+ID3D11ShaderResourceView* Hikari::UnorderedAccessBufferDX11::GetShaderResourceView() const
 {
 	return m_pSRV;
 }

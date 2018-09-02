@@ -1,10 +1,11 @@
-#include "Application\LibApplicationPCH.h"
-#include "Application\WindowApplicationBase.h"
-#include "Graphics\RenderWindow.h"
+#include "LibApplicationPCH.h"
+#include "WindowApplicationBase.h"
+#include "Renderer/RenderWindow.h"
+
 using namespace Hikari;
 
-WindowApplicationBase::WindowApplicationBase(const char * windowTile, int xPos,
-	int yPos, int width, int height)
+WindowApplicationBase::WindowApplicationBase(const char* windowTile, int xPos,
+                                             int yPos, int width, int height)
 	:
 	mWindowTitle(windowTile),
 	mXPosition(xPos),
@@ -15,18 +16,16 @@ WindowApplicationBase::WindowApplicationBase(const char * windowTile, int xPos,
 	mWindowID(0),
 	m_bIsInitialized(false),
 	m_bIsRunning(false),
-	m_bTerminateDirectoryChangeThread(false),
-	m_windowName("")
-	
-{
-	
-}
+	m_windowName(""),
+	m_bTerminateDirectoryChangeThread(false)
 
-Hikari::WindowApplicationBase::~WindowApplicationBase()
 {
 }
 
-bool Hikari::WindowApplicationBase::OnInitialize(EventArgs& e)
+WindowApplicationBase::~WindowApplicationBase()
+= default;
+
+bool WindowApplicationBase::OnInitialize(EventArgs& e)
 {
 	if (m_bIsInitialized)
 		return true;
@@ -35,9 +34,8 @@ bool Hikari::WindowApplicationBase::OnInitialize(EventArgs& e)
 	return m_bIsInitialized;
 }
 
-void Hikari::WindowApplicationBase::OnTerminate(EventArgs& e)
+void WindowApplicationBase::OnTerminate(EventArgs& e)
 {
-	
 	mTerminate(e);
 	m_pRenderDevice.reset();
 	m_bTerminateDirectoryChangeThread = true;
@@ -52,7 +50,7 @@ void Hikari::WindowApplicationBase::OnTerminate(EventArgs& e)
 	m_Windows.clear();
 }
 
-void Hikari::WindowApplicationBase::OnExit(EventArgs & e)
+void WindowApplicationBase::OnExit(EventArgs& e)
 {
 	mExit(e);
 	while (!gs_WindowHandleMap.empty())
@@ -63,21 +61,19 @@ void Hikari::WindowApplicationBase::OnExit(EventArgs & e)
 }
 
 
-
-void Hikari::WindowApplicationBase::OnUserEvent(UserEventArgs & e)
+void WindowApplicationBase::OnUserEvent(UserEventArgs& e)
 {
 	mUserEvent(e);
 }
 
-void Hikari::WindowApplicationBase::Stop()
+void WindowApplicationBase::Stop()
 {
 	PostQuitMessage(0);
 }
 
-void Hikari::WindowApplicationBase::OnFileChange(FileChangeEventArgs & e)
+void WindowApplicationBase::OnFileChange(FileChangeEventArgs& e)
 {
 	mFileChanged(e);
-	
 }
 
 const std::shared_ptr<Renderer> WindowApplicationBase::GetRenderer()
@@ -85,12 +81,12 @@ const std::shared_ptr<Renderer> WindowApplicationBase::GetRenderer()
 	return m_pRenderDevice;
 }
 
-void Hikari::WindowApplicationBase::CheckFileChange()
+void WindowApplicationBase::CheckFileChange()
 {
 	while (!m_bTerminateDirectoryChangeThread)
 	{
 		MutexLock lock(m_DirectoryChangeMutex);
-		DWORD waitSignal = ::WaitForSingleObject(m_DirectoryChanges.GetWaitHandle(), 0);
+		DWORD waitSignal = WaitForSingleObject(m_DirectoryChanges.GetWaitHandle(), 0);
 		switch (waitSignal)
 		{
 		case WAIT_OBJECT_0:
@@ -136,7 +132,7 @@ void Hikari::WindowApplicationBase::CheckFileChange()
 }
 
 
-void Hikari::WindowApplicationBase::OnResize(int width, int height)
+void WindowApplicationBase::OnResize(int width, int height)
 {
 	for (auto window : m_Windows)
 	{
@@ -147,23 +143,23 @@ void Hikari::WindowApplicationBase::OnResize(int width, int height)
 	}
 }
 
-bool Hikari::WindowApplicationBase::OnPrecreate(EventArgs & e)
+bool WindowApplicationBase::OnPrecreate(EventArgs& e)
 {
 	assert(0);
 	return false;
 }
 
-void Hikari::WindowApplicationBase::OnPreIdle(EventArgs & e)
+void WindowApplicationBase::OnPreIdle(EventArgs& e)
 {
 	assert(0);
 }
 
-void Hikari::WindowApplicationBase::OnUpdate(UpdateEventArgs & e)
+void WindowApplicationBase::OnUpdate(UpdateEventArgs& e)
 {
 	mUpdate(e);
 }
 
-void Hikari::WindowApplicationBase::OnRender(RenderEventArgs & e)
+void WindowApplicationBase::OnRender(RenderEventArgs& e)
 {
 	for (auto window : m_Windows)
 	{
@@ -173,6 +169,7 @@ void Hikari::WindowApplicationBase::OnRender(RenderEventArgs & e)
 		pWindow->OnPostRender(e);
 	}
 }
+
 //
 //void Hikari::WindowApplicationBase::OnMouseFocus(EventArgs & e)
 //{
@@ -243,36 +240,36 @@ void Hikari::WindowApplicationBase::OnRender(RenderEventArgs & e)
 //}
 //
 
-void Hikari::WindowApplicationBase::RegisterDirectojryChangeListener(const std::wstring & dir, bool recursive)
+void WindowApplicationBase::RegisterDirectojryChangeListener(const std::wstring& dir, bool recursive)
 {
 	MutexLock lock(m_DirectoryChangeMutex);
 	m_DirectoryChanges.AddDictory(dir, recursive, FILE_NOTIFY_CHANGE_LAST_WRITE);
 }
 
 
-int Hikari::WindowApplicationBase::Run(int numArgument, char ** arguments)
+int WindowApplicationBase::Run(int numArgument, char** arguments)
 {
-	WindowApplicationBase *theApp = static_cast<WindowApplicationBase*>(TheApplication);
+	WindowApplicationBase* theApp = static_cast<WindowApplicationBase*>(TheApplication);
 
-	return theApp->Main(numArgument,arguments);
+	return theApp->Main(numArgument, arguments);
 }
 
-void Hikari::WindowApplicationBase::ResetTime()
-{
-	assert(0);
-}
-
-void Hikari::WindowApplicationBase::MeasureTime()
+void WindowApplicationBase::ResetTime()
 {
 	assert(0);
 }
 
-void Hikari::WindowApplicationBase::UpdateFrameCount()
+void WindowApplicationBase::MeasureTime()
 {
 	assert(0);
 }
 
-void Hikari::WindowApplicationBase::DrawFrameRate(int, int, const float & color)
+void WindowApplicationBase::UpdateFrameCount()
+{
+	assert(0);
+}
+
+void WindowApplicationBase::DrawFrameRate(int, int, const float& color)
 {
 	if (mAccumlatedTime > 0.0f)
 	{
@@ -285,4 +282,3 @@ void Hikari::WindowApplicationBase::DrawFrameRate(int, int, const float & color)
 	sprintf(message, "fps: %.llf", mFrameRate);
 	//mRender
 }
-

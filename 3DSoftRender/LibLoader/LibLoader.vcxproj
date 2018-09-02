@@ -105,7 +105,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../External/FreeImage/;../External/;../External/boost_1_58_0/;$(SolutionDir)LibGraphics;$(SolutionDir)LibMathematics;$(SolutionDir)LibCore</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>LoaderPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

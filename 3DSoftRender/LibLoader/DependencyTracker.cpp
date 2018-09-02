@@ -4,7 +4,7 @@ DependencyTracker::DependencyTracker()
 {
 }
 
-DependencyTracker::DependencyTracker(const std::wstring & baseFile)
+DependencyTracker::DependencyTracker(const std::wstring& baseFile)
 {
 }
 
@@ -12,17 +12,17 @@ DependencyTracker::~DependencyTracker()
 {
 }
 
-const DependencyTracker & DependencyTracker::operator=(const DependencyTracker & other)
+const DependencyTracker& DependencyTracker::operator=(const DependencyTracker& other)
 {
 	// TODO: 在此处插入 return 语句
 	return *this;
 }
 
-void DependencyTracker::SetBaseFile(const std::wstring & baseFile)
+void DependencyTracker::SetBaseFile(const std::wstring& baseFile)
 {
 }
 
-void DependencyTracker::AddDependency(const std::wstring & dependencyFile)
+void DependencyTracker::AddDependency(const std::wstring& dependencyFile)
 {
 }
 

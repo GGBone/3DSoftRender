@@ -93,7 +93,13 @@ float4 RenderLinkList(float x,float y)
 
 float4 PS_main(VertexShaderOutput IN) : SV_TARGET
 {
-    float2 screenPos = IN.position.xy / IN.position.z;
+    float2 screenPos = IN.positionSS.xy / IN.position.w;
+    screenPos = 2.0 * screenPos + 1;
+    if(screenPos.x > 0.0f)
+        return float4(1.0, 0.0, 0.0, 1.0f);
+    else
+        return float4(.0, 1.0, 0.0, 1.0f);
+        
     CreateLinkList(IN);
     return RenderLinkList(screenPos.x, screenPos.y);
 }

@@ -1,15 +1,14 @@
 #pragma once
 
-#include "Core\CoreLib.h"
 namespace Hikari
 {
 	class InitTerm
 	{
 	public:
-		typedef void(*Initializer)(void);
+		typedef void (*Initializer)(void);
 		static void AddInitialize(Initializer function);
 		static void ExecuteInitializers();
-		typedef void(*Terminator)(void);
+		typedef void (*Terminator)(void);
 		static void AddTerminator(Terminator function);
 		static void ExecuteTerminators();
 
@@ -18,6 +17,7 @@ namespace Hikari
 		{
 			MAX_ELEMENTS = 512
 		};
+
 		static int msNumInitializers;
 		static Initializer msInitializers[MAX_ELEMENTS];
 		static int msNumTerminators;

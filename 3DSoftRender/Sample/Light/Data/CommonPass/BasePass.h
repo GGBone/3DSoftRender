@@ -1,5 +1,4 @@
 #pragma once
-#include "Graphics\Dx11RenderLIB.h"
 
 #include "AbstractPass.h"
 
@@ -14,28 +13,31 @@ namespace Hikari
 	class PipelineState;
 	class Query;
 	class Renderer;
+
 	class BasePass : public AbstractPass
 	{
 	public:
 		typedef AbstractPass base;
 
-		BasePass(std::shared_ptr<Renderer> render);
-		BasePass(std::shared_ptr<Renderer> render,std::shared_ptr<Scene> scene, std::shared_ptr<PipelineState> pipeline);
+		BasePass(const std::shared_ptr<Renderer>& render);
+		BasePass(const std::shared_ptr<Renderer>& render, const std::shared_ptr<Scene>& scene,
+		         const std::shared_ptr<PipelineState>& pipeline);
 		virtual ~BasePass();
 
-		inline void SetDevice(std::shared_ptr<Renderer> render)
+		void SetDevice(const std::shared_ptr<Renderer>& render)
 		{
 			m_RenderDevice = render;
 		}
+
 		// Render the pass. This should only be called by the RenderTechnique.
-		virtual void PreRender(RenderEventArgs& e) override;
-		virtual void Render(RenderEventArgs& e) override;
-		virtual void PostRender(RenderEventArgs& e) override;
+		void PreRender(RenderEventArgs& e) override;
+		void Render(RenderEventArgs& e) override;
+		void PostRender(RenderEventArgs& e) override;
 
 		// Inherited from Visitor
-		virtual void Visit(Scene& scene) override;
-		virtual void Visit(Node& node) override;
-		virtual void Visit(Mesh& mesh) override;
+		void Visit(Scene& scene) override;
+		void Visit(Node& node) override;
+		void Visit(Mesh& mesh) override;
 
 	protected:
 		// PerObject constant buffer data.
@@ -50,23 +52,23 @@ namespace Hikari
 
 		std::shared_ptr<Renderer> GetRenderDevice() const;
 
-		// Set and bind the constant buffer data.
+		// set and bind the constant buffer data.
 		void SetPerObjectConstantBufferData(PerObject& perObjectData);
 		// Bind the constant to the shader.
 		void BindPerObjectConstantBuffer(std::shared_ptr<Shader> shader);
 
 	protected:
 
-		std::shared_ptr<ConstantBuffer> m_PerObjectConstantBuffer;
+		std::shared_ptr<ConstantBuffer> m_PerObjectConstantBuffer{};
 
-		std::shared_ptr<RenderEventArgs> m_pRenderEventArgs;
+		std::shared_ptr<RenderEventArgs> m_pRenderEventArgs{};
 
 		// The pipeline state that should be used to render this pass.
-		std::shared_ptr<PipelineState> m_Pipeline;
+		std::shared_ptr<PipelineState> m_Pipeline{};
 
 		// The scene to render.
-		std::shared_ptr<Scene> m_Scene;
+		std::shared_ptr<Scene> m_Scene{};
 
-		std::shared_ptr<Renderer> m_RenderDevice;
+		std::shared_ptr<Renderer> m_RenderDevice{};
 	};
 }

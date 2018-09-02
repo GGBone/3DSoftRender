@@ -87,7 +87,6 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
- 
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>../SDK/Library/</OutDir>
@@ -115,7 +114,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\;Algebra;Approximation;Base;ComputationalGeometry;Containment;CurvesSurfacesVolumes;Distance;Interpolation;Intersection;Meshes;Miscellaneous;NumericalAnalysis;Objects2D;Objects3D;Query;Rational;../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\;Algebra;Approximation;Base;ComputationalGeometry;Containment;CurvesSurfacesVolumes;Distance;Interpolation;Intersection;Meshes;Miscellaneous;NumericalAnalysis;Objects2D;Objects3D;Query;Rational;../External/FreeImage/;../External/;../External/boost_1_58_0/;$(SolutionDir)LibCore;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

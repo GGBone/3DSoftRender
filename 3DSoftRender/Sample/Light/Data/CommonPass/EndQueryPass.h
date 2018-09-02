@@ -5,7 +5,6 @@
 
 namespace Hikari
 {
-
 	class Query;
 
 	// A render pass to begin a GPU query.
@@ -15,9 +14,9 @@ namespace Hikari
 		EndQueryPass(std::shared_ptr<Query> query);
 		virtual ~EndQueryPass();
 
-		virtual void Render(RenderEventArgs& e);
+		void Render(RenderEventArgs& e) override;
 
 	private:
-		std::shared_ptr<Query> m_pQuery;
+		std::shared_ptr<Query> m_pQuery{};
 	};
 }

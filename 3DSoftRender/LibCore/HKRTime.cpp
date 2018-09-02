@@ -1,5 +1,5 @@
-#include "Core\CorePCH.h"
-#include "Core\HKRTime.h"
+#include "CorePCH.h"
+#include "HKRTime.h"
 
 namespace Hikari
 {
@@ -7,11 +7,13 @@ namespace Hikari
 	static long gsInitialSec = 0;
 	static long gsInitialUSec = 0;
 	static bool gsInitializedTime = false;
+
 	Timer::Timer(float maxTimeStep)
 	{
 		m_fMaxTimeStep = maxTimeStep;
 		m_fPrevious = (std::clock() / (float)CLOCKS_PER_SEC);
 	}
+
 	float Timer::GetElapsedTime() const
 	{
 		float fCurrentTime = std::clock() / (float)CLOCKS_PER_SEC;
@@ -21,10 +23,10 @@ namespace Hikari
 		return fDeltaTime;
 	}
 }
-int64_t Hikari::Timer::GetTimeInMicroseconds() const
-{
 
-	struct timeb currentTime;
+int64_t Hikari::Timer::GetTimeInMicroseconds()
+{
+	struct timeb currentTime{};
 
 	if (!gsInitializedTime)
 	{
@@ -51,5 +53,5 @@ int64_t Hikari::Timer::GetTimeInMicroseconds() const
 double Hikari::Timer::GetTimeInSeconds() const
 {
 	int64_t microseconds = GetTimeInMicroseconds();
-	return 1e-06*microseconds;
+	return 1e-06 * microseconds;
 }

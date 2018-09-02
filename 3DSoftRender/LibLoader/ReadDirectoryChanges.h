@@ -15,8 +15,9 @@ public:
 
 	void Init();
 	void Terminate();
-	void AddDictory(const std::wstring& wszDictory, bool bWatchSubtree, DWORD dwNotifyFilter, DWORD dwBufferSize = 16384);
-	HANDLE GetWaitHandle() {return m_Notifications.GetWaitHandle(); }
+	void AddDictory(const std::wstring& wszDictory, bool bWatchSubtree, DWORD dwNotifyFilter,
+	                DWORD dwBufferSize = 16384);
+	HANDLE GetWaitHandle() { return m_Notifications.GetWaitHandle(); }
 	bool Pop(DWORD& dwAction, std::wstring& wstrFilename);
 	void Push(DWORD& dwAction, const std::wstring& wstrFilename);
 	bool CheckOverflow();

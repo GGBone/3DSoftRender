@@ -1,13 +1,15 @@
 #pragma once
-#include "Math\MathematicsLIB.h"
-#include "Math\Algebra\HPoint.h"
-#include "Math\Base\Float3.h"
-#include "Math\Algebra\Vector3.h"
+#include "MathematicsLIB.h"
+#include "Algebra/HPoint.h"
+#include "Base/Float3.h"
+#include "Algebra/Vector3.h"
+
 namespace Hikari
 {
 	//Affine Point
 	class AVector;
-	class APoint :public HPoint
+
+	class APoint : public HPoint
 	{
 	public:
 		APoint();
@@ -17,7 +19,7 @@ namespace Hikari
 		~APoint();
 
 
-		inline operator const Float3& () const;
+		inline operator const Float3&() const;
 		inline operator Float3&();
 		inline operator const Vector3f&() const;
 		inline operator Vector3f&();
@@ -25,30 +27,29 @@ namespace Hikari
 		//Assignment
 		APoint& operator=(const APoint& pnt);
 
-		AVector operator-(const APoint& pnt)const;
-		AVector operator-()const;
-	
+		AVector operator-(const APoint& pnt) const;
+		AVector operator-() const;
 
-		APoint operator+(const AVector& vec)const;
-		APoint operator-(const AVector& vec)const;
 
-		APoint operator+(const APoint& vec)const;
-		APoint operator*(float scalar)const;
+		APoint operator+(const AVector& vec) const;
+		APoint operator-(const AVector& vec) const;
 
-		friend APoint operator* (float scalar, const APoint& pnt);
+		APoint operator+(const APoint& vec) const;
+		APoint operator*(float scalar) const;
 
-		float Dot(const AVector& vec)const;
-		static const APoint ORIGIN;//(0,0,0,1)
+		friend APoint operator*(float scalar, const APoint& pnt);
+
+		float Dot(const AVector& vec) const;
+		static const APoint ORIGIN; //(0,0,0,1)
 	};
 
-	inline Hikari::APoint::operator const Float3&() const
+	inline APoint::operator const Float3&() const
 	{
 		return *(const Float3*)M;
-
 	}
 
-	inline Hikari::APoint::operator Float3&()
+	inline APoint::operator Float3&()
 	{
-		return *( Float3*)M;
+		return *(Float3*)M;
 	}
 }

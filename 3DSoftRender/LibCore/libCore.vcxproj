@@ -79,10 +79,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../SDK/Include;../External/FreeImage/;../External/;../External/boost_1_58_0/;%(AdditionalIncludeDirectories);../External/boost_1_58_0/;../External/FreeImage/;../External/assimp/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../External/FreeImage/;../External/boost_1_58_0/;../External/assimp/;$(SolutionDir)LibApplication;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Core\CorePCH.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_UNICODE;UNICODE;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>CorePCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -139,7 +139,6 @@
     <ClCompile Include="CorePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Core\CorePCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="HKRAssert.cpp" />
     <ClCompile Include="HKRMutex.cpp" />

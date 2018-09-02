@@ -1,6 +1,8 @@
 #pragma once
-#include "Graphics\GraphicsLib.h"
-#include "Core\Object.h"
+#define ENABLE_BOOST
+#include "../LibCore/CoreLib.h"
+#include "Object.h"
+#include <boost/serialization/access.hpp>
 
 
 class DependencyTracker
@@ -22,7 +24,7 @@ public:
 	const DependencyTracker& operator=(const DependencyTracker& other);
 
 	/**
-	* Set the base file that this dependency tracker tracks.
+	* set the base file that this dependency tracker tracks.
 	*/
 	void SetBaseFile(const std::wstring& baseFile);
 
@@ -83,8 +85,8 @@ protected:
 private:
 	friend class boost::serialization::access;
 
-	template<class Archive>
-	void serialize(Archive& ar, const unsigned int version);
+	template <class Archive>
+	void serialize(Archive& ar, unsigned int version);
 
 	// The base file.
 	std::wstring m_BaseFile;
@@ -100,7 +102,7 @@ private:
 	// to the dependency file.
 	fs::path m_ParentPath;
 
-	typedef std::vector< std::wstring > DependencyList;
+	typedef std::vector<std::wstring> DependencyList;
 	DependencyList m_Dependencies;
 
 	// The last time the base file and it's dependencies were loaded.
@@ -108,10 +110,9 @@ private:
 	// last loaded, the dependency tracker will be marked "stale" and the 
 	// assets should be reloaded.
 	time_t m_LastLoadtime;
-
 };
 
-template<class Archive>
+template <class Archive>
 void DependencyTracker::serialize(Archive& ar, const unsigned int version)
 {
 	ar & boost::serialization::make_nvp("BasePath", m_BaseFile);

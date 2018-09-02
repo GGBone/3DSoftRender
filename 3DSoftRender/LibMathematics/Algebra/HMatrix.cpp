@@ -1,17 +1,16 @@
-
-#include "Math\MathematicsLIB.h"
+#include "MathematicsLIB.h"
 #include "HMatrix.h"
-#include "Math\Algebra\AVector.h"
+#include "Algebra/AVector.h"
 using namespace Hikari;
 
 const HMatrix HMatrix::ZERO(true);
 const HMatrix HMatrix::IDENTITY(false);
 
-Hikari::HMatrix::HMatrix()
+HMatrix::HMatrix()
 {
 }
 
-Hikari::HMatrix::HMatrix(float* m, bool rowMajor)
+HMatrix::HMatrix(float* m, bool rowMajor)
 {
 	M[0] = m[0];
 	M[1] = m[1];
@@ -42,9 +41,9 @@ HMatrix::HMatrix(bool makeZero)
 		MakeIdentity();
 	}
 }
+
 void HMatrix::MakeZero()
 {
-
 	M[0] = 0.0f;
 	M[1] = 0.0f;
 	M[2] = 0.0f;
@@ -62,6 +61,7 @@ void HMatrix::MakeZero()
 	M[14] = 0.0f;
 	M[15] = 0.0f;
 }
+
 void HMatrix::MakeIdentity()
 {
 	M[0] = 1.0f;
@@ -81,14 +81,15 @@ void HMatrix::MakeIdentity()
 	M[14] = 0.0f;
 	M[15] = 1.0f;
 }
-Hikari::HMatrix::HMatrix(const HMatrix & m)
+
+HMatrix::HMatrix(const HMatrix& m)
 {
 	if (this == &m)
 		return;
-	memcpy_s(M, sizeof(M),m.M,sizeof(m.M));
+	memcpy_s(M, sizeof(M), m.M, sizeof(m.M));
 }
 
-Hikari::HMatrix::HMatrix(const Matrix3f & mat)
+HMatrix::HMatrix(const Matrix3f& mat)
 {
 	/*memcpy(M, &mat.GetRow(0), sizeof(M) / 4);
 	memcpy(M + 4, &mat.GetRow(1), sizeof(M) / 4);
@@ -96,7 +97,8 @@ Hikari::HMatrix::HMatrix(const Matrix3f & mat)
 	memcpy(M + 12, &AVector::ZERO, sizeof(M) / 4);*/
 }
 
-Hikari::HMatrix::HMatrix(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)
+HMatrix::HMatrix(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20,
+                 float m21, float m22, float m23, float m30, float m31, float m32, float m33)
 {
 	M[0] = m00;
 	M[1] = m01;
@@ -116,21 +118,21 @@ Hikari::HMatrix::HMatrix(float m00, float m01, float m02, float m03, float m10, 
 	M[15] = m33;
 }
 
-HMatrix & Hikari::HMatrix::operator=(const HMatrix & m)
+HMatrix& HMatrix::operator=(const HMatrix& m)
 {
 	// TODO: insert return statement here
 	memcpy_s(M, sizeof(M), m.M, sizeof(m.M));
 	return *this;
 }
 
-HMatrix & Hikari::HMatrix::operator=(const XMFLOAT4X4 & m)
+HMatrix& HMatrix::operator=(const XMFLOAT4X4& m)
 {
 	// TODO: 在此处插入 return 语句
 	memccpy(M, m.m, sizeof(M), sizeof(m.m));
 	return *this;
 }
 
-HMatrix Hikari::HMatrix::operator*(const HMatrix & mat) const
+HMatrix HMatrix::operator*(const HMatrix& mat) const
 {
 	return HMatrix(
 		M[0] * mat.M[0] +
@@ -214,7 +216,7 @@ HMatrix Hikari::HMatrix::operator*(const HMatrix & mat) const
 		M[15] * mat.M[15]);
 }
 
-APoint Hikari::HMatrix::operator*(const APoint & p) const
+APoint HMatrix::operator*(const APoint& p) const
 {
 	return APoint(
 		M[0] * p[0] +
@@ -233,16 +235,15 @@ APoint Hikari::HMatrix::operator*(const APoint & p) const
 		M[11]);
 }
 
-AVector Hikari::HMatrix::operator*(const AVector & p) const
+AVector HMatrix::operator*(const AVector& p) const
 {
 	return AVector(
 		p[0] * *this[0][0] + p[1] * *this[0][1] + p[2] * *this[0][2] + 1 * *this[3][0],
 		p[0] * *this[1][0] + p[1] * *this[1][1] + p[2] * *this[1][2] + 1 * *this[3][1],
 		p[0] * *this[2][0] + p[1] * *this[2][1] + p[2] * *this[2][2] + 1 * *this[3][2]);
-
 }
 
-HMatrix Hikari::HMatrix::TimesDiagonal(const APoint & diag) const
+HMatrix HMatrix::TimesDiagonal(const APoint& diag) const
 {
 	return HMatrix(
 		M[0] * diag[0], M[1] * diag[1], M[2] * diag[2],
@@ -256,7 +257,7 @@ HMatrix Hikari::HMatrix::TimesDiagonal(const APoint & diag) const
 	);
 }
 
-HPoint Hikari::operator*(const HPoint &p, const HMatrix & mat)
+HPoint Hikari::operator*(const HPoint& p, const HMatrix& mat)
 {
 	return HPoint(
 		p[0] * mat[0][0] + p[1] * mat[1][0] + p[2] * mat[2][0] + p[3] * mat[3][0],
@@ -265,7 +266,7 @@ HPoint Hikari::operator*(const HPoint &p, const HMatrix & mat)
 		p[0] * mat[0][3] + p[1] * mat[1][3] + p[2] * mat[2][3] + p[3] * mat[3][3]);
 }
 
-HMatrix Hikari::HMatrix::Inverse(const float epsilon) const
+HMatrix HMatrix::Inverse(const float epsilon) const
 {
 	//float a0 = M[0] * M[5] - M[1] * M[4];
 	//float a1 = M[0] * M[6] - M[2] * M[4];
@@ -321,15 +322,15 @@ HMatrix Hikari::HMatrix::Inverse(const float epsilon) const
 	//inverse.M[13] *= invDet;
 	//inverse.M[14] *= invDet;
 	//inverse.M[15] *= invDet;
-	XMMATRIX inverseMatrix = XMMatrixSet(M[0],M[1],M[2],M[3],
-		M[4],M[5],M[6],M[7],
-		M[8],M[9],M[10],M[11],
-		M[12],M[13],M[14],M[15]);
+	XMMATRIX inverseMatrix = XMMatrixSet(M[0], M[1], M[2], M[3],
+	                                     M[4], M[5], M[6], M[7],
+	                                     M[8], M[9], M[10], M[11],
+	                                     M[12], M[13], M[14], M[15]);
 	XMVECTOR determ;
 	XMMatrixInverse(&determ, inverseMatrix);
 	XMFLOAT4X4 temp;
 	XMStoreFloat4x4(&temp, inverseMatrix);
 	HMatrix inverse;
-	inverse= temp;
+	inverse = temp;
 	return inverse;
 }

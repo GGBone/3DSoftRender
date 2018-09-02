@@ -19,13 +19,13 @@ namespace Hikari
 
 		int GetBoolean(const char* name);
 		int GetBoolean(const char* name, bool& value);
-		int GetInteger(const char* name, int& value);
-		int GetFloat(const char* name, float& value);
-		int GetDouble(const char* name, double& value);
-		int GetString(const char* name, char*& value);
-		int GetFilename(char*& name);
+		static int GetInteger(const char* name, int& value);
+		static int GetFloat(const char* name, float& value);
+		static int GetDouble(const char* name, double& value);
+		static int GetString(const char* name, char*& value);
+		static int GetFilename(char*& name);
 
-		const char* GetLastError();
+		static const char* GetLastError();
 	protected:
 		class Argument
 		{
@@ -33,8 +33,8 @@ namespace Hikari
 			Argument(char* item, Argument* next);
 			~Argument();
 
-			char* Item;
-			Argument* Next;
+			char* Item{};
+			Argument* Next{};
 		};
 
 		void Initialize();
@@ -45,14 +45,14 @@ namespace Hikari
 		bool* mUsed;
 
 
-		double mSmall;
-		double mLarge;
-		bool mMinSet;
-		bool mMaxSet;
-		bool mInfSet;
-		bool mSupSet;
+		double mSmall{};
+		double mLarge{};
+		bool mMinSet{};
+		bool mMaxSet{};
+		bool mInfSet{};
+		bool mSupSet{};
 
-		const char* mLastError;
+		const char* mLastError{};
 		static char msOptionNotFound[];
 		static char msArgumentRequired[];
 		static char msArgumentOutOfRange[];

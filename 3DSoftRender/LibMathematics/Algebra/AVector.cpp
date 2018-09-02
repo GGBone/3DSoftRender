@@ -1,19 +1,17 @@
 #include "MathematicsPCH.h"
-#include "Math\Algebra\AVector.h"
-#include "Math\Algebra\APoint.h"
-#include "Math\Base\Float3.h"
-#include "Math\Base\Float4.h"
+#include "Algebra/AVector.h"
+#include "Algebra/APoint.h"
+#include "Base/Float3.h"
+#include "Base/Float4.h"
 using namespace Hikari;
 const AVector AVector::ZERO = AVector(0, 0, 0);
 const AVector AVector::UP = AVector(0, 1, 0);
 const AVector AVector::RIGHT = AVector(1, 0, 0);
 const AVector AVector::FORWARD = AVector(0, 0, 1);
-Hikari::AVector::AVector()
-{
+AVector::AVector()
+= default;
 
-}
-
-Hikari::AVector::AVector(const AVector & vec)
+AVector::AVector(const AVector& vec)
 {
 	M[0] = vec.M[0];
 	M[1] = vec.M[1];
@@ -21,7 +19,7 @@ Hikari::AVector::AVector(const AVector & vec)
 	M[3] = vec.M[3];
 }
 
-Hikari::AVector::AVector(float x, float y, float z)
+AVector::AVector(float x, float y, float z)
 {
 	M[0] = x;
 	M[1] = y;
@@ -29,7 +27,7 @@ Hikari::AVector::AVector(float x, float y, float z)
 	M[3] = 0;
 }
 
-Hikari::AVector::AVector(const Float3 & tuple)
+AVector::AVector(const Float3& tuple)
 {
 	M[0] = tuple[0];
 	M[1] = tuple[1];
@@ -37,9 +35,8 @@ Hikari::AVector::AVector(const Float3 & tuple)
 	M[3] = 0;
 }
 
-Hikari::AVector::AVector(const Float4& tuple)
+AVector::AVector(const Float4& tuple)
 {
-
 	M[0] = tuple[0];
 	M[1] = tuple[1];
 	M[2] = tuple[2];
@@ -47,7 +44,7 @@ Hikari::AVector::AVector(const Float4& tuple)
 }
 
 
-Hikari::AVector::AVector(const Vector3f & vec)
+AVector::AVector(const Vector3f& vec)
 {
 	M[0] = vec[0];
 	M[1] = vec[1];
@@ -55,11 +52,10 @@ Hikari::AVector::AVector(const Vector3f & vec)
 	M[3] = 0;
 }
 
-Hikari::AVector::~AVector()
-{
-}
+AVector::~AVector()
+= default;
 
-AVector Hikari::AVector::operator=(const AVector & vec)
+AVector AVector::operator=(const AVector& vec)
 {
 	// TODO: insert return statement here
 	M[0] = vec[0];
@@ -70,9 +66,7 @@ AVector Hikari::AVector::operator=(const AVector & vec)
 }
 
 
-
-
-AVector Hikari::AVector::Cross(const AVector & vec) const
+AVector AVector::Cross(const AVector& vec) const
 {
 	return AVector
 	(
@@ -82,13 +76,13 @@ AVector Hikari::AVector::Cross(const AVector & vec) const
 	);
 }
 
-void Hikari::AVector::GenerateOrthonormalBasis(AVector & vec0, AVector & vec1, AVector & vec2)
+void AVector::GenerateOrthonormalBasis(AVector& vec0, AVector& vec1, AVector& vec2)
 {
 	vec2.Normalize();
 	GenerateComplementBasis(vec0, vec1, vec2);
 }
 
-void Hikari::AVector::GenerateComplementBasis(AVector & vec0, AVector & vec1, const AVector & vec2)
+void AVector::GenerateComplementBasis(AVector& vec0, AVector& vec1, const AVector& vec2)
 {
 	int invLength;
 
@@ -120,9 +114,8 @@ void Hikari::AVector::GenerateComplementBasis(AVector & vec0, AVector & vec1, co
 	}
 }
 
-AVector Hikari::AVector::operator+=(const AVector & vec)
+AVector AVector::operator+=(const AVector& vec)
 {
-
 	return AVector
 	(
 		M[0] += vec.M[0],
@@ -131,32 +124,37 @@ AVector Hikari::AVector::operator+=(const AVector & vec)
 	);
 }
 
-AVector Hikari::AVector::operator-=(const AVector & vec)
+AVector AVector::operator-=(const AVector& vec)
 {
 	return AVector();
 }
 
-AVector AVector::operator+(const APoint& vec)const
+AVector AVector::operator+(const APoint& vec) const
 {
 	return AVector(M[0] + vec.X(), M[1] + vec.Y(), M[2] + vec.Z());
 }
-AVector Hikari::AVector::operator+(const AVector & vec) const
+
+AVector AVector::operator+(const AVector& vec) const
 {
 	return AVector();
 }
-AVector Hikari::AVector::operator-(const AVector & vec) const
+
+AVector AVector::operator-(const AVector& vec) const
 {
 	return AVector();
 }
-AVector Hikari::AVector::operator*(float scalar) const
+
+AVector AVector::operator*(float scalar) const
 {
-	return AVector(M[0]*scalar,M[1]*scalar,M[2]*scalar);
+	return AVector(M[0] * scalar, M[1] * scalar, M[2] * scalar);
 }
-AVector Hikari::AVector::operator/(float scalar) const
+
+AVector AVector::operator/(float scalar) const
 {
 	return AVector();
 }
-float Hikari::AVector::Dot(const AVector & vec) const
+
+float AVector::Dot(const AVector& vec) const
 {
 	return M[0] * vec.M[0] + M[1] * vec.M[1] + M[2] * vec.M[2];
 }

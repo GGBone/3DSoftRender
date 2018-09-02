@@ -1,15 +1,17 @@
-#include "Graphics\GraphicsPCH.h"
-
-#include "Core\Event.h"
-#include "Graphics\Query.h"
 #include "EndQueryPass.h"
+#include "Resource/Query.h"
+#define ENABLE_BOOST
+#include "Event.h"
+#undef ENABLE_BOOST
 using namespace Hikari;
+
 EndQueryPass::EndQueryPass(std::shared_ptr<Query> query)
 	: m_pQuery(query)
-{}
+{
+}
 
 EndQueryPass::~EndQueryPass()
-{}
+= default;
 
 void EndQueryPass::Render(RenderEventArgs& e)
 {

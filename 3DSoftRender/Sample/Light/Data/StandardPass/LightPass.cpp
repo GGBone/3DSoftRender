@@ -1,30 +1,33 @@
 //Opaque Pass
-#include "Application\WindowApplicationEngine.h"
+#include "WindowApplicationEngine.h"
 #include "LightPass.h"
-#include "Graphics\Scene.h"
-#include "Graphics\Mesh.h"
-#include "Graphics\Renderer.h"
-#include "Graphics\Material.h"
-#include "Graphics\Node.h"
-#include "Graphics\PipelineState.h"
-#include "Graphics\StructuredBuffer.h"
-#include "Loader\Loader.h"
+#include "Loader.h"
+#include "Renderer/Renderer.h"
+#include "Resource/PipelineState.h"
+#include "SceneGraph/Scene.h"
 using namespace Hikari;
 
 
-
-Hikari::LightsPass::LightsPass(std::shared_ptr<Renderer> renderer, std::shared_ptr<Scene> pointLight, shared_ptr<PipelineState> pipeline)
-	:BasePass(renderer, pointLight, pipeline)
-	,m_Lights(WindowApplicationEngine::g_Setting.Lights)
+LightsPass::LightsPass(std::shared_ptr<Renderer> renderer, std::shared_ptr<Scene> pointLight,
+                       shared_ptr<PipelineState> pipeline)
+	: BasePass(renderer, pointLight, pipeline)
+	  , m_Lights(WindowApplicationEngine::g_Setting.Lights)
 {
-	g_pLightStructuredBuffer = renderer->CreateStructuredBuffer(m_Lights, CPUAccess::Write);
+	const ShaderParameter::ShaderInputParameter light_struct_buffer =
+	{
+		ShaderParameter::ShaderInputType::StructuredBuffer,
+		ShaderParameter::AppendFlag::RAW,
+		ShaderParameter::Format::UNKNOWN,
+		CPUAccess::Write,
+		GPUAccess::Read
+	};
+	g_pLightStructuredBuffer = renderer->CreateStructuredBuffer(m_Lights, light_struct_buffer);
 }
 
-Hikari::LightsPass::~LightsPass()
-{
-}
+LightsPass::~LightsPass()
+= default;
 
-void Hikari::LightsPass::PreRender(RenderEventArgs & e)
+void LightsPass::PreRender(RenderEventArgs& e)
 {
 	//XMMATRIX viewMatrix = e.Camera->View();
 
@@ -37,20 +40,20 @@ void Hikari::LightsPass::PreRender(RenderEventArgs & e)
 	//	XMVECTOR lightPosVS = XMVector3TransformCoord(lightPosWS, viewMatrix);
 
 	//}
-	g_pLightStructuredBuffer->Set(WindowApplicationEngine::g_Setting.Lights);
-	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName("Lights").Set(g_pLightStructuredBuffer);
+	g_pLightStructuredBuffer->set(WindowApplicationEngine::g_Setting.Lights);
+	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName("Lights").set(g_pLightStructuredBuffer);
 	BindPerObjectConstantBuffer(m_Pipeline->GetShader(Shader::PixelShader));
 	BasePass::PreRender(e);
 }
 
-void Hikari::LightsPass::Render(RenderEventArgs & e)
+void LightsPass::Render(RenderEventArgs& e)
 {
 	m_uiLightIndex = 0;
 	for each (Light light in m_Lights)
 	{
 		m_pCurrentLight = &light;
 		m_pCurrentLight->m_Selected = true;
-	
+
 		m_PointLightScene = m_Scene;
 		m_pSpotLightScene = m_Scene;
 		m_pDirectionalLightScene = m_Scene;
@@ -72,44 +75,43 @@ void Hikari::LightsPass::Render(RenderEventArgs & e)
 }
 
 
-void Hikari::LightsPass::Visit(Mesh & mesh)
+void LightsPass::Visit(Mesh& mesh)
 {
 	mesh.Render(GetRenderEventArgs());
 }
 
-const Light* Hikari::LightsPass::GetCurrentLight()
+const Light* LightsPass::GetCurrentLight()
 {
 	return m_pCurrentLight;
 }
 
-const uint32_t Hikari::LightsPass::GetCurrentLightIndex()
+const uint32_t LightsPass::GetCurrentLightIndex()
 {
 	return m_uiLightIndex;
 }
 
-void Hikari::LightsPass::BindSamplerState(const std::string& paramName)
+void LightsPass::BindSamplerState(const std::string& paramName)
 {
-	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(paramName).Set(m_SamplerState);
+	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(paramName).set(m_SamplerState);
 }
 
-void Hikari::LightsPass::BindMaterialBuffer(const std::string & paramName)
+void LightsPass::BindMaterialBuffer(const std::string& paramName)
 {
 }
 
-void Hikari::LightsPass::SetSampler(std::shared_ptr<SamplerState> samp,const std::string& name)
+void LightsPass::SetSampler(std::shared_ptr<SamplerState> samp, const std::string& name)
 {
 	m_SamplerState = samp;
 	BindSamplerState(name);
 }
 
-void Hikari::LightsPass::SetLight(std::shared_ptr<StructuredBuffer> buffer, const std::string & name)
+void LightsPass::SetLight(std::shared_ptr<StructuredBuffer> buffer, const std::string& name)
 {
 	m_LightBuffer = buffer;
 	BindLightBuffer(name);
 }
 
-void Hikari::LightsPass::BindLightBuffer(const std::string & paramName)
+void LightsPass::BindLightBuffer(const std::string& paramName)
 {
-	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(paramName).Set(m_LightBuffer);
-
+	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName(paramName).set(m_LightBuffer);
 }

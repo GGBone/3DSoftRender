@@ -1,66 +1,70 @@
 #include "VisualizationPass.h"
-#include "Graphics\PipelineState.h"
-#include "Graphics\Renderer.h"
-#include "Graphics\Dx11ShaderParameter.h"
+#include "Shader/ShaderParameter.h"
+#define ENABLE_BOOST
+#include "Event.h"
+#undef ENABLE_BOOST
+#include "Resource/PipelineState.h"
+
 using namespace Hikari;
 
-void Hikari::Visualization::SetRenderEventArgs(RenderEventArgs & e)
+void Visualization::SetRenderEventArgs(RenderEventArgs& e)
 {
 }
 
-RenderEventArgs & Hikari::Visualization::GetRenderEventArgs() const
+RenderEventArgs& Visualization::GetRenderEventArgs() const
 {
 	// TODO: 在此处插入 return 语句
 	return *m_pRenderEventArgs;
 }
 
-std::shared_ptr<Renderer> Hikari::Visualization::GetRenderDevice() const
+std::shared_ptr<Renderer> Visualization::GetRenderDevice() const
 {
 	return m_RenderDevice;
 }
 
-void Hikari::Visualization::SetPerObjectConstantBufferData(PerObject & perObjectData)
+void Visualization::SetPerObjectConstantBufferData(PerObject& perObjectData)
 {
 }
 
-void Hikari::Visualization::BindPerObjectConstantBuffer(std::shared_ptr<Shader> shader)
+void Visualization::BindPerObjectConstantBuffer(std::shared_ptr<Shader> shader)
 {
 }
 
-Hikari::Visualization::Visualization(std::shared_ptr<Renderer> render)
+Visualization::Visualization(std::shared_ptr<Renderer> render)
 {
 }
 
-Hikari::Visualization::Visualization(std::shared_ptr<Renderer> render, std::shared_ptr<Scene> scene, std::shared_ptr<PipelineState> pipeline)
+Visualization::Visualization(std::shared_ptr<Renderer> render, std::shared_ptr<Scene> scene,
+                             std::shared_ptr<PipelineState> pipeline)
 {
 }
 
-Hikari::Visualization::~Visualization()
+Visualization::~Visualization()
 {
 }
 
-void Hikari::Visualization::PreRender(RenderEventArgs & e)
+void Visualization::PreRender(RenderEventArgs& e)
 {
-	ShaderParameter* shaderParams = &e.PipelineState->GetShader(Shader::ShaderType::ComputeShader)->GetShaderParameterByName("nodesPool");
-	
+	ShaderParameter* shaderParams = &e.PipelineState->GetShader(Shader::ShaderType::ComputeShader)->
+	                                   GetShaderParameterByName("nodesPool");
 }
 
-void Hikari::Visualization::Render(RenderEventArgs & e)
-{
-}
-
-void Hikari::Visualization::PostRender(RenderEventArgs & e)
+void Visualization::Render(RenderEventArgs& e)
 {
 }
 
-void Hikari::Visualization::Visit(Scene & scene)
+void Visualization::PostRender(RenderEventArgs& e)
 {
 }
 
-void Hikari::Visualization::Visit(Node & node)
+void Visualization::Visit(Scene& scene)
 {
 }
 
-void Hikari::Visualization::Visit(Mesh & mesh)
+void Visualization::Visit(Node& node)
+{
+}
+
+void Visualization::Visit(Mesh& mesh)
 {
 }

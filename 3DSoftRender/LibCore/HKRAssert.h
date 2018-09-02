@@ -1,6 +1,5 @@
 #pragma once
-#include "Core\CoreLib.h"
-#ifdef HKR_USE_ASSERT
+#if defined(HKR_USE_ASSERT)
 namespace Hikari
 {
 	class Assert
@@ -14,12 +13,12 @@ namespace Hikari
 		{
 			MAX_MESSAGE_BYTES = 1024
 		};
-		static const char* msDebugPrompt;
-		static const size_t msDebugPromptLength;
-		static const char* msMessagePrefix;
+		static const char* ms_debug_prompt_;
+		static const size_t ms_debug_prompt_length;
+		static const char* ms_message_prefix_;
 
 #ifdef HKR_USE_ASSERT_WRITE_TO_MESSAGE_BOX
-		static const char* msMessageBoxTitle;
+		static const char* ms_message_box_title_;
 #endif
 	};
 }

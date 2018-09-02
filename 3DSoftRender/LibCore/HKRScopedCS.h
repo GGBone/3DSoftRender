@@ -1,6 +1,5 @@
 #pragma once
-#include "Core\CoreLib.h"
-#include "Core\HKRMutex.h"
+#include "HKRMutex.h"
 
 namespace Hikari
 {

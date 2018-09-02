@@ -1,6 +1,6 @@
 #pragma once
 #include "BasePass.h"
-#include <Graphics\Light.h>
+
 //Opaque is the render something which is not lighten.
 namespace Hikari
 {
@@ -8,6 +8,7 @@ namespace Hikari
 	class Renderer;
 	class Material;
 	class StructuredBuffer;
+
 	class OpaquePass : public BasePass
 	{
 	public:
@@ -15,7 +16,6 @@ namespace Hikari
 
 		virtual ~OpaquePass();
 
-		virtual void Visit(Mesh& mesh) override;
-	private:
+		void Visit(Mesh& mesh) override;
 	};
 }

@@ -28,377 +28,386 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{146bfd9a-92cc-469f-a6f9-620c399a7008}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DataType">
-      <UniqueIdentifier>{d0e8c93e-fa01-4b83-ab90-034b9508f18a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ShaderStream">
       <UniqueIdentifier>{35b5e524-a997-4a6d-bbf3-7b6fb9155604}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Renderer.h">
-      <Filter>Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Dx11RenderLIB.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsPCH.h">
       <Filter>_PrecompiledHeaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Visual.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="VisualPass.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorRGBA.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11Renderer.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexFormat.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>DataType</Filter>
-    </ClInclude>
-    <ClInclude Include="Spatial.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderFloat.h">
-      <Filter>ShaderStream</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderVMatrix.h">
-      <Filter>ShaderStream</Filter>
-    </ClInclude>
-    <ClInclude Include="VisualTechnique.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="VisualEffectInstance.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="VisualEffect.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Culler.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11RenderTarget.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTarget.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Triangle.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="TriMesh.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBufferAccessor.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="StandardMesh.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderPMatrix.h">
-      <Filter>ShaderStream</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderMMatrix.h">
-      <Filter>ShaderStream</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11Shader.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="SamplerState.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="StructuredBuffer.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11ShaderParameter.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="BufferBinding.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="DepthStencilState.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderParameter.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBuffer.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11ConstantBuffer.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11StructureBuffer.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="CPUAccess.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11DepthStencilState.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11SamplerState.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Pixel.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11Mesh.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11PipelineState.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderEventArgs.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="PipelineState.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11BlendState.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="BlendState.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Visitor.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="RasterizerState.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneBase.h">
-      <Filter>SceneGraph</Filter>
-    </ClInclude>
-    <ClInclude Include="Ray.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="RayCast.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11RasterizerState.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11Texture.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11Scene.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="Query.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Dx11Query.h">
-      <Filter>Renderer\DXRender</Filter>
-    </ClInclude>
-    <ClInclude Include="ClearFlag.h">
-      <Filter>SceneGraph</Filter>
     </ClInclude>
     <ClInclude Include="SoftRenderData.h">
       <Filter>Renderer\SoftRender</Filter>
     </ClInclude>
-    <ClInclude Include="Dx11RenderWindow.h">
+    <ClInclude Include="GraphicsLib.h" />
+    <ClInclude Include="Renderer\DxRenderer\Dx11BlendState.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="RenderWindow.h">
-      <Filter>Renderer</Filter>
+    <ClInclude Include="Renderer\DxRenderer\Dx11Buffer.h">
+      <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="ProgressWindow.h">
-      <Filter>Renderer</Filter>
+    <ClInclude Include="Renderer\DxRenderer\Dx11ConstantBuffer.h">
+      <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsLib.h" />
-    <ClInclude Include="RawResource\ByteAddressBuffer.h">
-      <Filter>Resource</Filter>
+    <ClInclude Include="Renderer\DxRenderer\Dx11DepthStencilState.h">
+      <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="BufferBase.h">
-      <Filter>Resource</Filter>
+    <ClInclude Include="Renderer\DxRenderer\Dx11Mesh.h">
+      <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="Buffer.h">
-      <Filter>Resource</Filter>
+    <ClInclude Include="Renderer\DxRenderer\Dx11PipelineState.h">
+      <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="UnorderedAccessBuffer.h">
-      <Filter>Resource</Filter>
+    <ClInclude Include="Renderer\DxRenderer\Dx11Query.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11RasterizerState.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11Renderer.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11RenderLIB.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11RenderTarget.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11RenderWindow.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11SamplerState.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11Scene.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11Shader.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11ShaderParameter.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11StructureBuffer.h">
+      <Filter>Renderer\DXRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\DxRenderer\Dx11Texture.h">
+      <Filter>Renderer\DXRender</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\DxRenderer\Dx11UnorderedAccessBuffer.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="Dx11VertexIndexBuffer.h">
+    <ClInclude Include="Renderer\DxRenderer\Dx11VertexIndexBuffer.h">
       <Filter>Renderer\DXRender</Filter>
     </ClInclude>
-    <ClInclude Include="Dx11Buffer.h">
-      <Filter>Renderer\DXRender</Filter>
+    <ClInclude Include="Renderer\ProgressWindow.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\RenderWindow.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\BlendState.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Buffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\BufferBase.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\BufferBinding.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ColorRGBA.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\ConstantBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\CPUAccess.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\DepthStencilState.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\PipelineState.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Pixel.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Query.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\RasterizerState.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Ray.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\RayCast.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\RenderEventArgs.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\RenderTarget.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\SamplerState.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\StructBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\StructuredBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Texture.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\Transform.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\UnorderedAccessBuffer.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\VertexBufferAccessor.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\VertexFormat.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Camera.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\ClearFlag.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Culler.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Light.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Material.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Mesh.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Node.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Scene.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\SceneBase.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Triangle.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\TriMesh.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Visitor.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Visual.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\VisualEffect.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\VisualEffectInstance.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\VisualPass.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\VisualTechnique.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\DefaultShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\Shader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\ShaderParameter.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderStream\ShaderFloat.h">
+      <Filter>ShaderStream</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderStream\ShaderMMatrix.h">
+      <Filter>ShaderStream</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderStream\ShaderPMatrix.h">
+      <Filter>ShaderStream</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderStream\ShaderVMatrix.h">
+      <Filter>ShaderStream</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\Spatial.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph\StandardMesh.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource\VertexIndexBuffer.h">
+      <Filter>Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicsPCH.cpp">
       <Filter>_PrecompiledHeaders</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11Renderer.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11BlendState.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Visual.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexFormat.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderFloat.cpp">
-      <Filter>ShaderStream</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderVMatrix.cpp">
-      <Filter>ShaderStream</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualTechnique.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualEffect.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="VisualEffectInstance.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Spatial.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>DataType</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11RenderTarget.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11Buffer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Culler.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Triangle.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="TriMesh.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="StandardMesh.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexBufferAccessor.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderMMatrix.cpp">
-      <Filter>ShaderStream</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderPMatrix.cpp">
-      <Filter>ShaderStream</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11Shader.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11ConstantBuffer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11ConstantBuffer.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11DepthStencilState.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11StructureBuffer.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11Mesh.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11ShaderParameter.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11PipelineState.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11BlendState.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11Query.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Ray.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneBase.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11DepthStencilState.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11RasterizerState.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11RasterizerState.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11Renderer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11Mesh.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11RenderTarget.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11Texture.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11RenderWindow.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11PipelineState.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11SamplerState.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>SceneGraph</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11Scene.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11Scene.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11SamplerState.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11Shader.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderParameter.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11Query.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11ShaderParameter.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="RenderWindow.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Dx11RenderWindow.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11StructureBuffer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="ProgressWindow.cpp">
-      <Filter>Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>SceneGraph</Filter>
+    <ClCompile Include="Renderer\DxRenderer\Dx11Texture.cpp">
+      <Filter>Renderer\DXRender</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\DxRenderer\Dx11UnorderedAccessBuffer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11VertexIndexBuffer.cpp">
+    <ClCompile Include="Renderer\DxRenderer\Dx11VertexIndexBuffer.cpp">
       <Filter>Renderer\DXRender</Filter>
     </ClCompile>
-    <ClCompile Include="Dx11Buffer.cpp">
-      <Filter>Renderer\DXRender</Filter>
+    <ClCompile Include="Renderer\ProgressWindow.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Renderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\RenderWindow.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Ray.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\Transform.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\VertexBufferAccessor.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource\VertexFormat.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Camera.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Culler.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Material.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Node.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Scene.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\SceneBase.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Triangle.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\TriMesh.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Visual.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\VisualEffect.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\VisualEffectInstance.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\VisualTechnique.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\DefaultShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\ShaderParameter.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderStream\ShaderFloat.cpp">
+      <Filter>ShaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderStream\ShaderMMatrix.cpp">
+      <Filter>ShaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderStream\ShaderPMatrix.cpp">
+      <Filter>ShaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderStream\ShaderVMatrix.cpp">
+      <Filter>ShaderStream</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Spatial.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\StandardMesh.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph\Mesh.cpp">
+      <Filter>SceneGraph</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

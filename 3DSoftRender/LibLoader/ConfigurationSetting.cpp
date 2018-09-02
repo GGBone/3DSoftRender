@@ -3,27 +3,29 @@
 
 using namespace Hikari;
 using boost::serialization::make_nvp;
+BOOST_CLASS_VERSION(ConfigurationSettings, 6);
+
 ConfigurationSettings::ConfigurationSettings()
 	: WindowWidth(800)
-	, WindowHeight(600)
-	, FullScreen(false)
-	, SceneFileName("")
-	, SceneScaleFactor(1.0f)
-	, CameraRotation()
-	, NormalCameraSpeed(1.0f)
-	, FastCameraSpeed(5.0f)
-	// Light generation properties.
-	, LightGenerationMethod(LightGeneration::Uniform)
-	, LightsMinBounds(-1.0f,-1.0f,-1.0f)
-	, LightsMaxBounds(1.0f,-1.0f,-1.0f)
-	, MinSpotAngle(1.0f)
-	, MaxSpotAngle(60.0f)
-	, MinRange(0.1f)
-	, MaxRange(100.0f)
-	, GeneratePointLights(true)
-	, GenerateSpotLights(true)
-	, GenerateDirectionalLights(false)
-	, UpgradeConfigFile(false)
+	  , WindowHeight(600)
+	  , FullScreen(false)
+	  , SceneFileName("")
+	  , SceneScaleFactor(1.0f)
+	  , CameraRotation()
+	  , NormalCameraSpeed(1.0f)
+	  , FastCameraSpeed(5.0f)
+	  // Light generation properties.
+	  , LightGenerationMethod(LightGeneration::Uniform)
+	  , LightsMinBounds(-1.0f, -1.0f, -1.0f)
+	  , LightsMaxBounds(1.0f, -1.0f, -1.0f)
+	  , MinSpotAngle(1.0f)
+	  , MaxSpotAngle(60.0f)
+	  , MinRange(0.1f)
+	  , MaxRange(100.0f)
+	  , GeneratePointLights(true)
+	  , GenerateSpotLights(true)
+	  , GenerateDirectionalLights(false)
+	  , UpgradeConfigFile(false)
 {
 	// Must contain at least 1 (default) light.
 	Lights.resize(1);

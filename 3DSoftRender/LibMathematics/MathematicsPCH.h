@@ -1,6 +1,4 @@
 ﻿#pragma once
 
 #include "MathematicsPCH.h"
-#include "Core\Core.h"
-
-
+#include "Core.h"

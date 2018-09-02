@@ -1,5 +1,5 @@
-#include "Graphics\GraphicsPCH.h"
-#include "Graphics\VisualEffectInstance.h"
+#include "Graphics/GraphicsPCH.h"
+#include "Graphics/VisualEffectInstance.h"
 using namespace Hikari;
 Hikari::VisualEffectInstance::VisualEffectInstance(std::shared_ptr<VisualEffect> effect, int techniqueIndex)
 	:mEffect(effect),
@@ -25,8 +25,8 @@ void Hikari::VisualEffectInstance::Render(RenderEventArgs & e)
 	for (size_t i = 0; i < size; i++)
 	{
 		technique = mEffect->GetTechnique(i);
-		size_t passNum = technique->GetNumPass();
-		for (size_t j = 0; j < passNum; j++)
+		const size_t pass_num = technique->GetNumPass();
+		for (size_t j = 0; j < pass_num; j++)
 		{
 			technique->GetPass(j)->PreRender(e);
 			technique->GetPass(j)->Render(e);

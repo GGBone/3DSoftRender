@@ -1,5 +1,5 @@
-#include "Core\CorePCH.h"
-#include "Core\Rtti.h"
+#include "CorePCH.h"
+#include "Rtti.h"
 using namespace Hikari;
 
 Rtti::Rtti(const char* _name, const Rtti* _baseType)
@@ -9,11 +9,9 @@ Rtti::Rtti(const char* _name, const Rtti* _baseType)
 }
 
 Rtti::~Rtti()
-{
+= default;
 
-}
-
-bool Rtti::IsDerived(const Rtti& type)const
+bool Rtti::IsDerived(const Rtti& type) const
 {
 	const Rtti* search = this;
 	while (search)

@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <list>
 #include <mutex>
+
 template <typename C>
 class CThreadSafeQueue : protected std::list<C>
 {
@@ -10,24 +11,26 @@ public:
 	{
 		m_bOverflow = false;
 		m_hSemaphore = ::CreateSemaphore(
-			NULL,	//no security attributes
-			0,		//initial count
-			nMaxCount,	//max Count
-			NULL	//anonymous
+			nullptr, //no security attributes
+			0, //initial count
+			nMaxCount, //max Count
+			nullptr //anonymous
 		);
 	}
+
 	~CThreadSafeQueue()
 	{
-		::CloseHandle(m_hSemaphore);
-		m_hSemaphore = NULL;
+		CloseHandle(m_hSemaphore);
+		m_hSemaphore = nullptr;
 	}
+
 	void push(C& c)
 	{
 		MutexLock lock(m_Crit);
 		push_back(c);
 		lock.unlock();
 
-		if (!::ReleaseSemaphore(m_hSemaphore, 1, NULL))
+		if (!ReleaseSemaphore(m_hSemaphore, 1, nullptr))
 		{
 			// if the semaphore is full,than take back the entry
 			pop_back();
@@ -40,13 +43,13 @@ public:
 
 	bool pop(C& c)
 	{
-		MutexLock(m_Crit);
+		MutexLock (m_Crit);
 
 		//if the user calls pops() more than once after the semaphore is singaled,
 		//than the semaphore count will get out of sync.We fix that when the queue empties.
 		if (empty())
 		{
-			while (::WaitForSingleObject(m_hSemaphore, 0) != WAIT_TIMEOUT);
+			while (WaitForSingleObject(m_hSemaphore, 0) != WAIT_TIMEOUT);
 			return false;
 		}
 
@@ -57,16 +60,16 @@ public:
 
 	void clear()
 	{
-		MutexLock(m_Crit);
+		MutexLock (m_Crit);
 		for (DWORD i = 0; i < size(); ++i)
 			WaitForSingleObject(m_hSemaphore, 0);
 		__super::clear();
 		m_bOverflow = false;
 	}
 
-	bool overflow()const { return m_bOverflow; }
+	bool overflow() const { return m_bOverflow; }
 
-	HANDLE GetWaitHandle()const { return m_hSemaphore; }
+	HANDLE GetWaitHandle() const { return m_hSemaphore; }
 protected:
 	HANDLE m_hSemaphore;
 	typedef std::unique_lock<std::mutex> MutexLock;

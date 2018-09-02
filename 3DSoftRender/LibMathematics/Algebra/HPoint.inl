@@ -1,64 +1,63 @@
-
 inline const float& HPoint::operator[](int index) const
 {
 	return M[index];
 }
 
-inline float & Hikari::HPoint::operator[](int i)
+inline float& HPoint::operator[](int i)
 {
 	// TODO: insert return statement here
 	return M[i];
 }
 
-inline Hikari::HPoint::operator const float*() const
+inline HPoint::operator const float*() const
 {
 	return M;
 }
 
-inline Hikari::HPoint::operator float*()
+inline HPoint::operator float*()
 {
 	return M;
 }
 
-inline float Hikari::HPoint::X() const
+inline float HPoint::X() const
 {
 	return M[0];
 }
 
-inline float Hikari::HPoint::Y() const
+inline float HPoint::Y() const
 {
 	return M[1];
 }
 
-inline float Hikari::HPoint::Z() const
+inline float HPoint::Z() const
 {
 	return M[2];
 }
 
-inline float Hikari::HPoint::W() const
+inline float HPoint::W() const
 {
 	return M[3];
 }
 
-inline float & Hikari::HPoint::X()
+inline float& HPoint::X()
 {
 	// TODO: insert return statement here
 	return M[0];
 }
 
-inline float & Hikari::HPoint::Y()
+inline float& HPoint::Y()
 {
 	// TODO: insert return statement here
 	return M[1];
 }
 
-inline float & Hikari::HPoint::Z()
+inline float& HPoint::Z()
 {
 	// TODO: insert return statement here
 	return M[2];
 }
 
-inline float & Hikari::HPoint::W()
+inline float& HPoint::W()
 {
 	// TODO: insert return statement here
 	return M[3];

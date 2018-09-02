@@ -4,7 +4,6 @@
 
 namespace Hikari
 {
-
 	class ControlPoint
 	{
 	private:
@@ -12,8 +11,14 @@ namespace Hikari
 		XMFLOAT3 color;
 		XMFLOAT3 tangent;
 	public:
-		ControlPoint() {}
-		ControlPoint(XMFLOAT3 pos, XMFLOAT3 col) :position(pos), color(col) {}
+		ControlPoint()
+		{
+		}
+
+		ControlPoint(XMFLOAT3 pos, XMFLOAT3 col) : position(pos), color(col)
+		{
+		}
+
 		XMFLOAT3 GetPosition() { return position; }
 		XMFLOAT3 GetColor() { return color; }
 		XMFLOAT3 GetTangent() { return tangent; }

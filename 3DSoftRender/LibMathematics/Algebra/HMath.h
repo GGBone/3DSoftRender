@@ -39,13 +39,11 @@ public:
 	static T SymmetricRandom(unsigned int seed = 0);
 
 
-
-
-
 	static const T PI;
 };
-#define MIN(a, b)  (((a) < (b)) ? (a) : (b)) 
-#define MAX(a, b)  (((a) > (b)) ? (a) : (b)) 
+
+#define MIN(a, b)  (((a) < (b)) ? (a) : (b))
+#define MAX(a, b)  (((a) > (b)) ? (a) : (b))
 extern float Fast_Sin(float theta);
 extern float Fast_Cos(float theta);
 const float PI = 3.141592654f;

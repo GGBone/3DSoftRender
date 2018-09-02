@@ -1,5 +1,4 @@
 #pragma once
-#include "Core\CoreLib.h"
 namespace Hikari
 {
 	class Rtti
@@ -8,24 +7,26 @@ namespace Hikari
 		Rtti(const char* _name, const Rtti* _baseType);
 		~Rtti();
 
-		inline const char* GetName()const;
-		inline bool IsExactly(const Rtti& _type)const;
-		bool IsDerived(const Rtti& _type)const;
+		inline const char* GetName() const;
+		inline bool IsExactly(const Rtti& _type) const;
+		bool IsDerived(const Rtti& _type) const;
 	private:
 		const char* name;
 		const Rtti* Basetype;
 	};
-	
 
-	inline const char* Rtti::GetName()const
+
+	inline const char* Rtti::GetName() const
 	{
 		return name;
 	}
-	inline bool Rtti::IsExactly(const Rtti& _type)const
+
+	inline bool Rtti::IsExactly(const Rtti& _type) const
 	{
 		return (&_type == this);
 	}
 }
+
 #define DECLARE_RTTI \
 	public: \
 	static const Rtti TYPE; \

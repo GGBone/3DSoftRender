@@ -1,12 +1,12 @@
 #include "MathematicsPCH.h"
 #include "HPoint.h"
 using namespace Hikari;
-Hikari::HPoint::HPoint()
-{
 
+HPoint::HPoint()
+{
 }
 
-Hikari::HPoint::HPoint(float x, float y, float z, float w)
+HPoint::HPoint(float x, float y, float z, float w)
 {
 	M[0] = x;
 	M[1] = y;
@@ -14,7 +14,7 @@ Hikari::HPoint::HPoint(float x, float y, float z, float w)
 	M[3] = w;
 }
 
-Hikari::HPoint::HPoint(const HPoint & v)
+HPoint::HPoint(const HPoint& v)
 {
 	M[0] = v.X();
 	M[1] = v.Y();
@@ -22,11 +22,11 @@ Hikari::HPoint::HPoint(const HPoint & v)
 	M[3] = v.W();
 }
 
-Hikari::HPoint::~HPoint()
+HPoint::~HPoint()
 {
 }
 
-HPoint& Hikari::HPoint::operator=(const HPoint & point)
+HPoint& HPoint::operator=(const HPoint& point)
 {
 	// TODO: insert return statement here
 	M[0] = point.X();
@@ -36,7 +36,7 @@ HPoint& Hikari::HPoint::operator=(const HPoint & point)
 	return *this;
 }
 
-bool Hikari::HPoint::operator==(const HPoint & pnt) const
+bool HPoint::operator==(const HPoint& pnt) const
 {
 	return (X() == pnt.X() && Y() == pnt.Y() && Z() == pnt.Z() && W() == pnt.W());
 }

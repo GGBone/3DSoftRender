@@ -1,7 +1,9 @@
 #pragma once
-#include "Math\MathematicsLIB.h"
-#include "Math\Algebra\HMath.h"
-#include "Core\Tuple.h"
+#include "MathematicsLIB.h"
+#include "Algebra/HMath.h"
+#include "Tuple.h"
+#include <boost/serialization/nvp.hpp>
+
 namespace Hikari
 {
 	template <typename Real>
@@ -14,36 +16,36 @@ namespace Hikari
 		Vector3(const Tuple<3, Real>& tuple);
 		Vector3(Real x, Real y, Real z);
 		//Assignment
-		Vector3& operator = (const Vector3& vec);
-		Vector3& operator = (const Tuple<3, Real>& tuple);
+		Vector3& operator =(const Vector3& vec);
+		Vector3& operator =(const Tuple<3, Real>& tuple);
 		//Getter
 
-		inline Real X()const;
-		inline Real& X();
+		Real X() const;
+		Real& X();
 
-		inline Real Y()const;
-		inline Real& Y();
+		Real Y() const;
+		Real& Y();
 
-		inline Real Z()const;
-		inline Real& Z();
+		Real Z() const;
+		Real& Z();
 
 		//operations
-		inline Vector3 operator+(const Vector3& v)const;
-		inline Vector3 operator-(const Vector3& v)const;
-		inline Vector3 operator*(Real scalar)const;
-		inline Vector3 operator/(Real scalar)const;
-		inline Vector3 operator- ()const;
+		Vector3 operator+(const Vector3& v) const;
+		Vector3 operator-(const Vector3& v) const;
+		Vector3 operator*(Real scalar) const;
+		Vector3 operator/(Real scalar) const;
+		Vector3 operator-() const;
 
 		//Vector operation
-		inline Real Length()const;
-		inline Real SquaredLength()const;
-		inline Real Dot(const Vector3& vec)const;
-		inline Real Normalize(const Real epsion = 0.0000001f);
+		Real Length() const;
+		Real SquaredLength() const;
+		Real Dot(const Vector3& vec) const;
+		Real Normalize(Real epsion = 0.0000001f);
 
 		static void ComputeExtremes(int numVectors, const Vector3* vectors,
-			Vector3& vmin, Vector3& vmax);
+		                            Vector3& vmin, Vector3& vmax);
 
-		Vector3 Cross(const Vector3& vec)const;
+		Vector3 Cross(const Vector3& vec) const;
 		Vector3 UnitCross(const Vector3& vec) const;
 
 		//To-Be Document
@@ -54,8 +56,8 @@ namespace Hikari
 
 		static void GenerateComplelentBasis(Vector3& u, Vector3& v, const Vector3& w);
 
-		bool GetBarycentrics(const Vector3& v0, const Vector3& v1, const Vector3 v2,
-			const Vector3& v3, Real bary[4], const Real epsion = (Real)0) const;
+		bool GetBarycentrics(const Vector3& v0, const Vector3& v1, Vector3 v2,
+		                     const Vector3& v3, Real bary[4], Real epsion = (Real)0) const;
 
 		struct Information
 		{
@@ -96,17 +98,15 @@ namespace Hikari
 	};
 
 	template <typename Real>
-	inline Vector3<Real> operator* (Real scalar, const Vector3<Real>& vec);
+	Vector3<Real> operator*(Real scalar, const Vector3<Real>& vec);
 
 	//debuging output
 	template <typename Real>
-	std::ostream& operator<< (std::ostream& outFile, const Vector3<Real>& vec);
+	std::ostream& operator<<(std::ostream& outFile, const Vector3<Real>& vec);
 
 #include "Vector3.inl"
 	typedef Vector3<float> Vector3f;
 	typedef Vector3<double> Vector3d;
 	typedef Vector3<int> Vector3I;
 	typedef Vector3<unsigned int> Vector3UI;
-
-	
 }

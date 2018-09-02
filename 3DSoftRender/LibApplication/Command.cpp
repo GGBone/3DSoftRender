@@ -1,17 +1,18 @@
-#include "Application\LibApplicationPCH.h"
+#include "LibApplicationPCH.h"
 
-#include "Application\Command.h"
+#include "Command.h"
 using namespace Hikari;
 
 char Command::msOptionNotFound[] = "option not found";
 char Command::msArgumentOutOfRange[] = "argument out of range";
 char Command::msFilenameNotFound[] = "filename not found";
 char Command::msArgumentRequired[] = "option requires an argument";
-Command::Command(int numArgument, char ** arguments)
+
+Command::Command(int numArgument, char** arguments)
 {
 	mNumArguments = numArgument;
-	mCommandLine = 0;
-	mUsed = 0;
+	mCommandLine = nullptr;
+	mUsed = nullptr;
 	if (mNumArguments > 0)
 	{
 		mArguments = new char*[mNumArguments];
@@ -22,32 +23,32 @@ Command::Command(int numArgument, char ** arguments)
 	}
 	else
 	{
-		mArguments = 0;
+		mArguments = nullptr;
 	}
 	Initialize();
 }
 
-Hikari::Command::Command(char * commandLine)
+Command::Command(char* commandLine)
 {
 	mNumArguments = 0;
-	mArguments = 0;
-	mCommandLine = 0;
-	mUsed = 0;
-	if (commandLine == 0 || strlen(commandLine) == 0)
+	mArguments = nullptr;
+	mCommandLine = nullptr;
+	mUsed = nullptr;
+	if (commandLine == nullptr || strlen(commandLine) == 0)
 	{
 		return;
 	}
 	mCommandLine = new char[strlen(commandLine) + 1];
 	strcpy(mCommandLine, commandLine);
 	char* token = strtok(mCommandLine, " \t");
-	Argument* argList = 0;
+	Argument* argList = nullptr;
 
 	while (token)
 	{
 		mNumArguments++;
 		Argument* curr = new Argument(token, argList);
 		argList = curr;
-		token = strtok(0, " \t");
+		token = strtok(nullptr, " \t");
 	}
 	mNumArguments++;
 	mArguments = new char*[mNumArguments];
@@ -61,14 +62,12 @@ Hikari::Command::Command(char * commandLine)
 		argList = save;
 	}
 	Initialize();
-
 }
 
-Hikari::Command::~Command()
-{
-}
+Command::~Command()
+= default;
 
-int Hikari::Command::ExcessArguments()
+int Command::ExcessArguments()
 {
 	for (int i = 0; i < mNumArguments; i++)
 	{
@@ -80,7 +79,7 @@ int Hikari::Command::ExcessArguments()
 	return 0;
 }
 
-Command & Hikari::Command::Min(double value)
+Command& Command::Min(double value)
 {
 	// TODO: 在此处插入 return 语句
 	mSmall = value;
@@ -88,7 +87,7 @@ Command & Hikari::Command::Min(double value)
 	return *this;
 }
 
-Command & Hikari::Command::Max(double value)
+Command& Command::Max(double value)
 {
 	// TODO: 在此处插入 return 语句
 	mMaxSet = true;
@@ -96,7 +95,7 @@ Command & Hikari::Command::Max(double value)
 	return *this;
 }
 
-Command & Hikari::Command::Inf(double value)
+Command& Command::Inf(double value)
 {
 	// TODO: 在此处插入 return 语句
 	mSmall = value;
@@ -104,7 +103,7 @@ Command & Hikari::Command::Inf(double value)
 	return *this;
 }
 
-Command & Hikari::Command::Sup(double value)
+Command& Command::Sup(double value)
 {
 	// TODO: 在此处插入 return 语句
 	mLarge = value;
@@ -112,20 +111,19 @@ Command & Hikari::Command::Sup(double value)
 	return *this;
 }
 
-Hikari::Command::Argument::Argument(char * item, Argument * next)
+Command::Argument::Argument(char* item, Argument* next)
 {
 }
 
-Hikari::Command::Argument::~Argument()
-{
-}
+Command::Argument::~Argument()
+= default;
 
-const char * Hikari::Command::GetLastError()
+const char* Command::GetLastError()
 {
 	return nullptr;
 }
 
-void Hikari::Command::Initialize()
+void Command::Initialize()
 {
 	mUsed = new bool[mNumArguments];
 	memset(mUsed, false, mNumArguments * sizeof(bool));
@@ -136,16 +134,16 @@ void Hikari::Command::Initialize()
 	mInfSet = false;
 	mSupSet = false;
 
-	mLastError = 0;
+	mLastError = nullptr;
 }
 
-int Hikari::Command::GetBoolean(const char * name)
+int Command::GetBoolean(const char* name)
 {
 	bool value = false;
-	return GetBoolean(name,value);
+	return GetBoolean(name, value);
 }
 
-int Hikari::Command::GetBoolean(const char * name, bool & value)
+int Command::GetBoolean(const char* name, bool& value)
 {
 	int matchFount = 0;
 	value = false;
@@ -167,27 +165,27 @@ int Hikari::Command::GetBoolean(const char * name, bool & value)
 	return matchFount;
 }
 
-int Hikari::Command::GetInteger(const char * name, int & value)
+int Command::GetInteger(const char* name, int& value)
 {
 	return 0;
 }
 
-int Hikari::Command::GetFloat(const char * name, float & value)
+int Command::GetFloat(const char* name, float& value)
 {
 	return 0;
 }
 
-int Hikari::Command::GetDouble(const char * name, double & value)
+int Command::GetDouble(const char* name, double& value)
 {
 	return 0;
 }
 
-int Hikari::Command::GetString(const char* name, char*& value)
+int Command::GetString(const char* name, char*& value)
 {
 	return 0;
 }
 
-int Hikari::Command::GetFilename(char *& name)
+int Command::GetFilename(char*& name)
 {
 	return 0;
 }

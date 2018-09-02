@@ -1,7 +1,8 @@
 #pragma once
 #include <cmath>
-#include "Core\CoreLib.h"
-#include "Math\Algebra\Vector3.h"
+#include "CoreLib.h"
+#include "Algebra/Vector3.h"
+
 namespace Hikari
 {
 	typedef struct
@@ -13,8 +14,8 @@ namespace Hikari
 		float transmittance[3];
 		float emission[3];
 		float shininess;
-		float ior;	//index of refraction
-		float dissolve;	//1==opaque 0 == fuull transparent
+		float ior; //index of refraction
+		float dissolve; //1==opaque 0 == fuull transparent
 		int illum;
 		int dummy;
 
@@ -25,8 +26,7 @@ namespace Hikari
 		std::string displacement_texname;
 		std::string alpha_texname;
 		std::map<std::string, std::string> unknow_parameter;
-
-	}material_t;
+	} material_t;
 
 	typedef struct
 	{
@@ -34,7 +34,7 @@ namespace Hikari
 		std::vector<int> intValues;
 		std::vector<float> floatValue;
 		std::vector<std::string> stringValue;
-	}tag_t;
+	} tag_t;
 
 	typedef struct
 	{
@@ -45,68 +45,81 @@ namespace Hikari
 		std::vector<unsigned char> num_vertices;
 		std::vector<int> material_ids;
 		std::vector<tag_t> tags;
-	}mesh_t;
+	} mesh_t;
 
 	typedef struct
 	{
 		std::string name;
 		mesh_t mesh;
-	}shape_t;
+	} shape_t;
 
 	typedef enum
 	{
 		triangulation = 1,
 		calculate_normals = 2,
-
-	}load_flags_t;
+	} load_flags_t;
 
 	class MaterialReader
 	{
 	public:
-		MaterialReader(){}
+		MaterialReader() = default;
 		virtual ~MaterialReader();
 
 		virtual bool operator()(const std::string& matId,
-			std::vector<material_t>& materials,
-			std::map<std::string, int>& matMap,
-			std::string& err) = 0;
+		                        std::vector<material_t>& materials,
+		                        std::map<std::string, int>& matMap,
+		                        std::string& err) = 0;
 	};
-	
+
 	class MaterialFileReader : public MaterialReader
 	{
 	public:
 		MaterialFileReader(const std::string& mt_basepath)
-			: m_mtlBasePath(mt_basepath) {}
-		virtual ~MaterialFileReader() {}
-		virtual bool operator()(const std::string& matId, std::vector<material_t>
-			&materials, std::map<std::string, int>& matMap, std::string& error);
+			: m_mtlBasePath(mt_basepath)
+		{
+		}
+
+		virtual ~MaterialFileReader() = default;
+		bool operator()(const std::string& matId, std::vector<material_t>
+		                & materials, std::map<std::string, int>& matMap, std::string& error) override;
 	private:
 		std::string m_mtlBasePath;
 	};
 
-	bool LoadObj(std::vector<shape_t>&shapes,//output
-		std::vector<material_t>& materials,//output
-		std::string& err,	//output
-		std::istream& inStream, MaterialReader& readMatFn,
-		unsigned int flags = 1);
+	bool LoadObj(std::vector<shape_t>& shapes, //output
+	             std::vector<material_t>& materials, //output
+	             std::string& err, //output
+	             std::istream& inStream, MaterialReader& readMatFn,
+	             unsigned int flags = 1);
 
 	void LoadMtl(std::map<std::string, int>& meterial_map,
-		std::vector<material_t>& materials,
-		std::istream& inStream);
+	             std::vector<material_t>& materials,
+	             std::istream& inStream);
 
 	struct vertex_index
 	{
 		int v_idx, vt_idx, vn_idx;
-		vertex_index() :v_idx(-1), vt_idx(-1), vn_idx(-1) {}
-		explicit vertex_index(int idx) :v_idx(idx), vt_idx(idx), vn_idx(idx) {}
-		vertex_index(int vidx, int vtidx, int vnidx) :
-			v_idx(vidx), vt_idx(vt_idx), vn_idx(vnidx) {}
 
+		vertex_index() : v_idx(-1), vt_idx(-1), vn_idx(-1)
+		{
+		}
+
+		explicit vertex_index(int idx) : v_idx(idx), vt_idx(idx), vn_idx(idx)
+		{
+		}
+
+		vertex_index(int vidx, int vtidx, int vnidx) :
+			v_idx(vidx), vt_idx(vt_idx), vn_idx(vnidx)
+		{
+		}
 	};
-	
+
 	struct tag_sizes
 	{
-		tag_sizes() :num_ints(0), num_floats(0), num_strings(0) {}
+		tag_sizes() : num_ints(0), num_floats(0), num_strings(0)
+		{
+		}
+
 		int num_ints;
 		int num_floats;
 		int num_strings;
@@ -143,6 +156,7 @@ namespace Hikari
 			}
 		}
 	}
+
 #define IS_SPACE (x) (((x == ' ') || (x) == '\t'))
 #define IS_DIGIT(x) ((unsigned int)((x) - '0')<(unsigned int)10)
 #define IS_NEW_LINE(x) (((x) == '\r') || ((x) == '\n') || ((x) == '\0'))
@@ -155,8 +169,8 @@ namespace Hikari
 			return 0;
 		return n + idx;
 	}
-	
-	static inline std::string parseString(const char* &token)
+
+	static inline std::string parseString(const char* & token)
 	{
 		std::string s;
 		token += strspn(token, " \t");
@@ -183,6 +197,5 @@ namespace Hikari
 		int exponent = 0;
 		char sign = '+';
 		char const* curr = s;
-
 	}
 }
