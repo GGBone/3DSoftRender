@@ -4,7 +4,7 @@
 #include "Renderer/DxRenderer/Dx11RenderWindow.h"
 #include "Renderer/ProgressWindow.h"
 #define WINDOW_RENDER "Main"
-#define WINDOS_ROCESS "Processing"
+#define WINDOW_PROCESS "Processing"
 
 
 using namespace Hikari;
@@ -371,7 +371,7 @@ int WindowApplicationBase::Main(int, char**)
 
 	proceWnd.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	proceWnd.hIconSm = LoadIcon(m_hInstance, IDI_APPLICATION);
-	proceWnd.lpszClassName = TEXT(WINDOS_ROCESS);
+	proceWnd.lpszClassName = TEXT(WINDOW_PROCESS);
 	proceWnd.lpszMenuName = nullptr;
 	if (!RegisterClassEx(&proceWnd))
 	{
@@ -471,7 +471,7 @@ void WindowApplicationBase::CreateProgressWindow(const std::string& title, int w
 	int windowX = (screenWidth - width) / 2;
 	int windowY = (screenHeight - height) / 2;
 
-	HWND hWnd = CreateWindowExA(NULL, (WINDOS_ROCESS), title.c_str(),
+	HWND hWnd = CreateWindowExA(NULL, (WINDOW_PROCESS), title.c_str(),
 	                            WS_OVERLAPPEDWINDOW | WS_VISIBLE, windowX, windowY, width,
 	                            height, nullptr, nullptr, m_hInstance, nullptr);
 	if (!hWnd)

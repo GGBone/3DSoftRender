@@ -139,11 +139,17 @@ void Lights::CreateScene()
 	mProgressWindow->CloseWindows();
 
 	mRenderWindow->ShowWindow();
-	HMatrix CubeTransform(
+	/*const HMatrix CubeTransform(
 		g_Setting.SceneScaleFactor, 0, 0, 0,
 		0, g_Setting.SceneScaleFactor, 0, 0,
 		0, 0, g_Setting.SceneScaleFactor, 0.f,
 		0, -1.f, 0.f, 1
+	);*/
+	const HMatrix CubeTransform(
+		g_Setting.SceneScaleFactor, 0, 0, 0,
+		0, g_Setting.SceneScaleFactor, 0, 0,
+		0, 0, g_Setting.SceneScaleFactor, 0.f,
+		0, 0.f, 0.0f, 1
 	);
 	mainScene->GetRootNode()->SetLocalTransform(CubeTransform);
 	opaqueScene.push_back(mainScene);
@@ -163,7 +169,7 @@ void Lights::CreateScene()
 	}
 
 	std::shared_ptr<Scene> ground = m_pRenderDevice->CreatePlane(10.0f);
-	HMatrix groundTransform(g_Setting.SceneScaleFactor, 0, 0, 0,
+	const HMatrix groundTransform(g_Setting.SceneScaleFactor, 0, 0, 0,
 	                        0, g_Setting.SceneScaleFactor, 0, 0,
 	                        0, 0, g_Setting.SceneScaleFactor, 0.f,
 	                        0, -2.0f, 0.f, 1);

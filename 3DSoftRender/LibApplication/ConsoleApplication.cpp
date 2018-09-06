@@ -1,2 +1,2 @@
-#include "Application/LibApplicationPCH.h"
-#include "Application/ConsoleApplication.h"
+#include "LibApplicationPCH.h"
+#include "ConsoleApplication.h"

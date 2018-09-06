@@ -74,9 +74,6 @@
     <ClInclude Include="Data\VoxelPass\VisualizationPass.h">
       <Filter>资源文件\Data\Pass\Voxel</Filter>
     </ClInclude>
-    <ClInclude Include="Data\VoxelPass\VoxelDefine.h">
-      <Filter>资源文件\Data\Pass\Voxel</Filter>
-    </ClInclude>
     <ClInclude Include="Data\VoxelPass\VoxelizationPass.h">
       <Filter>资源文件\Data\Pass\Voxel</Filter>
     </ClInclude>

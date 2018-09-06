@@ -68,9 +68,9 @@ VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow, std::shared_ptr<
 		FragmentMultiples;
 
 	const ShaderParameter::ShaderInputParameter voxel_uav_parameter = {
-		ShaderParameter::ShaderInputType::Buffer,
+		ShaderParameter::ShaderInputType::StructuredBuffer,
 		ShaderParameter::AppendFlag::APPEND,
-		ShaderParameter::Format::R32_SINT,
+		ShaderParameter::Format::UNKNOWN,
 		CPUAccess::None,
 		GPUAccess::ReadWrite
 	};
@@ -116,16 +116,12 @@ VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow, std::shared_ptr<
 	voxelPass->SetPerGeometryConstantData(perGeometry, "cbProj");
 	voxelPass->SetAttriConstantData(cbAttri, "cbAttri");
 
-	//Those are the output,should bind in voxelpass
-	//voxelPass->SetVoxelBuffer(voxelUAVBuffer,"FragmentList");
-	//voxelPass->SetIndexBuffer(indexUAVBuffer,"voxelIndex");
 	voxelPass->SetSampler(sampler, "sam");
 
 
 	//std::shared_ptr<Query> query = renderer->CreateQuery(Query::QueryType::Timer, 2);
 	std::shared_ptr<RenderTarget> renderTargetSVO = rwindow->GetRenderTarget();
 
-	//ClearRenderTargetPass* clearPass = new ClearRenderTargetPass(renderer->mData->renderTarget);
 	std::shared_ptr<ClearRenderTargetPass> clearPass = std::make_shared<ClearRenderTargetPass>(renderTargetSVO);
 
 	std::shared_ptr<Shader> flagshader = renderer->CreateShader();
@@ -161,30 +157,14 @@ VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow, std::shared_ptr<
 	g_SVOPipeline->SetShader(Shader::ShaderType::ComputeShader, flagshader);
 	g_SVOPipeline->SetRenderTarget(renderTargetSVO);
 
-
-	std::vector<UINT> u_brickInit;
-	u_brickInit.push_back(0);
-
-	std::vector<UINT> u_nodeInit;
-	u_nodeInit.push_back(1);
-
-	//std::shared_ptr<Buffer> brickIndex = renderer->CreateRWBuffer(&u_brickInit, 1, sizeof(UINT));
-	//std::shared_ptr<Buffer> nodeInedx = renderer->CreateRWBuffer(&u_nodeInit, 1, sizeof(UINT));
-	UINT mTotalLevel = (UINT)std::log2f(MaxLevelRes) + 1;
-	UINT mTotalNode = 0;
-	UINT res = MaxLevelRes;
+	const auto mTotalLevel = (UINT)std::log2f(MaxLevelRes) + 1;
+	auto mTotalNode = 0;
+	auto res = MaxLevelRes;
 	while (res)
 	{
 		mTotalNode += (res * res * res);
 		res /= 2;
 	}
-	std::vector<UINT> initNum;
-	initNum.push_back(1);
-	for (UINT i = 1; i < mTotalLevel; ++i)
-	{
-		initNum.push_back(0);
-	}
-	//std::shared_ptr<Buffer> numNode = renderer->CreateRWBuffer(initNum.data(), (UINT)initNum.size(), sizeof(UINT));
 
 	FlagOctreePass::CBInfo cbInfo{};
 
@@ -194,7 +174,7 @@ VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow, std::shared_ptr<
 
 
 	const ShaderParameter::ShaderInputParameter node_uav_pool = {
-		ShaderParameter::ShaderInputType::Buffer,
+		ShaderParameter::ShaderInputType::StructuredBuffer,
 		ShaderParameter::AppendFlag::RAW,
 		ShaderParameter::Format::UNKNOWN,
 		CPUAccess::None,
@@ -205,21 +185,17 @@ VoxelEffect::VoxelEffect(std::shared_ptr<RenderWindow> rwindow, std::shared_ptr<
 
 	std::vector<UINT> visualIndex;
 	visualIndex.push_back(0);
-	//std::shared_ptr<Buffer> visualIndex = renderer->CreateRWBuffer(i,1,sizeof(UINT));
+	
 	std::shared_ptr<FlagOctreePass> svoPass = std::make_shared<FlagOctreePass>(renderer, scene, g_SVOPipeline);
 	svoPass->SetTotalLevel(mTotalLevel);
 	svoPass->SetTotalNode(mTotalNode);
-	//svoPass->SetBrickIndex(u_brickInit, "");
-	//svoPass->SetNodeIndex(u_nodeInit, "");
-	//svoPass->SetNumOfNodes(initNum, "");
+
 	svoPass->SetConstantInfo(cbInfo, "");
 	svoPass->SetConstantGroup(cbGroupInfo, "");
 
-	//Created by pass
-	//svoPass->SetNodeBuffer(nodePool, "");
 	svoPass->SetConstantBrick(cbBrickInfo, "");
 	svoPass->SetAttriConstant(cbAttri, "");
-	//svoPass->SetVisualIndex(visualIndex,"");
+
 	std::shared_ptr<Shader> shaders[7]
 	{
 		flagshader,

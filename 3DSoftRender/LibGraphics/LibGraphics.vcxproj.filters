@@ -37,9 +37,6 @@
     <ClInclude Include="GraphicsPCH.h">
       <Filter>_PrecompiledHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="SoftRenderData.h">
-      <Filter>Renderer\SoftRender</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsLib.h" />
     <ClInclude Include="Renderer\DxRenderer\Dx11BlendState.h">
       <Filter>Renderer\DXRender</Filter>

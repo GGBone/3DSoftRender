@@ -56,7 +56,6 @@
     <ClInclude Include="Data\StandardPass\TransparentPass.h" />
     <ClInclude Include="Data\VoxelPass\FlagOctreePass.h" />
     <ClInclude Include="Data\VoxelPass\VisualizationPass.h" />
-    <ClInclude Include="Data\VoxelPass\VoxelDefine.h" />
     <ClInclude Include="Data\VoxelPass\VoxelizationPass.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Sample.h" />

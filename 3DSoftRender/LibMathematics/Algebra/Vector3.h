@@ -75,9 +75,9 @@ namespace Hikari
 
 		Vector3 Normal()
 		{
-			float mod = sqrt(M[0] * M[0] + M[1] * M[1] + M[2] * M[2]);
+			float mod = sqrt(mTuple[0] * mTuple[0] + mTuple[1] * mTuple[1] + mTuple[2] * mTuple[2]);
 			if (mod != 0)
-				return Vector3(M[0] / mod, M[1] / mod, M[2] / mod);
+				return Vector3(mTuple[0] / mod, mTuple[1] / mod, mTuple[2] / mod);
 			return Vector3(0.0f, 0.0f, 0.0f);
 		}
 

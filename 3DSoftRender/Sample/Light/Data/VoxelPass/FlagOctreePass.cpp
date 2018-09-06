@@ -166,7 +166,7 @@ void FlagOctreePass::SetTotalNode(UINT totalNode)
 {
 	m_TotalNode = totalNode;
 	const ShaderParameter::ShaderInputParameter total_node_buffer = {
-		ShaderParameter::ShaderInputType::Buffer,
+		ShaderParameter::ShaderInputType::StructuredBuffer,
 		ShaderParameter::AppendFlag::RAW,
 		ShaderParameter::Format::UNKNOWN,
 		CPUAccess::None,
@@ -244,6 +244,7 @@ void FlagOctreePass::PreRender(RenderEventArgs& e)
 
 		PipelineState* prePipeline = e.PipelineState;
 		m_fragmentList = prePipeline->GetRenderTarget()->GetStructuredBuffer(0);
+		m_fragmentList->copy(nullptr);
 		auto rBuffer = prePipeline->GetRenderTarget()->GetBuffer(0);
 		m_TotalVoxel = *(UINT*)rBuffer->get_data();
 		prePipeline->unbind();
@@ -290,7 +291,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 			m_Pipeline->GetShader(Shader::ShaderType::ComputeShader)->Dispatch(group);
 
 #if _DEBUG
-			//m_NodePool->Copy(nullptr);
+			m_NodePool->copy(nullptr);
 
 #endif
 			m_Pipeline->unbind();
@@ -333,8 +334,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 
 			m_Pipeline->unbind();
 		}
-
-
+		 
 		//Create brickPool
 		m_TotalBrick = *(UINT*)m_BrickInedx->get_data();
 
@@ -523,7 +523,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 		mCubeMesh->AddVertexBuffer(*positionBind, vertexbuffer);
 
 		const ShaderParameter::ShaderInputParameter num_node_per_level = {
-			ShaderParameter::ShaderInputType::Buffer,
+			ShaderParameter::ShaderInputType::StructuredBuffer,
 			ShaderParameter::AppendFlag::RAW,
 			ShaderParameter::Format::UNKNOWN,
 			CPUAccess::None,
@@ -578,9 +578,10 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 
 
 		e.PipelineState = m_Pipeline.get();
+
 		init = true;
 	}
-
+	
 	m_Pipeline->GetRasterizerState().SetViewport(Viewport(0, 0, 1280, 760, 0.0f, 1.0f));
 	//m_Pipeline->GetRasterizerState().SetFillMode(RasterizerState::FillMode::WireFrame, RasterizerState::FillMode::WireFrame);
 	m_Pipeline->GetRasterizerState().SetPirmitiveMode(RasterizerState::PrimitiveMode::LINE_LIST);
