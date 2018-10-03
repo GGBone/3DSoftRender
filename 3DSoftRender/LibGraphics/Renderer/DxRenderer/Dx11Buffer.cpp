@@ -1,11 +1,12 @@
 #include "GraphicsPCH.h"
+#include "Dx11Renderer.h"
 #include "Dx11Buffer.h"
 #include "Resource/CPUAccess.h"
 using namespace Hikari;
 
-BufferDX11::BufferDX11(ID3D11Device* pDevice, const void* data, UINT count, UINT stride,
+BufferDX11::BufferDX11(const shared_ptr<DirectRenderer>& pDevice, const void* data, UINT count, UINT stride,
                        ShaderParameter::ShaderInputParameter shader_param)
-	: m_pDevice(pDevice),
+	: m_pDevice(pDevice->GetDevice()),
 	  m_pSRV(nullptr),
 	  m_pUAV(nullptr),
 	  m_shader_input_parameter_(shader_param),

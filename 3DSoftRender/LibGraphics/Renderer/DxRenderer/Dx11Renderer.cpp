@@ -402,7 +402,7 @@ namespace Hikari
 	std::shared_ptr<Buffer> DirectRenderer::CreateBuffer(const void* data, unsigned int count, unsigned int stride,
 	                                                     ShaderParameter::ShaderInputParameter param)
 	{
-		std::shared_ptr<Buffer> buffer = std::make_shared<BufferDX11>(m_pDevice, data, count, stride, param);
+		std::shared_ptr<Buffer> buffer = std::make_shared<BufferDX11>(shared_from_this(), data, count, stride, param);
 		m_Buffers.push_back(buffer);
 
 		return buffer;
