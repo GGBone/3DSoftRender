@@ -55,7 +55,6 @@ LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<
 		g_OpaquePipeline->SetShader(Shader::PixelShader, lightPixelShaser);
 
 		g_OpaquePipeline->SetRenderTarget(rWindow->GetRenderTarget());
-		g_OpaquePipeline->GetRasterizerState().SetCullMode(RasterizerState::CullMode::Front);
 
 		std::shared_ptr<SamplerState> sampler = renderer->CreateSamplerState();
 		sampler->SetFilter(SamplerState::MinFilter::MinLinear, SamplerState::MagFilter::MagLinear,

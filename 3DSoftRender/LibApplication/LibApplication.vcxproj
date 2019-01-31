@@ -83,7 +83,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../External/FreeImage/;../External/;../External/boost_1_58_0/;$(SolutionDir)LibCore;$(SolutionDir)LibLoader;$(SolutionDir)LibGraphics;$(SolutionDir)/LibMathematics/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../External/FreeImage/;../External/assimp;../External/boost_1_58_0/;$(SolutionDir)LibCore;$(SolutionDir)LibLoader;$(SolutionDir)LibGraphics;$(SolutionDir)/LibMathematics/</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>LibApplicationPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

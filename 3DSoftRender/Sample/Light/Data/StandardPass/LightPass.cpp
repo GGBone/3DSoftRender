@@ -5,6 +5,7 @@
 #include "Renderer/Renderer.h"
 #include "Resource/PipelineState.h"
 #include "SceneGraph/Scene.h"
+#include "SceneGraph/Camera.h"
 using namespace Hikari;
 
 
@@ -29,17 +30,19 @@ LightsPass::~LightsPass()
 
 void LightsPass::PreRender(RenderEventArgs& e)
 {
-	//XMMATRIX viewMatrix = e.Camera->View();
+	XMMATRIX viewMatrix = e.Camera->View();
 
-	//// Update the viewspace vectors of the light.
-	//for (unsigned int i = 0; i < WindowApplicationEngine::g_Setting.Lights.size(); i++)
-	//{
-	//	// Update the lights so that their position and direction are in view space.
-	//	Light& light = WindowApplicationEngine::g_Setting.Lights[i];
-	//	XMVECTOR lightPosWS = XMVectorSet(light.m_PositionWS[0], light.m_PositionWS[1], light.m_PositionWS[2], light.m_PositionWS[3]);
-	//	XMVECTOR lightPosVS = XMVector3TransformCoord(lightPosWS, viewMatrix);
-
-	//}
+	// Update the viewspace vectors of the light.
+	for (unsigned int i = 0; i < WindowApplicationEngine::g_Setting.Lights.size(); i++)
+	{
+		// Update the lights so that their position and direction are in view space.
+		Light& light = WindowApplicationEngine::g_Setting.Lights[i];
+		XMVECTOR lightPosWS = XMVectorSet(light.m_PositionWS[0], light.m_PositionWS[1], light.m_PositionWS[2], light.m_PositionWS[3]);
+		XMVECTOR lightPosVS = XMVector3TransformCoord(lightPosWS, viewMatrix);
+		XMFLOAT4 temp = {};
+		XMStoreFloat4(&temp, lightPosVS);
+		light.m_DirectionVS = { temp.x,temp.y,temp.z,temp.w };
+	}
 	g_pLightStructuredBuffer->set(WindowApplicationEngine::g_Setting.Lights);
 	m_Pipeline->GetShader(Shader::PixelShader)->GetShaderParameterByName("Lights").set(g_pLightStructuredBuffer);
 	BindPerObjectConstantBuffer(m_Pipeline->GetShader(Shader::PixelShader));

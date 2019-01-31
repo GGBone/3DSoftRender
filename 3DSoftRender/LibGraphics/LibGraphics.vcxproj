@@ -85,7 +85,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;../External/FreeImage/;../External/;../External/boost_1_58_0/;$(SolutionDir)LibMathematics;$(SolutionDir)LibCore;$(SolutionDir)LibApplication;$(SolutionDir)LibLoader</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../External/FreeImage/;../External/assimp;../External/boost_1_58_0/;$(SolutionDir)LibMathematics;$(SolutionDir)LibCore;$(SolutionDir)LibApplication;$(SolutionDir)LibLoader;$(SolutionDir)DirectXTK-master/Inc</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>GraphicsPCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

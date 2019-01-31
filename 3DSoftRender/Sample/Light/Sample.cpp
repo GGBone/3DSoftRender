@@ -41,8 +41,9 @@ bool Lights::OnInitialize(EventArgs& e)
 #else
 	const auto pos = g_Setting.CameraPosition;
 	const auto rot = g_Setting.CameraRotation;
-	mCamera->SetPosition(0.0f, 0.0f, -5.0f);
+	//mCamera->SetPosition(0.0f, 0.0f, -5.0f);
 	//mCamera->set_rotation(rot[0], rot[1], rot[2]);
+	mCamera->LookAt(XMFLOAT3(0.0f, 0.0f, -10.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f));
 	mCamera->set_project_lh(XMConvertToRadians(45.0f), mWidth / (float)mHeight, .1f, 5000.0f);
 	
 #endif
@@ -50,9 +51,9 @@ bool Lights::OnInitialize(EventArgs& e)
 
 	std::shared_ptr<ClearEffect> clearEffect = std::make_shared<ClearEffect>(mRenderWindow, m_pRenderDevice);
 	mInstance.push_back(clearEffect->CreateInstance());
-	//CreateScene();
+	CreateScene();
 	//CreatePlane();
-	//CreateLightShape();
+	CreateLightShape();
 	CreateAxis();
 
 	mProgressWindow->CloseWindows();
@@ -105,13 +106,13 @@ void Lights::CreateLightShape()
 		case Light::LightType::Directional:
 		{
 			//e.m_DirectionWS
-			temp = m_pRenderDevice->CreateCylinder(1.f, 1.0f, 2.0f, AVector(1.0f, 1.0f, 1.0f));
+			temp = m_pRenderDevice->CreateCylinder(0.5f, 0.5f, 2.0f, AVector(e.m_DirectionWS[0], e.m_DirectionWS[1], e.m_DirectionWS[2]));
 			HMatrix sphereTransform(
 				1.0f, 0, 0, 0,
 				0, 1.0f, 0, 0,
 				0, 0, 1.0f, 0.f,
-				e.m_PositionWS[0], e.m_PositionWS[1],
-				e.m_PositionWS[2], 1.0f
+				-e.m_PositionWS[0], -e.m_PositionWS[1],
+				-e.m_PositionWS[2], 1.0f
 			);
 
 			temp->GetRootNode()->SetLocalTransform(sphereTransform);
@@ -139,7 +140,7 @@ void Lights::CreateLightShape()
 	vector<shared_ptr<Scene>> transScene;
 	for (int i = 0; i != g_NumLightToGenerate; ++i)
 	{
-		auto sphereEffect = std::make_shared<LightEffect>(mRenderWindow, m_pRenderDevice, lightSphere, transScene);
+		auto sphereEffect = std::make_shared<DefaultEffect>(m_pRenderDevice, lightSphere[0]);
 		mInstance.push_back(sphereEffect->CreateInstance());
 		sphereEffect.reset();
 	}

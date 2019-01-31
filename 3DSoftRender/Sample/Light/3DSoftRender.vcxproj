@@ -309,7 +309,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../External/boost_1_58_0;../../External/;../../External/FreeImage;./Data/CommonPass/;./Data/StandardPass/;./Data/VoxelPass/;./;$(SolutionDir)LibMathematics;$(SolutionDir)LibGraphics;$(SolutionDir)LibCore;$(SolutionDir)LibLoader;$(SolutionDir)LibApplication;$(SolutionDir)DirectXTK-master/Inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../External/boost_1_58_0;../../External/assimp;../../External/FreeImage;./Data/CommonPass/;./Data/StandardPass/;./Data/VoxelPass/;./;$(SolutionDir)LibMathematics;$(SolutionDir)LibGraphics;$(SolutionDir)LibCore;$(SolutionDir)LibLoader;$(SolutionDir)LibApplication;$(SolutionDir)DirectXTK-master/Inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
