@@ -309,12 +309,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../External/boost_1_58_0;../../External/;../../External/FreeImage;./Data/CommonPass/;./Data/StandardPass/;./Data/VoxelPass/;./;$(SolutionDir)LibMathematics;$(SolutionDir)LibGraphics;$(SolutionDir)LibCore;$(SolutionDir)LibLoader;$(SolutionDir)LibApplication</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../External/boost_1_58_0;../../External/;../../External/FreeImage;./Data/CommonPass/;./Data/StandardPass/;./Data/VoxelPass/;./;$(SolutionDir)LibMathematics;$(SolutionDir)LibGraphics;$(SolutionDir)LibCore;$(SolutionDir)LibLoader;$(SolutionDir)LibApplication;$(SolutionDir)DirectXTK-master/Inc</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;LibCore.lib;LibGraphics.lib;LibApplication.lib;LibLoader.lib;LibMathematics.lib;assimp.lib;assimp-vc140-mt.lib;FreeImageLib.lib;libboost_filesystem-vc140-mt-gd-1_58.lib;libboost_serialization-vc140-mt-gd-1_58.lib;libboost_system-vc140-mt-gd-1_58.lib;libboost_wserialization-vc140-mt-gd-1_58.lib;d3d11.lib;D3DCompiler.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;LibCore.lib;LibGraphics.lib;LibApplication.lib;LibLoader.lib;LibMathematics.lib;assimp.lib;assimp-vc140-mt.lib;FreeImageLib.lib;libboost_filesystem-vc140-mt-gd-1_58.lib;libboost_serialization-vc140-mt-gd-1_58.lib;libboost_system-vc140-mt-gd-1_58.lib;libboost_wserialization-vc140-mt-gd-1_58.lib;d3d11.lib;D3DCompiler.lib;dxgi.lib;dxguid.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\External\ExternalLibrary\;..\..\SDK\Library\</AdditionalLibraryDirectories>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>

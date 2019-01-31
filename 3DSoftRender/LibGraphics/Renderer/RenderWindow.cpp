@@ -17,7 +17,7 @@ RenderWindow::RenderWindow(WindowApplicationBase& application, const std::string
 	  m_iWindowWidth(windowWidth),
 	  m_iWindowHeight(windowHeight),
 	  m_vSync(vSync),
-	  m_sWindowName(m_sWindowName),
+	  m_sWindowName(windowsName),
 	  m_bInClientRect(false),
 	  m_bHasKeyboardFocus(false)
 

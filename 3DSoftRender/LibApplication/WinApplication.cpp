@@ -384,8 +384,8 @@ int WindowApplicationBase::Main(int, char**)
 
 	CreateRenderWindow("Render", mWidth, mHeight);
 	CreateProgressWindow("Progress", 256, 40);
-	mProgressWindow.get()->SetTotalProgress(2.f);
-	mProgressWindow.get()->ShowWindow();
+	mProgressWindow->SetTotalProgress(6.f);
+	mProgressWindow->ShowWindow();
 
 	m_pRenderDevice->mLoadingProgress += boost::bind(&ProgressWindow::UpdateProgress, mProgressWindow.get(), _1);
 	Timer elapseTime;

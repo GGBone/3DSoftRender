@@ -9,6 +9,10 @@
 #include "SceneGraph/Node.h"
 #include "Renderer/ProgressWindow.h"
 
+#define USE_DXTK
+#ifdef USE_DXTK
+#include "SimpleMath.h"
+#endif
 WINDOW_APPLICATION(Lights);
 std::wstring configFileName = L"../Conf/DefaultConfiguration.conf";
 extern ConfigurationSettings g_Setting;
@@ -30,17 +34,29 @@ bool Lights::OnInitialize(EventArgs& e)
 {
 	if (!base::OnInitialize(e))
 		return false;
-
+	
+#ifdef	VOXEL
 	mCamera->LookAt(XMFLOAT3(0.0f, 0.0f, -10.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f));
 	mCamera->SetProjectLH(XMConvertToRadians(45.0f), mWidth / (float)mHeight, .1f, 5000.0f);
+#else
+	const auto pos = g_Setting.CameraPosition;
+	const auto rot = g_Setting.CameraRotation;
+	mCamera->SetPosition(0.0f, 0.0f, -5.0f);
+	//mCamera->set_rotation(rot[0], rot[1], rot[2]);
+	mCamera->set_project_lh(XMConvertToRadians(45.0f), mWidth / (float)mHeight, .1f, 5000.0f);
+	
+#endif
 	mCamera->UpdateViewMatrix();
 
 	std::shared_ptr<ClearEffect> clearEffect = std::make_shared<ClearEffect>(mRenderWindow, m_pRenderDevice);
 	mInstance.push_back(clearEffect->CreateInstance());
-	CreateScene();
+	//CreateScene();
 	//CreatePlane();
-	CreateLightShape();
+	//CreateLightShape();
 	CreateAxis();
+
+	mProgressWindow->CloseWindows();
+	mRenderWindow->ShowWindow();
 
 	return true;
 }
@@ -50,10 +66,11 @@ Lights::~Lights()
 
 void Lights::CreateAxis()
 {
+
 	auto g_Axis = m_pRenderDevice->CreateAxis(0.01f, 0.1f);
 	g_Axis->GetRootNode()->SetLocalTransform(HMatrix::IDENTITY);
 	auto axisEffect = make_shared<DefaultEffect>(m_pRenderDevice, g_Axis);
-
+	
 	mInstance.push_back(axisEffect->CreateInstance());
 }
 
@@ -72,49 +89,49 @@ void Lights::CreateLightShape()
 		switch (e.m_Type)
 		{
 		case Light::LightType::Point:
-			{
-				temp = m_pRenderDevice->CreateSphere(1.0f);
-				HMatrix sphereTransform(
-					1.0f, 0, 0, 0,
-					0, 1.0f, 0, 0,
-					0, 0, 1.0f, 0.f,
-					e.m_PositionWS[0], e.m_PositionWS[1],
-					e.m_PositionWS[2], 1.0f
-				);
-				temp->GetRootNode()->SetLocalTransform(sphereTransform);
-				lightSphere.push_back(temp);
-			}
-			break;
+		{
+			temp = m_pRenderDevice->CreateSphere(1.0f);
+			HMatrix sphereTransform(
+				1.0f, 0, 0, 0,
+				0, 1.0f, 0, 0,
+				0, 0, 1.0f, 0.f,
+				e.m_PositionWS[0], e.m_PositionWS[1],
+				e.m_PositionWS[2], 1.0f
+			);
+			temp->GetRootNode()->SetLocalTransform(sphereTransform);
+			lightSphere.push_back(temp);
+		}
+		break;
 		case Light::LightType::Directional:
-			{
-				//e.m_DirectionWS
-				temp = m_pRenderDevice->CreateCylinder(1.f, 1.0f, 2.0f, AVector(1.0f, 1.0f, 1.0f));
-				HMatrix sphereTransform(
-					1.0f, 0, 0, 0,
-					0, 1.0f, 0, 0,
-					0, 0, 1.0f, 0.f,
-					e.m_PositionWS[0], e.m_PositionWS[1],
-					e.m_PositionWS[2], 1.0f
-				);
+		{
+			//e.m_DirectionWS
+			temp = m_pRenderDevice->CreateCylinder(1.f, 1.0f, 2.0f, AVector(1.0f, 1.0f, 1.0f));
+			HMatrix sphereTransform(
+				1.0f, 0, 0, 0,
+				0, 1.0f, 0, 0,
+				0, 0, 1.0f, 0.f,
+				e.m_PositionWS[0], e.m_PositionWS[1],
+				e.m_PositionWS[2], 1.0f
+			);
 
-				temp->GetRootNode()->SetLocalTransform(sphereTransform);
-				lightSphere.push_back(temp);
-			}
-			break;
+			temp->GetRootNode()->SetLocalTransform(sphereTransform);
+			lightSphere.push_back(temp);
+		}
+		break;
 		case Light::LightType::Spot:
-			{
-				temp = m_pRenderDevice->CreateCylinder(0.f, 1.0f, 2.0f, AVector(e.m_DirectionWS));
-				HMatrix sphereTransform(
-					1.0f, 0, 0, 0,
-					0, 1.0f, 0, 0,
-					0, 0, 1.0f, 0.f,
-					e.m_PositionWS[0], e.m_PositionWS[1],
-					e.m_PositionWS[2], 1.0f
-				);
-				temp->GetRootNode()->SetLocalTransform(sphereTransform);
-				lightSphere.push_back(temp);
-			}
-			break;
+		{
+			temp = m_pRenderDevice->CreateCylinder(0.f, 1.0f, 2.0f, AVector(e.m_DirectionWS));
+			HMatrix sphereTransform(
+				1.0f, 0, 0, 0,
+				0, 1.0f, 0, 0,
+				0, 0, 1.0f, 0.f,
+				e.m_PositionWS[0], e.m_PositionWS[1],
+				e.m_PositionWS[2], 1.0f
+			);
+			temp->GetRootNode()->SetLocalTransform(sphereTransform);
+			lightSphere.push_back(temp);
+		}
+		break;
 		default:
 			break;
 		}
@@ -136,15 +153,8 @@ void Lights::CreateScene()
 	fs::path sceneFilePath(g_Setting.SceneFileName);
 
 	mainScene->LoadFromFile((configFilePath.parent_path() / sceneFilePath).wstring());
-	mProgressWindow->CloseWindows();
 
-	mRenderWindow->ShowWindow();
-	/*const HMatrix CubeTransform(
-		g_Setting.SceneScaleFactor, 0, 0, 0,
-		0, g_Setting.SceneScaleFactor, 0, 0,
-		0, 0, g_Setting.SceneScaleFactor, 0.f,
-		0, -1.f, 0.f, 1
-	);*/
+#if defined(VOXEL)
 	const HMatrix CubeTransform(
 		g_Setting.SceneScaleFactor, 0, 0, 0,
 		0, g_Setting.SceneScaleFactor, 0, 0,
@@ -152,6 +162,14 @@ void Lights::CreateScene()
 		0, 0.f, 0.0f, 1
 	);
 	mainScene->GetRootNode()->SetLocalTransform(CubeTransform);
+#else
+	const HMatrix CubeTransform(
+		g_Setting.SceneScaleFactor, 0, 0, 0,
+		0, g_Setting.SceneScaleFactor, 0, 0,
+		0, 0, g_Setting.SceneScaleFactor, 0.f,
+		0, -1.f, 0.f, 1
+	);
+#endif
 	opaqueScene.push_back(mainScene);
 	//transScene
 	vector<shared_ptr<Scene>> transScene;
@@ -170,15 +188,15 @@ void Lights::CreateScene()
 
 	std::shared_ptr<Scene> ground = m_pRenderDevice->CreatePlane(10.0f);
 	const HMatrix groundTransform(g_Setting.SceneScaleFactor, 0, 0, 0,
-	                        0, g_Setting.SceneScaleFactor, 0, 0,
-	                        0, 0, g_Setting.SceneScaleFactor, 0.f,
-	                        0, -2.0f, 0.f, 1);
+		0, g_Setting.SceneScaleFactor, 0, 0,
+		0, 0, g_Setting.SceneScaleFactor, 0.f,
+		0, -2.0f, 0.f, 1);
 	ground->GetRootNode()->SetLocalTransform(groundTransform);
 	opaqueScene.push_back(ground);
 
 	auto lightEffect = std::make_shared<LightEffect>(mRenderWindow, m_pRenderDevice, opaqueScene, transScene);
 	mInstance.push_back(lightEffect->CreateInstance());
-#if !defined(VOXEL)
+#if defined(VOXEL)
 	std::shared_ptr<VoxelEffect> voxelEffect = std::make_shared<VoxelEffect>(mRenderWindow, m_pRenderDevice, mainScene);
 	mInstance.push_back(voxelEffect->CreateInstance());
 #endif

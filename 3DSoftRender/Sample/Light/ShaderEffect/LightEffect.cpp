@@ -17,7 +17,7 @@
 using namespace Hikari;
 
 LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<Renderer> renderer,
-                         vector<std::shared_ptr<Scene>> scene, vector<shared_ptr<Scene>> transScene)
+	vector<std::shared_ptr<Scene>> scene, vector<shared_ptr<Scene>> transScene)
 {
 	auto vertexShader = renderer->CreateShader();
 	auto pixelShader = renderer->CreateShader();
@@ -32,22 +32,22 @@ LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<
 	std::shared_ptr<LightsPass> light_pass_font;
 
 	const BlendState::BlendMode alpha_blending(true, false, BlendState::BlendFactor::SrcAlpha,
-	                                           BlendState::BlendFactor::OneMinusSrcAlpha);
+		BlendState::BlendFactor::OneMinusSrcAlpha);
 	const BlendState::BlendMode additive_blending(true, false, BlendState::BlendFactor::One,
-	                                              BlendState::BlendFactor::One);
+		BlendState::BlendFactor::One);
 
 	const DepthStencilState::DepthMode disable_depth_writes(true, DepthStencilState::DepthWrite::Disable);
 	// ReSharper disable once CppDeclaratorNeverUsed
 	const DepthStencilState::DepthMode disable_depth_testing(false);
 
 	vertexShader->LoadShaderFromFile(Shader::VertexShader, "../Assets/shaders/ForwardRendering.hlsl",
-	                                 Shader::ShaderMacros(), "VS_main", "latest");
+		Shader::ShaderMacros(), "VS_main", "latest");
 	pixelShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/ForwardRendering.hlsl",
-	                                Shader::ShaderMacros(), "PS_main", "latest");
+		Shader::ShaderMacros(), "PS_main", "latest");
 	lightPixelShaser->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/ForwardRendering.hlsl",
-	                                     Shader::ShaderMacros(), "PS_light", "latest");
+		Shader::ShaderMacros(), "PS_light", "latest");
 	oitPixelShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/OIT/oit.hlsl", Shader::ShaderMacros(),
-	                                   "PS_main", "latest");
+		"PS_main", "latest");
 	//Opaque Pass
 	{
 		std::shared_ptr<PipelineState> g_OpaquePipeline = renderer->CreatePipelineState();
@@ -59,16 +59,16 @@ LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<
 
 		std::shared_ptr<SamplerState> sampler = renderer->CreateSamplerState();
 		sampler->SetFilter(SamplerState::MinFilter::MinLinear, SamplerState::MagFilter::MagLinear,
-		                   SamplerState::MipFilter::MipLinear);
+			SamplerState::MipFilter::MipLinear);
 		sampler->SetWrapMode(SamplerState::WrapMode::Repeat, SamplerState::WrapMode::Repeat,
-		                     SamplerState::WrapMode::Repeat);
+			SamplerState::WrapMode::Repeat);
 
 		auto iter = scene.begin();
 		for (; iter != scene.end(); ++iter)
 		{
 			light_pass = std::make_shared<LightsPass>(renderer, *iter, g_OpaquePipeline);
 			light_pass->SetSampler(sampler, "LinearRepeatSampler");
-			//forwardTechnique->AddPass(lightPass);
+			forwardTechnique->AddPass(light_pass);
 			light_pass.reset();
 		}
 		sampler.reset();
@@ -85,7 +85,7 @@ LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<
 		auto iter = transScene.begin();
 
 		auto oitPass = make_shared<OITPass>(renderer, scene, oitPipeline);
-		forwardTechnique->AddPass(oitPass);
+		//forwardTechnique->AddPass(oitPass);
 		oitPass.reset();
 	}
 

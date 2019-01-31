@@ -68,7 +68,7 @@ void MeshDx::Render(RenderEventArgs& renderArgs)
 
 
 
-	if (m_index_buffer_ != nullptr && (m_VertexBuffers.size() == 2))
+	if (m_index_buffer_ != nullptr && m_index_buffer_->get_instanced())
 	{
 		m_index_buffer_->bind(0);
 		m_pDeviceContext->DrawIndexedInstanced(m_index_buffer_->get_element_count(),

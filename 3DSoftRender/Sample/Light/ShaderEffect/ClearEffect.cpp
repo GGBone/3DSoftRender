@@ -18,8 +18,7 @@ ClearEffect::ClearEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<
 	InsertTechnique(mTechnique);
 }
 
-ClearEffect::~ClearEffect()
-= default;
+ClearEffect::~ClearEffect() = default;
 
 std::shared_ptr<VisualEffectInstance> ClearEffect::CreateInstance()
 {

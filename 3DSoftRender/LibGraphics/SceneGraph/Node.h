@@ -20,7 +20,6 @@ namespace Hikari
 		virtual ~Node();
 
 		inline int GetNumChildren() const;
-		const std::string& GetName() const;
 		const HMatrix GetLocalTransform() const;
 		void SetLocalTransform(const HMatrix& matrix);
 
@@ -49,8 +48,6 @@ namespace Hikari
 		typedef std::vector<std::shared_ptr<Node>> NodeList;
 		typedef std::multimap<std::string, std::shared_ptr<Node>> NodeNameMap;
 		typedef std::vector<std::shared_ptr<Mesh>> MeshList;
-
-		std::string m_Name;
 
 		std::shared_ptr<Node> m_pParent;
 

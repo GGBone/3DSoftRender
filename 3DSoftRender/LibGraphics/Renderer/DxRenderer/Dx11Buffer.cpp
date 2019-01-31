@@ -5,16 +5,16 @@
 using namespace Hikari;
 
 BufferDX11::BufferDX11(const shared_ptr<DirectRenderer>& pDevice, const void* data, UINT count, UINT stride,
-                       ShaderParameter::ShaderInputParameter shader_param)
+	ShaderParameter::ShaderInputParameter shader_param)
 	: m_pDevice(pDevice->GetDevice()),
-	  m_pSRV(nullptr),
-	  m_pUAV(nullptr),
-	  m_shader_input_parameter_(shader_param),
-	  m_uiStride(stride),
-	  m_BindFlags(0),
-	  m_uiCount(count),
-	  m_uiSlot(0),
-	  m_bUAV(true)
+	m_pSRV(nullptr),
+	m_pUAV(nullptr),
+	m_shader_input_parameter_(shader_param),
+	m_uiStride(stride),
+	m_BindFlags(0),
+	m_uiCount(count),
+	m_uiSlot(0),
+	m_bUAV(true)
 {
 	HRESULT hr;
 	D3D11_BUFFER_DESC bd;
@@ -75,7 +75,7 @@ bool BufferDX11::bind(unsigned int id, Shader::ShaderType shaderType)
 		ShaderInputType::Texture));
 	if ((static_cast<int>(gpu_rw) == static_cast<int>(GPUAccess::Read)))
 	{
-		ID3D11ShaderResourceView* srv[] = {m_pSRV};
+		ID3D11ShaderResourceView* srv[] = { m_pSRV };
 
 		switch (shaderType)
 		{
@@ -101,7 +101,7 @@ bool BufferDX11::bind(unsigned int id, Shader::ShaderType shaderType)
 	}
 	else if ((static_cast<int>(gpu_rw) & static_cast<int>(GPUAccess::Write)) != 0)
 	{
-		ID3D11UnorderedAccessView* uav[] = {m_pUAV};
+		ID3D11UnorderedAccessView* uav[] = { m_pUAV };
 		switch (shaderType)
 		{
 		case Shader::ComputeShader:
@@ -117,8 +117,8 @@ bool BufferDX11::bind(unsigned int id, Shader::ShaderType shaderType)
 
 void BufferDX11::unbind(unsigned int ID, Shader::ShaderType shaderType)
 {
-	ID3D11UnorderedAccessView* uav[] = {nullptr};
-	ID3D11ShaderResourceView* srv[] = {nullptr};
+	ID3D11UnorderedAccessView* uav[] = { nullptr };
+	ID3D11ShaderResourceView* srv[] = { nullptr };
 	const auto parameterType = m_shader_input_parameter_.m_parameterType;
 	if (parameterType == ShaderParameterDx11::ShaderInputType::Buffer)
 	{
@@ -187,7 +187,7 @@ void BufferDX11::clear()
 {
 	if (m_pUAV)
 	{
-		UINT clearColor[4] = {0, 0, 0, 0};
+		UINT clearColor[4] = { 0, 0, 0, 0 };
 		m_pDeviceContext->ClearUnorderedAccessViewUint(m_pUAV, clearColor);
 	}
 }

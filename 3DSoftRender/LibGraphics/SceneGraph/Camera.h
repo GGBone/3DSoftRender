@@ -19,7 +19,8 @@ namespace Hikari
 		XMFLOAT3 GetPosition() const;
 		void SetPosition(float x, float y, float z);
 		void SetPosition(const XMFLOAT3& v);
-
+		void set_rotation(float x, float y, float z);
+		void set_pivotDistance(float dis);
 		// Get camera basis vectors.
 		XMVECTOR GetRightXM() const;
 		XMFLOAT3 GetRight() const;
@@ -42,11 +43,11 @@ namespace Hikari
 		float GetFarWindowHeight() const;
 
 		// set perspective frustum.
-		void SetProjectRH(float fovY, float aspect, float zn, float zf);
-		void SetProjectLH(float fovY, float aspect, float zn, float zf);
+		void set_project_rh(float fovY, float aspect, float zn, float zf);
+		void set_project_lh(float fovY, float aspect, float zn, float zf);
 
 		//set orthographic projection using screen space coord
-		void SetOrthoGraphic(float width, float height, float m_fNear, float m_fFar);
+		void set_ortho_graphic(float width, float height, float m_fNear, float m_fFar);
 
 		// Define camera space via LookAt parameters.
 		void LookAt(FXMVECTOR pos, FXMVECTOR target, FXMVECTOR worldUp);
@@ -64,7 +65,7 @@ namespace Hikari
 		// Rotate the camera.
 		void Pitch(float angle);
 		void RotateY(float angle);
-
+		void Roll(float angle);
 		// After modifying camera position/orientation, call to rebuild the view matrix.
 		void UpdateViewMatrix();
 

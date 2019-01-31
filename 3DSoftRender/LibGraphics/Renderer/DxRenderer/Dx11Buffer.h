@@ -6,7 +6,7 @@
 namespace Hikari
 {
 	class DirectRenderer;
-	class BufferDX11 : public Buffer,public enable_shared_from_this<BufferDX11>
+	class BufferDX11 : public Buffer, public enable_shared_from_this<BufferDX11>
 	{
 	public:
 		typedef Buffer base;

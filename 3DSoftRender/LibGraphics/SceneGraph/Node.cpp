@@ -20,10 +20,6 @@ inline int Node::GetNumChildren() const
 	return m_Children.size();
 }
 
-const std::string& Node::GetName() const
-{
-	return m_Name;
-}
 
 const HMatrix Node::GetLocalTransform() const
 {
@@ -62,7 +58,7 @@ void Node::AttachChild(std::shared_ptr<Node> child)
 			HMatrix worldTransform = child->GetWorldTransform();
 
 			child->m_pParent = shared_from_this();
-			HMatrix localTransform = GetInverseWorldTranform();
+			HMatrix localTransform = GetInverseWorldTranform() * worldTransform;
 			child->SetLocalTransform(localTransform);
 			m_Children.push_back(child);
 			if (!child->GetName().empty())

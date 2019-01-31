@@ -63,7 +63,7 @@ void ProgressWindow::UpdateProgress(ProgressEventArgs& e)
 ProgressWindow::ProgressWindow(WindowApplicationBase& app, const std::string& name, HWND hwnd, int width, int height,
                                float totalProgress)
 	:
-	base(app, "", width, height),
+	base(app, name, width, height),
 	m_hParentWindow(hwnd),
 	m_fTotalProgress(totalProgress),
 	m_fCurrentProgress(0.0f),

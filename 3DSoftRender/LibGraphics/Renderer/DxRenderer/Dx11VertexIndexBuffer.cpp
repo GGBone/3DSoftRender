@@ -5,12 +5,13 @@
 using namespace Hikari;
 
 VertexIndexBufferDx11::VertexIndexBufferDx11(std::shared_ptr<DirectRenderer>& render, UINT bindFlags, const void* data,
-                                             size_t count, UINT stride)
+	size_t count, UINT stride)
 	:
 	m_uiStride(stride),
 	m_BindFlags(bindFlags),
 	m_uiCount(static_cast<UINT>(count)),
-	m_bIsBound(false)
+	m_bIsBound(false),
+	m_bInstanced(false)
 {
 	m_pDevice = (render->GetDevice());
 
@@ -37,9 +38,9 @@ VertexIndexBufferDx11::~VertexIndexBufferDx11()
 
 void VertexIndexBufferDx11::bind(unsigned int id)
 {
-	ID3D11Buffer* buffers[] = {m_pBuffer};
-	UINT offset[] = {0};
-	UINT stride[] = {m_uiStride};
+	ID3D11Buffer* buffers[] = { m_pBuffer };
+	UINT offset[] = { 0 };
+	UINT stride[] = { m_uiStride };
 	switch (m_BindFlags)
 	{
 	case D3D11_BIND_VERTEX_BUFFER:
@@ -57,7 +58,7 @@ void VertexIndexBufferDx11::bind(unsigned int id)
 
 void VertexIndexBufferDx11::unbind(unsigned int id)
 {
-	ID3D11Buffer* buffers[] = {nullptr};
+	ID3D11Buffer* buffers[] = { nullptr };
 
 	switch (m_BindFlags)
 	{

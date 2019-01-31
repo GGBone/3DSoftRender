@@ -11,20 +11,20 @@ using namespace Hikari;
 bool FlagOctreePass::init = false;
 
 FlagOctreePass::FlagOctreePass(std::shared_ptr<Renderer> render, std::shared_ptr<Scene>
-                               scene, std::shared_ptr<PipelineState> pipeline)
+	scene, std::shared_ptr<PipelineState> pipeline)
 	: m_cbInfo(nullptr),
-	  m_groupInfo(nullptr),
-	  m_BrickInfo(nullptr),
-	  m_cbAttri(nullptr), //Initialize when m_TotalNode is set.
-	  m_NumNode(nullptr),
-	  m_BrickInedx(nullptr),
-	  m_NodeIndex(nullptr),
-	  m_visualIndex(nullptr),
-	  m_NodePool(nullptr), //dynamic create
-	  m_visualPool(nullptr),
-	  m_Pipeline(pipeline),
-	  m_Scene(scene),
-	  m_RenderDevice(render)
+	m_groupInfo(nullptr),
+	m_BrickInfo(nullptr),
+	m_cbAttri(nullptr), //Initialize when m_TotalNode is set.
+	m_NumNode(nullptr),
+	m_BrickInedx(nullptr),
+	m_NodeIndex(nullptr),
+	m_visualIndex(nullptr),
+	m_NodePool(nullptr), //dynamic create
+	m_visualPool(nullptr),
+	m_Pipeline(pipeline),
+	m_Scene(scene),
+	m_RenderDevice(render)
 {
 	CBInfo cbInfo{};
 	m_cbInfo = m_RenderDevice->CreateConstantBuffer(cbInfo);
@@ -41,7 +41,7 @@ FlagOctreePass::FlagOctreePass(std::shared_ptr<Renderer> render, std::shared_ptr
 	XMMATRIX matrix;
 	m_cbTrans = m_RenderDevice->CreateConstantBuffer(matrix);
 
-	UINT i[] = {0};
+	UINT i[] = { 0 };
 	//bind uav Views
 	const ShaderParameter::ShaderInputParameter visual_index_buffer = {
 		ShaderParameter::ShaderInputType::Buffer,
@@ -273,7 +273,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 			m_cbInfo->set(&cbInfo, sizeof(cbInfo));
 			UINT sqrtVoxel = (UINT)std::sqrtf((float)m_TotalVoxel);
 
-			UINT dd[] = {PAD16(sqrtVoxel) / VoxelDispatchUnit, PAD16(sqrtVoxel) / VoxelDispatchUnit, 1};
+			UINT dd[] = { PAD16(sqrtVoxel) / VoxelDispatchUnit, PAD16(sqrtVoxel) / VoxelDispatchUnit, 1 };
 
 			cbGroup.groupInfo[0] = dd[0];
 			cbGroup.groupInfo[1] = dd[1];
@@ -310,7 +310,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 			mNumNodePerLevel.push_back(((UINT*)data)[level]);
 
 			UINT sqrNode = (UINT)std::sqrtf((float)mNumNodePerLevel[level]);
-			UINT ddd[] = {sqrNode + 1, sqrNode + 1, 1};
+			UINT ddd[] = { sqrNode + 1, sqrNode + 1, 1 };
 			cbInfo.curLevel = level;
 			cbInfo.curNode = mNumNodePerLevel[level];
 			cbInfo.sumVoxels = m_TotalVoxel;
@@ -334,14 +334,14 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 
 			m_Pipeline->unbind();
 		}
-		 
+
 		//Create brickPool
 		m_TotalBrick = *(UINT*)m_BrickInedx->get_data();
 
 		UINT r = (UINT)std::pow(m_TotalBrick, 0.33333334f);
 		while (r * r * r < m_TotalBrick)
 			++r;
-		UINT pp[3] = {r, r, r};
+		UINT pp[3] = { r, r, r };
 		//update brick info
 		CBBrickInfo cbrickInfo;
 		cbrickInfo.extent[0] = pp[0];
@@ -377,7 +377,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 		}
 		m_Pipeline->SetShader(Shader::ShaderType::ComputeShader, m_shaders[2]);
 		UINT sqrVoxel = (UINT)std::sqrtf((float)m_TotalVoxel);
-		UINT dd[] = {PAD16(sqrVoxel) / VoxelDispatchUnit,PAD16(sqrVoxel) / VoxelDispatchUnit, 1};
+		UINT dd[] = { PAD16(sqrVoxel) / VoxelDispatchUnit,PAD16(sqrVoxel) / VoxelDispatchUnit, 1 };
 		//update CBGroup
 
 		cbGroup.groupInfo[0] = dd[0];
@@ -408,7 +408,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 		{
 			m_Pipeline->SetShader(Shader::ShaderType::ComputeShader, m_shaders[3]);
 			UINT sqrNode = (UINT)std::sqrtf((float)mNumNodePerLevel[level]);
-			UINT ddd[] = {sqrNode + 1, sqrNode + 1, 1};
+			UINT ddd[] = { sqrNode + 1, sqrNode + 1, 1 };
 			CBInfo cbinfo;
 			cbinfo.curLevel = level;
 			cbinfo.totalLevel = m_TotalLevel;
@@ -531,7 +531,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 		};
 		if (!m_visualPool)
 			m_visualPool = m_RenderDevice->CreateStructuredBuffer(nullptr, mNumNodePerLevel[CURLEVEL],
-			                                                      sizeof(VisualPackage), num_node_per_level);
+				sizeof(VisualPackage), num_node_per_level);
 		else
 			m_visualPool->Clear();
 		//update cbuffer
@@ -572,6 +572,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 			instances.push_back(i);
 		}
 		m_InstanceBuffer = m_RenderDevice->CreateVertexBuffer(instances);
+		m_InstanceBuffer->set_instanced(true);
 		instantBind = std::make_shared<BufferBinding>("INDEX", 0);
 
 		mCubeMesh->AddVertexBuffer(*instantBind, m_InstanceBuffer);
@@ -581,7 +582,7 @@ void FlagOctreePass::Render(RenderEventArgs& e)
 
 		init = true;
 	}
-	
+
 	m_Pipeline->GetRasterizerState().SetViewport(Viewport(0, 0, 1280, 760, 0.0f, 1.0f));
 	//m_Pipeline->GetRasterizerState().SetFillMode(RasterizerState::FillMode::WireFrame, RasterizerState::FillMode::WireFrame);
 	m_Pipeline->GetRasterizerState().SetPirmitiveMode(RasterizerState::PrimitiveMode::LINE_LIST);

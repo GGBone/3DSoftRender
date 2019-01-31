@@ -23,6 +23,8 @@ namespace Hikari
 
 		virtual void bind(unsigned int id) = 0;
 		virtual void unbind(unsigned int id) = 0;
+		virtual void set_instanced(bool) = 0;
+		virtual bool get_instanced()const = 0;
 	};
 
 	template <typename T>
