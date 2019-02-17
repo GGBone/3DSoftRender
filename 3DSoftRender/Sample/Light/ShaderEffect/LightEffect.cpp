@@ -13,7 +13,8 @@
 #include "Resource/DepthStencilState.h"
 #include "LightPass.h"
 #include "OITPass.h"
-
+#include "ShadowPass.h"
+#include "ClearRenderTargetPass.h"
 using namespace Hikari;
 
 LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<Renderer> renderer,
@@ -30,6 +31,8 @@ LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<
 	std::shared_ptr<LightsPass> light_pass;
 	std::shared_ptr<TransparentPass> transparent_pass;
 	std::shared_ptr<LightsPass> light_pass_font;
+	std::shared_ptr<ClearRenderTargetPass> clear_pass;
+	std::shared_ptr<ShadowPass> shadow_pass;
 
 	const BlendState::BlendMode alpha_blending(true, false, BlendState::BlendFactor::SrcAlpha,
 		BlendState::BlendFactor::OneMinusSrcAlpha);
@@ -48,13 +51,55 @@ LightEffect::LightEffect(std::shared_ptr<RenderWindow> rWindow, std::shared_ptr<
 		Shader::ShaderMacros(), "PS_light", "latest");
 	oitPixelShader->LoadShaderFromFile(Shader::PixelShader, "../Assets/shaders/OIT/oit.hlsl", Shader::ShaderMacros(),
 		"PS_main", "latest");
+
+	//prepare
+	auto shadow_map_texture = renderer->CreateTexture2D(2048, 2048, 1, { Texture::Components::DepthStencil,
+		Texture::Type::UnsignedNormalized,1,0,0,0,0,24,8
+	});
+	auto shadow_render_target = renderer->CreateRenderTarget();
+	shadow_render_target->AttachTexture(RenderTarget::AttachmentPoint::Depth, shadow_map_texture);
+	{
+		//Clear
+		auto clear_pass = make_shared<ClearRenderTargetPass>(shadow_render_target,ClearFlags::Depth,Float4(0.45,0.45,0.45,1.0));
+		forwardTechnique->AddPass(clear_pass);
+		clear_pass.reset();
+	}
+
+	{
+		//shadow
+		auto shadow_pipeline = renderer->CreatePipelineState();
+		shadow_pipeline->SetShader(Shader::VertexShader, vertexShader);
+		shadow_pipeline->SetShader(Shader::PixelShader, nullptr);
+		shadow_pipeline->SetRenderTarget(shadow_render_target);
+		shadow_pipeline->GetRasterizerState().SetViewport({ 0.f, 0.f, 2048.f, 2048.f, 0.0f, 1.0f });
+		auto iter = scene.begin();
+		for (; iter != scene.end(); ++iter)
+		{
+			shadow_pass = make_shared<ShadowPass>(renderer, *iter, shadow_pipeline);
+			forwardTechnique->AddPass(shadow_pass);
+			shadow_pass.reset();
+		}
+	}
+
+
+	//ClearColor
+	{
+
+
+		auto clear_pass = make_shared<ClearRenderTargetPass>(rWindow->GetRenderTarget(), ClearFlags::All, Float4(0.45, 0.45, 0.45, 1.0));
+		forwardTechnique->AddPass(clear_pass);
+		clear_pass.reset();
+	}
+
 	//Opaque Pass
 	{
 		std::shared_ptr<PipelineState> g_OpaquePipeline = renderer->CreatePipelineState();
 		g_OpaquePipeline->SetShader(Shader::VertexShader, vertexShader);
 		g_OpaquePipeline->SetShader(Shader::PixelShader, lightPixelShaser);
 
-		g_OpaquePipeline->SetRenderTarget(rWindow->GetRenderTarget());
+		const auto render_target = rWindow->GetRenderTarget();
+		g_OpaquePipeline->SetRenderTarget(render_target);
+		g_OpaquePipeline->GetRasterizerState().SetViewport({ 0.f, 0.f,1280.f, 760.f, 0.0f,1.0f });
 
 		std::shared_ptr<SamplerState> sampler = renderer->CreateSamplerState();
 		sampler->SetFilter(SamplerState::MinFilter::MinLinear, SamplerState::MagFilter::MagLinear,

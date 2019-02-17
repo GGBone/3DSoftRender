@@ -30,11 +30,17 @@ RWBuffer<int> brickIndex;
 RWBuffer<int> numNode;
 
 RWBuffer<int> nodeIndex;
+//Test
+RWBuffer<float4> gOutput;
+//End Test
 
-
-[numthreads(1, 1, 1)]
+[numthreads(32, 1, 1)]
 void main(uint3 DTid : SV_DispatchThreadID)
 {
+    //Test
+    gOutput[DTid.x] = float4(0, 0, 0, 0);
+    //End Test
+
     uint index = DTid.x + DTid.y * groupSize.x;
     if (index >= curNode)
         return;

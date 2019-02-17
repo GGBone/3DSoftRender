@@ -83,7 +83,10 @@ void PipelineStateDX11::bind()
 	{
 		m_RenderTarget->Bind();
 	}
-
+	else
+	{
+		DebugBreak();
+	}
 	m_BlendState.bind();
 	m_RasterizerState.Bind();
 	m_DepthStencilState.Bind();

@@ -30,6 +30,10 @@ LightsPass::~LightsPass()
 
 void LightsPass::PreRender(RenderEventArgs& e)
 {
+	if (e.PipelineState)
+	{
+		DebugBreak();
+	}
 	XMMATRIX viewMatrix = e.Camera->View();
 
 	// Update the viewspace vectors of the light.

@@ -29,9 +29,52 @@ Lights::Lights()
 	SetHeight(height);
 }
 
+void Lights::KeyPress(KeyEventArgs& e)
+{
+	static float speed = 1.f;
+	switch (e.Key)
+	{
+	case KeyCode::W:
+		mCamera->Walk(speed * 0.2f);
 
+		break;
+	case KeyCode::S:
+		mCamera->Walk(-speed * 0.2f);
+
+		break;
+
+	case KeyCode::A:
+		mCamera->Strafe(-speed * 0.2f);
+
+		break;
+
+	case KeyCode::D:
+		mCamera->Strafe(speed * 0.2f);
+
+		break;
+	default:
+		break;
+	}
+	mCamera->UpdateViewMatrix();
+}
+void Lights::MouseButtonReleased(MouseButtonEventArgs & e)
+{
+	mCamera->OnMouseReleased(e);
+	mCamera->UpdateViewMatrix();
+}
+void Lights::MouseButtonPressed(MouseButtonEventArgs & e)
+{
+	base::MouseButtonPressed(e);
+	if (e.RightButton)
+	{
+		mCamera->OnMousePressed(e);
+	}
+
+	mCamera->UpdateViewMatrix();
+}
 bool Lights::OnInitialize(EventArgs& e)
 {
+	mCamera = new Camera;
 	if (!base::OnInitialize(e))
 		return false;
 	
@@ -49,17 +92,39 @@ bool Lights::OnInitialize(EventArgs& e)
 #endif
 	mCamera->UpdateViewMatrix();
 
-	std::shared_ptr<ClearEffect> clearEffect = std::make_shared<ClearEffect>(mRenderWindow, m_pRenderDevice);
-	mInstance.push_back(clearEffect->CreateInstance());
+	/*std::shared_ptr<ClearEffect> clearEffect = std::make_shared<ClearEffect>(mRenderWindow, m_pRenderDevice);
+	mInstance.push_back(clearEffect->CreateInstance());*/
 	CreateScene();
 	//CreatePlane();
-	CreateLightShape();
-	CreateAxis();
+	//CreateLightShape();
+	//CreateAxis();
 
 	mProgressWindow->CloseWindows();
 	mRenderWindow->ShowWindow();
 
 	return true;
+}
+
+void Lights::OnRender(RenderEventArgs & e)
+{
+	e.Camera = mCamera;
+	base::OnRender(e);
+}
+
+void Lights::MouseMoved(MouseMotionEventArgs & e)
+{
+	base::MouseMoved(e);
+	if (e.LeftButton)
+	{
+		mCamera->OnArcRotate(e);
+	}
+
+	if (e.RightButton)
+	{
+		mCamera->OnMouseMoved(e);
+	}
+
+	mCamera->UpdateViewMatrix();
 }
 
 Lights::~Lights()
@@ -70,7 +135,7 @@ void Lights::CreateAxis()
 
 	auto g_Axis = m_pRenderDevice->CreateAxis(0.01f, 0.1f);
 	g_Axis->GetRootNode()->SetLocalTransform(HMatrix::IDENTITY);
-	auto axisEffect = make_shared<DefaultEffect>(m_pRenderDevice, g_Axis);
+	auto axisEffect = make_shared<DefaultEffect>(mRenderWindow, m_pRenderDevice, g_Axis);
 	
 	mInstance.push_back(axisEffect->CreateInstance());
 }
@@ -140,7 +205,7 @@ void Lights::CreateLightShape()
 	vector<shared_ptr<Scene>> transScene;
 	for (int i = 0; i != g_NumLightToGenerate; ++i)
 	{
-		auto sphereEffect = std::make_shared<DefaultEffect>(m_pRenderDevice, lightSphere[0]);
+		auto sphereEffect = std::make_shared<DefaultEffect>(mRenderWindow, m_pRenderDevice, lightSphere[0]);
 		mInstance.push_back(sphereEffect->CreateInstance());
 		sphereEffect.reset();
 	}

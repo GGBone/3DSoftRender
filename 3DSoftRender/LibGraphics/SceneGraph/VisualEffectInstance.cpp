@@ -18,6 +18,7 @@ const std::shared_ptr<VisualEffect> VisualEffectInstance::GetEffect() const
 
 void VisualEffectInstance::Render(RenderEventArgs& e)
 {
+	RenderEventArgs render_args(*this, e.ElapsedTime, e.TotalTime, e.FrameCounter, e.Camera, e.PipelineState);
 	std::shared_ptr<VisualTechnique> technique;
 	size_t size = mEffect->GetTechniqueSize();
 	for (size_t i = 0; i < size; i++)
@@ -26,9 +27,9 @@ void VisualEffectInstance::Render(RenderEventArgs& e)
 		size_t passNum = technique->GetNumPass();
 		for (size_t j = 0; j < passNum; j++)
 		{
-			technique->GetPass(j)->PreRender(e);
-			technique->GetPass(j)->Render(e);
-			technique->GetPass(j)->PostRender(e);
+			technique->GetPass(j)->PreRender(render_args);
+			technique->GetPass(j)->Render(render_args);
+			technique->GetPass(j)->PostRender(render_args);
 		}
 	}
 }

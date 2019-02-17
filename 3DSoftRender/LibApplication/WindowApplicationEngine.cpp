@@ -9,45 +9,16 @@ ConfigurationSettings WindowApplicationEngine::g_Setting;
 WindowApplicationEngine::WindowApplicationEngine(const char* windowTitle, int xPos, int yPos, int width, int height)
 	:
 	WindowApplicationBase(windowTitle, xPos, yPos, width, height),
-	mCamera(nullptr),
 	mainScene(nullptr)
 
 {
 }
 
 
-void WindowApplicationEngine::KeyPress(KeyEventArgs& e)
-{
-	static float speed = 1.f;
-	switch (e.Key)
-	{
-	case KeyCode::W:
-		mCamera->Walk(speed * 0.2f);
 
-		break;
-	case KeyCode::S:
-		mCamera->Walk(-speed * 0.2f);
-
-		break;
-
-	case KeyCode::A:
-		mCamera->Strafe(-speed * 0.2f);
-
-		break;
-
-	case KeyCode::D:
-		mCamera->Strafe(speed * 0.2f);
-
-		break;
-	default:
-		break;
-	}
-	mCamera->UpdateViewMatrix();
-}
 
 WindowApplicationEngine::~WindowApplicationEngine()
 {
-	delete mCamera;
 
 	for (Event::ConnectionType& c : m_EventConnections)
 	{
@@ -59,7 +30,6 @@ bool WindowApplicationEngine::OnInitialize(EventArgs& e)
 {
 	if (!WindowApplicationBase::OnInitialize(e))
 		return false;
-	mCamera = new Camera;
 
 	m_EventConnections.push_back(
 		mRenderWindow->m_PreRender += boost::bind(&WindowApplicationEngine::PreRender, this, _1));
@@ -91,10 +61,13 @@ void WindowApplicationEngine::OnTerminate(EventArgs& e)
 void WindowApplicationEngine::PreRender(RenderEventArgs& e)
 {
 }
+void Hikari::WindowApplicationEngine::KeyPress(KeyEventArgs & e)
+{
+
+}
 
 void WindowApplicationEngine::Render(RenderEventArgs& e)
 {
-	e.Camera = mCamera;
 	for each (std::shared_ptr<VisualEffectInstance> var in mInstance)
 	{
 		var->Render(e);
@@ -115,33 +88,17 @@ void WindowApplicationEngine::QuitLights(WindowCloseEventArgs& e)
 
 void WindowApplicationEngine::MouseMoved(MouseMotionEventArgs& e)
 {
-	if (e.LeftButton)
-	{
-		mCamera->OnArcRotate(e);
-	}
-
-	if (e.RightButton)
-	{
-		mCamera->OnMouseMoved(e);
-	}
-
-	mCamera->UpdateViewMatrix();
+	
 }
 
 void WindowApplicationEngine::MouseButtonPressed(MouseButtonEventArgs& e)
 {
-	if (e.RightButton)
-	{
-		mCamera->OnMousePressed(e);
-	}
-
-	mCamera->UpdateViewMatrix();
+	
 }
 
 void WindowApplicationEngine::MouseButtonReleased(MouseButtonEventArgs& e)
 {
-	mCamera->OnMouseReleased(e);
-	mCamera->UpdateViewMatrix();
+	
 }
 
 void WindowApplicationEngine::MouseWheel(MouseWheelEventArgs& e)

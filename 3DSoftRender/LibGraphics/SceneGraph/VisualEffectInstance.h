@@ -8,7 +8,7 @@ namespace Hikari
 	class ShaderParameter;
 	class ShaderFloat;
 
-	class VisualEffectInstance
+	class VisualEffectInstance : public Object
 	{
 	public:
 		VisualEffectInstance(std::shared_ptr<VisualEffect> effect, int techniqueIndex);

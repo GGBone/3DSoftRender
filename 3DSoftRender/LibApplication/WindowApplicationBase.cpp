@@ -161,12 +161,13 @@ void WindowApplicationBase::OnUpdate(UpdateEventArgs& e)
 
 void WindowApplicationBase::OnRender(RenderEventArgs& e)
 {
+	RenderEventArgs render_args(*this, e.ElapsedTime,e.TotalTime, e.FrameCounter, e.Camera, e.PipelineState);
 	for (auto window : m_Windows)
 	{
 		std::shared_ptr<RenderWindow> pWindow = window.second;
-		pWindow->OnPreRender(e);
-		pWindow->OnRender(e);
-		pWindow->OnPostRender(e);
+		pWindow->OnPreRender(render_args);
+		pWindow->OnRender(render_args);
+		pWindow->OnPostRender(render_args);
 	}
 }
 

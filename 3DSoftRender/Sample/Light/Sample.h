@@ -18,6 +18,11 @@ DECLEAR_TERMINATE;
 public:
 	Lights();
 	bool OnInitialize(EventArgs& e) override;
+	void OnRender(RenderEventArgs& e) override;
+	void MouseMoved(MouseMotionEventArgs& e)override;
+	void KeyPress(KeyEventArgs& e) override;
+	void MouseButtonReleased(MouseButtonEventArgs& e) override;
+	void MouseButtonPressed(MouseButtonEventArgs& e) override;
 	virtual ~Lights();
 public:
 
@@ -30,7 +35,8 @@ protected:
 	static void CreateTransparentSlice();
 private:
 	Float4 g_ClearColor;
-
+	//observer
+	Camera* mCamera;
 	uint32_t g_NumLightToGenerate{};
 };
 

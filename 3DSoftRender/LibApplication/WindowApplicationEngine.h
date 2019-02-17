@@ -39,9 +39,6 @@ namespace Hikari
 		float mWindLevel{0.0f};
 		//...
 
-		//observer
-		Camera* mCamera;
-
 		//material
 		std::shared_ptr<Scene> mainScene;
 

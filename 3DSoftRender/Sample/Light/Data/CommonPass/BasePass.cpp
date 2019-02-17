@@ -54,12 +54,14 @@ void BasePass::PreRender(RenderEventArgs& e)
 	e.PipelineState = m_Pipeline.get();
 
 	SetRenderEventArgs(e);
-	std::vector<Viewport> vport = e.PipelineState->GetRasterizerState().GetViewports();
 	if (m_Pipeline)
 	{
-		m_Pipeline->GetRasterizerState().SetViewport(Viewport(0, 0, 1280, 760, 0.0f, 1.0f));
 		BindPerObjectConstantBuffer(m_Pipeline->GetShader(Shader::VertexShader));
 		m_Pipeline->bind();
+	}
+	else
+	{
+		DebugBreak();
 	}
 }
 
@@ -77,8 +79,13 @@ void BasePass::PostRender(RenderEventArgs& e)
 	{
 #if defined(VOXEL)
 #else
-		//m_Pipeline->unbind();
+		m_Pipeline->unbind();
+		e.PipelineState = {};
 #endif
+	}
+	else
+	{
+		DebugBreak();
 	}
 }
 
