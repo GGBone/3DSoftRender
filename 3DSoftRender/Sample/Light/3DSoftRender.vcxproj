@@ -43,12 +43,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Assets\shaders\MyDeferredRendering.hlsl" />
     <ClInclude Include="ControlPoint.h" />
     <ClInclude Include="Data\CommonPass\AbstractPass.h" />
     <ClInclude Include="Data\CommonPass\BasePass.h" />
     <ClInclude Include="Data\CommonPass\BeginQueryPass.h" />
     <ClInclude Include="Data\CommonPass\ClearRenderTargetPass.h" />
     <ClInclude Include="Data\CommonPass\EndQueryPass.h" />
+    <ClInclude Include="Data\StandardPass\GBufferLightingPass.h" />
+    <ClInclude Include="Data\StandardPass\GeometryPass.h" />
     <ClInclude Include="Data\StandardPass\LightPass.h" />
     <ClInclude Include="Data\StandardPass\OITPass.h" />
     <ClInclude Include="Data\StandardPass\OpaquePass.h" />
@@ -70,6 +73,8 @@
     <ClCompile Include="Data\CommonPass\BeginQueryPass.cpp" />
     <ClCompile Include="Data\CommonPass\ClearRenderTargetPass.cpp" />
     <ClCompile Include="Data\CommonPass\EndQueryPass.cpp" />
+    <ClCompile Include="Data\StandardPass\GBufferLightingPass.cpp" />
+    <ClCompile Include="Data\StandardPass\GeometryPass.cpp" />
     <ClCompile Include="Data\StandardPass\LightPass.cpp" />
     <ClCompile Include="Data\StandardPass\OITPass.cpp" />
     <ClCompile Include="Data\StandardPass\OpaquePass.cpp" />

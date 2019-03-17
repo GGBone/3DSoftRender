@@ -233,9 +233,10 @@ void Lights::CreateScene()
 		g_Setting.SceneScaleFactor, 0, 0, 0,
 		0, g_Setting.SceneScaleFactor, 0, 0,
 		0, 0, g_Setting.SceneScaleFactor, 0.f,
-		0, -1.f, 0.f, 1
+		0, 0.5f, 0.f, 1
 	);
 #endif
+	mainScene->GetRootNode()->SetLocalTransform(CubeTransform);
 	opaqueScene.push_back(mainScene);
 	//transScene
 	vector<shared_ptr<Scene>> transScene;
@@ -256,7 +257,7 @@ void Lights::CreateScene()
 	const HMatrix groundTransform(g_Setting.SceneScaleFactor, 0, 0, 0,
 		0, g_Setting.SceneScaleFactor, 0, 0,
 		0, 0, g_Setting.SceneScaleFactor, 0.f,
-		0, -2.0f, 0.f, 1);
+		0, 0.0f, 0.f, 1);
 	ground->GetRootNode()->SetLocalTransform(groundTransform);
 	opaqueScene.push_back(ground);
 
